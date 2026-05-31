@@ -4,14 +4,28 @@
   "description": "Boilerplate for creating React component libraries, bundled with vite js to ESM and/or CJS Modules, Storybook, Typescript",
   "author": "Tanishraj",
   "license": "MIT",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.es.js",
-  "types": "dist/types.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./theme-primary.css": {
+      "import": "./dist/theme/primary.css",
+      "require": "./dist/theme/primary.css",
+      "default": "./dist/theme/primary.css"
+    }
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && vite build",
+    "build": "rm -rf dist && vite build && npm run copy:theme",
+    "copy:theme": "mkdir -p dist/theme && cp src/theme/primary.css dist/theme/primary.css",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:watch": "vitest --watch",

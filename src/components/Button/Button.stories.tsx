@@ -14,6 +14,8 @@ const meta: Meta<ButtonProps> = {
         'destructive',
         'ghost',
         'link',
+        'accent',
+        'gradient',
       ],
       control: { type: 'select' },
     },
