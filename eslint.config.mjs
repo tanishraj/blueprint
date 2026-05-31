@@ -12,7 +12,7 @@ import configPrettier from 'eslint-config-prettier';
 import pluginStorybook from 'eslint-plugin-storybook';
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+const eslintConfig = [
   { ignores: ['node_modules', 'dist', 'coverage', 'storybook-static'] },
   { files: ['**/*.{js,ts,mjs,cjs,jsx,tsx}'] },
   {
@@ -161,3 +161,5 @@ export default [
     },
   },
 ];
+
+export default eslintConfig;
