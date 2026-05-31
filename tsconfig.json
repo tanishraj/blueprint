@@ -19,9 +19,8 @@
 
     // MODULES
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
@@ -30,7 +29,6 @@
     "allowJs": true,
 
     // EMIT
-    "declaration": true,
     "types": [],
     "noEmit": true,
     "removeComments": true,
