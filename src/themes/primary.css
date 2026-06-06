@@ -1,10 +1,14 @@
-@import 'tailwindcss';
-
 @theme {
   /* FONTS */
-  --font-sans:
-    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-body:
+    var(--font-inter, 'Inter'), -apple-system, 'Segoe UI', Roboto, Arial,
+    sans-serif;
+  --font-display:
+    var(--font-inter, 'Inter'), -apple-system, 'Segoe UI', Roboto, Arial,
+    sans-serif;
+  --font-mono:
+    ui-monospace, 'Roboto Mono', SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
 
   /* Base Spacing */
   --spacing: 0.25rem;
