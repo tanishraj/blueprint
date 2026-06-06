@@ -17,12 +17,12 @@
     "./globals.css": {
       "import": "./dist/styles/globals.css",
       "require": "./dist/styles/globals.css",
-      "default": "./dist/themes/plus-ui.css"
+      "default": "./dist/themes/primary.css"
     },
     "./theme-primary.css": {
-      "import": "./dist/themes/plus-ui.css",
-      "require": "./dist/themes/plus-ui.css",
-      "default": "./dist/themes/plus-ui.css"
+      "import": "./dist/themes/primary.css",
+      "require": "./dist/themes/primary.css",
+      "default": "./dist/themes/primary.css"
     },
     "./theme-secondary.css": {
       "import": "./dist/themes/secondary.css",
