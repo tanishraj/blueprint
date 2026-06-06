@@ -34,7 +34,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && vite build && npm run copy:theme",
-    "copy:theme": "mkdir -p dist/themes && cp src/themes/plus-ui.css dist/themes/plus-ui.css && cp src/themes/secondary.css dist/themes/secondary.css",
+    "copy:theme": "mkdir -p dist/themes && cp src/themes/primary.css dist/themes/primary.css && cp src/themes/secondary.css dist/themes/secondary.css",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:watch": "vitest --watch",
