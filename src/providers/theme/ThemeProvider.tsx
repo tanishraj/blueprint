@@ -10,49 +10,84 @@ import {
 import { ThemeContext } from './context';
 import { EThemeOptions } from './types';
 
-export const ThemeProvider: FC<{ name: string; children: ReactNode }> = ({
-  children,
-  name,
-}) => {
-  const themeName = `${name}-theme`;
-  const localStorage = window.localStorage;
-  const systemTheme: EThemeOptions = window.matchMedia(
-    '(prefers-color-scheme: dark)',
-  ).matches
+interface IThemeProviderProps {
+  children: ReactNode;
+  name: string;
+  onThemeChange?: (theme: EThemeOptions) => void;
+  persist?: boolean;
+  theme?: EThemeOptions;
+}
+
+const getSystemTheme = (): EThemeOptions => {
+  if (typeof window === 'undefined') {
+    return EThemeOptions.LIGHT;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
     ? EThemeOptions.DARK
     : EThemeOptions.LIGHT;
-  const persitedTheme = useMemo(
-    () => localStorage.getItem(themeName) as EThemeOptions,
-    [localStorage, themeName],
+};
+
+const getStoredTheme = (themeName: string): EThemeOptions | null => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const storedTheme = window.localStorage.getItem(themeName);
+
+  return storedTheme === EThemeOptions.LIGHT ||
+    storedTheme === EThemeOptions.DARK
+    ? storedTheme
+    : null;
+};
+
+export const ThemeProvider: FC<IThemeProviderProps> = ({
+  children,
+  name,
+  onThemeChange,
+  persist = true,
+  theme: controlledTheme,
+}) => {
+  const themeName = `${name}-theme`;
+  const isControlled = controlledTheme !== undefined;
+  const initialTheme = useMemo(
+    () => controlledTheme ?? getStoredTheme(themeName) ?? getSystemTheme(),
+    [controlledTheme, themeName],
   );
-  const [theme, setTheme] = useState<EThemeOptions>(
-    persitedTheme || systemTheme,
-  );
+  const [theme, setTheme] = useState<EThemeOptions>(initialTheme);
+  const activeTheme = controlledTheme ?? theme;
 
   useEffect(() => {
-    localStorage.setItem(themeName, persitedTheme || systemTheme);
-    document
-      .querySelector('html')
-      ?.setAttribute('data-theme', persitedTheme || systemTheme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (typeof document === 'undefined') {
+      return;
+    }
+
+    document.documentElement.setAttribute('data-theme', activeTheme);
+    document.documentElement.style.colorScheme = activeTheme;
+
+    if (!isControlled && persist && typeof window !== 'undefined') {
+      window.localStorage.setItem(themeName, activeTheme);
+    }
+  }, [activeTheme, isControlled, persist, themeName]);
 
   const handleTheme = useCallback(
     (value: EThemeOptions) => {
-      setTheme(value);
-      localStorage.setItem(themeName, value);
-      document.querySelector('html')?.setAttribute('data-theme', value);
+      onThemeChange?.(value);
+
+      if (!isControlled) {
+        setTheme(value);
+      }
     },
-    [localStorage, themeName],
+    [isControlled, onThemeChange],
   );
 
   const contextValue = useMemo(() => {
     return {
-      theme,
+      theme: activeTheme,
       setTheme: handleTheme,
-      isDark: theme === EThemeOptions.DARK,
+      isDark: activeTheme === EThemeOptions.DARK,
     };
-  }, [handleTheme, theme]);
+  }, [activeTheme, handleTheme]);
 
   return <ThemeContext value={contextValue}>{children}</ThemeContext>;
 };

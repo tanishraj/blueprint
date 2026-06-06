@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/react-vite';
 
-import { ThemeProvider } from '../src/providers/theme';
 import { StorybookThemeProvider } from './StorybookThemeProvider';
 
 import '../src/styles/globals.css';
@@ -22,11 +21,9 @@ const preview: Preview = {
   decorators: [
     Story => {
       return (
-        <ThemeProvider name='blueprint'>
-          <StorybookThemeProvider>
-            <Story />
-          </StorybookThemeProvider>
-        </ThemeProvider>
+        <StorybookThemeProvider>
+          <Story />
+        </StorybookThemeProvider>
       );
     },
   ],

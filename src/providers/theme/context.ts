@@ -7,11 +7,7 @@ export const ThemeContext = createContext<{
   setTheme: (theme: EThemeOptions) => void;
   isDark: boolean;
 }>({
-  theme: window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? EThemeOptions.DARK
-    : EThemeOptions.LIGHT,
+  theme: EThemeOptions.LIGHT,
   setTheme: () => {},
-  isDark: window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? true
-    : false,
+  isDark: false,
 });
