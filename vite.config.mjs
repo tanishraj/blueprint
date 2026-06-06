@@ -1,7 +1,6 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import dts from 'vite-plugin-dts';
 import tailwindcss from '@tailwindcss/vite';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
@@ -10,13 +9,15 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 export default defineConfig({
   plugins: [
     react(),
-    tsconfigPaths(),
     dts({ rollupTypes: true, tsconfigPath: './tsconfig.json' }),
     tailwindcss({
       injectInto: 'css-in-js',
     }),
     cssInjectedByJsPlugin(),
   ],
+  resolve: {
+    tsconfigPaths: true,
+  },
   server: {
     port: 3000,
     open: true,
