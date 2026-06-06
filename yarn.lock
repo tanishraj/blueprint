@@ -1427,13 +1427,6 @@
   resolved "https://registry.yarnpkg.com/@storybook/addon-onboarding/-/addon-onboarding-10.4.2.tgz#2869195059bbee8d918ddb356e1b2eb67034c961"
   integrity sha512-nDfdmstd+G3yScv/HBHkk1QCi19pCBZn+htPuPsVqJasaYQbszZqN+ikbkiwC3+bcDWh0eb8a0zHnaB2JPyq4w==
 
-"@storybook/addon-themes@^10.4.2":
-  version "10.4.2"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-themes/-/addon-themes-10.4.2.tgz#9b8ee8ee3aad060ddfb6497bcd832e0129e40f4f"
-  integrity sha512-e5rP/RLujp06wmO75njxnfi3ndOBbgHIXceAsuN870BVh7D7iGx+8bwslIWy+FwRBYsCMCnWk+d25Zp4ai3p4w==
-  dependencies:
-    ts-dedent "^2.0.0"
-
 "@storybook/addon-vitest@10.4.2":
   version "10.4.2"
   resolved "https://registry.yarnpkg.com/@storybook/addon-vitest/-/addon-vitest-10.4.2.tgz#ac1cd0e5a550cfb7134fe4ae343cd3b7f709a09a"
