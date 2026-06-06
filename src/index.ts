@@ -1,5 +1,5 @@
 // TAILWIND CSS IMPORT
-import './theme/primary.css';
+import './themes/primary.css';
 
 // EXPORT CLASSNAMES UTILS
 export * from './utils';

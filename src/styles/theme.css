@@ -58,6 +58,17 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
+  /* Border Radius */
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-full: 9999px;
+
   /* Default Background + Inverted */
   --background-color-default: var(--neutral-100);
   --background-color-default-hovered: var(--neutral-200);
