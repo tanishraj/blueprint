@@ -1,11 +1,17 @@
-import { FC, ReactNode, useCallback, useMemo, useState } from 'react';
+import {
+  FC,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { ThemeContext } from './context';
 import { ThemeMode, ThemeModeContextType } from './types';
 
 export interface ThemeProviderProps {
   name: string;
-  value: ThemeMode;
   children: ReactNode;
 }
 
@@ -24,22 +30,27 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ name, children }) => {
     persistedThemeMode || systemThemeMode,
   );
 
-  const handleToggleMode = useCallback((mode: ThemeMode) => {
-    setThemeMode(mode);
-    console.log('Toggling theme mode', mode);
-  }, []);
+  useEffect(() => {
+    localStorage.setItem(themeModeName, themeMode);
+    document.documentElement.setAttribute('data-theme', themeMode);
+  }, [localStorage, themeMode, themeModeName]);
+
+  const handleSetMode = useCallback(
+    (mode: ThemeMode) => {
+      setThemeMode(mode);
+      localStorage.setItem(themeModeName, mode);
+      document.documentElement.setAttribute('data-theme', mode);
+    },
+    [localStorage, themeModeName],
+  );
 
   const contextValue: ThemeModeContextType = useMemo(() => {
     return {
       mode: themeMode,
-      setMode: handleToggleMode,
+      setMode: handleSetMode,
       isDarkMode: themeMode === ThemeMode.DARK,
     };
-  }, [themeMode, handleToggleMode]);
+  }, [themeMode, handleSetMode]);
 
-  return (
-    <ThemeContext.Provider value={contextValue}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext value={contextValue}>{children}</ThemeContext>;
 };
