@@ -128,6 +128,16 @@
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 25%);
   --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 5%);
 
+  /* Blur */
+  --blur-none: 0px;
+  --blur-sm: 4px;
+  --blur: 8px;
+  --blur-md: 12px;
+  --blur-lg: 16px;
+  --blur-xl: 24px;
+  --blur-2xl: 40px;
+  --blur-3xl: 64px;
+
   /* Default Background + Inverted */
   --background-color-default: var(--neutral-100);
   --background-color-default-hovered: var(--neutral-200);
