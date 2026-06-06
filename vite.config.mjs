@@ -42,7 +42,7 @@ export default defineConfig({
     },
     lib: {
       entry: 'src/index.ts',
-      name: 'Parcel React Library Starter',
+      name: 'blueprint',
       formats: ['es', 'cjs'],
       fileName: format => `index.${format}.js`,
     },
