@@ -1,3 +1,3 @@
+export * from './ThemeProvider';
 export * from './context';
 export * from './types';
-export * from './ThemeProvider';

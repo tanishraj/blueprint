@@ -1,0 +1,10 @@
+html,
+body,
+.sb-show-main,
+#storybook-root {
+  min-height: 100%;
+}
+
+#storybook-root {
+  min-height: 100vh;
+}

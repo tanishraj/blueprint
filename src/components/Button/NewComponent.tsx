@@ -7,8 +7,8 @@ export const NewComponent = () => {
   const { mode, setMode } = useContext(ThemeContext);
 
   const handleToggleMode = useCallback(() => {
-    const newMode = mode === 'light' ? 'dark' : 'light';
-    setMode(newMode as ThemeMode);
+    const newMode = mode === ThemeMode.LIGHT ? ThemeMode.DARK : ThemeMode.LIGHT;
+    setMode(newMode);
   }, [mode, setMode]);
 
   return (

@@ -1,6 +1,6 @@
 import {
-  FC,
-  ReactNode,
+  type FC,
+  type ReactNode,
   useCallback,
   useEffect,
   useMemo,
@@ -8,49 +8,51 @@ import {
 } from 'react';
 
 import { ThemeContext } from './context';
-import { ThemeMode, ThemeModeContextType } from './types';
+import { EThemeOptions } from './types';
 
-export interface ThemeProviderProps {
-  name: string;
-  children: ReactNode;
-}
-
-export const ThemeProvider: FC<ThemeProviderProps> = ({ name, children }) => {
-  const themeModeName = `${name}-themeMode`;
+export const ThemeProvider: FC<{ name: string; children: ReactNode }> = ({
+  children,
+  name,
+}) => {
+  const themeName = `${name}-theme`;
   const localStorage = window.localStorage;
-  const persistedThemeMode = localStorage.getItem(
-    themeModeName,
-  ) as ThemeMode | null;
-  const systemThemeMode =
-    window.matchMedia &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? ThemeMode.DARK
-      : ThemeMode.LIGHT;
-  const [themeMode, setThemeMode] = useState<ThemeMode>(
-    persistedThemeMode || systemThemeMode,
+  const systemTheme: EThemeOptions = window.matchMedia(
+    '(prefers-color-scheme: dark)',
+  ).matches
+    ? EThemeOptions.DARK
+    : EThemeOptions.LIGHT;
+  const persitedTheme = useMemo(
+    () => localStorage.getItem(themeName) as EThemeOptions,
+    [localStorage, themeName],
+  );
+  const [theme, setTheme] = useState<EThemeOptions>(
+    persitedTheme || systemTheme,
   );
 
   useEffect(() => {
-    localStorage.setItem(themeModeName, themeMode);
-    document.documentElement.setAttribute('data-theme', themeMode);
-  }, [localStorage, themeMode, themeModeName]);
+    localStorage.setItem(themeName, persitedTheme || systemTheme);
+    document
+      .querySelector('html')
+      ?.setAttribute('data-theme', persitedTheme || systemTheme);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleSetMode = useCallback(
-    (mode: ThemeMode) => {
-      setThemeMode(mode);
-      localStorage.setItem(themeModeName, mode);
-      document.documentElement.setAttribute('data-theme', mode);
+  const handleTheme = useCallback(
+    (value: EThemeOptions) => {
+      setTheme(value);
+      localStorage.setItem(themeName, value);
+      document.querySelector('html')?.setAttribute('data-theme', value);
     },
-    [localStorage, themeModeName],
+    [localStorage, themeName],
   );
 
-  const contextValue: ThemeModeContextType = useMemo(() => {
+  const contextValue = useMemo(() => {
     return {
-      mode: themeMode,
-      setMode: handleSetMode,
-      isDarkMode: themeMode === ThemeMode.DARK,
+      theme,
+      setTheme: handleTheme,
+      isDark: theme === EThemeOptions.DARK,
     };
-  }, [themeMode, handleSetMode]);
+  }, [handleTheme, theme]);
 
   return <ThemeContext value={contextValue}>{children}</ThemeContext>;
 };
