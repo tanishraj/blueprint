@@ -16,7 +16,13 @@ const preview: Preview = {
     },
   },
 
-  decorators: [],
+  decorators: [
+    (Story, context) => {
+      const theme = context.globals['theme'];
+      console.log({ theme });
+      return <Story />;
+    },
+  ],
 };
 
 export default preview;
