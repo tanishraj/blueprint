@@ -71,6 +71,33 @@
   --background-color-danger-focused-inverted: var(--danger-100);
   --background-color-danger-loading-inverted: var(--danger-300);
 
+  /* Text + Inverted */
+  --text-color-base: var(--base-white);
+  --text-color-base-inverted: var(--neutral-950);
+  --text-color-default: var(--neutral-950);
+  --text-color-default-inverted: var(--base-white);
+  --text-color-primary: var(--primary-700);
+  --text-color-primary-inverted: var(--primary-100);
+  --text-color-info: var(--info-700);
+  --text-color-info-inverted: var(--info-100);
+  --text-color-success: var(--success-700);
+  --text-color-success-inverted: var(--success-100);
+  --text-color-warning: var(--warning-700);
+  --text-color-warning-inverted: var(--warning-100);
+  --text-color-danger: var(--danger-700);
+  --text-color-danger-inverted: var(--danger-100);
+  --text-color-placeholder: var(--neutral-500);
+  --text-color-placeholder-inverted: var(--neutral-500);
+  --text-color-caption: var(--neutral-600);
+  --text-color-caption-inverted: var(--neutral-100);
+  --text-color-link: var(--blue-700);
+  --text-color-link-inverted: var(--blue-100);
+  --text-color-visited: var(--purple-700);
+  --text-color-visited-inverted: var(--purple-100);
+  --text-color-loading: var(--neutral-700);
+  --text-color-loading-inverted: var(--neutral-100);
+  --text-color-disabled: var(--neutral-400);
+
   @layer base {
     [data-theme='dark'] {
       /* Default Background + Inverted */
@@ -144,6 +171,33 @@
       --background-color-danger-pressed-inverted: var(--danger-700);
       --background-color-danger-focused-inverted: var(--danger-900);
       --background-color-danger-loading-inverted: var(--danger-700);
+
+      /* Text + Inverted */
+      --text-color-base: var(--neutral-950);
+      --text-color-base-inverted: var(--base-white);
+      --text-color-default: var(--base-white);
+      --text-color-default-inverted: var(--neutral-950);
+      --text-color-primary: var(--primary-300);
+      --text-color-primary-inverted: var(--primary-900);
+      --text-color-info: var(--info-300);
+      --text-color-info-inverted: var(--info-900);
+      --text-color-success: var(--success-300);
+      --text-color-success-inverted: var(--success-900);
+      --text-color-warning: var(--warning-300);
+      --text-color-warning-inverted: var(--warning-900);
+      --text-color-danger: var(--danger-300);
+      --text-color-danger-inverted: var(--danger-900);
+      --text-color-placeholder: var(--neutral-500);
+      --text-color-placeholder-inverted: var(--neutral-500);
+      --text-color-caption: var(--neutral-400);
+      --text-color-caption-inverted: var(--neutral-900);
+      --text-color-link: var(--blue-300);
+      --text-color-link-inverted: var(--blue-900);
+      --text-color-visited: var(--purple-300);
+      --text-color-visited-inverted: var(--purple-900);
+      --text-color-loading: var(--neutral-300);
+      --text-color-loading-inverted: var(--neutral-900);
+      --text-color-disabled: var(--neutral-600);
     }
   }
 }
