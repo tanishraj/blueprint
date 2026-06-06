@@ -2,11 +2,7 @@ html,
 body,
 .sb-show-main,
 #storybook-root {
-  min-height: 100%;
-  background-color: var(--background-color-default) !important;
-  color: var(--color-text-default);
-}
-
-#storybook-root {
   min-height: 100vh;
+  color: var(--color-text-default);
+  background-color: var(--background-color-default) !important;
 }
