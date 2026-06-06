@@ -23,6 +23,10 @@
       "import": "./dist/themes/plus-ui/plus-ui.css",
       "require": "./dist/themes/plus-ui/plus-ui.css",
       "default": "./dist/themes/plus-ui/plus-ui.css"
+    },
+    "./theme-secondary.css": {
+      "import": "./dist/themes/secondary.css",
+      "require": "./dist/themes/secondary.css"
     }
   },
   "files": [
