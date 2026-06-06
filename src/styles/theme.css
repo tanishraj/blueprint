@@ -69,6 +69,13 @@
   --radius-3xl: 24px;
   --radius-full: 9999px;
 
+  /* Border Width */
+  --default-border-width: 1px;
+  --border-width-0: 0px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+  --border-width-8: 8px;
+
   /* Default Background + Inverted */
   --background-color-default: var(--neutral-100);
   --background-color-default-hovered: var(--neutral-200);
