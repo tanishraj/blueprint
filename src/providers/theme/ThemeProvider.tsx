@@ -62,7 +62,11 @@ export const ThemeProvider: FC<IThemeProviderProps> = ({
       return;
     }
 
-    document.documentElement.setAttribute('data-theme', activeTheme);
+    document.documentElement.classList.remove(
+      EThemeOptions.LIGHT,
+      EThemeOptions.DARK,
+    );
+    document.documentElement.classList.add(activeTheme);
     document.documentElement.style.colorScheme = activeTheme;
 
     if (!isControlled && persist && typeof window !== 'undefined') {

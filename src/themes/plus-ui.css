@@ -357,7 +357,13 @@
 }
 
 @layer base {
-  [data-theme='dark'] {
+  :root.light {
+    color-scheme: light;
+  }
+
+  :root.dark {
+    color-scheme: dark;
+
     /* Default Background + Inverted */
     --background-color-default: var(--neutral-900);
     --background-color-default-hovered: var(--neutral-800);
