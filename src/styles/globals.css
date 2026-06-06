@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 @plugin "tailwindcss-animate";
-@import '../themes/primary.css';
+@import './theme.css';
 
 @utility scrollbar-hide {
   /* For Webkit-based browsers (Chrome, Safari and Opera) */
