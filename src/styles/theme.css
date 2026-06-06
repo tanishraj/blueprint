@@ -282,3 +282,81 @@
     --color-border-disabled: var(--neutral-700);
   }
 }
+
+@utility paragraph-xs {
+  font-size: var(--text-xs);
+  line-height: var(--text-xs--line-height);
+  margin-bottom: var(--text-xs--paragraph-spacing);
+}
+
+@utility paragraph-sm {
+  font-size: var(--text-sm);
+  line-height: var(--text-sm--line-height);
+  margin-bottom: var(--text-sm--paragraph-spacing);
+}
+
+@utility paragraph-base {
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  margin-bottom: var(--text-base--paragraph-spacing);
+}
+
+@utility paragraph-lg {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  margin-bottom: var(--text-lg--paragraph-spacing);
+}
+
+@utility paragraph-xl {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
+  margin-bottom: var(--text-xl--paragraph-spacing);
+}
+
+@utility paragraph-2xl {
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl--line-height);
+  margin-bottom: var(--text-2xl--paragraph-spacing);
+}
+
+@utility paragraph-3xl {
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl--line-height);
+  margin-bottom: var(--text-3xl--paragraph-spacing);
+}
+
+@utility paragraph-4xl {
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xl--line-height);
+  margin-bottom: var(--text-4xl--paragraph-spacing);
+}
+
+@utility paragraph-5xl {
+  font-size: var(--text-5xl);
+  line-height: var(--text-5xl--line-height);
+  margin-bottom: var(--text-5xl--paragraph-spacing);
+}
+
+@utility paragraph-6xl {
+  font-size: var(--text-6xl);
+  line-height: var(--text-6xl--line-height);
+  margin-bottom: var(--text-6xl--paragraph-spacing);
+}
+
+@utility paragraph-7xl {
+  font-size: var(--text-7xl);
+  line-height: var(--text-7xl--line-height);
+  margin-bottom: var(--text-7xl--paragraph-spacing);
+}
+
+@utility paragraph-8xl {
+  font-size: var(--text-8xl);
+  line-height: var(--text-8xl--line-height);
+  margin-bottom: var(--text-8xl--paragraph-spacing);
+}
+
+@utility paragraph-9xl {
+  font-size: var(--text-9xl);
+  line-height: var(--text-9xl--line-height);
+  margin-bottom: var(--text-9xl--paragraph-spacing);
+}
