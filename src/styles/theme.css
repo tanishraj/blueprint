@@ -98,6 +98,17 @@
   --color-text-loading-inverted: var(--neutral-100);
   --color-text-disabled: var(--neutral-400);
 
+  /* Border */
+  --color-border-base: var(--base-white);
+  --color-border-default: var(--neutral-400);
+  --color-border-primary: var(--primary-700);
+  --color-border-info: var(--info-700);
+  --color-border-success: var(--success-700);
+  --color-border-warning: var(--warning-700);
+  --color-border-danger: var(--danger-700);
+  --color-border-ring: var(--blue-300);
+  --color-border-disabled: var(--neutral-300);
+
   @layer base {
     [data-theme='dark'] {
       /* Default Background + Inverted */
@@ -198,6 +209,17 @@
       --color-text-loading: var(--neutral-300);
       --color-text-loading-inverted: var(--neutral-900);
       --color-text-disabled: var(--neutral-600);
+
+      /* Border */
+      --color-border-base: var(--gray-950);
+      --color-border-default: var(--neutral-600);
+      --color-border-primary: var(--primary-300);
+      --color-border-info: var(--info-300);
+      --color-border-success: var(--success-300);
+      --color-border-warning: var(--warning-300);
+      --color-border-danger: var(--danger-300);
+      --color-border-ring: var(--blue-700);
+      --color-border-disabled: var(--neutral-700);
     }
   }
 }
