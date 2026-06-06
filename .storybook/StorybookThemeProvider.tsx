@@ -1,33 +1,22 @@
-import React, { FC, ReactNode, useCallback, useEffect } from 'react';
-import { addons } from 'storybook/preview-api';
-import { DARK_MODE_EVENT_NAME } from '@vueless/storybook-dark-mode';
+import { FC, ReactNode, useEffect } from 'react';
+import { useDarkMode } from '@vueless/storybook-dark-mode';
 
-import { useTheme } from '../src/hooks';
+import { EThemeOptions } from '../src/providers/theme';
 
 interface IStorybookThemeProviderProps {
   children: ReactNode;
 }
 
-const channel = addons.getChannel();
-
-export const StorybookThemeProvider: FC<IStoryThemeWrapperProps> = ({
+export const StorybookThemeProvider: FC<IStorybookThemeProviderProps> = ({
   children,
 }) => {
-  const { setTheme } = useTheme();
-
-  const setUiTheme = useCallback(() => {
-    const persitedTheme = window.localStorage.getItem('sb-addon-themes-3');
-    const theme = JSON.parse(persitedTheme || '').current;
-
-    setTheme(theme);
-  }, [setTheme]);
+  const isDarkMode = useDarkMode();
 
   useEffect(() => {
-    // listen to DARK_MODE event
-    channel.on(DARK_MODE_EVENT_NAME, setUiTheme);
+    const theme = isDarkMode ? EThemeOptions.DARK : EThemeOptions.LIGHT;
 
-    return () => channel.off(DARK_MODE_EVENT_NAME, setUiTheme);
-  }, [setUiTheme]);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [isDarkMode]);
 
   return <div>{children}</div>;
 };

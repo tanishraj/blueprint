@@ -3,6 +3,8 @@ body,
 .sb-show-main,
 #storybook-root {
   min-height: 100%;
+  background-color: var(--background-color-default) !important;
+  color: var(--color-text-default);
 }
 
 #storybook-root {
