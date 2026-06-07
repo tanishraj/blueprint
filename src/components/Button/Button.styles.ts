@@ -1,13 +1,13 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonStyles = cva(
-  'flex items-center justify-center gap-3 min-w-24 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
+  'flex items-center justify-center gap-2.5 min-w-24 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
   {
     variants: {
       size: {
-        sm: 'p-2 text-sm',
-        md: 'px-3 py-2 text-base',
-        lg: 'px-3.5 py-2 text-lg',
+        sm: 'p-2 text-sm gap-2',
+        md: 'px-3 py-2 text-base gap-2.5',
+        lg: 'px-3.5 py-2 text-lg gap-3',
       },
       variant: {
         default: 'text-default',
