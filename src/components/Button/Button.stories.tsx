@@ -41,6 +41,7 @@ export const Default: Story = {
 
 export const ButtonMetrics: Story = {
   render: args => {
+    const sizes = ['sm', 'md', 'lg'] as const;
     const variants = [
       'default',
       'primary',
@@ -53,18 +54,32 @@ export const ButtonMetrics: Story = {
 
     return (
       <div className='space-y-5'>
-        {appearances.map(appearance => (
-          <div key={appearance} className='flex gap-5'>
-            {variants.map(variant => (
-              <Button
-                {...args}
-                key={`${appearance}-${variant}`}
-                appearance={appearance}
-                variant={variant}
-              >
-                Button
-              </Button>
+        {sizes.map((size, sizeIndex) => (
+          <div key={size} className='flex flex-col gap-10'>
+            <h2 className='text-default font-bold'>Size: {size}</h2>
+            {appearances.map(appearance => (
+              <div key={appearance} className='flex items-center gap-5'>
+                <h4 className='text-base text-default font-bold'>
+                  Appearence: <div>{appearance}</div>
+                </h4>
+                <div className='flex gap-5'>
+                  {variants.map(variant => (
+                    <Button
+                      {...args}
+                      key={`${appearance}-${variant}`}
+                      appearance={appearance}
+                      variant={variant}
+                      size={size}
+                    >
+                      Button
+                    </Button>
+                  ))}
+                </div>
+              </div>
             ))}
+            {sizeIndex !== size.length && (
+              <div className='border border-default' />
+            )}
           </div>
         ))}
       </div>
