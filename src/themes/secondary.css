@@ -318,8 +318,8 @@
   --background-color-danger-loading-inverted: var(--danger-300);
 
   /* Text + Inverted */
-  --text-color-base: var(--base-white);
-  --text-color-base-inverted: var(--neutral-950);
+  --text-color-white: var(--base-white);
+  --text-color-white-inverted: var(--neutral-950);
   --text-color-default: var(--neutral-950);
   --text-color-default-inverted: var(--base-white);
   --text-color-primary: var(--primary-700);
@@ -437,8 +437,8 @@
     --background-color-danger-loading-inverted: var(--danger-700);
 
     /* Text + Inverted */
-    --text-color-base: var(--neutral-950);
-    --text-color-base-inverted: var(--base-white);
+    --text-color-white: var(--neutral-950);
+    --text-color-white-inverted: var(--base-white);
     --text-color-default: var(--base-white);
     --text-color-default-inverted: var(--neutral-950);
     --text-color-primary: var(--primary-300);
