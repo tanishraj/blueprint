@@ -2,6 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Button, ButtonProps } from './Button';
 
+const PlusIcon = () => (
+  <svg viewBox='0 0 16 16' fill='none' stroke='currentColor' strokeWidth='2'>
+    <path d='M8 3.5v9M3.5 8h9' />
+  </svg>
+);
+
 const meta: Meta<ButtonProps> = {
   title: 'Components/Button',
   component: Button,
@@ -16,6 +22,22 @@ const meta: Meta<ButtonProps> = {
     },
     appearance: {
       options: ['filled', 'outline', 'dashed', 'ghost'],
+      control: { type: 'select' },
+    },
+    leadingIcon: {
+      options: ['None', 'Plus'],
+      mapping: {
+        None: undefined,
+        Plus: PlusIcon,
+      },
+      control: { type: 'select' },
+    },
+    trailingIcon: {
+      options: ['None', 'Plus'],
+      mapping: {
+        None: undefined,
+        Plus: PlusIcon,
+      },
       control: { type: 'select' },
     },
     disabled: {
