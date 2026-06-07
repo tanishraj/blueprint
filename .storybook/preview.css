@@ -4,5 +4,13 @@ body,
 #storybook-root {
   min-height: 100vh;
   color: var(--color-text-default);
-  background-color: var(--background-color-default) !important;
+}
+
+html {
+  &.light {
+    background-color: var(--white);
+  }
+  &.dark {
+    background-color: var(--gray-950);
+  }
 }
