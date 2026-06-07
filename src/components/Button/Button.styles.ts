@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonStyles = cva(
-  'text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
+  'flex items-center justify-center gap-3 min-w-24 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
   {
     variants: {
       size: {
@@ -151,5 +151,21 @@ export const buttonStyles = cva(
       },
     ],
     defaultVariants: {},
+  },
+);
+
+export const buttonSpinnerStyles = cva(
+  'inline-block animate-spin rounded-full border-2 border-current border-t-transparent',
+  {
+    variants: {
+      size: {
+        sm: 'size-5',
+        md: 'size-6',
+        lg: 'size-7',
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+    },
   },
 );

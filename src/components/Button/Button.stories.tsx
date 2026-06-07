@@ -23,11 +23,12 @@ const meta: Meta<ButtonProps> = {
     },
   },
   args: {
+    children: 'Button',
     size: 'md',
     variant: 'primary',
     appearance: 'filled',
-    children: 'Button',
     disabled: false,
+    loading: false,
   },
 };
 
@@ -38,32 +39,35 @@ export const Default: Story = {
   render: args => <Button {...args} />,
 };
 
-export const ButtonMetrics = () => {
-  const variants = [
-    'default',
-    'primary',
-    'info',
-    'success',
-    'warning',
-    'danger',
-  ] as const;
-  const appearances = ['filled', 'outline', 'dashed', 'ghost'] as const;
+export const ButtonMetrics: Story = {
+  render: args => {
+    const variants = [
+      'default',
+      'primary',
+      'info',
+      'success',
+      'warning',
+      'danger',
+    ] as const;
+    const appearances = ['filled', 'outline', 'dashed', 'ghost'] as const;
 
-  return (
-    <div className='space-y-4'>
-      {appearances.map(appearance => (
-        <div key={appearance} className='flex gap-2'>
-          {variants.map(variant => (
-            <Button
-              key={`${appearance}-${variant}`}
-              appearance={appearance}
-              variant={variant}
-            >
-              Button
-            </Button>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
+    return (
+      <div className='space-y-5'>
+        {appearances.map(appearance => (
+          <div key={appearance} className='flex gap-5'>
+            {variants.map(variant => (
+              <Button
+                {...args}
+                key={`${appearance}-${variant}`}
+                appearance={appearance}
+                variant={variant}
+              >
+                Button
+              </Button>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  },
 };

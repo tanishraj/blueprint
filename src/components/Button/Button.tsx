@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
 import { cn } from '../../utils';
-import { buttonStyles } from './Button.styles';
+import { buttonSpinnerStyles, buttonStyles } from './Button.styles';
 
 export interface ButtonProps
   extends
@@ -26,7 +26,11 @@ export const Button: FC<ButtonProps> = ({
       )}
       disabled={disabled}
     >
-      {children}
+      {loading ? (
+        <span aria-hidden='true' className={buttonSpinnerStyles({ size })} />
+      ) : (
+        <span>{children}</span>
+      )}
     </button>
   );
 };
