@@ -245,6 +245,9 @@
   --danger-900: #7f1d1d;
   --danger-950: #450a0a;
 
+  /* Disabled Background */
+  --background-color-disabled: var(--neutral-200);
+
   /* Default Background + Inverted */
   --background-color-default: var(--neutral-100);
   --background-color-default-hovered: var(--neutral-200);

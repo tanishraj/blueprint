@@ -6,22 +6,28 @@ const meta: Meta<ButtonProps> = {
   title: 'Components/Button',
   component: Button,
   argTypes: {
-    variant: {
-      options: [
-        'primary',
-        'secondary',
-        'outline',
-        'destructive',
-        'ghost',
-        'link',
-        'accent',
-        'gradient',
-      ],
+    size: {
+      options: ['sm', 'md', 'lg'],
       control: { type: 'select' },
+    },
+    variant: {
+      options: ['default', 'primary', 'info', 'success', 'warning', 'danger'],
+      control: { type: 'select' },
+    },
+    appearance: {
+      options: ['filled', 'outline', 'dashed', 'ghost'],
+      control: { type: 'select' },
+    },
+    disabled: {
+      control: { type: 'boolean' },
     },
   },
   args: {
-    children: 'Click me',
+    size: 'md',
+    variant: 'primary',
+    appearance: 'filled',
+    children: 'Button',
+    disabled: false,
   },
 };
 
@@ -29,8 +35,35 @@ export default meta;
 type Story = StoryObj<ButtonProps>;
 
 export const Default: Story = {
-  args: {
-    variant: 'primary',
-  },
   render: args => <Button {...args} />,
+};
+
+export const ButtonMetrics = () => {
+  const variants = [
+    'default',
+    'primary',
+    'info',
+    'success',
+    'warning',
+    'danger',
+  ] as const;
+  const appearances = ['filled', 'outline', 'dashed', 'ghost'] as const;
+
+  return (
+    <div className='space-y-4'>
+      {appearances.map(appearance => (
+        <div key={appearance} className='flex gap-2'>
+          {variants.map(variant => (
+            <Button
+              key={`${appearance}-${variant}`}
+              appearance={appearance}
+              variant={variant}
+            >
+              Button
+            </Button>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
 };
