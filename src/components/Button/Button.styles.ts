@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonStyles = cva(
-  'flex items-center justify-center gap-2.5 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
+  'inline-flex items-center justify-center gap-2.5 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
   {
     variants: {
       size: {
