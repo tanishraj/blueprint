@@ -24,6 +24,7 @@ export const Button: FC<ButtonProps> = ({
   appearance,
   disabled,
   loading,
+  fullWidth,
   children,
   leadingIcon: LeadingIcon,
   trailingIcon: TrailingIcon,
@@ -33,7 +34,14 @@ export const Button: FC<ButtonProps> = ({
     <button
       ref={ref}
       className={cn(
-        buttonStyles({ variant, size, appearance, disabled, loading }),
+        buttonStyles({
+          variant,
+          size,
+          appearance,
+          disabled,
+          loading,
+          fullWidth,
+        }),
       )}
       disabled={disabled}
       {...restProps}

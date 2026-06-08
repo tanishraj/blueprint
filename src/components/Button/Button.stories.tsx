@@ -31,6 +31,14 @@ const states = [
   { label: 'Loading', props: { loading: true } },
   { label: 'Disabled', props: { disabled: true } },
 ] as const;
+const iconSections = [
+  { label: 'Leading icon', props: { leadingIcon: PlusIcon } },
+  { label: 'Trailing icon', props: { trailingIcon: PlusIcon } },
+  {
+    label: 'Leading and trailing icons',
+    props: { leadingIcon: PlusIcon, trailingIcon: PlusIcon },
+  },
+] as const;
 
 const variantGridClass =
   'grid grid-cols-[6rem_repeat(6,max-content)] items-center gap-5';
@@ -70,6 +78,9 @@ const meta: Meta<ButtonProps> = {
     disabled: {
       control: { type: 'boolean' },
     },
+    fullWidth: {
+      control: { type: 'boolean' },
+    },
   },
   args: {
     children: 'Button',
@@ -78,6 +89,7 @@ const meta: Meta<ButtonProps> = {
     appearance: 'filled',
     disabled: false,
     loading: false,
+    fullWidth: false,
   },
 };
 
@@ -142,10 +154,6 @@ export const ButtonSizes: Story = {
 };
 
 export const ButtonStates: Story = {
-  args: {
-    leadingIcon: PlusIcon,
-    trailingIcon: PlusIcon,
-  },
   render: args => (
     <div className='flex flex-col gap-10'>
       {states.map(({ label, props }, index) => (
@@ -185,6 +193,37 @@ export const ButtonStates: Story = {
           )}
         </section>
       ))}
+      <section className='flex flex-col gap-5'>
+        <h2 className='text-default font-bold'>Icon Components</h2>
+        <div className='grid grid-cols-[10rem_repeat(3,max-content)] items-center gap-5'>
+          <span className='text-base text-default font-bold'>Position</span>
+          {sizes.map(size => (
+            <span
+              key={size}
+              className='text-sm text-default font-bold uppercase'
+            >
+              {size}
+            </span>
+          ))}
+          {iconSections.map(({ label, props }) => (
+            <Fragment key={label}>
+              <h4 className='text-base text-default font-bold'>{label}</h4>
+              {sizes.map(size => (
+                <Button
+                  {...props}
+                  key={`${label}-${size}`}
+                  size={size}
+                  appearance='filled'
+                  variant='primary'
+                  aria-label={label}
+                >
+                  {null}
+                </Button>
+              ))}
+            </Fragment>
+          ))}
+        </div>
+      </section>
     </div>
   ),
 };
