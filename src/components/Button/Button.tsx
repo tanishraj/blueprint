@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC, ReactNode, SVGProps } from 'react';
+import { ComponentPropsWithRef, FC, ReactNode, SVGProps } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
 import { cn } from '../../utils';
@@ -10,7 +10,7 @@ import {
 
 export interface ButtonProps
   extends
-    ButtonHTMLAttributes<HTMLButtonElement>,
+    ComponentPropsWithRef<'button'>,
     Omit<VariantProps<typeof buttonStyles>, 'disabled'> {
   children: ReactNode;
   icon?: FC<SVGProps<SVGSVGElement>>;
@@ -19,6 +19,7 @@ export interface ButtonProps
 }
 
 export const Button: FC<ButtonProps> = ({
+  ref,
   size,
   variant,
   appearance,
@@ -27,13 +28,16 @@ export const Button: FC<ButtonProps> = ({
   children,
   leadingIcon: LeadingIcon,
   trailingIcon: TrailingIcon,
+  ...restProps
 }) => {
   return (
     <button
+      ref={ref}
       className={cn(
         buttonStyles({ variant, size, appearance, disabled, loading }),
       )}
       disabled={disabled}
+      {...restProps}
     >
       {loading ? (
         <span aria-hidden='true' className={buttonSpinnerStyles({ size })} />
