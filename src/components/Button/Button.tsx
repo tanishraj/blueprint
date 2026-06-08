@@ -39,16 +39,10 @@ export const Button: FC<ButtonProps> = ({
         <span aria-hidden='true' className={buttonSpinnerStyles({ size })} />
       ) : (
         <>
-          {LeadingIcon && (
-            <div className={buttonIconStyle({ size })}>
-              <LeadingIcon className={buttonIconStyle({ size })} role='img' />
-            </div>
-          )}
+          {LeadingIcon && <LeadingIcon className={buttonIconStyle({ size })} />}
           {children && <span>{children}</span>}
           {TrailingIcon && (
-            <div className={buttonIconStyle({ size })}>
-              <TrailingIcon className={buttonIconStyle({ size })} role='img' />
-            </div>
+            <TrailingIcon className={buttonIconStyle({ size })} />
           )}
         </>
       )}
