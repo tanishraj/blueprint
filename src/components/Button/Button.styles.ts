@@ -221,7 +221,7 @@ export const buttonSpinnerStyles = cva(
   },
 );
 
-export const buttonIconStyle = cva('', {
+export const buttonIconStyle = cva('shrink-0', {
   variants: {
     size: {
       sm: 'size-4',
