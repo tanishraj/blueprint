@@ -13,7 +13,6 @@ export interface ButtonProps
     ComponentPropsWithRef<'button'>,
     Omit<VariantProps<typeof buttonStyles>, 'disabled'> {
   children: ReactNode;
-  icon?: FC<SVGProps<SVGSVGElement>>;
   leadingIcon?: FC<SVGProps<SVGSVGElement>>;
   trailingIcon?: FC<SVGProps<SVGSVGElement>>;
 }
