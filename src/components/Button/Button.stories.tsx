@@ -33,7 +33,7 @@ const states = [
 ] as const;
 
 const variantGridClass =
-  'grid grid-cols-[6rem_repeat(6,minmax(5.5rem,max-content))] items-center gap-5';
+  'grid grid-cols-[6rem_repeat(6,max-content)] items-center gap-5';
 
 const meta: Meta<ButtonProps> = {
   title: 'Components/Button',
