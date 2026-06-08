@@ -148,7 +148,7 @@ export const ButtonStates: Story = {
   },
   render: args => (
     <div className='flex flex-col gap-10'>
-      {states.map(({ label, props }) => (
+      {states.map(({ label, props }, index) => (
         <section key={label} className='flex flex-col gap-5'>
           <h2 className='text-default font-bold'>{label}</h2>
           <div className={variantGridClass}>
@@ -180,6 +180,9 @@ export const ButtonStates: Story = {
               </Fragment>
             ))}
           </div>
+          {index !== states.length - 1 && (
+            <div className='border border-default' />
+          )}
         </section>
       ))}
     </div>
