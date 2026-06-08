@@ -149,6 +149,57 @@ export const buttonStyles = cva(
         className:
           'hover:bg-transparent active:bg-transparent hover:text-disabled active:text-disabled disabled:text-disabled',
       },
+
+      /* VARIANT LOADING */
+      {
+        appearance: ['filled', 'dashed', 'outline', 'ghost'],
+        variant: 'default',
+        loading: true,
+        className:
+          'bg-default-loading text-loading hover:bg-default-loading active:bg-default-loading',
+      },
+      {
+        appearance: 'filled',
+        variant: 'primary',
+        loading: true,
+        className:
+          'bg-primary-loading text-white hover:bg-primary-loading active:bg-primary-loading',
+      },
+      {
+        appearance: 'filled',
+        variant: 'info',
+        loading: true,
+        className:
+          'bg-info-loading text-white hover:bg-info-loading active:bg-info-loading',
+      },
+      {
+        appearance: 'filled',
+        variant: 'success',
+        loading: true,
+        className:
+          'bg-success-loading text-white hover:bg-success-loading active:bg-success-loading',
+      },
+      {
+        appearance: 'filled',
+        variant: 'warning',
+        loading: true,
+        className:
+          'bg-warning-loading text-white hover:bg-warning-loading active:bg-warning-loading',
+      },
+      {
+        appearance: 'filled',
+        variant: 'danger',
+        loading: true,
+        className:
+          'bg-danger-loading text-white hover:bg-danger-loading active:bg-danger-loading',
+      },
+      {
+        appearance: ['dashed', 'outline', 'ghost'],
+        variant: ['default', 'primary', 'info', 'success', 'warning', 'danger'],
+        loading: true,
+        className:
+          'bg-default-loading hover:bg-default-loading active:bg-default-loading',
+      },
     ],
     defaultVariants: {},
   },
