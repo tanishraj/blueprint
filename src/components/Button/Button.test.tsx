@@ -22,4 +22,17 @@ describe('Button Component', () => {
       'w-full',
     );
   });
+
+  it('can render with inverted colors', () => {
+    render(
+      <Button inverted variant='primary' appearance='filled'>
+        Test Button
+      </Button>,
+    );
+
+    expect(screen.getByRole('button', { name: /test button/i })).toHaveClass(
+      'bg-primary-inverted',
+      'text-white-inverted',
+    );
+  });
 });

@@ -25,6 +25,7 @@ export const Button: FC<ButtonProps> = ({
   disabled,
   loading,
   fullWidth,
+  inverted,
   children,
   leadingIcon: LeadingIcon,
   trailingIcon: TrailingIcon,
@@ -41,6 +42,7 @@ export const Button: FC<ButtonProps> = ({
           disabled,
           loading,
           fullWidth,
+          inverted,
         }),
       )}
       disabled={disabled}

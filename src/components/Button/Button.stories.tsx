@@ -30,6 +30,7 @@ const states = [
   { label: 'Default', props: {} },
   { label: 'Loading', props: { loading: true } },
   { label: 'Disabled', props: { disabled: true } },
+  { label: 'Inverted', props: { inverted: true } },
 ] as const;
 const iconSections = [
   { label: 'Leading icon', props: { leadingIcon: PlusIcon } },
@@ -81,6 +82,9 @@ const meta: Meta<ButtonProps> = {
     fullWidth: {
       control: { type: 'boolean' },
     },
+    inverted: {
+      control: { type: 'boolean' },
+    },
   },
   args: {
     children: 'Button',
@@ -90,6 +94,7 @@ const meta: Meta<ButtonProps> = {
     disabled: false,
     loading: false,
     fullWidth: false,
+    inverted: false,
   },
 };
 
