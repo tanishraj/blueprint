@@ -1,20 +1,51 @@
-import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
+import { ButtonHTMLAttributes, FC, ReactNode, SVGProps } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
 import { cn } from '../../utils';
-import { buttonVariants } from './Button.styles';
+import {
+  buttonIconStyle,
+  buttonSpinnerStyles,
+  buttonStyles,
+} from './Button.styles';
 
 export interface ButtonProps
   extends
     ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+    Omit<VariantProps<typeof buttonStyles>, 'disabled'> {
   children: ReactNode;
+  icon?: FC<SVGProps<SVGSVGElement>>;
+  leadingIcon?: FC<SVGProps<SVGSVGElement>>;
+  trailingIcon?: FC<SVGProps<SVGSVGElement>>;
 }
 
-export const Button: FC<ButtonProps> = ({ children, variant, size }) => {
+export const Button: FC<ButtonProps> = ({
+  size,
+  variant,
+  appearance,
+  disabled,
+  loading,
+  children,
+  leadingIcon: LeadingIcon,
+  trailingIcon: TrailingIcon,
+}) => {
   return (
-    <button className={cn(buttonVariants({ variant, size }))}>
-      {children}
+    <button
+      className={cn(
+        buttonStyles({ variant, size, appearance, disabled, loading }),
+      )}
+      disabled={disabled}
+    >
+      {loading ? (
+        <span aria-hidden='true' className={buttonSpinnerStyles({ size })} />
+      ) : (
+        <>
+          {LeadingIcon && <LeadingIcon className={buttonIconStyle({ size })} />}
+          {children && <span>{children}</span>}
+          {TrailingIcon && (
+            <TrailingIcon className={buttonIconStyle({ size })} />
+          )}
+        </>
+      )}
     </button>
   );
 };

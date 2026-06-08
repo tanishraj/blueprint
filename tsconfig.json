@@ -58,7 +58,8 @@
     "*.d.ts",
     "*.config.mjs",
     "*.config.ts",
-    ".storybook/*.ts"
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx"
   ],
   "exclude": [
     "dist",
