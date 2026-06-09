@@ -159,45 +159,207 @@ export const ButtonSizes: Story = {
 };
 
 export const ButtonStates: Story = {
-  render: args => (
-    <div className='flex flex-col gap-10'>
-      {states.map(({ label, props }, index) => (
-        <section key={label} className='flex flex-col gap-5'>
-          <h2 className='text-default font-bold'>{label}</h2>
-          <div className={variantGridClass}>
-            <span className='text-base text-default font-bold'>Appearance</span>
-            {variants.map(variant => (
-              <span
-                key={variant}
-                className='text-sm text-default font-bold capitalize'
-              >
-                {variant}
+  render: args => {
+    const states = [{ label: 'Default', props: {} }] as const;
+
+    return (
+      <div className='flex flex-col gap-10'>
+        {states.map(({ label, props }, index) => (
+          <section key={label} className='flex flex-col gap-5'>
+            <h2 className='text-default font-bold'>{label}</h2>
+            <div className={variantGridClass}>
+              <span className='text-base text-default font-bold'>
+                Appearance
               </span>
-            ))}
-            {appearances.map(appearance => (
-              <Fragment key={`${label}-${appearance}`}>
-                <h4 className='text-base text-default font-bold capitalize'>
-                  {appearance}
-                </h4>
-                {variants.map(variant => (
-                  <Button
-                    {...args}
-                    {...props}
-                    key={`${label}-${appearance}-${variant}`}
-                    appearance={appearance}
-                    variant={variant}
-                  >
-                    Button
-                  </Button>
-                ))}
-              </Fragment>
-            ))}
-          </div>
-          {index !== states.length - 1 && (
-            <div className='border border-default' />
-          )}
-        </section>
-      ))}
+              {variants.map(variant => (
+                <span
+                  key={variant}
+                  className='text-sm text-default font-bold capitalize'
+                >
+                  {variant}
+                </span>
+              ))}
+              {appearances.map(appearance => (
+                <Fragment key={`${label}-${appearance}`}>
+                  <h4 className='text-base text-default font-bold capitalize'>
+                    {appearance}
+                  </h4>
+                  {variants.map(variant => (
+                    <Button
+                      {...args}
+                      {...props}
+                      key={`${label}-${appearance}-${variant}`}
+                      appearance={appearance}
+                      variant={variant}
+                    >
+                      Button
+                    </Button>
+                  ))}
+                </Fragment>
+              ))}
+            </div>
+            {index !== states.length - 1 && (
+              <div className='border border-default' />
+            )}
+          </section>
+        ))}
+      </div>
+    );
+  },
+};
+
+export const ButtonLoading: Story = {
+  render: args => {
+    const states = [{ label: 'Loading', props: { loading: true } }] as const;
+    return (
+      <div className='flex flex-col gap-10'>
+        {states.map(({ label, props }, index) => (
+          <section key={label} className='flex flex-col gap-5'>
+            <h2 className='text-default font-bold'>{label}</h2>
+            <div className={variantGridClass}>
+              <span className='text-base text-default font-bold'>
+                Appearance
+              </span>
+              {variants.map(variant => (
+                <span
+                  key={variant}
+                  className='text-sm text-default font-bold capitalize'
+                >
+                  {variant}
+                </span>
+              ))}
+              {appearances.map(appearance => (
+                <Fragment key={`${label}-${appearance}`}>
+                  <h4 className='text-base text-default font-bold capitalize'>
+                    {appearance}
+                  </h4>
+                  {variants.map(variant => (
+                    <Button
+                      {...args}
+                      {...props}
+                      key={`${label}-${appearance}-${variant}`}
+                      appearance={appearance}
+                      variant={variant}
+                    >
+                      Button
+                    </Button>
+                  ))}
+                </Fragment>
+              ))}
+            </div>
+            {index !== states.length - 1 && (
+              <div className='border border-default' />
+            )}
+          </section>
+        ))}
+      </div>
+    );
+  },
+};
+
+export const ButtonDisabled: Story = {
+  render: args => {
+    const states = [{ label: 'Disabled', props: { disabled: true } }] as const;
+
+    return (
+      <div className='flex flex-col gap-10'>
+        {states.map(({ label, props }, index) => (
+          <section key={label} className='flex flex-col gap-5'>
+            <h2 className='text-default font-bold'>{label}</h2>
+            <div className={variantGridClass}>
+              <span className='text-base text-default font-bold'>
+                Appearance
+              </span>
+              {variants.map(variant => (
+                <span
+                  key={variant}
+                  className='text-sm text-default font-bold capitalize'
+                >
+                  {variant}
+                </span>
+              ))}
+              {appearances.map(appearance => (
+                <Fragment key={`${label}-${appearance}`}>
+                  <h4 className='text-base text-default font-bold capitalize'>
+                    {appearance}
+                  </h4>
+                  {variants.map(variant => (
+                    <Button
+                      {...args}
+                      {...props}
+                      key={`${label}-${appearance}-${variant}`}
+                      appearance={appearance}
+                      variant={variant}
+                    >
+                      Button
+                    </Button>
+                  ))}
+                </Fragment>
+              ))}
+            </div>
+            {index !== states.length - 1 && (
+              <div className='border border-default' />
+            )}
+          </section>
+        ))}
+      </div>
+    );
+  },
+};
+
+export const ButtonInverted: Story = {
+  render: args => {
+    const states = [{ label: 'Inverted', props: { inverted: true } }] as const;
+
+    return (
+      <div className='flex flex-col gap-10 bg-default-pressed-inverted text-default-inverted p-5'>
+        {states.map(({ label, props }, index) => (
+          <section key={label} className='flex flex-col gap-5'>
+            <h2 className='text-default-inverted font-bold'>{label}</h2>
+            <div className={variantGridClass}>
+              <span className='text-base text-default-inverted font-bold'>
+                Appearance
+              </span>
+              {variants.map(variant => (
+                <span
+                  key={variant}
+                  className='text-sm text-default-inverted font-bold capitalize'
+                >
+                  {variant}
+                </span>
+              ))}
+              {appearances.map(appearance => (
+                <Fragment key={`${label}-${appearance}`}>
+                  <h4 className='text-base text-default-inverted font-bold capitalize'>
+                    {appearance}
+                  </h4>
+                  {variants.map(variant => (
+                    <Button
+                      {...args}
+                      {...props}
+                      key={`${label}-${appearance}-${variant}`}
+                      appearance={appearance}
+                      variant={variant}
+                    >
+                      Button
+                    </Button>
+                  ))}
+                </Fragment>
+              ))}
+            </div>
+            {index !== states.length - 1 && (
+              <div className='border border-default' />
+            )}
+          </section>
+        ))}
+      </div>
+    );
+  },
+};
+
+export const ButtonIcon: Story = {
+  render: () => (
+    <div className='flex flex-col gap-10'>
       <section className='flex flex-col gap-5'>
         <h2 className='text-default font-bold'>Icon Components</h2>
         <div className='grid grid-cols-[10rem_repeat(3,max-content)] items-center gap-5'>
