@@ -165,35 +165,35 @@ export const buttonStyles = cva(
         variant: 'primary',
         inverted: true,
         className:
-          'text-primary-inverted hover:bg-primary-hovered-inverted active:bg-primary-pressed-inverted',
+          'text-primary-inverted hover:bg-primary-hovered-inverted active:bg-primary-pressed-inverted hover:text-primary active:text-primary',
       },
       {
         appearance: ['outline', 'dashed'],
         variant: 'info',
         inverted: true,
         className:
-          'text-info-inverted hover:bg-info-hovered-inverted active:bg-info-pressed-inverted',
+          'text-info-inverted hover:bg-info-hovered-inverted active:bg-info-pressed-inverted hover:text-info active:text-info',
       },
       {
         appearance: ['outline', 'dashed'],
         variant: 'success',
         inverted: true,
         className:
-          'text-success-inverted hover:bg-success-hovered-inverted active:bg-success-pressed-inverted',
+          'text-success-inverted hover:bg-success-hovered-inverted active:bg-success-pressed-inverted hover:text-success active:text-success',
       },
       {
         appearance: ['outline', 'dashed'],
         variant: 'warning',
         inverted: true,
         className:
-          'text-warning-inverted hover:bg-warning-hovered-inverted active:bg-warning-pressed-inverted',
+          'text-warning-inverted hover:bg-warning-hovered-inverted active:bg-warning-pressed-inverted hover:text-warning active:text-warning',
       },
       {
         appearance: ['outline', 'dashed'],
         variant: 'danger',
         inverted: true,
         className:
-          'text-danger-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted',
+          'text-danger-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted hover:text-danger active:text-danger',
       },
       {
         appearance: ['outline', 'dashed'],
@@ -245,35 +245,35 @@ export const buttonStyles = cva(
         variant: 'primary',
         inverted: true,
         className:
-          'text-primary-inverted hover:bg-primary-hovered-inverted active:bg-primary-pressed-inverted',
+          'text-primary-inverted hover:bg-primary-hovered-inverted active:bg-primary-pressed-inverted hover:text-primary active:text-primary',
       },
       {
         appearance: 'ghost',
         variant: 'info',
         inverted: true,
         className:
-          'text-info-inverted hover:bg-info-hovered-inverted active:bg-info-pressed-inverted',
+          'text-info-inverted hover:bg-info-hovered-inverted active:bg-info-pressed-inverted hover:text-info active:text-info',
       },
       {
         appearance: 'ghost',
         variant: 'success',
         inverted: true,
         className:
-          'text-success-inverted hover:bg-success-hovered-inverted active:bg-success-pressed-inverted',
+          'text-success-inverted hover:bg-success-hovered-inverted active:bg-success-pressed-inverted hover:text-success active:text-success',
       },
       {
         appearance: 'ghost',
         variant: 'warning',
         inverted: true,
         className:
-          'text-warning-inverted hover:bg-warning-hovered-inverted active:bg-warning-pressed-inverted',
+          'text-warning-inverted hover:bg-warning-hovered-inverted active:bg-warning-pressed-inverted hover:text-warning active:text-warning',
       },
       {
         appearance: 'ghost',
         variant: 'danger',
         inverted: true,
         className:
-          'text-danger-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted',
+          'text-danger-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted hover:text-danger active:text-danger',
       },
       {
         appearance: 'ghost',
