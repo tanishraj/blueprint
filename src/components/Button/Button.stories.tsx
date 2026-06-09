@@ -28,11 +28,35 @@ const variants = [
 const appearances = ['filled', 'outline', 'dashed', 'ghost'] as const;
 
 const iconSections = [
-  { label: 'Leading icon', props: { leadingIcon: PlusIcon } },
-  { label: 'Trailing icon', props: { trailingIcon: PlusIcon } },
+  {
+    label: 'Leading icon',
+    props: { leadingIcon: PlusIcon, children: null },
+  },
+  {
+    label: 'Trailing icon',
+    props: { trailingIcon: PlusIcon, children: null },
+  },
+  {
+    label: 'Leading with text',
+    props: {
+      leadingIcon: PlusIcon,
+      children: 'Button',
+    },
+  },
+  {
+    label: 'Leading with text',
+    props: {
+      trailingIcon: PlusIcon,
+      children: 'Button',
+    },
+  },
   {
     label: 'Leading and trailing icons',
-    props: { leadingIcon: PlusIcon, trailingIcon: PlusIcon },
+    props: {
+      leadingIcon: PlusIcon,
+      trailingIcon: PlusIcon,
+      children: 'Button',
+    },
   },
 ] as const;
 
@@ -101,11 +125,6 @@ export const Default: Story = {
 };
 
 export const ButtonSizes: Story = {
-  args: {
-    leadingIcon: PlusIcon,
-    trailingIcon: PlusIcon,
-  },
-
   render: args => {
     return (
       <div className='space-y-5'>
@@ -374,7 +393,7 @@ export const ButtonIcon: Story = {
                   variant='primary'
                   aria-label={label}
                 >
-                  {null}
+                  {props.children}
                 </Button>
               ))}
             </Fragment>
