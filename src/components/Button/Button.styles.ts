@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonStyles = cva(
-  'inline-flex w-fit items-center justify-center gap-2.5 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed disabled:cursor-not-allowed disabled:pointer-events-none',
+  'inline-flex w-fit items-center justify-center gap-2.5 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
   {
     variants: {
       size: {
@@ -24,7 +24,7 @@ export const buttonStyles = cva(
         ghost: 'bg-transparent',
       },
       disabled: {
-        true: '',
+        true: 'opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none',
       },
       loading: {
         true: '',
@@ -115,12 +115,6 @@ export const buttonStyles = cva(
         className:
           'bg-danger-inverted text-white-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted',
       },
-      {
-        appearance: 'filled',
-        disabled: true,
-        className:
-          'hover:bg-disabled hover:text-disabled active:bg-disabled active:text-disabled disabled:bg-disabled disabled:text-disabled',
-      },
 
       /* OUTLINE & DASHED */
       {
@@ -195,12 +189,6 @@ export const buttonStyles = cva(
         className:
           'text-danger-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted hover:text-danger active:text-danger',
       },
-      {
-        appearance: ['outline', 'dashed'],
-        disabled: true,
-        className:
-          'hover:bg-transparent active:bg-transparent hover:border-disabled hover:text-disabled active:border-disabled active:text-disabled disabled:border-disabled disabled:text-disabled',
-      },
 
       /* GHOST BUTTON */
       {
@@ -274,12 +262,6 @@ export const buttonStyles = cva(
         inverted: true,
         className:
           'text-danger-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted hover:text-danger active:text-danger',
-      },
-      {
-        appearance: 'ghost',
-        disabled: true,
-        className:
-          'hover:bg-transparent active:bg-transparent hover:text-disabled active:text-disabled disabled:text-disabled',
       },
 
       /* VARIANT LOADING */
