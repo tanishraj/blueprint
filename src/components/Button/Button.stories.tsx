@@ -26,12 +26,7 @@ const variants = [
   'danger',
 ] as const;
 const appearances = ['filled', 'outline', 'dashed', 'ghost'] as const;
-const states = [
-  { label: 'Default', props: {} },
-  { label: 'Loading', props: { loading: true } },
-  { label: 'Disabled', props: { disabled: true } },
-  { label: 'Inverted', props: { inverted: true } },
-] as const;
+
 const iconSections = [
   { label: 'Leading icon', props: { leadingIcon: PlusIcon } },
   { label: 'Trailing icon', props: { trailingIcon: PlusIcon } },
@@ -166,7 +161,6 @@ export const ButtonStates: Story = {
       <div className='flex flex-col gap-10'>
         {states.map(({ label, props }, index) => (
           <section key={label} className='flex flex-col gap-5'>
-            <h2 className='text-default font-bold'>{label}</h2>
             <div className={variantGridClass}>
               <span className='text-base text-default font-bold'>
                 Appearance
@@ -215,7 +209,6 @@ export const ButtonLoading: Story = {
       <div className='flex flex-col gap-10'>
         {states.map(({ label, props }, index) => (
           <section key={label} className='flex flex-col gap-5'>
-            <h2 className='text-default font-bold'>{label}</h2>
             <div className={variantGridClass}>
               <span className='text-base text-default font-bold'>
                 Appearance
@@ -265,7 +258,6 @@ export const ButtonDisabled: Story = {
       <div className='flex flex-col gap-10'>
         {states.map(({ label, props }, index) => (
           <section key={label} className='flex flex-col gap-5'>
-            <h2 className='text-default font-bold'>{label}</h2>
             <div className={variantGridClass}>
               <span className='text-base text-default font-bold'>
                 Appearance
@@ -315,7 +307,6 @@ export const ButtonInverted: Story = {
       <div className='flex flex-col gap-10 bg-default-pressed-inverted text-default-inverted p-5'>
         {states.map(({ label, props }, index) => (
           <section key={label} className='flex flex-col gap-5'>
-            <h2 className='text-default-inverted font-bold'>{label}</h2>
             <div className={variantGridClass}>
               <span className='text-base text-default-inverted font-bold'>
                 Appearance
@@ -361,7 +352,6 @@ export const ButtonIcon: Story = {
   render: () => (
     <div className='flex flex-col gap-10'>
       <section className='flex flex-col gap-5'>
-        <h2 className='text-default font-bold'>Icon Components</h2>
         <div className='grid grid-cols-[10rem_repeat(3,max-content)] items-center gap-5'>
           <span className='text-base text-default font-bold'>Position</span>
           {sizes.map(size => (
