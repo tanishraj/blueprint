@@ -368,7 +368,7 @@ export const ButtonInverted: Story = {
 };
 
 export const ButtonIcon: Story = {
-  render: () => (
+  render: args => (
     <div className='flex flex-col gap-10'>
       <section className='flex flex-col gap-5'>
         <div className='grid grid-cols-[10rem_repeat(3,max-content)] items-center gap-5'>
@@ -386,6 +386,7 @@ export const ButtonIcon: Story = {
               <h4 className='text-base text-default font-bold'>{label}</h4>
               {sizes.map(size => (
                 <Button
+                  {...args}
                   {...props}
                   key={`${label}-${size}`}
                   size={size}
