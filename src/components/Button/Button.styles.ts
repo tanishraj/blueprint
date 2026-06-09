@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonStyles = cva(
-  'flex items-center justify-center gap-2.5 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
+  'inline-flex w-fit items-center justify-center gap-2.5 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed disabled:cursor-not-allowed disabled:pointer-events-none',
   {
     variants: {
       size: {
@@ -27,6 +27,12 @@ export const buttonStyles = cva(
         true: '',
       },
       loading: {
+        true: '',
+      },
+      fullWidth: {
+        true: 'w-full',
+      },
+      inverted: {
         true: '',
       },
     },
@@ -69,6 +75,48 @@ export const buttonStyles = cva(
       },
       {
         appearance: 'filled',
+        variant: 'default',
+        inverted: true,
+        className:
+          'bg-default-inverted text-default-inverted hover:bg-default-hovered-inverted active:bg-default-pressed-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'primary',
+        inverted: true,
+        className:
+          'bg-primary-inverted text-white-inverted hover:bg-primary-hovered-inverted active:bg-primary-pressed-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'info',
+        inverted: true,
+        className:
+          'bg-info-inverted text-white-inverted hover:bg-info-hovered-inverted active:bg-info-pressed-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'success',
+        inverted: true,
+        className:
+          'bg-success-inverted text-white-inverted hover:bg-success-hovered-inverted active:bg-success-pressed-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'warning',
+        inverted: true,
+        className:
+          'bg-warning-inverted text-white-inverted hover:bg-warning-hovered-inverted active:bg-warning-pressed-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'danger',
+        inverted: true,
+        className:
+          'bg-danger-inverted text-white-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted',
+      },
+      {
+        appearance: 'filled',
         disabled: true,
         className:
           'hover:bg-disabled hover:text-disabled active:bg-disabled active:text-disabled disabled:bg-disabled disabled:text-disabled',
@@ -107,6 +155,48 @@ export const buttonStyles = cva(
       },
       {
         appearance: ['outline', 'dashed'],
+        variant: 'default',
+        inverted: true,
+        className:
+          'text-default-inverted hover:bg-default-hovered-inverted active:bg-default-pressed-inverted',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'primary',
+        inverted: true,
+        className:
+          'text-primary-inverted hover:bg-primary-hovered-inverted active:bg-primary-pressed-inverted hover:text-primary active:text-primary',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'info',
+        inverted: true,
+        className:
+          'text-info-inverted hover:bg-info-hovered-inverted active:bg-info-pressed-inverted hover:text-info active:text-info',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'success',
+        inverted: true,
+        className:
+          'text-success-inverted hover:bg-success-hovered-inverted active:bg-success-pressed-inverted hover:text-success active:text-success',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'warning',
+        inverted: true,
+        className:
+          'text-warning-inverted hover:bg-warning-hovered-inverted active:bg-warning-pressed-inverted hover:text-warning active:text-warning',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'danger',
+        inverted: true,
+        className:
+          'text-danger-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted hover:text-danger active:text-danger',
+      },
+      {
+        appearance: ['outline', 'dashed'],
         disabled: true,
         className:
           'hover:bg-transparent active:bg-transparent hover:border-disabled hover:text-disabled active:border-disabled active:text-disabled disabled:border-disabled disabled:text-disabled',
@@ -142,6 +232,48 @@ export const buttonStyles = cva(
         appearance: 'ghost',
         variant: 'danger',
         className: 'text-danger',
+      },
+      {
+        appearance: 'ghost',
+        variant: 'default',
+        inverted: true,
+        className:
+          'text-default-inverted hover:bg-default-hovered-inverted active:bg-default-pressed-inverted',
+      },
+      {
+        appearance: 'ghost',
+        variant: 'primary',
+        inverted: true,
+        className:
+          'text-primary-inverted hover:bg-primary-hovered-inverted active:bg-primary-pressed-inverted hover:text-primary active:text-primary',
+      },
+      {
+        appearance: 'ghost',
+        variant: 'info',
+        inverted: true,
+        className:
+          'text-info-inverted hover:bg-info-hovered-inverted active:bg-info-pressed-inverted hover:text-info active:text-info',
+      },
+      {
+        appearance: 'ghost',
+        variant: 'success',
+        inverted: true,
+        className:
+          'text-success-inverted hover:bg-success-hovered-inverted active:bg-success-pressed-inverted hover:text-success active:text-success',
+      },
+      {
+        appearance: 'ghost',
+        variant: 'warning',
+        inverted: true,
+        className:
+          'text-warning-inverted hover:bg-warning-hovered-inverted active:bg-warning-pressed-inverted hover:text-warning active:text-warning',
+      },
+      {
+        appearance: 'ghost',
+        variant: 'danger',
+        inverted: true,
+        className:
+          'text-danger-inverted hover:bg-danger-hovered-inverted active:bg-danger-pressed-inverted hover:text-danger active:text-danger',
       },
       {
         appearance: 'ghost',
@@ -199,6 +331,62 @@ export const buttonStyles = cva(
         loading: true,
         className:
           'bg-default-loading hover:bg-default-loading active:bg-default-loading',
+      },
+      {
+        appearance: ['filled', 'dashed', 'outline', 'ghost'],
+        variant: 'default',
+        loading: true,
+        inverted: true,
+        className:
+          'bg-default-loading-inverted text-loading-inverted hover:bg-default-loading-inverted active:bg-default-loading-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'primary',
+        loading: true,
+        inverted: true,
+        className:
+          'bg-primary-loading-inverted text-white-inverted hover:bg-primary-loading-inverted active:bg-primary-loading-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'info',
+        loading: true,
+        inverted: true,
+        className:
+          'bg-info-loading-inverted text-white-inverted hover:bg-info-loading-inverted active:bg-info-loading-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'success',
+        loading: true,
+        inverted: true,
+        className:
+          'bg-success-loading-inverted text-white-inverted hover:bg-success-loading-inverted active:bg-success-loading-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'warning',
+        loading: true,
+        inverted: true,
+        className:
+          'bg-warning-loading-inverted text-white-inverted hover:bg-warning-loading-inverted active:bg-warning-loading-inverted',
+      },
+      {
+        appearance: 'filled',
+        variant: 'danger',
+        loading: true,
+        inverted: true,
+        className:
+          'bg-danger-loading-inverted text-white-inverted hover:bg-danger-loading-inverted active:bg-danger-loading-inverted',
+      },
+      {
+        appearance: ['dashed', 'outline', 'ghost'],
+        variant: ['default', 'primary', 'info', 'success', 'warning', 'danger'],
+        loading: true,
+        inverted: true,
+        className:
+          'bg-default-loading-inverted text-loading-inverted hover:bg-default-loading-inverted active:bg-default-loading-inverted',
       },
     ],
     defaultVariants: {},
