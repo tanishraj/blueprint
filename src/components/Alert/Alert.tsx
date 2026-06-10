@@ -26,6 +26,7 @@ export const Alert: FC<AlertProps> = ({
   variant,
   appearance,
   size,
+  inverted = false,
   title,
   icon: Icon,
   children,
@@ -37,6 +38,7 @@ export const Alert: FC<AlertProps> = ({
       variant,
       appearance,
       size,
+      inverted,
     }),
   );
   const alertContentWrapperClassName = cn(
@@ -58,14 +60,18 @@ export const Alert: FC<AlertProps> = ({
       appearance,
       variant,
       size,
+      inverted,
     }),
   );
-  const alertIconClassName = cn(alertIconStyles({ variant, appearance, size }));
+  const alertIconClassName = cn(
+    alertIconStyles({ variant, appearance, size, inverted }),
+  );
   const alertCloseButtonClassName = cn(
     alertCloseButtonStyles({
       appearance,
       variant,
       size,
+      inverted,
     }),
   );
   return (

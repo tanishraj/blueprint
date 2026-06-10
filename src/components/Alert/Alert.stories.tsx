@@ -20,6 +20,7 @@ const meta: Meta<AlertProps> = {
       options: ['sm', 'md', 'lg'],
       control: { type: 'select' },
     },
+    inverted: Boolean,
   },
   args: {
     title: 'This is a Blueprint alert message component',
@@ -29,6 +30,7 @@ const meta: Meta<AlertProps> = {
     variant: 'default',
     appearance: 'filled',
     size: 'sm',
+    inverted: false,
     onClose: () => {
       console.log('Alert Closed.');
     },
