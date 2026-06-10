@@ -313,42 +313,45 @@ export const alertIconStyles = cva('stroke-2', {
   },
 });
 
-export const alertCloseButtonStyles = cva('shrink-0 cursor-pointer', {
-  variants: {
-    appearance: {
-      filled: 'text-white',
-      outline: '',
-      dashed: '',
+export const alertCloseButtonStyles = cva(
+  'shrink-0 cursor-pointer text-default',
+  {
+    variants: {
+      appearance: {
+        filled: 'text-white',
+        outline: '',
+        dashed: '',
+      },
+      variant: {
+        default: 'text-default',
+        primary: '',
+        info: '',
+        success: '',
+        warning: '',
+        danger: '',
+      },
+      size: { sm: 'size-5', md: 'size-6', lg: 'size-7' },
+      inverted: {
+        true: 'text-default',
+      },
     },
-    variant: {
-      default: 'text-default',
-      primary: '',
-      info: '',
-      success: '',
-      warning: '',
-      danger: '',
-    },
-    size: { sm: 'size-5', md: 'size-6', lg: 'size-7' },
-    inverted: {
-      true: '',
+    compoundVariants: [
+      /* FILLED INVERTED */
+      {
+        appearance: ['filled'],
+        variant: ['default'],
+        inverted: true,
+        className: 'text-default-inverted',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: ['primary', 'info', 'success', 'warning', 'danger'],
+        inverted: true,
+        className: 'text-default',
+      },
+    ],
+    defaultVariants: {
+      size: 'md',
     },
   },
-  compoundVariants: [
-    /* FILLED INVERTED */
-    {
-      appearance: ['filled'],
-      variant: ['default'],
-      inverted: true,
-      className: 'text-default-inverted',
-    },
-    {
-      appearance: ['filled', 'outline', 'dashed'],
-      variant: ['primary', 'info', 'success', 'warning', 'danger'],
-      inverted: true,
-      className: 'text-default',
-    },
-  ],
-  defaultVariants: {
-    size: 'md',
-  },
-});
+);
