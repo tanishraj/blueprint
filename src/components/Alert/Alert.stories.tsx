@@ -26,7 +26,7 @@ const meta: Meta<AlertProps> = {
     children:
       'Lorem ipsum dolor sit amet, his rebum salutatus id, purto vitae signi ferumque ea per. An quod erant sed. Viris aliquam impedit et est has veri deleniti sensi busid, summo paulo cetero no vel.',
     icon: Info,
-    variant: 'danger',
+    variant: 'default',
     appearance: 'filled',
     size: 'sm',
     onClose: () => {
