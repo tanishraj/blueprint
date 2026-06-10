@@ -26,32 +26,32 @@ export const alertWrapperStyles = cva(
       {
         appearance: ['dashed', 'outline'],
         variant: ['default'],
-        className: 'border-default bg-white',
+        className: 'border-default bg-base',
       },
       {
         appearance: ['dashed', 'outline'],
         variant: ['primary'],
-        className: 'border-primary bg-white',
+        className: 'border-primary bg-base',
       },
       {
         appearance: ['dashed', 'outline'],
         variant: ['info'],
-        className: 'border-info bg-white',
+        className: 'border-info bg-base',
       },
       {
         appearance: ['dashed', 'outline'],
         variant: ['success'],
-        className: 'border-success bg-white',
+        className: 'border-success bg-base',
       },
       {
         appearance: ['dashed', 'outline'],
         variant: ['warning'],
-        className: 'border-warning bg-white',
+        className: 'border-warning bg-base',
       },
       {
         appearance: ['dashed', 'outline'],
         variant: ['danger'],
-        className: 'border-danger bg-white',
+        className: 'border-danger bg-base',
       },
 
       /* FILLED INVERTED */

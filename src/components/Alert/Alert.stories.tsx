@@ -90,7 +90,9 @@ export const AlertApperance: Story = {
           return (
             <div key={appearance} className='flex flex-col gap-4'>
               <div className='flex flex-col gap-3'>
-                <h3 className='uppercase font-bold'>{appearance}</h3>
+                <h3 className='uppercase font-bold text-default'>
+                  {appearance}
+                </h3>
                 {variants.map(variant => {
                   return (
                     <Alert
