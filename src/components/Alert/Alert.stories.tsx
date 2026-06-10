@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Info } from 'lucide-react';
 
 import { Alert, AlertProps } from './Alert';
-import { AlertVariants } from './types';
+import { AlertAppearances, AlertSizes, AlertVariants } from './types';
 
 const variants = ['default', 'primary', 'info', 'success', 'warning', 'danger'];
 const appearances = ['filled', 'outline', 'dashed'];
@@ -49,6 +49,25 @@ export const Default: Story = {
   render: args => <Alert {...args} />,
 };
 
+export const AlertSize: Story = {
+  render: args => {
+    return (
+      <div className='flex flex-col gap-4'>
+        {sizes.map(size => {
+          return (
+            <Alert
+              {...args}
+              key={size}
+              variant='primary'
+              size={size as AlertSizes}
+            />
+          );
+        })}
+      </div>
+    );
+  },
+};
+
 export const AlertVariant: Story = {
   render: args => {
     return (
@@ -63,37 +82,27 @@ export const AlertVariant: Story = {
   },
 };
 
-export const AlertOutline: Story = {
+export const AlertApperance: Story = {
   render: args => {
     return (
-      <div className='flex flex-col gap-4'>
-        {variants.map(variant => {
+      <div className='flex flex-col gap-10'>
+        {appearances.map(appearance => {
           return (
-            <Alert
-              {...args}
-              key={variant}
-              variant={variant as AlertVariants}
-              appearance='outline'
-            />
-          );
-        })}
-      </div>
-    );
-  },
-};
-
-export const AlertDashed: Story = {
-  render: args => {
-    return (
-      <div className='flex flex-col gap-4'>
-        {variants.map(variant => {
-          return (
-            <Alert
-              {...args}
-              key={variant}
-              variant={variant as AlertVariants}
-              appearance='dashed'
-            />
+            <div key={appearance} className='flex flex-col gap-4'>
+              <div className='flex flex-col gap-3'>
+                <h3 className='uppercase font-bold'>{appearance}</h3>
+                {variants.map(variant => {
+                  return (
+                    <Alert
+                      {...args}
+                      key={variant}
+                      variant={variant as AlertVariants}
+                      appearance={appearance as AlertAppearances}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           );
         })}
       </div>
