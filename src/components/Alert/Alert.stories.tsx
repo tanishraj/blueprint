@@ -22,7 +22,7 @@ const meta: Meta<AlertProps> = {
     },
   },
   args: {
-    title: 'This is a Plus UI alert message component',
+    title: 'This is a Blueprint alert message component',
     children:
       'Lorem ipsum dolor sit amet, his rebum salutatus id, purto vitae signi ferumque ea per. An quod erant sed. Viris aliquam impedit et est has veri deleniti sensi busid, summo paulo cetero no vel.',
     icon: Info,
