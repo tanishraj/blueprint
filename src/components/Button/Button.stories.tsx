@@ -1,20 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Fragment } from 'react';
-import type { SVGProps } from 'react';
+import { PlusIcon } from 'lucide-react';
 
 import { Button, ButtonProps } from './Button';
-
-const PlusIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    viewBox='0 0 16 16'
-    fill='none'
-    stroke='currentColor'
-    strokeWidth='2'
-    {...props}
-  >
-    <path d='M8 3.5v9M3.5 8h9' />
-  </svg>
-);
 
 const sizes = ['sm', 'md', 'lg'] as const;
 const variants = [
