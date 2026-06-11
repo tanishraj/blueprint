@@ -38,7 +38,19 @@ export const OrganizationChart = ({
         }
       },
       exportImg: () => chartRef.current?.exportImg({ full: true }),
-      exportSvg: () => chartRef.current?.exportSvg(),
+      exportSvg: () => {
+        if (chartRef.current) {
+          // 1. Temporarily drop animation speeds to 0ms for instant repositioning
+          chartRef.current.render().fit();
+
+          // 2. Defer file assembly until the browser completes the DOM transform frame calculations
+          setTimeout(() => {
+            if (chartRef.current) {
+              chartRef.current.exportSvg();
+            }
+          }, 1000);
+        }
+      },
       expandAll: () => {
         chartRef.current?.expandAll().fit();
       },
