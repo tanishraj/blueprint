@@ -11,6 +11,7 @@ export interface OrgChartRef {
   zoomIn: () => void;
   zoomOut: () => void;
   resetZoom: () => void;
+  resetLevel: () => void;
   exportImg: () => void;
   exportSvg: () => void;
   expandAll: () => void;
@@ -20,6 +21,8 @@ export interface OrgChartRef {
 export interface OrgChartComponentProps {
   data: OrgChartNodeData[];
   orientation?: OrgChartOrientation;
+  initialDepth?: number;
   onNodeClick?: (nodeId: string) => void;
+  onZoomChange?: (zoomPercent: number) => void;
   ref?: React.Ref<OrgChartRef>;
 }

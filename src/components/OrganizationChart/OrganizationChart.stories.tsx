@@ -8,8 +8,12 @@ import { initialData } from './mockData';
 const meta = {
   title: 'Components/OrganizationChart',
   component: OrganizationChart,
-  argTypes: {},
-  args: {},
+  argTypes: {
+    initialDepth: Number,
+  },
+  args: {
+    initialDepth: 1,
+  },
   default: {},
 };
 
@@ -45,6 +49,9 @@ export const Default: Story = {
           </button>
           <button onClick={() => chartActionsRef.current?.resetZoom()}>
             🔄 Reset Zoom
+          </button>
+          <button onClick={() => chartActionsRef.current?.resetLevel()}>
+            🌳 Reset to Default Level
           </button>
           <button onClick={() => chartActionsRef.current?.expandAll()}>
             🌿 Expand All
@@ -86,6 +93,7 @@ export const Default: Story = {
           data={data}
           orientation={layout}
           onNodeClick={handleNodeClick}
+          {...args}
         />
       </div>
     );
