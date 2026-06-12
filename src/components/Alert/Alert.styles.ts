@@ -100,7 +100,7 @@ export const alertWrapperStyles = cva(
   },
 );
 
-export const alertContentWrapperStyles = cva('flex flex-col gap-2', {
+export const alertContentWrapperStyles = cva('flex flex-col flex-1 gap-2', {
   variants: {
     variant: {
       default: '',
