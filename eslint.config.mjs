@@ -20,6 +20,7 @@ const eslintConfig = [
       'coverage',
       'storybook-static',
       'scripts/ui-generator/*.mjs',
+      'scripts/ai-pr-reviewer.mjs',
     ],
   },
   { files: ['**/*.{js,ts,mjs,cjs,jsx,tsx}'] },
