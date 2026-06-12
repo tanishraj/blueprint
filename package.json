@@ -45,11 +45,15 @@
     "format:check": "prettier --check .",
     "clean": "rm -rf dist node_modules coverage storybook-static",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "generate:component": "node ./scripts/ui-generator/generate.mjs",
+    "cleanup:component": "node ./scripts/ui-generator/cleanup.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "d3": "^7.9.0",
+    "d3-org-chart": "^3.1.1",
     "lucide-react": "^1.17.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
@@ -69,6 +73,7 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
+    "@types/d3-org-chart": "^3.1.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
