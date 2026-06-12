@@ -1,8 +1,10 @@
 import { defaultPatternPromptSamples } from './collect-patterns.mjs';
 
-const fileHeader = (name, content) => `${name}\n${'-'.repeat(name.length)}\n${content}`;
+const fileHeader = (name, content) =>
+  `${name}\n${'-'.repeat(name.length)}\n${content}`;
 
-const buildCodeGuidelines = () => `
+const buildCodeGuidelines = () =>
+  `
 Use the same architecture as existing components in this repository:
 - one component file at <Name>/<Name>.tsx
 - one style file at <Name>/<Name>.styles.ts using class-variance-authority
@@ -17,7 +19,11 @@ Coding style:
 - keep classes in style files; avoid inline style props
 `.trim();
 
-export function buildGenerationPrompt({ componentName, figmaSpec, patternSamples }) {
+export function buildGenerationPrompt({
+  componentName,
+  figmaSpec,
+  patternSamples,
+}) {
   const filesPrompt = defaultPatternPromptSamples(patternSamples);
 
   const userPrompt = `
@@ -80,4 +86,3 @@ export function parseOpenAIJSON(payloadText) {
   }
   return parsed.files;
 }
-

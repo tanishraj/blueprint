@@ -1,4 +1,4 @@
-const normalizeNumber = (value) => {
+const normalizeNumber = value => {
   if (typeof value !== 'number' || Number.isNaN(value)) {
     return 0;
   }
@@ -6,7 +6,7 @@ const normalizeNumber = (value) => {
 };
 
 const colorToHex = ({ r = 0, g = 0, b = 0, a = 1 }) => {
-  const clamp = (number) => {
+  const clamp = number => {
     const normalized = Math.round(Math.max(0, Math.min(1, number)) * 255);
     return normalized.toString(16).padStart(2, '0');
   };
@@ -23,7 +23,7 @@ const collectColorsFromFills = (fills = []) => {
     return colors;
   }
 
-  fills.forEach((fill) => {
+  fills.forEach(fill => {
     if (!fill || fill.type !== 'SOLID') {
       return;
     }
@@ -47,15 +47,15 @@ const walkNodeTree = (node, cb) => {
   cb(node);
 
   if (Array.isArray(node.children)) {
-    node.children.forEach((child) => walkNodeTree(child, cb));
+    node.children.forEach(child => walkNodeTree(child, cb));
   }
 
   if (Array.isArray(node.children) === false) {
-    Object.keys(node).forEach((key) => {
+    Object.keys(node).forEach(key => {
       const value = node[key];
       if (value && typeof value === 'object') {
         if (Array.isArray(value)) {
-          value.forEach((item) => walkNodeTree(item, cb));
+          value.forEach(item => walkNodeTree(item, cb));
         } else if (key !== 'style' && key !== 'fills' && key !== 'strokes') {
           walkNodeTree(value, cb);
         }
@@ -105,7 +105,10 @@ const readNodeFromPayload = (payload, nodeId) => {
   }
 
   if (payload.document) {
-    if (Array.isArray(payload.document.children) && payload.document.children[0]) {
+    if (
+      Array.isArray(payload.document.children) &&
+      payload.document.children[0]
+    ) {
       return payload.document.children[0];
     }
     return payload.document;
@@ -114,7 +117,7 @@ const readNodeFromPayload = (payload, nodeId) => {
   throw new Error('Could not find a compatible Figma node in payload.');
 };
 
-const parseVariantProperties = (node) => {
+const parseVariantProperties = node => {
   const definitions = node?.componentPropertyDefinitions || {};
   return Object.entries(definitions).map(([name, value]) => {
     const def = value || {};
@@ -127,27 +130,27 @@ const parseVariantProperties = (node) => {
   });
 };
 
-const parseVariantChildren = (node) => {
+const parseVariantChildren = node => {
   if (!Array.isArray(node?.children)) {
     return [];
   }
   return node.children
-    .map((child) => child?.name)
+    .map(child => child?.name)
     .filter(Boolean)
-    .map((name) => name.trim());
+    .map(name => name.trim());
 };
 
-const collectDesignTokens = (node) => {
+const collectDesignTokens = node => {
   const palette = new Set();
   const typography = [];
   const layout = [];
 
-  walkNodeTree(node, (current) => {
+  walkNodeTree(node, current => {
     if (current.fills) {
-      collectColorsFromFills(current.fills).forEach((hex) => palette.add(hex));
+      collectColorsFromFills(current.fills).forEach(hex => palette.add(hex));
     }
     if (current.strokes) {
-      collectColorsFromFills(current.strokes).forEach((hex) => palette.add(hex));
+      collectColorsFromFills(current.strokes).forEach(hex => palette.add(hex));
     }
 
     if (current.type === 'TEXT' && current.style) {
@@ -155,7 +158,8 @@ const collectDesignTokens = (node) => {
         family: current.style.fontFamily,
         size: current.style.fontSize,
         weight: current.style.fontWeight,
-        lineHeight: current.style.lineHeightPx || current.style.lineHeightPercentFontSize,
+        lineHeight:
+          current.style.lineHeightPx || current.style.lineHeightPercentFontSize,
       });
     }
 
@@ -210,4 +214,3 @@ export async function resolveFigmaSpec({
   const node = readNodeFromPayload(payload, nodeId);
   return normalizeFigmaSpec(node, componentName);
 }
-

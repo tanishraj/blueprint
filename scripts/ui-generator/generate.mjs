@@ -38,12 +38,10 @@ Options:
   --skip-ai          Generate local fallback without calling OpenAI
   --help             Show usage`;
 
-const normalizeArgKey = (value) =>
-  value
-    .replace(/^--/, '')
-    .replace(/-([a-z])/g, (_, ch) => ch.toUpperCase());
+const normalizeArgKey = value =>
+  value.replace(/^--/, '').replace(/-([a-z])/g, (_, ch) => ch.toUpperCase());
 
-const parseArgs = (argv) => {
+const parseArgs = argv => {
   const options = {
     overwrite: false,
     stories: false,
@@ -83,21 +81,21 @@ const parseArgs = (argv) => {
   return options;
 };
 
-const toPascalCase = (value) =>
+const toPascalCase = value =>
   `${value}`
     .replace(/[-_]/g, ' ')
     .trim()
     .split(/\s+/)
     .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
     .join('');
 
-const normalizeNodeId = (value) => {
+const normalizeNodeId = value => {
   const raw = `${value || ''}`.trim();
   return raw.includes(':') ? raw : raw.replace('-', ':');
 };
 
-const parseFigmaSource = (options) => {
+const parseFigmaSource = options => {
   if (options.figmaUrl) {
     const figmaUrl = new URL(options.figmaUrl);
     const segments = figmaUrl.pathname.split('/').filter(Boolean);
@@ -113,7 +111,7 @@ const parseFigmaSource = (options) => {
   };
 };
 
-const fileExists = async (targetPath) => {
+const fileExists = async targetPath => {
   try {
     await fs.access(targetPath);
     return true;
@@ -140,7 +138,7 @@ const updateComponentBarrel = async (componentName, overwrite) => {
   await writeGeneratedFile(COMPONENT_INDEX_PATH, next, overwrite);
 };
 
-const fallbackFiles = (name) => ({
+const fallbackFiles = name => ({
   component: `import { FC, ReactNode } from 'react';\nimport { type VariantProps } from 'class-variance-authority';\n\nimport { cn, RemoveNull } from '@/utils';\nimport { ${name}Styles } from './${name}.styles';\n\nexport interface ${name}Props extends RemoveNull<VariantProps<typeof ${name}Styles>> {\n  children?: ReactNode;\n}\n\nexport const ${name}: FC<${name}Props> = ({ children, ...restProps }) => {\n  return (\n    <div {...restProps} className={cn(${name}Styles(restProps))}>\n      {children}\n    </div>\n  );\n};\n`,
   styles: `import { cva } from 'class-variance-authority';\n\nexport const ${name}Styles = cva('rounded', {\n  variants: {\n    variant: {\n      default: '',\n      primary: '',\n      info: '',\n      success: '',\n      warning: '',\n      danger: '',\n    },\n    size: {\n      sm: 'text-sm',\n      md: 'text-base',\n      lg: 'text-lg',\n    },\n    appearance: {\n      filled: '',\n      outline: '',\n      dashed: '',\n      ghost: '',\n    },\n  },\n  defaultVariants: {\n    variant: 'default',\n    size: 'md',\n    appearance: 'filled',\n  },\n});\n`,
   types: `export type ${name}Variant =\n  | 'default'\n  | 'primary'\n  | 'info'\n  | 'success'\n  | 'warning'\n  | 'danger';\n\nexport type ${name}Size = 'sm' | 'md' | 'lg';\nexport type ${name}Appearance = 'filled' | 'outline' | 'dashed' | 'ghost';\n`,
@@ -225,14 +223,18 @@ const main = async () => {
   const { fileKey, nodeId } = parseFigmaSource(options);
 
   if (!skipAi && !fileKey) {
-    throw new Error('Missing Figma file key. Use --figma-file-key or --figma-url.');
+    throw new Error(
+      'Missing Figma file key. Use --figma-file-key or --figma-url.',
+    );
   }
   if (!skipAi && !nodeId) {
     throw new Error('Missing Figma node id. Use --node-id or --figma-url.');
   }
 
   const figmaApiToken =
-    options.figmaToken || process.env.FIGMA_API_TOKEN || process.env.FIGMA_TOKEN;
+    options.figmaToken ||
+    process.env.FIGMA_API_TOKEN ||
+    process.env.FIGMA_TOKEN;
   const openAIApiKey =
     options.openaiKey || process.env.OPENAI_API_KEY || process.env.OPENAI_KEY;
 
@@ -270,7 +272,7 @@ const main = async () => {
           openAIApiKey,
           model: options.model || DEFAULT_OPENAI_MODEL,
           buildGenerationPrompt,
-        }).then((response) => {
+        }).then(response => {
           const content = response?.choices?.[0]?.message?.content || '';
           return parseOpenAIJSON(content);
         });
@@ -279,7 +281,9 @@ const main = async () => {
   const resolved = await generated;
 
   if (!resolved || !resolved.component || !resolved.styles || !resolved.types) {
-    throw new Error('Invalid generator output. Expected component, styles, and types.');
+    throw new Error(
+      'Invalid generator output. Expected component, styles, and types.',
+    );
   }
 
   await writeFiles({
@@ -299,7 +303,7 @@ const main = async () => {
   }
 };
 
-main().catch((error) => {
+main().catch(error => {
   console.error(error?.message || error);
   process.exitCode = 1;
 });

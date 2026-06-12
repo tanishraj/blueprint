@@ -18,12 +18,10 @@ const usage = () =>
   `Use --force to actually delete files; otherwise this is a safety check.\n` +
   `Use --dry-run to preview before delete.`;
 
-const normalizeArgKey = (value) =>
-  value
-    .replace(/^--/, '')
-    .replace(/-([a-z])/g, (_, ch) => ch.toUpperCase());
+const normalizeArgKey = value =>
+  value.replace(/^--/, '').replace(/-([a-z])/g, (_, ch) => ch.toUpperCase());
 
-const parseArgs = (argv) => {
+const parseArgs = argv => {
   const options = {
     force: false,
     dryRun: false,
@@ -74,29 +72,29 @@ const parseArgs = (argv) => {
   return options;
 };
 
-const toPascalCase = (value) =>
+const toPascalCase = value =>
   `${value}`
     .replace(/[-_]/g, ' ')
     .trim()
     .split(/\s+/)
     .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
     .join('');
 
-const collectTargetsByPrefix = async (prefix) => {
+const collectTargetsByPrefix = async prefix => {
   const entries = await fs.readdir(COMPONENTS_DIR, { withFileTypes: true });
   return entries
-    .filter((entry) => entry.isDirectory() && entry.name.startsWith(prefix))
-    .map((entry) => entry.name);
+    .filter(entry => entry.isDirectory() && entry.name.startsWith(prefix))
+    .map(entry => entry.name);
 };
 
-const removeExportFromBarrel = async (componentNames) => {
+const removeExportFromBarrel = async componentNames => {
   const current = await fs.readFile(COMPONENT_INDEX_PATH, 'utf8');
   const filtered = current
     .split('\n')
-    .filter((line) => {
+    .filter(line => {
       const trimmed = line.trim();
-      return !componentNames.some((name) =>
+      return !componentNames.some(name =>
         new RegExp(`^export\\s+\\*\\s+from\\s+'\\./${name}';$`).test(trimmed),
       );
     })
@@ -108,9 +106,9 @@ const removeExportFromBarrel = async (componentNames) => {
   }
 };
 
-const confirm = (targets) => {
+const confirm = targets => {
   console.log('Preview of components to remove:');
-  targets.forEach((name) => {
+  targets.forEach(name => {
     console.log(`- ${name}`);
   });
   console.log('');
@@ -125,10 +123,10 @@ const main = async () => {
     return;
   }
 
-  const selected = new Set(options.names.map((name) => toPascalCase(name)));
+  const selected = new Set(options.names.map(name => toPascalCase(name)));
   if (selected.size === 0 && options.prefix) {
     const byPrefix = await collectTargetsByPrefix(options.prefix);
-    byPrefix.forEach((name) => selected.add(name));
+    byPrefix.forEach(name => selected.add(name));
   }
 
   if (selected.size === 0) {
@@ -143,15 +141,17 @@ const main = async () => {
 
   if (options.dryRun) {
     console.log('Dry-run mode enabled. Nothing deleted.');
-    targets.forEach((name) => {
+    targets.forEach(name => {
       const targetDir = path.join(COMPONENTS_DIR, name);
-      console.log(`${existsSync(targetDir) ? '[exists]' : '[missing]'} ${targetDir}`);
+      console.log(
+        `${existsSync(targetDir) ? '[exists]' : '[missing]'} ${targetDir}`,
+      );
     });
     return;
   }
 
   await Promise.all(
-    targets.map((name) =>
+    targets.map(name =>
       fs.rm(path.join(COMPONENTS_DIR, name), { recursive: true, force: true }),
     ),
   );
@@ -161,7 +161,7 @@ const main = async () => {
   console.log('Updated src/components/index.ts');
 };
 
-main().catch((error) => {
+main().catch(error => {
   console.error(error?.message || error);
   process.exitCode = 1;
 });

@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs';
 const DEFAULT_SAMPLE_LIMIT = 3;
 const DEFAULT_FILE_LIMIT = 4500;
 
-const normalizeName = (value) =>
+const normalizeName = value =>
   `${value || ''}`
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, ' ')
@@ -22,7 +22,7 @@ const similarityScore = (a, b) => {
     score += 100;
   }
 
-  left.forEach((token) => {
+  left.forEach(token => {
     if (right.has(token)) {
       score += 8;
     }
@@ -84,8 +84,8 @@ export async function collectPatternSamples(componentsDir, options = {}) {
 
   const dirEntries = await fs.readdir(componentsDir, { withFileTypes: true });
   const sorted = dirEntries
-    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
-    .map((entry) => ({
+    .filter(entry => entry.isDirectory() && !entry.name.startsWith('.'))
+    .map(entry => ({
       name: entry.name,
       score: similarityScore(targetName, entry.name),
     }))
@@ -106,7 +106,9 @@ export function defaultPatternPromptSamples(samples) {
   return samples
     .map((sample, index) => {
       const blockEntries = Object.entries(sample.samples)
-        .map(([key, value]) => `--- ${sample.componentName}/${key} ---\n${value}`)
+        .map(
+          ([key, value]) => `--- ${sample.componentName}/${key} ---\n${value}`,
+        )
         .join('\n\n');
       return `Example ${index + 1}: ${sample.componentName}\n${blockEntries}`;
     })
