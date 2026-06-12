@@ -13,7 +13,9 @@ import pluginStorybook from 'eslint-plugin-storybook';
 
 /** @type {import('eslint').Linter.Config[]} */
 const eslintConfig = [
-  { ignores: ['node_modules', 'dist', 'coverage', 'storybook-static'] },
+  {
+    ignores: ['node_modules', 'dist', 'coverage', 'storybook-static'],
+  },
   { files: ['**/*.{js,ts,mjs,cjs,jsx,tsx}'] },
   {
     languageOptions: {

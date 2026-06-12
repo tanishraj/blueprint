@@ -80,6 +80,22 @@ Set repository secrets:
 - `OPENAI_API_KEY`
 - `FIGMA_API_TOKEN`
 
+### VS Code / Codex MCP setup (Figma)
+
+This repository includes a workspace MCP config at [.vscode/mcp.json](/Users/tanish/Tanish/blueprint/.vscode/mcp.json) for Figma.
+
+If you're using Codex in VS Code (GitHub Copilot Agent mode), ensure:
+
+- GitHub Copilot is enabled.
+- Agent mode is turned on.
+- Figma authentication completes in the MCP prompt flow.
+
+The configured server is:
+
+- `https://mcp.figma.com/mcp`
+
+If the server does not appear, restart VS Code and reopen Copilot Chat in Agent mode, then check MCP tools.
+
 ### Cleanup temporary generated components
 
 Use cleanup after local smoke tests so temporary components are not committed:
