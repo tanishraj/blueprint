@@ -16,8 +16,8 @@ permissions:
   contents: read
 
 jobs:
-  lint-and-typecheck:
-    name: ESLint + Type Check
+  lint:
+    name: ESLint
     runs-on: ubuntu-latest
 
     steps:
@@ -35,6 +35,23 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
+
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Run TypeScript type check
         run: npm run type-check
