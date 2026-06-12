@@ -1,20 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Fragment } from 'react';
-import type { SVGProps } from 'react';
+import { PlusIcon } from 'lucide-react';
 
 import { Button, ButtonProps } from './Button';
-
-const PlusIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg
-    viewBox='0 0 16 16'
-    fill='none'
-    stroke='currentColor'
-    strokeWidth='2'
-    {...props}
-  >
-    <path d='M8 3.5v9M3.5 8h9' />
-  </svg>
-);
 
 const sizes = ['sm', 'md', 'lg'] as const;
 const variants = [
@@ -323,24 +311,24 @@ export const ButtonInverted: Story = {
     const states = [{ label: 'Inverted', props: { inverted: true } }] as const;
 
     return (
-      <div className='flex flex-col gap-10 bg-default-pressed-inverted text-default-inverted p-5'>
+      <div className='flex flex-col gap-1 text-default p-5'>
         {states.map(({ label, props }, index) => (
           <section key={label} className='flex flex-col gap-5'>
             <div className={variantGridClass}>
-              <span className='text-base text-default-inverted font-bold'>
+              <span className='text-base text-default font-bold'>
                 Appearance
               </span>
               {variants.map(variant => (
                 <span
                   key={variant}
-                  className='text-sm text-default-inverted font-bold capitalize'
+                  className='text-sm text-default font-bold capitalize'
                 >
                   {variant}
                 </span>
               ))}
               {appearances.map(appearance => (
                 <Fragment key={`${label}-${appearance}`}>
-                  <h4 className='text-base text-default-inverted font-bold capitalize'>
+                  <h4 className='text-base text-default font-bold capitalize'>
                     {appearance}
                   </h4>
                   {variants.map(variant => (

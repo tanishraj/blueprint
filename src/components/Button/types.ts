@@ -1,6 +1,15 @@
-export const ICON_POSITION = {
-  LEFT: 'left',
-  RIGHT: 'right',
-} as const;
+import { type VariantProps } from 'class-variance-authority';
 
-export type IconPosition = (typeof ICON_POSITION)[keyof typeof ICON_POSITION];
+import { RemoveNull } from '@/utils';
+
+import { buttonStyles } from './Button.styles';
+
+export type ButtonVariants = RemoveNull<
+  VariantProps<typeof buttonStyles>
+>['variant'];
+
+export type ButtonAppearances = RemoveNull<
+  VariantProps<typeof buttonStyles>
+>['appearance'];
+
+export type ButtonSizes = RemoveNull<VariantProps<typeof buttonStyles>>['size'];
