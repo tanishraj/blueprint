@@ -45,7 +45,9 @@
     "format:check": "prettier --check .",
     "clean": "rm -rf dist node_modules coverage storybook-static",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "generate:component": "node ./scripts/ui-generator/generate.mjs",
+    "cleanup:component": "node ./scripts/ui-generator/cleanup.mjs"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
