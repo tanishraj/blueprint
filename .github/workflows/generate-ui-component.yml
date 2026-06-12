@@ -1,0 +1,107 @@
+name: Generate UI Component
+
+on:
+  workflow_dispatch:
+    inputs:
+      component_name:
+        description: "Component name in any case"
+        required: true
+        type: string
+      figma_url:
+        description: "Figma file URL containing node-id"
+        required: true
+        type: string
+      stories:
+        description: "Generate Storybook story"
+        required: false
+        default: false
+        type: boolean
+      tests:
+        description: "Generate basic Vitest smoke test"
+        required: false
+        default: false
+        type: boolean
+      overwrite:
+        description: "Overwrite existing generated files"
+        required: false
+        default: false
+        type: boolean
+      pattern_limit:
+        description: "How many local component patterns to include"
+        required: false
+        default: "3"
+        type: string
+      skip_ai:
+        description: "Generate fallback scaffold without OpenAI"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    name: Generate and open PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Resolve action metadata
+        id: metadata
+        run: |
+          SAFE_NAME="${{ github.event.inputs.component_name }}"
+          SAFE_NAME=$(printf '%s' "$SAFE_NAME" | tr '[:upper:]' '[:lower:]' | tr -cs '[:alnum:]' '-' | sed 's/^-//;s/-$//')
+          echo "safe_name=$SAFE_NAME" >> "$GITHUB_OUTPUT"
+          echo "branch=chore/generate-${SAFE_NAME}-${GITHUB_RUN_ID}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate component files
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FIGMA_API_TOKEN: ${{ secrets.FIGMA_API_TOKEN }}
+        run: |
+          FLAGS=""
+          if [ "${{ github.event.inputs.stories }}" = "true" ]; then FLAGS="$FLAGS --stories"; fi
+          if [ "${{ github.event.inputs.tests }}" = "true" ]; then FLAGS="$FLAGS --tests"; fi
+          if [ "${{ github.event.inputs.overwrite }}" = "true" ]; then FLAGS="$FLAGS --overwrite"; fi
+          if [ "${{ github.event.inputs.skip_ai }}" = "true" ]; then FLAGS="$FLAGS --skip-ai"; fi
+          if [ -n "${{ github.event.inputs.pattern_limit }}" ]; then FLAGS="$FLAGS --pattern-limit ${{ github.event.inputs.pattern_limit }}"; fi
+
+          node ./scripts/ui-generator/generate.mjs \
+            --name "${{ github.event.inputs.component_name }}" \
+            --figma-url "${{ github.event.inputs.figma_url }}" \
+            --openai-key "$OPENAI_API_KEY" \
+            --figma-token "$FIGMA_API_TOKEN" \
+            $FLAGS
+
+      - name: Create/Update PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: "feat(ui): generate ${{ github.event.inputs.component_name }}"
+          branch: ${{ steps.metadata.outputs.branch }}
+          commit-message: "feat(ui): generate ${{ github.event.inputs.component_name }}"
+          delete-branch: true
+          signoff: true
+          body: |
+            Generated component `${{ github.event.inputs.component_name }}` from:
+            - Figma URL: `${{ github.event.inputs.figma_url }}`
+
+            Inputs:
+            - stories: ${{ github.event.inputs.stories }}
+            - tests: ${{ github.event.inputs.tests }}
+            - overwrite: ${{ github.event.inputs.overwrite }}
+            - pattern_limit: ${{ github.event.inputs.pattern_limit }}
+            - skip_ai: ${{ github.event.inputs.skip_ai }}
+          labels: |
+            automated
+            generator
+            component
+          add-paths: |
+            src/components/**
