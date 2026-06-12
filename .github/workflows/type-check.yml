@@ -7,24 +7,24 @@ on:
       - main
       - master
     paths:
-      - "src/**"
-      - "scripts/**"
-      - "package.json"
-      - "tsconfig*.json"
-      - "yarn.lock"
-      - ".github/workflows/type-check.yml"
+      - 'src/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'tsconfig*.json'
+      - 'yarn.lock'
+      - '.github/workflows/type-check.yml'
   pull_request:
     types:
       - opened
       - synchronize
       - reopened
     paths:
-      - "src/**"
-      - "scripts/**"
-      - "package.json"
-      - "tsconfig*.json"
-      - "yarn.lock"
-      - ".github/workflows/type-check.yml"
+      - 'src/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'tsconfig*.json'
+      - 'yarn.lock'
+      - '.github/workflows/type-check.yml'
 
 permissions:
   contents: read

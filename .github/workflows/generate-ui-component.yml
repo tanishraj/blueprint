@@ -4,35 +4,35 @@ on:
   workflow_dispatch:
     inputs:
       component_name:
-        description: "Component name in any case"
+        description: 'Component name in any case'
         required: true
         type: string
       figma_url:
-        description: "Figma file URL containing node-id"
+        description: 'Figma file URL containing node-id'
         required: true
         type: string
       stories:
-        description: "Generate Storybook story"
+        description: 'Generate Storybook story'
         required: false
         default: false
         type: boolean
       tests:
-        description: "Generate basic Vitest smoke test"
+        description: 'Generate basic Vitest smoke test'
         required: false
         default: false
         type: boolean
       overwrite:
-        description: "Overwrite existing generated files"
+        description: 'Overwrite existing generated files'
         required: false
         default: false
         type: boolean
       pattern_limit:
-        description: "How many local component patterns to include"
+        description: 'How many local component patterns to include'
         required: false
-        default: "3"
+        default: '3'
         type: string
       skip_ai:
-        description: "Generate fallback scaffold without OpenAI"
+        description: 'Generate fallback scaffold without OpenAI'
         required: false
         default: false
         type: boolean
@@ -84,9 +84,9 @@ jobs:
       - name: Create/Update PR
         uses: peter-evans/create-pull-request@v7
         with:
-          title: "feat(ui): generate ${{ github.event.inputs.component_name }}"
+          title: 'feat(ui): generate ${{ github.event.inputs.component_name }}'
           branch: ${{ steps.metadata.outputs.branch }}
-          commit-message: "feat(ui): generate ${{ github.event.inputs.component_name }}"
+          commit-message: 'feat(ui): generate ${{ github.event.inputs.component_name }}'
           delete-branch: true
           signoff: true
           body: |

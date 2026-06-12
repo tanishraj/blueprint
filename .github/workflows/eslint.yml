@@ -7,24 +7,24 @@ on:
       - main
       - master
     paths:
-      - "src/**"
-      - "scripts/**"
-      - "storybook/**"
-      - "package.json"
-      - "yarn.lock"
-      - ".github/workflows/eslint.yml"
+      - 'src/**'
+      - 'scripts/**'
+      - 'storybook/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/eslint.yml'
   pull_request:
     types:
       - opened
       - synchronize
       - reopened
     paths:
-      - "src/**"
-      - "scripts/**"
-      - "storybook/**"
-      - "package.json"
-      - "yarn.lock"
-      - ".github/workflows/eslint.yml"
+      - 'src/**'
+      - 'scripts/**'
+      - 'storybook/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/eslint.yml'
 
 permissions:
   contents: read
