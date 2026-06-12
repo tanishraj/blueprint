@@ -1,11 +1,12 @@
 name: AI PR Reviewer
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull request number (required to run on PR context)'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -34,6 +35,6 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_EVENT_PATH: ${{ github.event_path }}
-          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_PR_NUMBER: ${{ inputs.pr_number }}
           OPENAI_REVIEW_MODEL: gpt-4o-mini
         run: node ./scripts/ai-pr-reviewer.mjs
