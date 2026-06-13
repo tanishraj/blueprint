@@ -12,19 +12,19 @@
     "url": "https://github.com/tanishraj/ui-kit/issues"
   },
   "homepage": "https://github.com/tanishraj/ui-kit#readme",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
     },
     "./globals.css": {
-      "import": "./dist/styles/globals.css",
-      "require": "./dist/styles/globals.css",
+      "import": "./dist/themes/primary.css",
+      "require": "./dist/themes/primary.css",
       "default": "./dist/themes/primary.css"
     },
     "./theme-primary.css": {
@@ -44,7 +44,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && vite build && npm run copy:theme",
+    "build": "rm -rf dist && vite build && npm run copy:theme && rm -rf dist/src",
     "copy:theme": "mkdir -p dist/themes && cp src/themes/primary.css dist/themes/primary.css && cp src/themes/secondary.css dist/themes/secondary.css",
     "prepublishOnly": "npm run build",
     "test": "vitest",
@@ -73,6 +73,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^5.2.1",
     "@eslint/js": "^9.14.0",
+    "@microsoft/api-extractor": "^7.58.9",
     "@storybook/addon-docs": "^10.4.2",
     "@storybook/addon-onboarding": "^10.4.2",
     "@storybook/addon-vitest": "10.4.2",
