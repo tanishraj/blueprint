@@ -4,6 +4,14 @@
   "description": "Boilerplate for creating React component libraries, bundled with vite js to ESM and/or CJS Modules, Storybook, Typescript",
   "author": "Tanishraj",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tanishraj/blueprint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tanishraj/blueprint/issues"
+  },
+  "homepage": "https://github.com/tanishraj/blueprint#readme",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,6 +36,9 @@
       "import": "./dist/themes/secondary.css",
       "require": "./dist/themes/secondary.css"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "dist"
