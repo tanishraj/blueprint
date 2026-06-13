@@ -1,0 +1,68 @@
+name: Coverage Report
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'storybook/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/coverage-report.yml'
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'storybook/**'
+      - 'tests/**'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.github/workflows/coverage-report.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: coverage-report-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage-report:
+    name: Coverage Report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Generate coverage report
+        run: npm run test:coverage
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage
+          if-no-files-found: error
+          retention-days: 14

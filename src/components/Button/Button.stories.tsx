@@ -54,6 +54,15 @@ const variantGridClass =
 const meta: Meta<ButtonProps> = {
   title: 'Components/Button',
   component: Button,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Button is the core action component with configurable appearance, variant, size, and loading/fill states for both icon and text-only usage.',
+      },
+    },
+  },
   argTypes: {
     size: {
       options: ['sm', 'md', 'lg'],

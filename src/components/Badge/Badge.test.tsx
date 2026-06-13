@@ -49,4 +49,9 @@ describe('Badge Component', () => {
     expect(container.querySelector('svg')).toBeNull();
     expect(screen.getByText('Needs attention')).toBeInTheDocument();
   });
+
+  it('supports zero as text content', () => {
+    render(<Badge>{0}</Badge>);
+    expect(screen.getByText('0')).toBeInTheDocument();
+  });
 });
