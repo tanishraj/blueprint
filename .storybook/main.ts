@@ -9,6 +9,13 @@ declare const process: {
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   viteFinal: async config => {
+    config.plugins = (config.plugins || []).filter(plugin => {
+      const resolvedPlugin = plugin as { name?: string } | null | undefined | false;
+      if (!resolvedPlugin || !resolvedPlugin.name) {
+        return true;
+      }
+      return !resolvedPlugin.name.includes('dts');
+    });
     return {
       ...config,
       base: process.env.STORYBOOK_BASE_PATH || '/',

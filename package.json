@@ -27,10 +27,10 @@
       "require": "./dist/globals.css",
       "default": "./dist/globals.css"
     },
-    "./theme-primary.css": {
-      "import": "./dist/themes/primary.css",
-      "require": "./dist/themes/primary.css",
-      "default": "./dist/themes/primary.css"
+    "./base.css": {
+      "import": "./dist/colors/base.css",
+      "require": "./dist/colors/base.css",
+      "default": "./dist/colors/base.css"
     },
     "./theme-secondary.css": {
       "import": "./dist/themes/secondary.css",
@@ -51,7 +51,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && vite build && npm run copy:theme && rm -rf dist/src",
-    "copy:theme": "mkdir -p dist/themes && cp src/themes/primary.css dist/themes/primary.css && cp src/themes/secondary.css dist/themes/secondary.css && cp src/styles/globals.css dist/globals.css",
+    "copy:theme": "mkdir -p dist/themes dist/colors && cp src/themes/primary.css dist/themes/primary.css && cp src/themes/secondary.css dist/themes/secondary.css && perl -pe \"s#(\\@import '../themes/primary\\.css';)#\\@import './themes/primary.css';#\" src/styles/globals.css > dist/globals.css && cp src/styles/colors/base.css dist/colors/base.css",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:watch": "vitest --watch",
