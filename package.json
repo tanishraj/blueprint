@@ -1,5 +1,5 @@
 {
-  "name": "vite-react-library-starter",
+  "name": "@tanish/ui-kit",
   "version": "1.0.0",
   "description": "Boilerplate for creating React component libraries, bundled with vite js to ESM and/or CJS Modules, Storybook, Typescript",
   "author": "Tanishraj",

@@ -22,8 +22,8 @@ Vite React Library Starter is a boilerplate for building and publishing React co
 Clone the repository and install dependencies:
 
 ```sh
-git clone https://github.com/your-repo/vite-react-library-starter.git
-cd vite-react-library-starter
+git clone https://github.com/your-org/blueprint.git
+cd blueprint
 npm install
 ```
 
@@ -221,7 +221,7 @@ For quick local validation:
 
 ```sh
 npm run build
-npm publish
+npm view @tanish/ui-kit version
 ```
 
 Use this only when you already handle release checks outside GitHub Actions.
