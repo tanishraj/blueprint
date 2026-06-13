@@ -3,41 +3,110 @@ import { type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/utils';
 
-import { badgeVariants, invertedAppearanceMap } from './Badge.styles';
+import {
+  badgeIconStyles,
+  badgeTextStyles,
+  badgeVariants,
+} from './Badge.styles';
+import { BadgeSizes } from './types';
+
+type BadgeAppearance = 'dots' | 'icon' | 'text';
+type BadgeVariantProps = Omit<VariantProps<typeof badgeVariants>, 'appearance'>;
 
 export interface BadgeProps
-  extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
+  extends HTMLAttributes<HTMLSpanElement>,
+    BadgeVariantProps {
   icon?: FC<SVGProps<SVGSVGElement>>;
-  inverted?: boolean;
+  label?: string;
 }
 
-export const Badge: FC<BadgeProps> = ({
-  variant,
-  size,
-  icon: Icon,
-  inverted = false,
-}) => {
-  const baseVariantClass =
-    badgeVariants({ variant })
-      .split(' ')
-      .find(cls => cls.startsWith('bg-')) || '';
+const gapBySize: Record<NonNullable<BadgeSizes>, string> = {
+  sm: 'gap-1',
+  md: 'gap-2',
+  lg: 'gap-3',
+};
 
-  const innerBgClass = inverted
-    ? invertedAppearanceMap[baseVariantClass] || baseVariantClass
-    : baseVariantClass;
+export const Badge: FC<BadgeProps> = ({
+  variant = 'default',
+  size = 'md',
+  shape = 'circle',
+  inverted = false,
+  icon: Icon,
+  children,
+  label,
+  role,
+  className,
+  ...restProps
+}) => {
+  const hasText =
+    (typeof children === 'string' && children.trim() !== '') ||
+    typeof children === 'number' ||
+    (children !== undefined &&
+      children !== null &&
+      children !== false &&
+      children !== true) ||
+    typeof label === 'string' ||
+    typeof label === 'number';
+
+  const hasExplicitIcon = Icon !== undefined;
+
+  const resolvedAppearance: BadgeAppearance = (() => {
+    if (hasText) {
+      return 'text';
+    }
+
+    if (hasExplicitIcon) {
+      return 'icon';
+    }
+
+    return 'dots';
+  })();
+
+  const resolvedVariant = variant;
+  const resolvedSize = size;
+  const badgeText =
+    typeof children === 'string' || typeof children === 'number'
+      ? String(children)
+      : typeof label === 'string'
+        ? label
+        : 'Badge';
+
+  const showIcon = resolvedAppearance !== 'dots' && hasExplicitIcon;
+  const isTextAppearance = resolvedAppearance === 'text';
+
+  const resolvedRole = isTextAppearance ? role : role ?? 'img';
+  const defaultAriaLabel = resolvedRole === 'img' ? `Badge, ${resolvedVariant}` : undefined;
+  const ariaLabel = restProps['aria-label'] ?? defaultAriaLabel;
 
   return (
-    <div className={cn(badgeVariants({ size }))}>
-      {Icon ? (
-        <Icon />
-      ) : (
-        <div
-          className={cn(
-            'absolute left-0 top-0 h-full w-full rounded-full',
-            innerBgClass,
-          )}
+    <span
+      {...restProps}
+      role={resolvedRole}
+      aria-label={ariaLabel}
+      className={cn(
+        badgeVariants({
+          variant: resolvedVariant,
+          size: resolvedSize,
+          shape,
+          appearance: resolvedAppearance,
+          inverted,
+        }),
+        isTextAppearance && showIcon && gapBySize[resolvedSize],
+        className,
+      )}
+    >
+      {showIcon && Icon && (
+        <Icon
+          aria-hidden='true'
+          focusable='false'
+          className={badgeIconStyles({ size: resolvedSize })}
         />
       )}
-    </div>
+      {isTextAppearance && (
+        <span className={badgeTextStyles({ size: resolvedSize })}>
+          {children ?? label ?? badgeText}
+        </span>
+      )}
+    </span>
   );
 };

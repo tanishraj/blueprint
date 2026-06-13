@@ -1,84 +1,163 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Plus } from 'lucide-react';
 
 import { Badge, BadgeProps } from './Badge';
+
+const variants = ['default', 'primary', 'info', 'success', 'warning', 'danger'] as const;
+const sizes = ['sm', 'md', 'lg'] as const;
+const shapes = ['circle', 'square'] as const;
+const icons = ['None', 'Plus'] as const;
 
 const meta: Meta<BadgeProps> = {
   title: 'components/Badge',
   component: Badge,
+  decorators: [
+    Story => (
+      <div className='w-full min-h-screen flex items-center justify-center'>
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: {
+    layout: 'centered',
+  },
   argTypes: {
     variant: {
-      control: 'select',
-      options: ['default', 'info', 'success', 'warning', 'danger'],
+      control: { type: 'select' },
+      options: variants,
     },
     size: {
-      control: 'radio',
-      options: ['sm', 'md', 'lg'],
+      control: { type: 'radio' },
+      options: sizes,
+    },
+    shape: {
+      control: { type: 'radio' },
+      options: shapes,
     },
     inverted: {
       control: 'boolean',
     },
+    icon: {
+      options: icons,
+      mapping: {
+        None: undefined,
+        Plus,
+      },
+      control: { type: 'select' },
+    },
+    children: {
+      control: 'text',
+    },
+    label: {
+      control: 'text',
+    },
+    role: {
+      options: ['img', 'status', 'presentation', 'none'],
+      mapping: {
+        none: undefined,
+      },
+      control: {
+        type: 'select',
+      },
+    },
+    'aria-label': {
+      control: 'text',
+    },
+    className: {
+      control: 'text',
+    },
   },
-  args: {},
+  args: {
+    variant: 'default',
+    size: 'md',
+    shape: 'circle',
+    inverted: false,
+    children: 'Badge',
+    label: 'Badge',
+  },
 };
 
 export default meta;
 type Story = StoryObj<BadgeProps>;
 
-const variants = ['default', 'info', 'success', 'warning', 'danger'] as const;
-const sizes = ['sm', 'md', 'lg'] as const;
-
-// Helper component for descriptive row labels
-const Label = ({ children }: { children: React.ReactNode }) => (
-  <span className='w-32 text-sm font-medium text-slate-500 capitalize'>
-    {children}
-  </span>
-);
-
 export const Default: Story = {
+  name: 'Playground',
   render: args => <Badge {...args} />,
+  args: {
+    children: 'Playground',
+    variant: 'default',
+    size: 'md',
+    shape: 'circle',
+    inverted: false,
+    icon: 'Plus',
+  },
 };
 
-export const AllVariants: Story = {
+export const Variant: Story = {
+  name: 'Variants',
   render: () => (
-    <div className='flex flex-col gap-4 p-4'>
-      <div className='flex items-center gap-6'>
-        <Label>Standard</Label>
-        <div className='flex items-center gap-4'>
-          {variants.map(variant => (
-            <Badge key={variant} variant={variant} size='md' />
-          ))}
+    <div className='flex flex-wrap items-center justify-center gap-6'>
+      {variants.map(variant => (
+        <div key={variant} className='flex flex-col items-center gap-3 text-center'>
+          <Badge variant={variant}>Badge</Badge>
+          <span className='min-h-[1rem] text-xs text-slate-500 capitalize'>
+            {variant}
+          </span>
         </div>
-      </div>
+      ))}
     </div>
   ),
 };
 
-export const AllInvertedVariants: Story = {
+export const Size: Story = {
+  name: 'Sizes',
   render: () => (
-    <div className='flex flex-col gap-4 p-4'>
-      <div className='flex items-center gap-6'>
-        <Label>Inverted</Label>
-        <div className='flex items-center gap-4'>
-          {variants.map(variant => (
-            <Badge key={variant} variant={variant} size='md' inverted />
-          ))}
-        </div>
-      </div>
-    </div>
-  ),
-};
-
-export const AllSizes: Story = {
-  render: () => (
-    <div className='flex flex-col gap-6 p-4'>
+    <div className='flex flex-wrap items-end justify-center gap-8'>
       {sizes.map(size => (
-        <div key={size} className='flex items-center gap-6'>
-          <Label>Size {size}</Label>
-          <div className='flex items-center gap-4'>
-            {variants.map(variant => (
-              <Badge key={variant} variant={variant} size={size} />
-            ))}
-          </div>
+        <div key={size} className='flex flex-col items-center gap-3 text-center'>
+          <Badge size={size} icon={Plus}>
+            {size.toUpperCase()}
+          </Badge>
+          <span className='min-h-[1rem] text-xs text-slate-500'>{size}</span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const Shape: Story = {
+  name: 'Shapes',
+  render: () => (
+    <div className='flex flex-wrap items-start justify-center gap-8'>
+      {shapes.map(shape => (
+        <div key={shape} className='flex flex-col items-center gap-3 text-center'>
+          <Badge shape={shape} icon={Plus} />
+          <span className='min-h-[1rem] text-xs text-slate-500 capitalize'>
+            {shape} shape
+          </span>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+export const Appearance: Story = {
+  name: 'Appearances',
+  render: () => (
+    <div className='flex flex-wrap items-start justify-center gap-8'>
+      {[
+        { key: 'dot', node: <Badge aria-label='Dot appearance' /> },
+        { key: 'icon', node: <Badge icon={Plus} /> },
+        { key: 'text', node: <Badge>Text</Badge> },
+      ].map(({ key, node }) => (
+        <div
+          key={key}
+          className='flex h-full flex-col items-center gap-3 text-center'
+        >
+          <div className='h-9'>{node}</div>
+          <span className='min-h-[1rem] text-xs text-slate-500 capitalize'>
+            {key} appearance
+          </span>
         </div>
       ))}
     </div>
