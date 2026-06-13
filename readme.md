@@ -1,8 +1,8 @@
-# Vite React Library Starter
+# @tanish/ui-kit
 
 ## About
 
-Vite React Library Starter is a boilerplate for building and publishing React component libraries. It leverages modern tooling, including Vite for bundling, TypeScript for type safety, Tailwind CSS for styling, and Storybook for documentation. This starter kit provides a streamlined development experience with built-in linting, formatting, and unit testing.
+@tanish/ui-kit is an industry-style React component library with built-in tooling for publishing, documentation, and testing.
 
 ## Features
 
@@ -22,8 +22,8 @@ Vite React Library Starter is a boilerplate for building and publishing React co
 Clone the repository and install dependencies:
 
 ```sh
-git clone https://github.com/your-org/blueprint.git
-cd blueprint
+git clone https://github.com/tanishraj/ui-kit.git
+cd ui-kit
 npm install
 ```
 
@@ -63,7 +63,7 @@ Required environment variables:
 
 ### GitHub Actions (Manual trigger)
 
-There is a workflow at [.github/workflows/generate-ui-component.yml](/Users/tanish/Tanish/blueprint/.github/workflows/generate-ui-component.yml) that can generate components and open a PR for review.
+There is a workflow at [.github/workflows/generate-ui-component.yml](.github/workflows/generate-ui-component.yml) that can generate components and open a PR for review.
 
 Dispatch inputs:
 
@@ -82,7 +82,7 @@ Set repository secrets:
 
 ### VS Code / Codex MCP setup (Figma)
 
-This repository includes a workspace MCP config at [.vscode/mcp.json](/Users/tanish/Tanish/blueprint/.vscode/mcp.json) for Figma.
+This repository includes a workspace MCP config at [.vscode/mcp.json](.vscode/mcp.json) for Figma.
 
 If you're using Codex in VS Code (GitHub Copilot Agent mode), ensure:
 
@@ -174,8 +174,8 @@ npm run clean
 
 This project ships with an automated GitHub Actions publish pipeline at:
 
-- [`.github/workflows/npm-publish.yml`](/Users/tanish/Tanish/blueprint/.github/workflows/npm-publish.yml)
-- [release.md](/Users/tanish/Tanish/blueprint/release.md)
+- [`.github/workflows/npm-publish.yml`](.github/workflows/npm-publish.yml)
+- [release.md](release.md)
 
 The workflow runs:
 

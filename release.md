@@ -2,7 +2,7 @@
 
 This repository uses GitHub Actions to publish the package to npm via the workflow:
 
-- [.github/workflows/npm-publish.yml](/Users/tanish/Tanish/blueprint/.github/workflows/npm-publish.yml)
+- [.github/workflows/npm-publish.yml](.github/workflows/npm-publish.yml)
 
 ## 1) Prerequisites
 
