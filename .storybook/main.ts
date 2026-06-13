@@ -1,7 +1,19 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 
+declare const process: {
+  env: {
+    STORYBOOK_BASE_PATH?: string;
+  };
+};
+
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  viteFinal: async config => {
+    return {
+      ...config,
+      base: process.env.STORYBOOK_BASE_PATH || '/',
+    };
+  },
   addons: [
     '@storybook/addon-onboarding',
     '@chromatic-com/storybook',
