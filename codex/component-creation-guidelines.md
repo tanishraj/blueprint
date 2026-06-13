@@ -38,3 +38,21 @@ Use this as a default playbook for creating new UI components in this library.
 ## 7) Keep diffs intentional and reviewable
 - Avoid legacy/compatibility artifacts in a new implementation unless explicitly required.
 - Remove comment-only compatibility notes when backward support is not needed.
+
+## 8) Badge component lessons learned
+- Keep API minimal and industry-standard: prefer `variant`, `size`, `shape` and avoid redundant aliases like `status`/`kind`.
+- Derive badge content mode from provided props (`children` and `icon`) instead of a separate `appearance` prop unless explicitly needed.
+- Prioritize readability: avoid helper-heavy branching logic when simple prop composition with `cva` and small mapping logic can express behavior.
+- Remove legacy/bwd-compat notes and alias props when starting from scratch.
+- In Storybook, expose only required controls and keep prop labels aligned with actual public API (`Playground`, `Variants`, `Sizes`, `Shapes`, etc.).
+- Use canonical utility classes (`h-180` instead of `h-[720px]`, `size-2` instead of `min-h-2`/`min-w-2` when equivalent).
+- Accessibility is part of component structure, not a post-pass: icon-only affordances and labels should be considered in component + story design.
+- Prefer concise, readable mocks in tests; avoid `Record<string, any>` and `Function` types; keep lint/type-check green continuously.
+
+## 9) Unit tests and coverage hygiene
+- For each new/changed component, add/extend tests so all new behavior branches are exercised.
+- Keep unit tests and component tests close to source under each component folder.
+- Use realistic test inputs and avoid over-mocking; prefer stable typed mocks over `any`.
+- Run coverage as a required gate; track regressions by branch/line/function thresholds.
+- Prefer a threshold that matches the repository policy (example used: `80%` during this phase) and fail CI when below threshold.
+- Make test quality checks explicit in CI (`unit test + coverage`) so both are visible and enforced.
