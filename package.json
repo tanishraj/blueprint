@@ -12,15 +12,15 @@
     "url": "https://github.com/tanishraj/ui-kit/issues"
   },
   "homepage": "https://github.com/tanishraj/ui-kit#readme",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/src/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
     },
     "./globals.css": {
       "import": "./dist/styles/globals.css",
@@ -45,7 +45,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && vite build && npm run copy:theme",
-    "copy:theme": "mkdir -p dist/themes && cp src/themes/primary.css dist/themes/primary.css && cp src/themes/secondary.css dist/themes/secondary.css",
+    "copy:theme": "mkdir -p dist/themes dist/styles && cp src/themes/primary.css dist/themes/primary.css && cp src/themes/secondary.css dist/themes/secondary.css && cp src/styles/globals.css dist/styles/globals.css",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:watch": "vitest --watch",
