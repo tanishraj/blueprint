@@ -104,6 +104,26 @@ export default function Demo() {
 import '@tanishraj/ui-kit/theme-secondary.css';
 ```
 
+### Adding new themes (for maintainers)
+
+To add a new packaged theme later:
+
+1. Add `src/themes/<theme-name>.css`.
+2. Add a package export in `package.json`:
+   - `./theme-<theme-name>.css` -> `./dist/themes/<theme-name>.css`
+3. Update the `copy:theme` script to include the new file.
+4. Optionally publish a themed import via `./themes/<theme-name>.css` (already supported by the wildcard export pattern).
+
+### Adding new themes (for maintainers)
+
+To add a new packaged theme later:
+
+1. Add `src/themes/<theme-name>.css`.
+2. Add a package export in `package.json`:
+   - `./theme-<theme-name>.css` -> `./dist/themes/<theme-name>.css`
+3. Update the `copy:theme` script to include the new file.
+4. Optionally publish a themed import via `./themes/<theme-name>.css` (already supported by the wildcard export pattern).
+
 You can also import through:
 
 ```ts
