@@ -25,6 +25,7 @@ const meta: Meta<BadgeProps> = {
         component:
           'Badge is a compact status indicator component that supports text, icon, and dot variants with configurable variant, size, and shape.',
       },
+      layout: 'centered',
     },
   },
   decorators: [
@@ -34,9 +35,6 @@ const meta: Meta<BadgeProps> = {
       </div>
     ),
   ],
-  parameters: {
-    layout: 'centered',
-  },
   argTypes: {
     variant: {
       control: { type: 'select' },
