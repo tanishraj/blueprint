@@ -1,6 +1,6 @@
 {
   "name": "@tanishraj/ui-kit",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "A production-ready React component library with modern tooling, Storybook docs, and TypeScript support.",
   "author": "Tanishraj",
   "license": "MIT",
@@ -23,9 +23,9 @@
       "require": "./dist/index.cjs.js"
     },
     "./globals.css": {
-      "import": "./dist/themes/primary.css",
-      "require": "./dist/themes/primary.css",
-      "default": "./dist/themes/primary.css"
+      "import": "./dist/globals.css",
+      "require": "./dist/globals.css",
+      "default": "./dist/globals.css"
     },
     "./theme-primary.css": {
       "import": "./dist/themes/primary.css",
@@ -34,7 +34,13 @@
     },
     "./theme-secondary.css": {
       "import": "./dist/themes/secondary.css",
-      "require": "./dist/themes/secondary.css"
+      "require": "./dist/themes/secondary.css",
+      "default": "./dist/themes/secondary.css"
+    },
+    "./themes/*": {
+      "import": "./dist/themes/*.css",
+      "require": "./dist/themes/*.css",
+      "default": "./dist/themes/*.css"
     }
   },
   "publishConfig": {
@@ -45,7 +51,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && vite build && npm run copy:theme && rm -rf dist/src",
-    "copy:theme": "mkdir -p dist/themes && cp src/themes/primary.css dist/themes/primary.css && cp src/themes/secondary.css dist/themes/secondary.css",
+    "copy:theme": "mkdir -p dist/themes && cp src/themes/primary.css dist/themes/primary.css && cp src/themes/secondary.css dist/themes/secondary.css && cp src/styles/globals.css dist/globals.css",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:watch": "vitest --watch",

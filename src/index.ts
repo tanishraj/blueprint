@@ -1,7 +1,3 @@
-// TAILWIND CSS IMPORT
-import './themes/primary.css';
-import './themes/secondary.css';
-
 // EXPORT CLASSNAMES UTILS
 export * from './utils';
 
