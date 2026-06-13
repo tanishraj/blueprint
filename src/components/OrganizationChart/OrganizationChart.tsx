@@ -98,7 +98,7 @@ export const OrganizationChart = forwardRef<
       return;
     }
 
-    container.innerHTML = '';
+    container.replaceChildren();
 
     const chart = new OrgChart<OrgChartNodeData>();
     chartRef.current = chart;
@@ -201,7 +201,7 @@ export const OrganizationChart = forwardRef<
       if (chartRef.current === chart) {
         chartRef.current = null;
       }
-      container.innerHTML = '';
+      container.replaceChildren();
     };
   }, [
     imageName,
