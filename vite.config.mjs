@@ -53,7 +53,7 @@ export default defineConfig({
     },
     lib: {
       entry: 'src/index.ts',
-      name: 'blueprint',
+      name: 'uiKit',
       formats: ['es', 'cjs'],
       fileName: format => `index.${format}.js`,
     },

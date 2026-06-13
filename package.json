@@ -1,7 +1,7 @@
 {
   "name": "@tanish/ui-kit",
   "version": "1.0.0",
-  "description": "Boilerplate for creating React component libraries, bundled with vite js to ESM and/or CJS Modules, Storybook, Typescript",
+  "description": "A production-ready React component library with modern tooling, Storybook docs, and TypeScript support.",
   "author": "Tanishraj",
   "license": "MIT",
   "repository": {

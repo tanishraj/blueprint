@@ -24,7 +24,7 @@ export const companyHierarchy20Data: OrgChartNodeData[] = [
   createNode(
     '1',
     null,
-    'Blueprint Global Group',
+    'Apex Global Group',
     'Holding Group',
     'BGG-HQ',
     'Dubai, UAE',
@@ -227,7 +227,7 @@ export const companyHierarchy50Data: OrgChartNodeData[] = [
   createNode(
     '1',
     null,
-    'Blueprint Global Group',
+    'Apex Global Group',
     'Holding Group',
     'BGG-HQ',
     'Dubai, UAE',
