@@ -29,11 +29,17 @@ const meta: Meta<BadgeProps> = {
     },
   },
   decorators: [
-    Story => (
-      <div className='w-full min-h-screen flex items-center justify-center'>
-        <Story />
-      </div>
-    ),
+    (Story, context) => {
+      if (context.viewMode === 'docs') {
+        return <Story />;
+      }
+
+      return (
+        <div className='w-full min-h-screen flex items-center justify-center'>
+          <Story />
+        </div>
+      );
+    },
   ],
   argTypes: {
     variant: {
