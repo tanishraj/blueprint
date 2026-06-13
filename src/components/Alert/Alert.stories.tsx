@@ -11,7 +11,15 @@ const sizes = ['sm', 'md', 'lg'];
 const meta: Meta<AlertProps> = {
   title: 'components/Alert',
   component: Alert,
-  parameters: {},
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Alert displays contextual feedback with optional icon, appearance variants, and close actions for status messaging.',
+      },
+    },
+  },
   argTypes: {
     variant: {
       options: ['default', 'primary', 'info', 'success', 'warning', 'danger'],

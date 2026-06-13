@@ -18,6 +18,15 @@ const icons = ['None', 'Plus'] as const;
 const meta: Meta<BadgeProps> = {
   title: 'components/Badge',
   component: Badge,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Badge is a compact status indicator component that supports text, icon, and dot variants with configurable variant, size, and shape.',
+      },
+    },
+  },
   decorators: [
     Story => (
       <div className='w-full min-h-screen flex items-center justify-center'>
