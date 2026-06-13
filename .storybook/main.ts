@@ -10,7 +10,11 @@ const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   viteFinal: async config => {
     config.plugins = (config.plugins || []).filter(plugin => {
-      const resolvedPlugin = plugin as { name?: string } | null | undefined | false;
+      const resolvedPlugin = plugin as
+        | { name?: string }
+        | null
+        | undefined
+        | false;
       if (!resolvedPlugin || !resolvedPlugin.name) {
         return true;
       }
