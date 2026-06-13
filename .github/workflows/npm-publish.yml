@@ -4,29 +4,13 @@ on:
   push:
     branches:
       - develop
-    tags:
-      - 'v*'
-  release:
-    types:
-      - published
-  workflow_dispatch:
-    inputs:
-      distTag:
-        description: 'Optional npm dist-tag (for manual publish only). Defaults to latest or next for prerelease tags.'
-        required: false
-        default: ''
-        type: string
 
 permissions:
   contents: read
 
 jobs:
   publish:
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      github.ref == 'refs/heads/develop' ||
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
-      (github.event_name == 'release' && github.event.release.target_commitish == 'develop')
+    if: github.ref == 'refs/heads/develop'
     name: Validate and publish package
     runs-on: ubuntu-latest
 
@@ -59,14 +43,6 @@ jobs:
       - name: Build package
         run: npm run build 2>&1 | tee /tmp/build.log
 
-      - name: Validate release source branch
-        if: github.event_name == 'release'
-        run: |
-          if [ "${{ github.event.release.target_commitish }}" != "develop" ]; then
-            echo "::error::Release publish is only allowed from the develop branch. Current target: ${{ github.event.release.target_commitish }}"
-            exit 1
-          fi
-
       - name: Acknowledge known LightningCSS warnings
         run: |
           if grep -q "Unknown at rule: @theme\|Unknown at rule: @utility" /tmp/build.log; then
@@ -77,31 +53,7 @@ jobs:
       - name: Compute publish dist-tag
         id: dist_tag
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.distTag }}" ]; then
-            DIST_TAG="${{ github.event.inputs.distTag }}"
-
-            if echo "$DIST_TAG" | grep -Eq '^(v?[0-9]+\.[0-9]+\.[0-9]+([.-].*)?|[0-9]+\.[0-9]+(\.[0-9]+)?)$'; then
-              echo "::warning::The provided distTag '$DIST_TAG' looks like a version. Using npm dist-tag 'latest' instead."
-              echo "tag=latest" >> "$GITHUB_OUTPUT"
-            elif echo "$DIST_TAG" | grep -Eq '^[A-Za-z][A-Za-z0-9.-]*$'; then
-              echo "tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
-            else
-              echo "::error::Invalid npm distTag '$DIST_TAG'. Use values like latest, next, beta, alpha."
-              exit 1
-            fi
-          elif [ "${{ github.event_name }}" = "release" ]; then
-            if [ "${{ github.event.release.prerelease }}" = "true" ]; then
-              echo "tag=next" >> $GITHUB_OUTPUT
-            else
-              echo "tag=latest" >> $GITHUB_OUTPUT
-            fi
-          elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
-            echo "tag=next" >> $GITHUB_OUTPUT
-          elif echo "${GITHUB_REF_NAME}" | grep -q "-"; then
-            echo "tag=next" >> $GITHUB_OUTPUT
-          else
-            echo "tag=latest" >> $GITHUB_OUTPUT
-          fi
+          echo "tag=next" >> "$GITHUB_OUTPUT"
 
       - name: Publish package
         env:
