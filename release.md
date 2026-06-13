@@ -14,31 +14,27 @@ This repository uses GitHub Actions to publish the package to npm via the workfl
 
 ## 2) Code changes required for release
 
-- Ensure changelog/docs are updated (if your project uses one).
-- Ensure component and style updates are merged to `main`.
-- Confirm tests, lint and types are passing locally before creating release tags.
+- Ensure `CHANGELOG.md` includes the release notes and migration impact.
+- Ensure component and style updates are merged to the release branch.
+- Confirm release validation passes locally before tagging.
 
 ## 3) Local quality checks
 
 Run before tagging:
 
 ```sh
-npm run lint
-npm run type-check
-npm run test -- --run
-npm run build
+npm run release:check
 ```
-
-Note:
-- `vite build` logs warnings like `Unknown at rule: @theme` and `@utility` from `lightningcss`.
-- These are non-blocking and expected with current Tailwind CSS v4 setup.
-- CI still succeeds because they are warnings (exit code remains `0`).
 
 Optional:
 
 ```sh
 npm run test:coverage -- --run
 ```
+
+Note:
+- `vite build` may show `Unknown at rule: @theme` / `@utility` warnings from Tailwind CSS v4.
+- These are non-blocking in the current toolchain.
 
 ## 4) Version and tag flow
 
@@ -48,15 +44,17 @@ npm run test:coverage -- --run
 npm version patch   # or minor / major
 ```
 
-2. Push commit and tags:
+2. Update `CHANGELOG.md` with release notes.
+
+3. Push commit and tags:
 
 ```sh
 git push
 git push --tags
 ```
 
-3. Pushing `v*` tag automatically triggers release.
-4. Tag examples:
+4. Pushing `v*` tag automatically triggers release.
+5. Tag examples:
    - `v1.3.0` → publishes with dist-tag `latest`
    - `v1.3.0-beta.0` → publishes with dist-tag `next`
 
