@@ -9,4 +9,6 @@ export type BadgeVariants = RemoveNull<
 >['variant'];
 
 export type BadgeSizes = RemoveNull<VariantProps<typeof badgeVariants>>['size'];
-export type BadgeShapes = RemoveNull<VariantProps<typeof badgeVariants>>['shape'];
+export type BadgeShapes = RemoveNull<
+  VariantProps<typeof badgeVariants>
+>['shape'];

@@ -12,11 +12,19 @@ describe('Badge Component', () => {
 
   it('falls back to an accessible name for icon-only variants', () => {
     render(<Badge icon={Check} />);
-    expect(screen.getByRole('img', { name: /badge, default/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('img', { name: /badge, default/i }),
+    ).toBeInTheDocument();
   });
 
   it('supports an explicit aria-label for icon-only badges', () => {
-    render(<Badge variant='success' aria-label='Success status badge' icon={Check} />);
+    render(
+      <Badge
+        variant='success'
+        aria-label='Success status badge'
+        icon={Check}
+      />,
+    );
     expect(
       screen.getByRole('img', { name: /success status badge/i }),
     ).toBeInTheDocument();
@@ -34,7 +42,9 @@ describe('Badge Component', () => {
   });
 
   it('does not render an icon when icon is not supplied', () => {
-    const { container } = render(<Badge variant='warning'>Needs attention</Badge>);
+    const { container } = render(
+      <Badge variant='warning'>Needs attention</Badge>,
+    );
 
     expect(container.querySelector('svg')).toBeNull();
     expect(screen.getByText('Needs attention')).toBeInTheDocument();

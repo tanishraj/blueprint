@@ -14,8 +14,7 @@ type BadgeAppearance = 'dots' | 'icon' | 'text';
 type BadgeVariantProps = Omit<VariantProps<typeof badgeVariants>, 'appearance'>;
 
 export interface BadgeProps
-  extends HTMLAttributes<HTMLSpanElement>,
-    BadgeVariantProps {
+  extends HTMLAttributes<HTMLSpanElement>, BadgeVariantProps {
   icon?: FC<SVGProps<SVGSVGElement>>;
   label?: string;
 }
@@ -63,7 +62,8 @@ export const Badge: FC<BadgeProps> = ({
   })();
 
   const resolvedVariant = variant;
-  const resolvedSize = size;
+  const resolvedSize: NonNullable<BadgeSizes> = (size ??
+    'md') as NonNullable<BadgeSizes>;
   const badgeText =
     typeof children === 'string' || typeof children === 'number'
       ? String(children)
@@ -74,8 +74,9 @@ export const Badge: FC<BadgeProps> = ({
   const showIcon = resolvedAppearance !== 'dots' && hasExplicitIcon;
   const isTextAppearance = resolvedAppearance === 'text';
 
-  const resolvedRole = isTextAppearance ? role : role ?? 'img';
-  const defaultAriaLabel = resolvedRole === 'img' ? `Badge, ${resolvedVariant}` : undefined;
+  const resolvedRole = isTextAppearance ? role : (role ?? 'img');
+  const defaultAriaLabel =
+    resolvedRole === 'img' ? `Badge, ${resolvedVariant}` : undefined;
   const ariaLabel = restProps['aria-label'] ?? defaultAriaLabel;
 
   return (

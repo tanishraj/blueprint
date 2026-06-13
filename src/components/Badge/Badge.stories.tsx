@@ -3,7 +3,14 @@ import { Plus } from 'lucide-react';
 
 import { Badge, BadgeProps } from './Badge';
 
-const variants = ['default', 'primary', 'info', 'success', 'warning', 'danger'] as const;
+const variants = [
+  'default',
+  'primary',
+  'info',
+  'success',
+  'warning',
+  'danger',
+] as const;
 const sizes = ['sm', 'md', 'lg'] as const;
 const shapes = ['circle', 'square'] as const;
 const icons = ['None', 'Plus'] as const;
@@ -89,7 +96,7 @@ export const Default: Story = {
     size: 'md',
     shape: 'circle',
     inverted: false,
-    icon: 'Plus',
+    icon: Plus,
   },
 };
 
@@ -98,7 +105,10 @@ export const Variant: Story = {
   render: () => (
     <div className='flex flex-wrap items-center justify-center gap-6'>
       {variants.map(variant => (
-        <div key={variant} className='flex flex-col items-center gap-3 text-center'>
+        <div
+          key={variant}
+          className='flex flex-col items-center gap-3 text-center'
+        >
           <Badge variant={variant}>Badge</Badge>
           <span className='min-h-[1rem] text-xs text-slate-500 capitalize'>
             {variant}
@@ -114,7 +124,10 @@ export const Size: Story = {
   render: () => (
     <div className='flex flex-wrap items-end justify-center gap-8'>
       {sizes.map(size => (
-        <div key={size} className='flex flex-col items-center gap-3 text-center'>
+        <div
+          key={size}
+          className='flex flex-col items-center gap-3 text-center'
+        >
           <Badge size={size} icon={Plus}>
             {size.toUpperCase()}
           </Badge>
@@ -130,7 +143,10 @@ export const Shape: Story = {
   render: () => (
     <div className='flex flex-wrap items-start justify-center gap-8'>
       {shapes.map(shape => (
-        <div key={shape} className='flex flex-col items-center gap-3 text-center'>
+        <div
+          key={shape}
+          className='flex flex-col items-center gap-3 text-center'
+        >
           <Badge shape={shape} icon={Plus} />
           <span className='min-h-[1rem] text-xs text-slate-500 capitalize'>
             {shape} shape
