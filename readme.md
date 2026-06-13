@@ -123,6 +123,13 @@ Build the component library for distribution:
 ```sh
 npm run build
 ```
+ 
+> Note:
+> `vite build` may print non-blocking warnings:
+> - `Unknown at rule: @theme`
+> - `Unknown at rule: @utility`
+>
+> These are expected with the current Tailwind CSS v4 setup and do not fail the build.
 
 ### Running Tests
 

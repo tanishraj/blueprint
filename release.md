@@ -29,6 +29,11 @@ npm run test -- --run
 npm run build
 ```
 
+Note:
+- `vite build` logs warnings like `Unknown at rule: @theme` and `@utility` from `lightningcss`.
+- These are non-blocking and expected with current Tailwind CSS v4 setup.
+- CI still succeeds because they are warnings (exit code remains `0`).
+
 Optional:
 
 ```sh
