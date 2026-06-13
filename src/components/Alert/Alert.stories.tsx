@@ -15,25 +15,84 @@ const meta: Meta<AlertProps> = {
   parameters: {
     docs: {
       description: {
-        component:
-          'Alert displays contextual feedback with optional icon, appearance variants, and close actions for status messaging.',
+        component: `
+Alert is used for contextual feedback messages that need to stand out from regular page content.
+
+Use it for brief, actionable communication such as success confirmations, errors, warnings, or neutral notices.
+
+- Use \`variant\` for semantic meaning (default, primary, info, success, warning, danger).
+- Use \`appearance\` for visual surface treatment (filled, outline, dashed).
+- Provide optional \`title\` and \`children\` to keep heading + body patterns consistent.
+- Provide \`icon\` for quicker scanability in dense views.
+- Provide \`onClose\` for dismissible alerts.
+
+Accessibility:
+- Keep message content text-based and concise for screen-reader clarity.
+- If used as an inline message, avoid nested interactive controls inside the alert body unless needed.
+`.trim(),
       },
     },
   },
   argTypes: {
     variant: {
       options: ['default', 'primary', 'info', 'success', 'warning', 'danger'],
+      description: 'Semantic variant representing alert context.',
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     appearance: {
       options: ['filled', 'outline', 'dashed'],
+      description: 'Container style variant for contrast and border treatment.',
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     size: {
       options: ['sm', 'md', 'lg'],
+      description: 'Overall spacing and type scale.',
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
-    inverted: Boolean,
+    inverted: {
+      description: 'Switch to inverted color mode. Useful on dark surfaces.',
+      control: 'boolean',
+      table: {
+        category: 'Appearance',
+      },
+    },
+    title: {
+      description: 'Short heading text rendered at the top of the alert.',
+      control: 'text',
+      table: {
+        category: 'Content',
+      },
+    },
+    children: {
+      description: 'Body content for the alert details.',
+      control: 'text',
+      table: {
+        category: 'Content',
+      },
+    },
+    icon: {
+      description:
+        'Optional icon component shown at the left side of the message.',
+      table: {
+        category: 'Content',
+      },
+    },
+    onClose: {
+      description:
+        'Optional dismiss callback. Renders the close icon when provided.',
+      table: {
+        category: 'Behavior',
+      },
+    },
   },
   args: {
     title: 'This is a Blueprint alert message component',

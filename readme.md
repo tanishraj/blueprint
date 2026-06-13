@@ -170,14 +170,60 @@ npm run clean
 └── README.md          # Documentation
 ```
 
-## Publishing to NPM
+## Publishing / Deployment to NPM
 
-Ensure the package is built before publishing:
+This project ships with an automated GitHub Actions publish pipeline at:
+
+- [`.github/workflows/npm-publish.yml`](/Users/tanish/Tanish/blueprint/.github/workflows/npm-publish.yml)
+
+The workflow runs:
+
+1. `npm run lint`
+2. `npm run type-check`
+3. `npm run test -- --run`
+4. `npm run build`
+5. `npm publish` with the correct dist-tag
+
+### Required setup
+
+Add this repository secret in GitHub:
+
+- `NPM_TOKEN` (npm automation token with publish permissions)
+
+### Deployment flow (recommended)
+
+1. Update version locally:
+
+```sh
+npm version patch   # or minor / major
+```
+
+2. Push commit and tag:
+
+```sh
+git push
+git push --tags
+```
+
+3. GitHub Actions triggers on `v*` tags and publishes automatically.
+
+### Manual deployment
+
+From the Actions tab, run the **Publish to npm** workflow manually.
+
+- Optionally pass `distTag` (`latest`, `next`, `beta`, `canary`, etc.) for manual run.
+- Prerelease tags (like `v1.2.3-beta.0`) auto-publish with `next` by default.
+
+### Optional local publish (bypasses CI)
+
+For quick local validation:
 
 ```sh
 npm run build
 npm publish
 ```
+
+Use this only when you already handle release checks outside GitHub Actions.
 
 ## License
 

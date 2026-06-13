@@ -29,6 +29,7 @@ export const Button: FC<ButtonProps> = ({
   children,
   leadingIcon: LeadingIcon,
   trailingIcon: TrailingIcon,
+  className,
   ...restProps
 }) => {
   const isDisabled = loading || disabled;
@@ -47,6 +48,7 @@ export const Button: FC<ButtonProps> = ({
           fullWidth,
           inverted,
         }),
+        className,
       )}
       disabled={isDisabled}
     >

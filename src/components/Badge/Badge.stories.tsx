@@ -22,8 +22,21 @@ const meta: Meta<BadgeProps> = {
   parameters: {
     docs: {
       description: {
-        component:
-          'Badge is a compact status indicator component that supports text, icon, and dot variants with configurable variant, size, and shape.',
+        component: `
+Badge is a compact utility element used for status, counts, metadata chips, and quick indicators.
+
+Behaviour:
+
+- Add \`children\` for text mode.
+- Add \`icon\` (without text) for icon mode.
+- Use dot mode by omitting both \`children\` and \`icon\`.
+
+Use in navigation, headers, and tables where lightweight emphasis is needed.
+
+Accessibility:
+- Keep text short and meaningful.
+- When using decorative icons, ensure the surrounding UI provides clear context.
+        `,
       },
       layout: 'centered',
     },
@@ -43,30 +56,54 @@ const meta: Meta<BadgeProps> = {
   ],
   argTypes: {
     variant: {
+      description: 'Visual semantic of the badge.',
       control: { type: 'select' },
       options: variants,
+      table: {
+        category: 'Appearance',
+      },
     },
     size: {
+      description: 'Size scale for badge content and padding.',
       control: { type: 'radio' },
       options: sizes,
+      table: {
+        category: 'Appearance',
+      },
     },
     shape: {
+      description: 'Shape of the badge shell.',
       control: { type: 'radio' },
       options: shapes,
+      table: {
+        category: 'Appearance',
+      },
     },
     inverted: {
+      description: 'Inverted color mode for dark surfaces.',
       control: 'boolean',
+      table: {
+        category: 'Appearance',
+      },
     },
     icon: {
+      description:
+        'Optional icon component. With text, badge becomes text+icon mode; without text it becomes icon mode.',
       options: icons,
       mapping: {
         None: undefined,
         Plus,
       },
       control: { type: 'select' },
+      table: {
+        category: 'Content',
+      },
     },
     children: {
       control: 'text',
+      table: {
+        category: 'Content',
+      },
     },
     role: {
       options: ['img', 'status', 'presentation', 'none'],
@@ -76,12 +113,21 @@ const meta: Meta<BadgeProps> = {
       control: {
         type: 'select',
       },
+      table: {
+        category: 'Accessibility',
+      },
     },
     'aria-label': {
       control: 'text',
+      table: {
+        category: 'Accessibility',
+      },
     },
     className: {
       control: 'text',
+      table: {
+        category: 'Layout',
+      },
     },
   },
   args: {
