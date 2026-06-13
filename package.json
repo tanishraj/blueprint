@@ -1,6 +1,6 @@
 {
   "name": "@tanishraj/ui-kit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A production-ready React component library with modern tooling, Storybook docs, and TypeScript support.",
   "author": "Tanishraj",
   "license": "MIT",
@@ -57,9 +57,7 @@
     "clean": "rm -rf dist node_modules coverage storybook-static",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "type-check": "tsc --noEmit",
-    "generate:component": "node ./scripts/ui-generator/generate.mjs",
-    "cleanup:component": "node ./scripts/ui-generator/cleanup.mjs"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
