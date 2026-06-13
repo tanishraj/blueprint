@@ -18,7 +18,7 @@ export const avatarGroupStyles = cva(
 );
 
 export const avatarGroupCounterStyles = cva(
-  'inline-flex shrink-0 items-center justify-center border border-base bg-default-inverted text-white font-medium leading-none z-10',
+  'inline-flex shrink-0 items-center justify-center border border-base text-white font-medium leading-none z-10',
   {
     variants: {
       variant: {
