@@ -15,6 +15,7 @@ import type {
   AvatarImage,
   AvatarSizes,
   AvatarShapes,
+  AvatarVariants,
   AvatarStatus,
   AvatarStatusPosition,
 } from './types';
@@ -30,6 +31,7 @@ export interface AvatarProps
   statusPosition?: AvatarStatusPosition;
   size?: AvatarSizes;
   shape?: AvatarShapes;
+  variant?: AvatarVariants;
   inverted?: boolean;
   stroke?: boolean;
 }
@@ -42,6 +44,7 @@ export const Avatar: FC<AvatarProps> = ({
   statusPosition = 'top-right',
   size = 'md',
   shape = 'circle',
+  variant = 'default',
   inverted = false,
   stroke = false,
   className,
@@ -73,6 +76,7 @@ export const Avatar: FC<AvatarProps> = ({
         avatarContainerStyles({
           size,
           shape,
+          variant,
           inverted,
           stroke,
         }),

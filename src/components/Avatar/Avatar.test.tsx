@@ -11,6 +11,15 @@ describe('Avatar Component', () => {
     expect(screen.getByText('AP')).toBeInTheDocument();
   });
 
+  it('applies variant styles to initials avatar', () => {
+    render(<Avatar initials='AP' variant='primary' />);
+
+    const avatar = screen.getByRole('img', { name: /ap avatar/i });
+
+    expect(avatar).toHaveClass('bg-primary');
+    expect(avatar).toHaveClass('text-white');
+  });
+
   it('renders initials as single character for xs size', () => {
     render(<Avatar size='xs' initials='Alpha' />);
 

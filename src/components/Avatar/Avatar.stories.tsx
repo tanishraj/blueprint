@@ -6,6 +6,14 @@ import { type AvatarImage, type AvatarStatusPosition } from './types';
 
 const sizes = ['xs', 'sm', 'md', 'lg'] as const;
 const shapes = ['circle', 'square'] as const;
+const variants = [
+  'default',
+  'primary',
+  'info',
+  'success',
+  'warning',
+  'danger',
+] as const;
 const iconOptions = {
   none: undefined,
   user: UserRound,
@@ -75,6 +83,15 @@ Accessibility:
     shape: {
       description: 'Avatar shape: circle or square.',
       options: shapes,
+      control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
+    },
+    variant: {
+      description:
+        'Color variant for initials, icons, and image fallback styles.',
+      options: variants,
       control: { type: 'select' },
       table: {
         category: 'Appearance',
@@ -161,6 +178,7 @@ Accessibility:
   args: {
     size: 'md',
     shape: 'circle',
+    variant: 'default',
     inverted: false,
     stroke: false,
     statusPosition: 'top-right',
@@ -176,11 +194,11 @@ export const Default: Story = {
   render: args => <Avatar {...args} />,
   args: {
     initials: 'AU',
+    variant: 'default',
     size: 'md',
     shape: 'circle',
     inverted: false,
     stroke: false,
-    icon: iconOptions.user,
   },
 };
 
@@ -188,18 +206,15 @@ export const Variants: Story = {
   name: 'Variants',
   render: () => (
     <div className='flex flex-wrap items-center justify-center gap-8'>
-      <div className='flex flex-col items-center gap-3 text-center'>
-        <Avatar initials='AU' size='lg' shape='circle' />
-        <span className='min-h-4 text-xs text-slate-500'>Initials</span>
-      </div>
-      <div className='flex flex-col items-center gap-3 text-center'>
-        <Avatar icon={UserRound} size='lg' shape='circle' />
-        <span className='min-h-4 text-xs text-slate-500'>Icon</span>
-      </div>
-      <div className='flex flex-col items-center gap-3 text-center'>
-        <Avatar img={profileImage} size='lg' shape='circle' />
-        <span className='min-h-4 text-xs text-slate-500'>Image</span>
-      </div>
+      {variants.map(variant => (
+        <div
+          key={variant}
+          className='flex flex-col items-center gap-3 text-center'
+        >
+          <Avatar initials='AU' variant={variant} size='lg' shape='circle' />
+          <span className='min-h-4 text-xs text-slate-500'>{variant}</span>
+        </div>
+      ))}
     </div>
   ),
 };

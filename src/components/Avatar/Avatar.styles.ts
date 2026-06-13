@@ -10,13 +10,21 @@ export const avatarContainerStyles = cva(
         md: 'size-9',
         lg: 'size-10',
       },
+      variant: {
+        default: '',
+        primary: '',
+        info: '',
+        success: '',
+        warning: '',
+        danger: '',
+      },
       shape: {
         circle: 'rounded-full',
         square: 'rounded',
       },
       inverted: {
-        true: 'bg-default-inverted text-white',
-        false: 'bg-default text-default',
+        true: '',
+        false: '',
       },
       stroke: {
         true: 'border border-base',
@@ -26,10 +34,72 @@ export const avatarContainerStyles = cva(
     defaultVariants: {
       size: 'md',
       shape: 'circle',
+      variant: 'default',
       inverted: false,
       stroke: false,
     },
-    compoundVariants: [],
+    compoundVariants: [
+      {
+        variant: 'default',
+        inverted: false,
+        className: 'bg-default text-default',
+      },
+      {
+        variant: 'primary',
+        inverted: false,
+        className: 'bg-primary text-white',
+      },
+      {
+        variant: 'info',
+        inverted: false,
+        className: 'bg-info text-white',
+      },
+      {
+        variant: 'success',
+        inverted: false,
+        className: 'bg-success text-white',
+      },
+      {
+        variant: 'warning',
+        inverted: false,
+        className: 'bg-warning text-white',
+      },
+      {
+        variant: 'danger',
+        inverted: false,
+        className: 'bg-danger text-white',
+      },
+      {
+        variant: 'default',
+        inverted: true,
+        className: 'bg-default-inverted text-white',
+      },
+      {
+        variant: 'primary',
+        inverted: true,
+        className: 'bg-primary-inverted text-default',
+      },
+      {
+        variant: 'info',
+        inverted: true,
+        className: 'bg-info-inverted text-default',
+      },
+      {
+        variant: 'success',
+        inverted: true,
+        className: 'bg-success-inverted text-default',
+      },
+      {
+        variant: 'warning',
+        inverted: true,
+        className: 'bg-warning-inverted text-default',
+      },
+      {
+        variant: 'danger',
+        inverted: true,
+        className: 'bg-danger-inverted text-default',
+      },
+    ],
   },
 );
 

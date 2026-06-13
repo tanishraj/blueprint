@@ -11,6 +11,9 @@ export type AvatarSizes = RemoveNull<
 export type AvatarShapes = RemoveNull<
   VariantProps<typeof avatarContainerStyles>
 >['shape'];
+export type AvatarVariants = RemoveNull<
+  VariantProps<typeof avatarContainerStyles>
+>['variant'];
 export type AvatarStatus = RemoveNull<
   VariantProps<typeof avatarStatusStyles>['status']
 >;
