@@ -62,8 +62,6 @@ import {
   Avatar,
   AvatarGroup,
 } from '@tanishraj/ui-kit';
-import '@tanishraj/ui-kit/globals.css';
-import '@tanishraj/ui-kit/theme-primary.css';
 
 export function Demo() {
   return <Button variant="primary">Get Started</Button>;
@@ -80,14 +78,9 @@ The library is built to be consumed like a standard React UI package:
 npm install @tanishraj/ui-kit
 ```
 
-2. Import global styles once (usually near your app entry):
+2. Use components (styles are included automatically on package import):
 
-```ts
-import '@tanishraj/ui-kit/globals.css';
-import '@tanishraj/ui-kit/theme-primary.css'; // or theme-secondary.css
-```
-
-3. Use component APIs directly from the package.
+Use component APIs directly from the package.
 
 ```tsx
 import { Button, Avatar } from '@tanishraj/ui-kit';
@@ -107,15 +100,33 @@ export default function Demo() {
 ### Theme file options
 
 ```ts
-import '@tanishraj/ui-kit/theme-primary.css';
-// Optional: use another packaged theme
+// Optional: import this only when you want secondary theme
 import '@tanishraj/ui-kit/theme-secondary.css';
 ```
+
+### Adding new themes (for maintainers)
+
+To add a new packaged theme later:
+
+1. Add `src/themes/<theme-name>.css`.
+2. Add a package export in `package.json`:
+   - `./theme-<theme-name>.css` -> `./dist/themes/<theme-name>.css`
+3. Update the `copy:theme` script to include the new file.
+4. Optionally publish a themed import via `./themes/<theme-name>.css` (already supported by the wildcard export pattern).
+
+### Adding new themes (for maintainers)
+
+To add a new packaged theme later:
+
+1. Add `src/themes/<theme-name>.css`.
+2. Add a package export in `package.json`:
+   - `./theme-<theme-name>.css` -> `./dist/themes/<theme-name>.css`
+3. Update the `copy:theme` script to include the new file.
+4. Optionally publish a themed import via `./themes/<theme-name>.css` (already supported by the wildcard export pattern).
 
 You can also import through:
 
 ```ts
-import '@tanishraj/ui-kit/themes/primary.css';
 import '@tanishraj/ui-kit/themes/secondary.css';
 ```
 
@@ -140,7 +151,6 @@ If your app uses a custom design token strategy, import one packaged theme and o
 
 - Component style variants are centralized with CVA + Tailwind utility patterns.
 - Theme tokens are built in and theme files are exported from package entry points:
-  - `theme-primary.css`
   - `theme-secondary.css`
   - `globals.css`
 

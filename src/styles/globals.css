@@ -3,7 +3,6 @@
 @plugin "tailwindcss-animate";
 @import './colors/base.css';
 @import '../themes/primary.css';
-/* @import '../themes/secondary.css'; */
 
 @utility scrollbar-hide {
   /* For Webkit-based browsers (Chrome, Safari and Opera) */

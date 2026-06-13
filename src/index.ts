@@ -1,3 +1,5 @@
+import './styles/globals.css';
+
 // EXPORT CLASSNAMES UTILS
 export * from './utils';
 
