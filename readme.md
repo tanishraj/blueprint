@@ -1,8 +1,8 @@
-# @tanish/ui-kit
+# @tanishraj/ui-kit
 
 ## About
 
-@tanish/ui-kit is an industry-style React component library with built-in tooling for publishing, documentation, and testing.
+@tanishraj/ui-kit is an industry-style React component library with built-in tooling for publishing, documentation, and testing.
 
 ## Features
 
@@ -228,7 +228,7 @@ For quick local validation:
 
 ```sh
 npm run build
-npm view @tanish/ui-kit version
+npm view @tanishraj/ui-kit version
 ```
 
 Use this only when you already handle release checks outside GitHub Actions.

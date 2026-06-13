@@ -72,13 +72,13 @@ git push --tags
 - Verify package:
 
 ```sh
-npm view @tanish/ui-kit version
+npm view @tanishraj/ui-kit version
 ```
 
 - Install a fresh test install:
 
 ```sh
-npm install @tanish/ui-kit@latest
+npm install @tanishraj/ui-kit@latest
 ```
 
 ## 7) Rollback guidance
@@ -87,7 +87,7 @@ npm install @tanish/ui-kit@latest
 - For problematic versions, ask npm to deprecate quickly and publish a fix:
 
 ```sh
-npm deprecate @tanish/ui-kit@<bad-version> "Deprecated due to issue"
+npm deprecate @tanishraj/ui-kit@<bad-version> "Deprecated due to issue"
 ```
 
 Use this only for urgent issues.

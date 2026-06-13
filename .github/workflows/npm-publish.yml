@@ -87,4 +87,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm config set //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
-          npm publish --tag "${{ steps.dist_tag.outputs.tag }}"
+          npm whoami
+          npm publish --access public --tag "${{ steps.dist_tag.outputs.tag }}"
