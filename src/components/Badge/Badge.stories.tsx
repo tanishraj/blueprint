@@ -55,9 +55,6 @@ const meta: Meta<BadgeProps> = {
     children: {
       control: 'text',
     },
-    label: {
-      control: 'text',
-    },
     role: {
       options: ['img', 'status', 'presentation', 'none'],
       mapping: {
@@ -80,7 +77,6 @@ const meta: Meta<BadgeProps> = {
     shape: 'circle',
     inverted: false,
     children: 'Badge',
-    label: 'Badge',
   },
 };
 

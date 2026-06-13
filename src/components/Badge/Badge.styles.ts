@@ -37,7 +37,7 @@ export const badgeVariants = cva(
     },
     defaultVariants: {
       variant: 'default',
-      appearance: 'dots',
+      appearance: 'text',
       size: 'md',
       shape: 'circle',
       inverted: false,

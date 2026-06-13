@@ -8,14 +8,12 @@ import {
   badgeTextStyles,
   badgeVariants,
 } from './Badge.styles';
-import { BadgeAppearances } from './types';
 
 type BadgeVariantProps = Omit<VariantProps<typeof badgeVariants>, 'appearance'>;
 
 export interface BadgeProps
   extends HTMLAttributes<HTMLSpanElement>, BadgeVariantProps {
   icon?: FC<SVGProps<SVGSVGElement>>;
-  label?: string;
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -25,81 +23,47 @@ export const Badge: FC<BadgeProps> = ({
   inverted = false,
   icon: Icon,
   children,
-  label,
   role,
   className,
   ...restProps
 }) => {
-  const hasText =
-    (typeof children === 'string' && children.trim() !== '') ||
-    typeof children === 'number' ||
-    (children !== undefined &&
-      children !== null &&
-      children !== false &&
-      children !== true) ||
-    typeof label === 'string' ||
-    typeof label === 'number';
-
-  const hasExplicitIcon = Icon !== undefined;
-
-  const resolvedAppearance: BadgeAppearances = (() => {
-    if (hasText) {
-      return 'text';
-    }
-
-    if (hasExplicitIcon) {
-      return 'icon';
-    }
-
-    return 'dots';
-  })();
-
-  const resolvedVariant = variant;
-  const resolvedSize = size ?? 'md';
-  const badgeText =
-    typeof children === 'string' || typeof children === 'number'
-      ? String(children)
-      : typeof label === 'string'
-        ? label
-        : 'Badge';
-
-  const showIcon = resolvedAppearance !== 'dots' && hasExplicitIcon;
-  const isTextAppearance = resolvedAppearance === 'text';
-
-  const resolvedRole = isTextAppearance ? role : (role ?? 'img');
+  const hasText = !!children || children === 0;
+  const appearance = hasText ? 'text' : Icon ? 'icon' : 'dots';
+  const hasIcon = Icon && appearance !== 'dots';
+  const resolvedRole = hasText ? role : (role ?? 'img');
   const defaultAriaLabel =
-    resolvedRole === 'img' ? `Badge, ${resolvedVariant}` : undefined;
+    resolvedRole === 'img' ? `Badge, ${variant}` : undefined;
   const ariaLabel = restProps['aria-label'] ?? defaultAriaLabel;
+  const hasTextIcon = hasText && Icon && appearance === 'text';
+
+  const badgeClassName = cn(
+    badgeVariants({
+      variant,
+      size,
+      shape,
+      appearance,
+      inverted,
+      hasIcon: hasTextIcon,
+    }),
+  );
+  const badgeIconClassName = cn(badgeIconStyles({ size }));
+  const badgeTextClassName = cn(badgeTextStyles({ size }));
 
   return (
     <span
       {...restProps}
       role={resolvedRole}
       aria-label={ariaLabel}
-      className={cn(
-        badgeVariants({
-          variant: resolvedVariant,
-          size: resolvedSize,
-          shape,
-          appearance: resolvedAppearance,
-          inverted,
-          hasIcon: isTextAppearance && showIcon,
-        }),
-        className,
-      )}
+      className={cn(badgeClassName, className)}
     >
-      {showIcon && Icon && (
+      {hasIcon && (
         <Icon
           aria-hidden='true'
           focusable='false'
-          className={badgeIconStyles({ size: resolvedSize })}
+          className={badgeIconClassName}
         />
       )}
-      {isTextAppearance && (
-        <span className={badgeTextStyles({ size: resolvedSize })}>
-          {children ?? label ?? badgeText}
-        </span>
-      )}
+      {hasText && <span className={badgeTextClassName}>{children}</span>}
     </span>
   );
 };
