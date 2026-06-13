@@ -175,6 +175,7 @@ npm run clean
 This project ships with an automated GitHub Actions publish pipeline at:
 
 - [`.github/workflows/npm-publish.yml`](/Users/tanish/Tanish/blueprint/.github/workflows/npm-publish.yml)
+- [release.md](/Users/tanish/Tanish/blueprint/release.md)
 
 The workflow runs:
 
