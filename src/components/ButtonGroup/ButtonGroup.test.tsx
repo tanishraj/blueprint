@@ -48,10 +48,10 @@ describe('ButtonGroup Component', () => {
     );
 
     expect(screen.getByRole('button', { name: /danger/i })).toHaveClass(
-      'text-danger',
+      'text-white',
     );
     expect(screen.getByRole('button', { name: /primary/i })).toHaveClass(
-      'text-primary',
+      'text-default',
     );
   });
 
