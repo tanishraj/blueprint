@@ -9,7 +9,21 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 export default defineConfig({
   plugins: [
     react(),
-    dts({ rollupTypes: true, tsconfigPath: './tsconfig.json' }),
+    dts({
+      tsconfigPath: './tsconfig.types.json',
+      outDir: 'dist',
+      indexName: 'index',
+      bundleTypes: {
+        extractorConfig: {
+          mainEntryPointFilePath: './dist/src/index.d.ts',
+          dtsRollup: {
+            enabled: true,
+            untrimmedFilePath: './dist/index.d.ts',
+          },
+        },
+      },
+      insertTypesEntry: true,
+    }),
     tailwindcss({
       injectInto: 'css-in-js',
     }),
