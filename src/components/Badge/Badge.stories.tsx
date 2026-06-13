@@ -110,7 +110,7 @@ export const Variant: Story = {
           className='flex flex-col items-center gap-3 text-center'
         >
           <Badge variant={variant}>Badge</Badge>
-          <span className='min-h-[1rem] text-xs text-slate-500 capitalize'>
+          <span className='min-h-4 text-xs text-slate-500 capitalize'>
             {variant}
           </span>
         </div>
@@ -131,7 +131,7 @@ export const Size: Story = {
           <Badge size={size} icon={Plus}>
             {size.toUpperCase()}
           </Badge>
-          <span className='min-h-[1rem] text-xs text-slate-500'>{size}</span>
+          <span className='min-h-4 text-xs text-slate-500'>{size}</span>
         </div>
       ))}
     </div>
@@ -148,7 +148,7 @@ export const Shape: Story = {
           className='flex flex-col items-center gap-3 text-center'
         >
           <Badge shape={shape} icon={Plus} />
-          <span className='min-h-[1rem] text-xs text-slate-500 capitalize'>
+          <span className='min-h-4 text-xs text-slate-500 capitalize'>
             {shape} shape
           </span>
         </div>
@@ -171,7 +171,7 @@ export const Appearance: Story = {
           className='flex h-full flex-col items-center gap-3 text-center'
         >
           <div className='h-9'>{node}</div>
-          <span className='min-h-[1rem] text-xs text-slate-500 capitalize'>
+          <span className='min-h-4 text-xs text-slate-500 capitalize'>
             {key} appearance
           </span>
         </div>

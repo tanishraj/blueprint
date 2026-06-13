@@ -16,8 +16,6 @@ export const badgeVariants = cva(
         dots: '',
         icon: '',
         text: '',
-        /* Backward-compatible alias for legacy usage */
-        dot: '',
       },
       size: {
         sm: 'text-xs',
@@ -27,11 +25,12 @@ export const badgeVariants = cva(
       shape: {
         circle: 'rounded-full',
         square: 'rounded',
-        /* Backward-compatible aliases */
-        rounded: 'rounded',
-        'full rounded': 'rounded-full',
       },
       inverted: {
+        true: '',
+        false: '',
+      },
+      hasIcon: {
         true: '',
         false: '',
       },
@@ -42,16 +41,13 @@ export const badgeVariants = cva(
       size: 'md',
       shape: 'circle',
       inverted: false,
+      hasIcon: false,
     },
     compoundVariants: [
-      { appearance: 'dots', size: 'sm', className: 'size-2 min-h-2 min-w-2' },
-      { appearance: 'dots', size: 'md', className: 'size-3 min-h-3 min-w-3' },
-      { appearance: 'dots', size: 'lg', className: 'size-4 min-h-4 min-w-4' },
-      { appearance: 'dot', size: 'sm', className: 'size-2 min-h-2 min-w-2' },
-      { appearance: 'dot', size: 'md', className: 'size-3 min-h-3 min-w-3' },
-      { appearance: 'dot', size: 'lg', className: 'size-4 min-h-4 min-w-4' },
-
-      { appearance: 'icon', size: 'sm', className: 'size-[22px] p-0' },
+      { appearance: 'dots', size: 'sm', className: 'size-2' },
+      { appearance: 'dots', size: 'md', className: 'size-3' },
+      { appearance: 'dots', size: 'lg', className: 'size-4' },
+      { appearance: 'icon', size: 'sm', className: 'size-5.5 p-0' },
       {
         appearance: 'icon',
         size: 'md',
@@ -78,6 +74,10 @@ export const badgeVariants = cva(
         size: 'lg',
         className: 'h-8 min-h-8 min-w-8 px-2.5',
       },
+
+      { appearance: 'text', hasIcon: true, size: 'sm', className: 'gap-1' },
+      { appearance: 'text', hasIcon: true, size: 'md', className: 'gap-2' },
+      { appearance: 'text', hasIcon: true, size: 'lg', className: 'gap-3' },
 
       {
         inverted: true,

@@ -8,9 +8,8 @@ import {
   badgeTextStyles,
   badgeVariants,
 } from './Badge.styles';
-import { BadgeSizes } from './types';
+import { BadgeAppearances } from './types';
 
-type BadgeAppearance = 'dots' | 'icon' | 'text';
 type BadgeVariantProps = Omit<VariantProps<typeof badgeVariants>, 'appearance'>;
 
 export interface BadgeProps
@@ -18,12 +17,6 @@ export interface BadgeProps
   icon?: FC<SVGProps<SVGSVGElement>>;
   label?: string;
 }
-
-const gapBySize: Record<NonNullable<BadgeSizes>, string> = {
-  sm: 'gap-1',
-  md: 'gap-2',
-  lg: 'gap-3',
-};
 
 export const Badge: FC<BadgeProps> = ({
   variant = 'default',
@@ -49,7 +42,7 @@ export const Badge: FC<BadgeProps> = ({
 
   const hasExplicitIcon = Icon !== undefined;
 
-  const resolvedAppearance: BadgeAppearance = (() => {
+  const resolvedAppearance: BadgeAppearances = (() => {
     if (hasText) {
       return 'text';
     }
@@ -62,8 +55,7 @@ export const Badge: FC<BadgeProps> = ({
   })();
 
   const resolvedVariant = variant;
-  const resolvedSize: NonNullable<BadgeSizes> = (size ??
-    'md') as NonNullable<BadgeSizes>;
+  const resolvedSize = size ?? 'md';
   const badgeText =
     typeof children === 'string' || typeof children === 'number'
       ? String(children)
@@ -91,8 +83,8 @@ export const Badge: FC<BadgeProps> = ({
           shape,
           appearance: resolvedAppearance,
           inverted,
+          hasIcon: isTextAppearance && showIcon,
         }),
-        isTextAppearance && showIcon && gapBySize[resolvedSize],
         className,
       )}
     >
