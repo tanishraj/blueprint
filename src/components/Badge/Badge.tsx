@@ -8,11 +8,10 @@ import {
   badgeTextStyles,
   badgeVariants,
 } from './Badge.styles';
-
-type BadgeVariantProps = Omit<VariantProps<typeof badgeVariants>, 'appearance'>;
-
 export interface BadgeProps
-  extends HTMLAttributes<HTMLSpanElement>, BadgeVariantProps {
+  extends
+    HTMLAttributes<HTMLSpanElement>,
+    Omit<VariantProps<typeof badgeVariants>, 'appearance'> {
   icon?: FC<SVGProps<SVGSVGElement>>;
 }
 
