@@ -316,6 +316,9 @@ const meta: Meta<typeof OrganizationChart> = {
   argTypes: {
     data: {
       control: false,
+      table: {
+        category: 'Data',
+      },
     },
     orientation: {
       control: 'select',
@@ -325,29 +328,53 @@ const meta: Meta<typeof OrganizationChart> = {
         'bottom',
         'right',
       ] satisfies OrgChartOrientation[],
+      table: {
+        category: 'Layout',
+      },
     },
     initialDepth: {
       control: { type: 'number', min: 0, step: 1 },
+      table: {
+        category: 'Layout',
+      },
     },
     onNodeClick: {
       action: 'nodeClick',
       control: false,
+      table: {
+        category: 'Events',
+      },
     },
     onZoomChange: {
       action: 'zoomChange',
       control: false,
+      table: {
+        category: 'Events',
+      },
     },
     imageName: {
       control: false,
+      table: {
+        category: 'Data',
+      },
     },
     showZoomBadge: {
       control: 'boolean',
+      table: {
+        category: 'Behavior',
+      },
     },
     dataTestId: {
       control: 'text',
+      table: {
+        category: 'Testing',
+      },
     },
     emptyMessage: {
       control: 'text',
+      table: {
+        category: 'Content',
+      },
     },
   },
   args: {

@@ -58,48 +58,111 @@ const meta: Meta<ButtonProps> = {
   parameters: {
     docs: {
       description: {
-        component:
-          'Button is the core action component with configurable appearance, variant, size, and loading/fill states for both icon and text-only usage.',
+        component: `
+Button is the primary interactive action component for forms, dialogs, toolbars, and command lists.
+
+Usage guidelines:
+
+- Set \`variant\` for semantic meaning and brand alignment.
+- Set \`appearance\` for container treatment.
+- Combine \`leadingIcon\` / \`trailingIcon\` with \`children\` for icon-text buttons.
+- Use \`loading\` for async actions.
+- Use \`disabled\` when actions are temporarily unavailable.
+- Set \`fullWidth\` for block-level controls in constrained layouts.
+
+Accessibility:
+- Always provide clear button label text unless the icon has a visible textual context.
+    - When using icon-only buttons, prefer using an accessible label via \`aria-label\`.
+`.trim(),
       },
     },
   },
   argTypes: {
     size: {
+      description: 'Button height and inner spacing.',
       options: ['sm', 'md', 'lg'],
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     variant: {
+      description: 'Visual intent token for the button.',
       options: ['default', 'primary', 'info', 'success', 'warning', 'danger'],
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     appearance: {
+      description: 'Visual treatment: filled, outline, dashed, or ghost.',
       options: ['filled', 'outline', 'dashed', 'ghost'],
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     leadingIcon: {
+      description: 'Icon rendered before text.',
       options: ['None', 'Plus'],
       mapping: {
         None: undefined,
         Plus: PlusIcon,
       },
       control: { type: 'select' },
+      table: {
+        category: 'Content',
+      },
     },
     trailingIcon: {
+      description: 'Icon rendered after text.',
       options: ['None', 'Plus'],
       mapping: {
         None: undefined,
         Plus: PlusIcon,
       },
       control: { type: 'select' },
+      table: {
+        category: 'Content',
+      },
     },
     disabled: {
+      description: 'Disable interaction and reduce emphasis.',
       control: { type: 'boolean' },
+      table: {
+        category: 'State',
+      },
     },
     fullWidth: {
+      description: 'Render button as full width of parent container.',
       control: { type: 'boolean' },
+      table: {
+        category: 'Layout',
+      },
     },
     inverted: {
+      description:
+        'Use inverted palette variant for dark or secondary surfaces.',
       control: { type: 'boolean' },
+      table: {
+        category: 'Appearance',
+      },
+    },
+    loading: {
+      description:
+        'Replaces content with spinner and disables interaction automatically.',
+      control: { type: 'boolean' },
+      table: {
+        category: 'State',
+      },
+    },
+    type: {
+      control: { type: 'select' },
+      options: ['button', 'submit', 'reset'],
+      description: 'Native HTML button type.',
+      table: {
+        category: 'Behavior',
+      },
     },
   },
   args: {
