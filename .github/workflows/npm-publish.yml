@@ -6,6 +6,9 @@ on:
       - develop
     tags:
       - 'v*'
+  release:
+    types:
+      - published
   workflow_dispatch:
     inputs:
       distTag:
@@ -19,7 +22,11 @@ permissions:
 
 jobs:
   publish:
-    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/tags/v')
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.ref == 'refs/heads/develop' ||
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
+      (github.event_name == 'release' && github.event.release.target_commitish == 'develop')
     name: Validate and publish package
     runs-on: ubuntu-latest
 
@@ -52,6 +59,14 @@ jobs:
       - name: Build package
         run: npm run build 2>&1 | tee /tmp/build.log
 
+      - name: Validate release source branch
+        if: github.event_name == 'release'
+        run: |
+          if [ "${{ github.event.release.target_commitish }}" != "develop" ]; then
+            echo "::error::Release publish is only allowed from the develop branch. Current target: ${{ github.event.release.target_commitish }}"
+            exit 1
+          fi
+
       - name: Acknowledge known LightningCSS warnings
         run: |
           if grep -q "Unknown at rule: @theme\|Unknown at rule: @utility" /tmp/build.log; then
@@ -73,6 +88,12 @@ jobs:
             else
               echo "::error::Invalid npm distTag '$DIST_TAG'. Use values like latest, next, beta, alpha."
               exit 1
+            fi
+          elif [ "${{ github.event_name }}" = "release" ]; then
+            if [ "${{ github.event.release.prerelease }}" = "true" ]; then
+              echo "tag=next" >> $GITHUB_OUTPUT
+            else
+              echo "tag=latest" >> $GITHUB_OUTPUT
             fi
           elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
             echo "tag=next" >> $GITHUB_OUTPUT

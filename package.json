@@ -1,6 +1,6 @@
 {
   "name": "@tanishraj/ui-kit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A production-ready React component library with modern tooling, Storybook docs, and TypeScript support.",
   "author": "Tanishraj",
   "license": "MIT",
