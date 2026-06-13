@@ -48,7 +48,14 @@ jobs:
         run: npm run test -- --run
 
       - name: Build package
-        run: npm run build
+        run: npm run build 2>&1 | tee /tmp/build.log
+
+      - name: Acknowledge known LightningCSS warnings
+        run: |
+          if grep -q "Unknown at rule: @theme\|Unknown at rule: @utility" /tmp/build.log; then
+            echo "Known warning detected: LightningCSS does not recognize @theme/@utility directives with this setup."
+            echo "This is expected with Tailwind CSS v4 directives and is non-blocking."
+          fi
 
       - name: Compute publish dist-tag
         id: dist_tag
