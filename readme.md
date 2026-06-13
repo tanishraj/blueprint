@@ -63,19 +63,63 @@ import {
   AvatarGroup,
 } from '@tanishraj/ui-kit';
 import '@tanishraj/ui-kit/globals.css';
+import '@tanishraj/ui-kit/theme-primary.css';
 
 export function Demo() {
   return <Button variant="primary">Get Started</Button>;
 }
 ```
 
-### Theme styles
+## Setup for app consumers
+
+The library is built to be consumed like a standard React UI package:
+
+1. Install dependency
+
+```bash
+npm install @tanishraj/ui-kit
+```
+
+2. Import global styles once (usually near your app entry):
+
+```ts
+import '@tanishraj/ui-kit/globals.css';
+import '@tanishraj/ui-kit/theme-primary.css'; // or theme-secondary.css
+```
+
+3. Use component APIs directly from the package.
+
+```tsx
+import { Button, Avatar } from '@tanishraj/ui-kit';
+
+export default function Demo() {
+  return (
+    <div className="flex items-center gap-4">
+      <Button variant="primary" size="md">
+        Primary Button
+      </Button>
+      <Avatar initials="AB" name="Amit B." variant="primary" />
+    </div>
+  );
+}
+```
+
+### Theme file options
 
 ```ts
 import '@tanishraj/ui-kit/theme-primary.css';
-// Optional: import secondary theme instead
-// import '@tanishraj/ui-kit/theme-secondary.css';
+// Optional: use another packaged theme
+import '@tanishraj/ui-kit/theme-secondary.css';
 ```
+
+You can also import through:
+
+```ts
+import '@tanishraj/ui-kit/themes/primary.css';
+import '@tanishraj/ui-kit/themes/secondary.css';
+```
+
+If your app uses a custom design token strategy, import one packaged theme and override required CSS variables in your own stylesheet after the theme import.
 
 ## Component Library API
 
