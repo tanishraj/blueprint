@@ -3,41 +3,66 @@ import { type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/utils';
 
-import { badgeVariants, invertedAppearanceMap } from './Badge.styles';
-
+import {
+  badgeIconStyles,
+  badgeTextStyles,
+  badgeVariants,
+} from './Badge.styles';
 export interface BadgeProps
-  extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
+  extends
+    HTMLAttributes<HTMLSpanElement>,
+    Omit<VariantProps<typeof badgeVariants>, 'appearance'> {
   icon?: FC<SVGProps<SVGSVGElement>>;
-  inverted?: boolean;
 }
 
 export const Badge: FC<BadgeProps> = ({
-  variant,
-  size,
-  icon: Icon,
+  variant = 'default',
+  size = 'md',
+  shape = 'circle',
   inverted = false,
+  icon: Icon,
+  children,
+  role,
+  className,
+  ...restProps
 }) => {
-  const baseVariantClass =
-    badgeVariants({ variant })
-      .split(' ')
-      .find(cls => cls.startsWith('bg-')) || '';
+  const hasText = !!children || children === 0;
+  const appearance = hasText ? 'text' : Icon ? 'icon' : 'dots';
+  const hasIcon = Icon && appearance !== 'dots';
+  const resolvedRole = hasText ? role : (role ?? 'img');
+  const defaultAriaLabel =
+    resolvedRole === 'img' ? `Badge, ${variant}` : undefined;
+  const ariaLabel = restProps['aria-label'] ?? defaultAriaLabel;
+  const hasTextIcon = hasText && Icon && appearance === 'text';
 
-  const innerBgClass = inverted
-    ? invertedAppearanceMap[baseVariantClass] || baseVariantClass
-    : baseVariantClass;
+  const badgeClassName = cn(
+    badgeVariants({
+      variant,
+      size,
+      shape,
+      appearance,
+      inverted,
+      hasIcon: hasTextIcon,
+    }),
+  );
+  const badgeIconClassName = cn(badgeIconStyles({ size }));
+  const badgeTextClassName = cn(badgeTextStyles({ size }));
 
   return (
-    <div className={cn(badgeVariants({ size }))}>
-      {Icon ? (
-        <Icon />
-      ) : (
-        <div
-          className={cn(
-            'absolute left-0 top-0 h-full w-full rounded-full',
-            innerBgClass,
-          )}
+    <span
+      {...restProps}
+      role={resolvedRole}
+      aria-label={ariaLabel}
+      className={cn(badgeClassName, className)}
+    >
+      {hasIcon && (
+        <Icon
+          aria-hidden='true'
+          focusable='false'
+          className={badgeIconClassName}
         />
       )}
-    </div>
+      {hasText && <span className={badgeTextClassName}>{children}</span>}
+    </span>
   );
 };
