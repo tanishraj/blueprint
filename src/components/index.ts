@@ -7,6 +7,7 @@ export * from './ButtonGroup';
 export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Chip';
+export * from './Divider';
 export * from './Avatar';
 export * from './AvatarGroup';
 export * from './OrganizationChart';
