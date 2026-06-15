@@ -1,10 +1,12 @@
 import { type FieldsetHTMLAttributes, type ReactNode } from 'react';
 
-import type { CheckboxProps, CheckboxSizes } from '../Checkbox';
+import type { CheckboxProps, CheckboxShapes, CheckboxSizes } from '../Checkbox';
 
 export type CheckboxGroupOrientation = 'horizontal' | 'vertical';
 
 export type CheckboxGroupSizes = CheckboxSizes;
+
+export type CheckboxGroupShapes = CheckboxShapes;
 
 export interface CheckboxGroupOption extends Omit<
   CheckboxProps,
@@ -34,6 +36,7 @@ export interface CheckboxGroupProps extends Omit<
   description?: ReactNode;
   error?: ReactNode;
   size?: CheckboxGroupSizes;
+  shape?: CheckboxGroupShapes;
   orientation?: CheckboxGroupOrientation;
   required?: boolean;
 }

@@ -17,13 +17,17 @@ export const checkboxInputStyles = cva(
 );
 
 export const checkboxControlStyles = cva(
-  'inline-flex shrink-0 items-center justify-center rounded border bg-base text-white transition-colors [&>svg]:hidden peer-checked:[&>svg]:flex peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-base peer-checked:border-primary peer-checked:bg-primary peer-disabled:cursor-not-allowed',
+  'inline-flex shrink-0 items-center justify-center border bg-base text-white transition-colors [&>svg]:hidden peer-checked:[&>svg]:flex peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-base peer-checked:border-primary peer-checked:bg-primary peer-disabled:cursor-not-allowed',
   {
     variants: {
       size: {
-        sm: 'mt-0.5 size-4 rounded-sm',
-        md: 'mt-0.5 size-5 rounded',
-        lg: 'mt-1 size-6 rounded-md',
+        sm: 'mt-0.5 size-4',
+        md: 'mt-0.5 size-5',
+        lg: 'mt-1 size-6',
+      },
+      shape: {
+        square: '',
+        circle: 'rounded-full',
       },
       invalid: {
         true: 'border-danger peer-checked:border-danger peer-checked:bg-danger',
@@ -36,9 +40,27 @@ export const checkboxControlStyles = cva(
     },
     defaultVariants: {
       size: 'md',
+      shape: 'square',
       invalid: false,
       indeterminate: false,
     },
+    compoundVariants: [
+      {
+        shape: 'square',
+        size: 'sm',
+        className: 'rounded-sm',
+      },
+      {
+        shape: 'square',
+        size: 'md',
+        className: 'rounded',
+      },
+      {
+        shape: 'square',
+        size: 'lg',
+        className: 'rounded-md',
+      },
+    ],
   },
 );
 
