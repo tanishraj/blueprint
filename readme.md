@@ -61,10 +61,15 @@ import {
   Badge,
   Avatar,
   AvatarGroup,
+  Breadcrumb,
+  Checkbox,
+  CheckboxGroup,
+  Chip,
+  Divider,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
-  return <Button variant="primary">Get Started</Button>;
+  return <Button variant='primary'>Get Started</Button>;
 }
 ```
 
@@ -83,15 +88,20 @@ npm install @tanishraj/ui-kit
 Use component APIs directly from the package.
 
 ```tsx
-import { Button, Avatar } from '@tanishraj/ui-kit';
+import { Avatar, Button, Chip, Divider } from '@tanishraj/ui-kit';
+import { Plus } from 'lucide-react';
 
 export default function Demo() {
   return (
-    <div className="flex items-center gap-4">
-      <Button variant="primary" size="md">
+    <div className='flex items-center gap-4'>
+      <Button variant='primary' size='md'>
         Primary Button
       </Button>
-      <Avatar initials="AB" name="Amit B." variant="primary" />
+      <Avatar initials='AB' variant='primary' />
+      <Chip icon={Plus} variant='success'>
+        Active
+      </Chip>
+      <Divider className='w-32' />
     </div>
   );
 }
@@ -103,16 +113,6 @@ export default function Demo() {
 // Optional: import this only when you want secondary theme
 import '@tanishraj/ui-kit/theme-secondary.css';
 ```
-
-### Adding new themes (for maintainers)
-
-To add a new packaged theme later:
-
-1. Add `src/themes/<theme-name>.css`.
-2. Add a package export in `package.json`:
-   - `./theme-<theme-name>.css` -> `./dist/themes/<theme-name>.css`
-3. Update the `copy:theme` script to include the new file.
-4. Optionally publish a themed import via `./themes/<theme-name>.css` (already supported by the wildcard export pattern).
 
 ### Adding new themes (for maintainers)
 
@@ -138,9 +138,66 @@ If your app uses a custom design token strategy, import one packaged theme and o
 - Props follow consistent naming patterns:
   - `size` (`sm`, `md`, `lg`)
   - `variant` (status/visual intent)
+  - `appearance` (container treatment such as `filled`, `outline`, `ghost`, or `dashed`, depending on component)
   - `shape` (`circle`, `square` where supported)
+  - `inverted` for alternate surface color modes where supported
   - `disabled`, `loading`, and interaction states where applicable
 - Component stories in `*.stories.tsx` are the source of truth for public usage patterns and prop combinations.
+
+### Common Examples
+
+```tsx
+import {
+  Breadcrumb,
+  Button,
+  CheckboxGroup,
+  Chip,
+  Divider,
+} from '@tanishraj/ui-kit';
+import { Home, Plus, Tag } from 'lucide-react';
+
+export function ComponentExamples() {
+  return (
+    <div className='flex flex-col gap-6'>
+      <Breadcrumb
+        appearance='outline'
+        items={[
+          { label: 'Home', href: '/', icon: Home },
+          { label: 'Components', href: '/components' },
+          { label: 'Chip' },
+        ]}
+        separator='>'
+      />
+
+      <Chip appearance='filled' icon={Tag} shape='circle' variant='primary'>
+        Filter
+      </Chip>
+
+      <CheckboxGroup
+        label='Notification channels'
+        options={[
+          { label: 'Email', value: 'email' },
+          { label: 'SMS', value: 'sms' },
+        ]}
+        shape='square'
+      />
+
+      <Divider>
+        <Button leadingIcon={Plus} size='sm' variant='default'>
+          Add item
+        </Button>
+      </Divider>
+    </div>
+  );
+}
+```
+
+### Component Notes
+
+- `Breadcrumb` supports `appearance="ghost" | "outline"` and `separator=">" | "/"`. The chevron separator is rendered as an icon.
+- `Checkbox` and `CheckboxGroup` support `shape="square" | "circle"`, with `square` as the default.
+- `Chip` supports `variant`, `appearance="filled" | "outline"`, `shape`, `size`, `inverted`, optional `icon`, and removable chips via `onClose`.
+- `Divider` supports `orientation="horizontal" | "vertical"` and optional centered content through `children`.
 
 ### Documentation and examples
 
@@ -245,14 +302,20 @@ src/
 
 ## Components
 
-| Component | Location | Storybook | Status |
-| --- | --- | --- | --- |
-| Alert | `src/components/Alert` | [Alert](https://tanishraj.github.io/ui-kit/?path=/story/components-alert--default) | Stable |
-| Badge | `src/components/Badge` | [Badge](https://tanishraj.github.io/ui-kit/?path=/story/components-badge--playground) | Stable |
-| Avatar | `src/components/Avatar` | [Avatar](https://tanishraj.github.io/ui-kit/?path=/story/components-avatar--playground) | Stable |
-| AvatarGroup | `src/components/AvatarGroup` | [AvatarGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-avatargroup--default) | Stable |
-| Button | `src/components/Button` | [Button](https://tanishraj.github.io/ui-kit/?path=/story/components-button--playground) | Stable |
-| ButtonGroup | `src/components/ButtonGroup` | [ButtonGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-buttongroup--playground) | Stable |
+| Component         | Location                           | Storybook                                                                                                     | Status |
+| ----------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------ |
+| Accordion         | `src/components/Accordion`         | [Accordion](https://tanishraj.github.io/ui-kit/?path=/story/components-accordion--default)                    | Stable |
+| Alert             | `src/components/Alert`             | [Alert](https://tanishraj.github.io/ui-kit/?path=/story/components-alert--default)                            | Stable |
+| Avatar            | `src/components/Avatar`            | [Avatar](https://tanishraj.github.io/ui-kit/?path=/story/components-avatar--playground)                       | Stable |
+| AvatarGroup       | `src/components/AvatarGroup`       | [AvatarGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-avatargroup--default)                | Stable |
+| Badge             | `src/components/Badge`             | [Badge](https://tanishraj.github.io/ui-kit/?path=/story/components-badge--playground)                         | Stable |
+| Breadcrumb        | `src/components/Breadcrumb`        | [Breadcrumb](https://tanishraj.github.io/ui-kit/?path=/story/components-breadcrumb--playground)               | Stable |
+| Button            | `src/components/Button`            | [Button](https://tanishraj.github.io/ui-kit/?path=/story/components-button--playground)                       | Stable |
+| ButtonGroup       | `src/components/ButtonGroup`       | [ButtonGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-buttongroup--playground)             | Stable |
+| Checkbox          | `src/components/Checkbox`          | [Checkbox](https://tanishraj.github.io/ui-kit/?path=/story/components-checkbox--playground)                   | Stable |
+| CheckboxGroup     | `src/components/CheckboxGroup`     | [CheckboxGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-checkboxgroup--playground)         | Stable |
+| Chip              | `src/components/Chip`              | [Chip](https://tanishraj.github.io/ui-kit/?path=/story/components-chip--playground)                           | Stable |
+| Divider           | `src/components/Divider`           | [Divider](https://tanishraj.github.io/ui-kit/?path=/story/components-divider--playground)                     | Stable |
 | OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground) | Stable |
 
 ## Versioning and Changelog
