@@ -1,5 +1,6 @@
 export * from './Alert';
 export * from './Accordion';
+export * from './AnimatePresence';
 export * from './Badge';
 export * from './Breadcrumb';
 export * from './Button';
@@ -9,6 +10,8 @@ export * from './CheckboxGroup';
 export * from './Chip';
 export * from './Divider';
 export * from './Link';
+export * from './Drawer';
+export * from './Portal';
 export * from './Avatar';
 export * from './AvatarGroup';
 export * from './OrganizationChart';

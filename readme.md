@@ -57,6 +57,8 @@ pnpm add @tanishraj/ui-kit
 
 ```tsx
 import {
+  AnimatePresence,
+  AnimatePresenceChild,
   Button,
   Badge,
   Avatar,
@@ -66,6 +68,8 @@ import {
   CheckboxGroup,
   Chip,
   Divider,
+  Drawer,
+  Portal,
   Link,
 } from '@tanishraj/ui-kit';
 
@@ -89,10 +93,22 @@ npm install @tanishraj/ui-kit
 Use component APIs directly from the package.
 
 ```tsx
-import { Avatar, Button, Chip, Divider, Link } from '@tanishraj/ui-kit';
+import {
+  AnimatePresence,
+  AnimatePresenceChild,
+  Avatar,
+  Button,
+  Chip,
+  Divider,
+  Link,
+  Drawer,
+} from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Demo() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   return (
     <div className='flex items-center gap-4'>
       <Button variant='primary' size='md'>
@@ -102,10 +118,26 @@ export default function Demo() {
       <Chip icon={Plus} variant='success'>
         Active
       </Chip>
+      <Button onClick={() => setDrawerOpen(true)}>Open Drawer</Button>
+      <Drawer
+        footer={<Button onClick={() => setDrawerOpen(false)}>Close</Button>}
+        onClose={() => setDrawerOpen(false)}
+        open={drawerOpen}
+        title='Title'
+      >
+        Drawer content
+      </Drawer>
       <Link external href='/components' leadingIcon={Plus}>
         Components
       </Link>
       <Divider className='w-32' />
+      <AnimatePresence presence={drawerOpen}>
+        <AnimatePresenceChild>
+          <div className='animate-in fade-in duration-500'>
+            Animated helper content
+          </div>
+        </AnimatePresenceChild>
+      </AnimatePresence>
     </div>
   );
 }
@@ -152,11 +184,14 @@ If your app uses a custom design token strategy, import one packaged theme and o
 
 ```tsx
 import {
+  AnimatePresence,
+  AnimatePresenceChild,
   Breadcrumb,
   Button,
   CheckboxGroup,
   Chip,
   Divider,
+  Drawer,
   Link,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
@@ -203,6 +238,14 @@ export function ComponentExamples() {
           Add item
         </Button>
       </Divider>
+
+      <AnimatePresence presence>
+        <AnimatePresenceChild>
+          <div className='animate-in slide-in-from-right duration-500'>
+            Presence-managed content
+          </div>
+        </AnimatePresenceChild>
+      </AnimatePresence>
     </div>
   );
 }
@@ -210,10 +253,13 @@ export function ComponentExamples() {
 
 ### Component Notes
 
+- `AnimatePresence` and `AnimatePresenceChild` keep exiting elements mounted until their CSS `animationend` event fires. Use them with `data-state`, `animate-in`, `animate-out`, and slide/fade utilities for smooth enter/exit motion.
 - `Breadcrumb` supports `appearance="ghost" | "outline"` and `separator=">" | "/"`. The chevron separator is rendered as an icon.
 - `Checkbox` and `CheckboxGroup` support `shape="square" | "circle"`, with `square` as the default.
 - `Chip` supports `variant`, `appearance="filled" | "outline"`, `shape`, `size`, `inverted`, optional `icon`, and removable chips via `onClose`.
 - `Divider` supports `orientation="horizontal" | "vertical"` and optional centered content through `children`.
+- `Drawer` is controlled with `open` and `onClose`, supports `placement="right" | "left" | "top" | "bottom"`, `size="sm" | "md" | "lg" | "full"`, overlay close, Escape close, footer actions, Portal targeting, and placement-aware slide animations.
+- `Portal` renders to `document.body` by default and can target a custom container via `container`, `containerRef`, or `containerId`.
 - `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
 
 ### Documentation and examples
@@ -319,22 +365,25 @@ src/
 
 ## Components
 
-| Component         | Location                           | Storybook                                                                                                     | Status |
-| ----------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------ |
-| Accordion         | `src/components/Accordion`         | [Accordion](https://tanishraj.github.io/ui-kit/?path=/story/components-accordion--default)                    | Stable |
-| Alert             | `src/components/Alert`             | [Alert](https://tanishraj.github.io/ui-kit/?path=/story/components-alert--default)                            | Stable |
-| Avatar            | `src/components/Avatar`            | [Avatar](https://tanishraj.github.io/ui-kit/?path=/story/components-avatar--playground)                       | Stable |
-| AvatarGroup       | `src/components/AvatarGroup`       | [AvatarGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-avatargroup--default)                | Stable |
-| Badge             | `src/components/Badge`             | [Badge](https://tanishraj.github.io/ui-kit/?path=/story/components-badge--playground)                         | Stable |
-| Breadcrumb        | `src/components/Breadcrumb`        | [Breadcrumb](https://tanishraj.github.io/ui-kit/?path=/story/components-breadcrumb--playground)               | Stable |
-| Button            | `src/components/Button`            | [Button](https://tanishraj.github.io/ui-kit/?path=/story/components-button--playground)                       | Stable |
-| ButtonGroup       | `src/components/ButtonGroup`       | [ButtonGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-buttongroup--playground)             | Stable |
-| Checkbox          | `src/components/Checkbox`          | [Checkbox](https://tanishraj.github.io/ui-kit/?path=/story/components-checkbox--playground)                   | Stable |
-| CheckboxGroup     | `src/components/CheckboxGroup`     | [CheckboxGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-checkboxgroup--playground)         | Stable |
-| Chip              | `src/components/Chip`              | [Chip](https://tanishraj.github.io/ui-kit/?path=/story/components-chip--playground)                           | Stable |
-| Divider           | `src/components/Divider`           | [Divider](https://tanishraj.github.io/ui-kit/?path=/story/components-divider--playground)                     | Stable |
-| Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                           | Stable |
-| OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground) | Stable |
+| Component         | Location                           | Storybook                                                                                                          | Status |
+| ----------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------ |
+| Accordion         | `src/components/Accordion`         | [Accordion](https://tanishraj.github.io/ui-kit/?path=/story/components-accordion--default)                         | Stable |
+| Alert             | `src/components/Alert`             | [Alert](https://tanishraj.github.io/ui-kit/?path=/story/components-alert--default)                                 | Stable |
+| AnimatePresence   | `src/components/AnimatePresence`   | [AnimatePresence](https://tanishraj.github.io/ui-kit/?path=/story/ui-kit-components-animatepresence--basicexample) | Stable |
+| Avatar            | `src/components/Avatar`            | [Avatar](https://tanishraj.github.io/ui-kit/?path=/story/components-avatar--playground)                            | Stable |
+| AvatarGroup       | `src/components/AvatarGroup`       | [AvatarGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-avatargroup--default)                     | Stable |
+| Badge             | `src/components/Badge`             | [Badge](https://tanishraj.github.io/ui-kit/?path=/story/components-badge--playground)                              | Stable |
+| Breadcrumb        | `src/components/Breadcrumb`        | [Breadcrumb](https://tanishraj.github.io/ui-kit/?path=/story/components-breadcrumb--playground)                    | Stable |
+| Button            | `src/components/Button`            | [Button](https://tanishraj.github.io/ui-kit/?path=/story/components-button--playground)                            | Stable |
+| ButtonGroup       | `src/components/ButtonGroup`       | [ButtonGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-buttongroup--playground)                  | Stable |
+| Checkbox          | `src/components/Checkbox`          | [Checkbox](https://tanishraj.github.io/ui-kit/?path=/story/components-checkbox--playground)                        | Stable |
+| CheckboxGroup     | `src/components/CheckboxGroup`     | [CheckboxGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-checkboxgroup--playground)              | Stable |
+| Chip              | `src/components/Chip`              | [Chip](https://tanishraj.github.io/ui-kit/?path=/story/components-chip--playground)                                | Stable |
+| Divider           | `src/components/Divider`           | [Divider](https://tanishraj.github.io/ui-kit/?path=/story/components-divider--playground)                          | Stable |
+| Drawer            | `src/components/Drawer`            | [Drawer](https://tanishraj.github.io/ui-kit/?path=/story/components-drawer--playground)                            | Stable |
+| Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                                | Stable |
+| OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground)      | Stable |
+| Portal            | `src/components/Portal`            | N/A                                                                                                                | Stable |
 
 ## Versioning and Changelog
 
