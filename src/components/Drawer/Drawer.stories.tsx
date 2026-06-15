@@ -58,7 +58,7 @@ const ContainerDemo = () => {
   return (
     <div
       ref={containerRef}
-      className='relative h-[30rem] w-[min(48rem,calc(100vw-4rem))] overflow-hidden rounded border border-gray-400 bg-default p-6'
+      className='relative h-120 w-[min(48rem,calc(100vw-4rem))] overflow-hidden rounded border border-gray-400 bg-default p-6'
     >
       <Button onClick={handleOpen} variant='primary'>
         Open in container
