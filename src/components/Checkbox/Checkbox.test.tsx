@@ -33,6 +33,22 @@ describe('Checkbox Component', () => {
     expect(screen.getByRole('checkbox')).toBeDisabled();
   });
 
+  it('uses square shape by default', () => {
+    render(<Checkbox label='Square checkbox' />);
+
+    expect(screen.getByRole('checkbox').nextElementSibling).toHaveClass(
+      'rounded',
+    );
+  });
+
+  it('supports circle shape', () => {
+    render(<Checkbox label='Circle checkbox' shape='circle' />);
+
+    expect(screen.getByRole('checkbox').nextElementSibling).toHaveClass(
+      'rounded-full',
+    );
+  });
+
   it('sets the native indeterminate property', () => {
     render(<Checkbox label='Mixed selection' indeterminate />);
 

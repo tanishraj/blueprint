@@ -58,6 +58,14 @@ describe('CheckboxGroup Component', () => {
     expect(screen.getByRole('group').querySelector('.flex-row')).toBeTruthy();
   });
 
+  it('passes shared shape to every checkbox', () => {
+    render(<CheckboxGroup options={options} shape='circle' />);
+
+    screen.getAllByRole('checkbox').forEach(checkbox => {
+      expect(checkbox.nextElementSibling).toHaveClass('rounded-full');
+    });
+  });
+
   it('marks the group invalid when error text is provided', () => {
     render(
       <CheckboxGroup

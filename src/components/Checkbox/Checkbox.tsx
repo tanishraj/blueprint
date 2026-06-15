@@ -25,7 +25,7 @@ import {
   checkboxRequiredStyles,
   checkboxRootStyles,
 } from './Checkbox.styles';
-import type { CheckboxSizes } from './types';
+import type { CheckboxShapes, CheckboxSizes } from './types';
 
 export interface CheckboxProps extends Omit<
   ComponentPropsWithRef<'input'>,
@@ -35,6 +35,7 @@ export interface CheckboxProps extends Omit<
   description?: ReactNode;
   error?: ReactNode;
   size?: CheckboxSizes;
+  shape?: CheckboxShapes;
   indeterminate?: boolean;
 }
 
@@ -58,6 +59,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   description,
   error,
   size = 'md',
+  shape = 'square',
   indeterminate = false,
   disabled = false,
   required = false,
@@ -133,7 +135,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         <span
           aria-hidden='true'
           className={cn(
-            checkboxControlStyles({ size, invalid, indeterminate }),
+            checkboxControlStyles({ size, shape, invalid, indeterminate }),
           )}
         >
           {indeterminate ? (

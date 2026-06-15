@@ -14,6 +14,7 @@ import {
 import type {
   CheckboxGroupOption,
   CheckboxGroupProps,
+  CheckboxGroupShapes,
   CheckboxGroupSizes,
 } from './types';
 
@@ -24,6 +25,7 @@ interface CheckboxGroupItemProps {
   invalid: boolean;
   name: string | undefined;
   size?: CheckboxGroupSizes;
+  shape?: CheckboxGroupShapes;
   onItemChange: (value: string, checked: boolean) => void;
 }
 
@@ -34,10 +36,12 @@ const CheckboxGroupItem: FC<CheckboxGroupItemProps> = ({
   invalid,
   name,
   size,
+  shape,
   onItemChange,
 }) => {
   const {
     value,
+    shape: optionShape,
     disabled: optionDisabled,
     onChange: optionOnChange,
     ...checkboxProps
@@ -58,6 +62,7 @@ const CheckboxGroupItem: FC<CheckboxGroupItemProps> = ({
       name={name}
       value={value}
       size={size}
+      shape={optionShape ?? shape}
       checked={checked}
       disabled={resolvedDisabled}
       aria-invalid={invalid || undefined}
@@ -90,6 +95,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
   description,
   error,
   size = 'md',
+  shape = 'square',
   orientation = 'vertical',
   disabled = false,
   required = false,
@@ -158,6 +164,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
             invalid={invalid}
             name={name}
             size={size}
+            shape={shape}
             onItemChange={handleItemChange}
           />
         ))}

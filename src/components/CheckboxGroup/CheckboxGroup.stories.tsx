@@ -4,6 +4,7 @@ import { CheckboxGroup } from './CheckboxGroup';
 import type { CheckboxGroupProps } from './types';
 
 const sizes = ['sm', 'md', 'lg'] as const;
+const shapes = ['square', 'circle'] as const;
 const orientations = ['vertical', 'horizontal'] as const;
 
 const options = [
@@ -85,6 +86,13 @@ Use \`value\` for controlled state, \`defaultValue\` for uncontrolled state, and
         category: 'Appearance',
       },
     },
+    shape: {
+      control: { type: 'radio' },
+      options: shapes,
+      table: {
+        category: 'Appearance',
+      },
+    },
     orientation: {
       control: { type: 'radio' },
       options: orientations,
@@ -123,6 +131,7 @@ Use \`value\` for controlled state, \`defaultValue\` for uncontrolled state, and
     options,
     defaultValue: ['design'],
     size: 'md',
+    shape: 'square',
     orientation: 'vertical',
     disabled: false,
     required: false,
@@ -163,6 +172,22 @@ export const Sizes: Story = {
           options={options}
           size={size}
           defaultValue={['engineering']}
+        />
+      ))}
+    </div>
+  ),
+};
+
+export const Shapes: Story = {
+  render: () => (
+    <div className='flex flex-col gap-8'>
+      {shapes.map(shape => (
+        <CheckboxGroup
+          key={shape}
+          label={`${shape} group`}
+          options={options}
+          shape={shape}
+          defaultValue={['design', 'product']}
         />
       ))}
     </div>

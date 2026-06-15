@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Checkbox, CheckboxProps } from './Checkbox';
 
 const sizes = ['sm', 'md', 'lg'] as const;
+const shapes = ['square', 'circle'] as const;
 
 const meta: Meta<CheckboxProps> = {
   title: 'components/Checkbox',
@@ -59,6 +60,13 @@ Use \`label\` for the visible option text, \`description\` for supporting copy, 
         category: 'Appearance',
       },
     },
+    shape: {
+      control: { type: 'radio' },
+      options: shapes,
+      table: {
+        category: 'Appearance',
+      },
+    },
     checked: {
       control: 'boolean',
       table: {
@@ -94,6 +102,7 @@ Use \`label\` for the visible option text, \`description\` for supporting copy, 
     label: 'Checkbox',
     description: 'This is a checkbox description.',
     size: 'md',
+    shape: 'square',
     disabled: false,
     required: false,
     indeterminate: false,
@@ -117,6 +126,22 @@ export const Sizes: Story = {
           size={size}
           label={`${size.toUpperCase()} checkbox`}
           description='Use size to match surrounding form density.'
+        />
+      ))}
+    </div>
+  ),
+};
+
+export const Shapes: Story = {
+  render: () => (
+    <div className='flex flex-col gap-5'>
+      {shapes.map(shape => (
+        <Checkbox
+          key={shape}
+          shape={shape}
+          label={`${shape} checkbox`}
+          description='Shape controls the checkbox indicator geometry.'
+          defaultChecked
         />
       ))}
     </div>
