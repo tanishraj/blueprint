@@ -1,0 +1,111 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import { AnimatePresence } from './AnimatePresence';
+import { AnimatePresenceChild } from './AnimatePresenceChild';
+import { Button } from '../Button';
+import { useState } from 'react';
+
+<Meta
+  title='ui-kit/Components/AnimatePresence/AnimatePresence'
+  component={AnimatePresence}
+  subcomponents={{ AnimatePresenceChild }}
+/>
+
+# AnimatePresence & AnimatePresenceChild
+
+The `AnimatePresence` and `AnimatePresenceChild` components work together to manage **enter and exit animations** for React components. They ensure that components remain in the DOM until their animations complete, providing a smooth user experience.
+
+---
+
+## **When to Use**
+
+Use these components when:
+
+- You need to animate components when they enter or exit the DOM.
+- You want to handle **exit animations** before unmounting a component.
+- You need to manage **multiple concurrent animations** for child components.
+
+---
+
+## **How It Works**
+
+1. **`AnimatePresence`**: The parent component that controls whether its children are rendered. It waits for all child animations to complete before unmounting them.
+2. **`AnimatePresenceChild`**: Wraps individual child components and registers their DOM nodes with the parent `AnimatePresence`. It ensures that the parent `AnimatePresence` waits for the child's exit animation to complete.
+
+---
+
+## **Basic Usage**
+
+Here’s an example of how to use the `AnimatePresence` and `AnimatePresenceChild` components together using `CLSX` conditional styles:
+
+```tsx
+import { AnimatePresence, AnimatePresenceChild } from './AnimatePresence';
+import { Button } from './Button';
+import { useState } from 'react';
+
+function Example() {
+  const [isPresent, setIsPresent] = useState(false);
+  const toggleOpen = useCallback(() => setIsPresent(prev => !prev), []);
+
+  return (
+    <div>
+      <Button onClick={toggleOpen}>{isPresent ? 'Close' : 'Open'}</Button>
+
+      <AnimatePresence presence={isPresent}>
+        <AnimatePresenceChild>
+          <div
+            className={clsx('p-4 mt-4 rounded-sm bg-slate-200', {
+              'animate-in fade-in duration-500': isPresent,
+              'animate-out fade-out duration-500': !isPresent,
+            })}
+          >
+            Basic Presence Example
+            <p>This content fades in and out</p>
+          </div>
+        </AnimatePresenceChild>
+      </AnimatePresence>
+    </div>
+  );
+}
+```
+
+---
+
+## **Tailwind Conditional-Class Usage**
+
+Here’s an example of how to use the `AnimatePresence` and `AnimatePresenceChild` components together, without using `CLSX` conditional styles:
+
+```tsx
+import { AnimatePresence, AnimatePresenceChild } from './AnimatePresence';
+import { Button } from './Button';
+import { useState } from 'react';
+
+function Example() {
+  const [isPresent, setIsPresent] = useState(false);
+  const toggleOpen = useCallback(() => setIsPresent(prev => !prev), []);
+
+  return (
+    <div>
+      <Button onClick={toggleOpen}>Toggle Multiple</Button>
+
+      <AnimatePresence presence={isPresent}>
+        <AnimatePresenceChild>
+          <div
+            data-state={isPresent ? 'open' : 'closed'}
+            className='p-4 mt-4 bg-slate-100 rounded-sm transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left'
+          >
+            First Child (Slide Animation From Left)
+          </div>
+        </AnimatePresenceChild>
+        <AnimatePresenceChild>
+          <div
+            data-state={isPresent ? 'open' : 'closed'}
+            className='p-4 mt-4 bg-slate-100 rounded-sm  transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right'
+          >
+            Second Child (Slide Animation From Right)
+          </div>
+        </AnimatePresenceChild>
+      </AnimatePresence>
+    </div>
+  );
+}
+```

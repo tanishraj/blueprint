@@ -1,5 +1,6 @@
 export * from './Alert';
 export * from './Accordion';
+export * from './AnimatePresence';
 export * from './Badge';
 export * from './Breadcrumb';
 export * from './Button';

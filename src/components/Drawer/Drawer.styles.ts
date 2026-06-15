@@ -13,18 +13,20 @@ export const drawerPortalRootStyles = cva('isolate z-50', {
 });
 
 export const drawerOverlayStyles = cva(
-  'absolute inset-0 z-10 bg-black/40 backdrop-blur-[1px] transition-opacity',
+  'absolute inset-0 z-10 bg-black/40 backdrop-blur-[1px] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:fill-mode-forwards data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:duration-500',
 );
 
 export const drawerPanelStyles = cva(
-  'absolute z-20 flex max-h-full max-w-full flex-col overflow-hidden border-gray-400 bg-white text-default shadow-xl outline-none',
+  'absolute z-20 flex max-h-full max-w-full flex-col overflow-hidden border-gray-400 bg-white text-default shadow-xl outline-none data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards data-[state=closed]:duration-300 data-[state=closed]:ease-in data-[state=open]:animate-in data-[state=open]:duration-500 data-[state=open]:ease-out',
   {
     variants: {
       placement: {
-        right: 'right-0 top-0 h-full border-l',
-        left: 'left-0 top-0 h-full border-r',
-        top: 'left-0 top-0 w-full border-b',
-        bottom: 'bottom-0 left-0 w-full border-t',
+        right:
+          'right-0 top-0 h-full border-l data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full',
+        left: 'left-0 top-0 h-full border-r data-[state=closed]:slide-out-to-left-full data-[state=open]:slide-in-from-left-full',
+        top: 'left-0 top-0 w-full border-b data-[state=closed]:slide-out-to-top-full data-[state=open]:slide-in-from-top-full',
+        bottom:
+          'bottom-0 left-0 w-full border-t data-[state=closed]:slide-out-to-bottom-full data-[state=open]:slide-in-from-bottom-full',
       },
       size: {
         sm: '',

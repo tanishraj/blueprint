@@ -1,0 +1,82 @@
+import { describe, expect, it } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { type FC } from 'react';
+
+import { AnimatePresence } from './AnimatePresence';
+import { AnimatePresenceChild } from './AnimatePresenceChild';
+
+// Mock child component to test animation handling
+const MockChild: FC = () => (
+  <AnimatePresenceChild>
+    <div data-testid='child' className='duration-500 ease-out animate-fadeOut'>
+      Child
+    </div>
+  </AnimatePresenceChild>
+);
+
+describe('Presence', () => {
+  it('renders children when present is true', () => {
+    render(
+      <AnimatePresence presence={true}>
+        <MockChild />
+      </AnimatePresence>,
+    );
+
+    expect(screen.getByTestId('child')).toBeInTheDocument();
+  });
+
+  it('unmounts after exit animation when present changes to false', async () => {
+    const { rerender } = render(
+      <AnimatePresence presence={true}>
+        <MockChild />
+      </AnimatePresence>,
+    );
+
+    // Verify the child is rendered
+    expect(screen.getByTestId('child')).toBeInTheDocument();
+
+    // Trigger the exit animation by setting present to false
+    rerender(
+      <AnimatePresence presence={false}>
+        <MockChild />
+      </AnimatePresence>,
+    );
+
+    // Simulate the animationend event
+    fireEvent.animationEnd(screen.getByTestId('child'));
+
+    // Wait for the child to be unmounted
+    await waitFor(() => {
+      expect(screen.queryByTestId('child')).not.toBeInTheDocument();
+    });
+  });
+
+  it('does not unmount immediately when present changes to false', async () => {
+    const { rerender } = render(
+      <AnimatePresence presence={true}>
+        <MockChild />
+      </AnimatePresence>,
+    );
+
+    // Verify the child is rendered
+    expect(screen.getByTestId('child')).toBeInTheDocument();
+
+    // Trigger the exit animation by setting present to false
+    rerender(
+      <AnimatePresence presence={false}>
+        <MockChild />
+      </AnimatePresence>,
+    );
+
+    // Verify the child is still in the DOM (waiting for animation to complete)
+    expect(screen.getByTestId('child')).toBeInTheDocument();
+
+    // Simulate the animationend event
+    fireEvent.animationEnd(screen.getByTestId('child'));
+
+    // Wait for the child to be unmounted
+    await waitFor(() => {
+      expect(screen.queryByTestId('child')).not.toBeInTheDocument();
+    });
+  });
+});

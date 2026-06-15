@@ -1,5 +1,11 @@
 import { describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 
 import { Drawer } from './Drawer';
 
@@ -69,6 +75,49 @@ describe('Drawer Component', () => {
     expect(screen.getByRole('dialog')).toHaveClass('z-20');
   });
 
+  it('keeps the drawer mounted while the exit animation runs', async () => {
+    const { rerender } = render(<Drawer open>Content</Drawer>);
+
+    expect(screen.getByRole('dialog')).toHaveAttribute('data-state', 'open');
+
+    rerender(<Drawer open={false}>Content</Drawer>);
+
+    const dialog = screen.getByRole('dialog');
+    const overlay = screen.getByRole('button', {
+      name: /close drawer overlay/i,
+    });
+
+    expect(dialog).toHaveAttribute('data-state', 'closed');
+
+    fireEvent.animationEnd(overlay);
+    fireEvent.animationEnd(dialog);
+
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+  });
+
+  it('keeps body scroll locked until the exit animation completes', () => {
+    vi.useFakeTimers();
+    const originalOverflow = document.body.style.overflow;
+
+    const { rerender } = render(<Drawer open>Content</Drawer>);
+
+    expect(document.body.style.overflow).toBe('hidden');
+
+    rerender(<Drawer open={false}>Content</Drawer>);
+
+    expect(document.body.style.overflow).toBe('hidden');
+
+    act(() => {
+      vi.advanceTimersByTime(300);
+    });
+
+    expect(document.body.style.overflow).toBe(originalOverflow);
+
+    vi.useRealTimers();
+  });
+
   it('does not close from overlay when disabled', () => {
     const handleClose = vi.fn();
 
@@ -107,6 +156,30 @@ describe('Drawer Component', () => {
     );
 
     expect(screen.getByRole('dialog')).toHaveClass('left-0', 'w-80');
+  });
+
+  it('applies full-distance slide classes based on placement', () => {
+    const { rerender } = render(
+      <Drawer open placement='right'>
+        Content
+      </Drawer>,
+    );
+
+    expect(screen.getByRole('dialog')).toHaveClass(
+      'data-[state=open]:slide-in-from-right-full',
+      'data-[state=closed]:slide-out-to-right-full',
+    );
+
+    rerender(
+      <Drawer open placement='left'>
+        Content
+      </Drawer>,
+    );
+
+    expect(screen.getByRole('dialog')).toHaveClass(
+      'data-[state=open]:slide-in-from-left-full',
+      'data-[state=closed]:slide-out-to-left-full',
+    );
   });
 
   it('renders footer content', () => {
