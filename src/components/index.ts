@@ -11,6 +11,7 @@ export * from './Chip';
 export * from './Divider';
 export * from './Link';
 export * from './Drawer';
+export * from './Popover';
 export * from './Portal';
 export * from './Avatar';
 export * from './AvatarGroup';
