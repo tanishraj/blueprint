@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const drawerPortalRootStyles = cva('z-50', {
+export const drawerPortalRootStyles = cva('isolate z-50', {
   variants: {
     portal: {
       true: 'fixed inset-0',
@@ -13,11 +13,11 @@ export const drawerPortalRootStyles = cva('z-50', {
 });
 
 export const drawerOverlayStyles = cva(
-  'absolute inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity',
+  'absolute inset-0 z-10 bg-black/40 backdrop-blur-[1px] transition-opacity',
 );
 
 export const drawerPanelStyles = cva(
-  'absolute flex max-h-full max-w-full flex-col overflow-hidden border-gray-400 bg-base text-default shadow-xl outline-none',
+  'absolute z-20 flex max-h-full max-w-full flex-col overflow-hidden border-gray-400 bg-white text-default shadow-xl outline-none',
   {
     variants: {
       placement: {

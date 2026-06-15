@@ -22,6 +22,7 @@ describe('Drawer Component', () => {
     );
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toHaveClass('bg-white');
     expect(screen.getByText('Drawer title')).toBeInTheDocument();
     expect(screen.getByText('Drawer content')).toBeInTheDocument();
   });
@@ -54,6 +55,18 @@ describe('Drawer Component', () => {
     );
 
     expect(handleClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the overlay behind the drawer panel', () => {
+    const { container } = render(<Drawer open>Content</Drawer>);
+
+    expect(container.ownerDocument.body.querySelector('.isolate')).toHaveClass(
+      'z-50',
+    );
+    expect(
+      screen.getByRole('button', { name: /close drawer overlay/i }),
+    ).toHaveClass('z-10');
+    expect(screen.getByRole('dialog')).toHaveClass('z-20');
   });
 
   it('does not close from overlay when disabled', () => {
