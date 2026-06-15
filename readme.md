@@ -66,6 +66,7 @@ import {
   CheckboxGroup,
   Chip,
   Divider,
+  Link,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
@@ -88,7 +89,7 @@ npm install @tanishraj/ui-kit
 Use component APIs directly from the package.
 
 ```tsx
-import { Avatar, Button, Chip, Divider } from '@tanishraj/ui-kit';
+import { Avatar, Button, Chip, Divider, Link } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
 
 export default function Demo() {
@@ -101,6 +102,9 @@ export default function Demo() {
       <Chip icon={Plus} variant='success'>
         Active
       </Chip>
+      <Link external href='/components' leadingIcon={Plus}>
+        Components
+      </Link>
       <Divider className='w-32' />
     </div>
   );
@@ -153,6 +157,7 @@ import {
   CheckboxGroup,
   Chip,
   Divider,
+  Link,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
 
@@ -172,6 +177,17 @@ export function ComponentExamples() {
       <Chip appearance='filled' icon={Tag} shape='circle' variant='primary'>
         Filter
       </Chip>
+
+      <Link
+        external
+        href='/components/link'
+        leadingIcon={Home}
+        truncate
+        underline='always'
+        variant='primary'
+      >
+        Link Truncated
+      </Link>
 
       <CheckboxGroup
         label='Notification channels'
@@ -198,6 +214,7 @@ export function ComponentExamples() {
 - `Checkbox` and `CheckboxGroup` support `shape="square" | "circle"`, with `square` as the default.
 - `Chip` supports `variant`, `appearance="filled" | "outline"`, `shape`, `size`, `inverted`, optional `icon`, and removable chips via `onClose`.
 - `Divider` supports `orientation="horizontal" | "vertical"` and optional centered content through `children`.
+- `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
 
 ### Documentation and examples
 
@@ -316,6 +333,7 @@ src/
 | CheckboxGroup     | `src/components/CheckboxGroup`     | [CheckboxGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-checkboxgroup--playground)         | Stable |
 | Chip              | `src/components/Chip`              | [Chip](https://tanishraj.github.io/ui-kit/?path=/story/components-chip--playground)                           | Stable |
 | Divider           | `src/components/Divider`           | [Divider](https://tanishraj.github.io/ui-kit/?path=/story/components-divider--playground)                     | Stable |
+| Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                           | Stable |
 | OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground) | Stable |
 
 ## Versioning and Changelog
