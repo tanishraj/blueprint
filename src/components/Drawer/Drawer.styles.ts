@@ -22,11 +22,11 @@ export const drawerPanelStyles = cva(
     variants: {
       placement: {
         right:
-          'right-0 top-0 h-full border-l data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full',
-        left: 'left-0 top-0 h-full border-r data-[state=closed]:slide-out-to-left-full data-[state=open]:slide-in-from-left-full',
-        top: 'left-0 top-0 w-full border-b data-[state=closed]:slide-out-to-top-full data-[state=open]:slide-in-from-top-full',
+          'right-0 top-0 h-full data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-right-full',
+        left: 'left-0 top-0 h-full data-[state=closed]:slide-out-to-left-full data-[state=open]:slide-in-from-left-full',
+        top: 'left-0 top-0 w-full data-[state=closed]:slide-out-to-top-full data-[state=open]:slide-in-from-top-full',
         bottom:
-          'bottom-0 left-0 w-full border-t data-[state=closed]:slide-out-to-bottom-full data-[state=open]:slide-in-from-bottom-full',
+          'bottom-0 left-0 w-full data-[state=closed]:slide-out-to-bottom-full data-[state=open]:slide-in-from-bottom-full',
       },
       size: {
         sm: '',
@@ -36,6 +36,26 @@ export const drawerPanelStyles = cva(
       },
     },
     compoundVariants: [
+      {
+        placement: 'right',
+        size: ['sm', 'md', 'lg'],
+        className: 'border-l',
+      },
+      {
+        placement: 'left',
+        size: ['sm', 'md', 'lg'],
+        className: 'border-r',
+      },
+      {
+        placement: 'top',
+        size: ['sm', 'md', 'lg'],
+        className: 'border-b',
+      },
+      {
+        placement: 'bottom',
+        size: ['sm', 'md', 'lg'],
+        className: 'border-t',
+      },
       {
         placement: ['left', 'right'],
         size: 'sm',
@@ -85,7 +105,18 @@ export const drawerPanelStyles = cva(
 );
 
 export const drawerHeaderStyles = cva(
-  'flex min-h-14 shrink-0 items-start justify-between gap-4 border-b border-gray-400 px-6 py-4',
+  'flex min-h-14 shrink-0 justify-between gap-4 border-b border-gray-400 px-6 py-4',
+  {
+    variants: {
+      withDescription: {
+        true: 'items-start',
+        false: 'items-center',
+      },
+    },
+    defaultVariants: {
+      withDescription: false,
+    },
+  },
 );
 
 export const drawerHeaderContentStyles = cva('min-w-0 flex-1');

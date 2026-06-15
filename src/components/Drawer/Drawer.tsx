@@ -94,6 +94,8 @@ export const Drawer: FC<DrawerProps> = ({
   }, [disablePortal, open]);
 
   const animationState = open ? 'open' : 'closed';
+  const hasCustomContainer = Boolean(container || containerId || containerRef);
+  const shouldFillViewport = !disablePortal && !hasCustomContainer;
 
   return (
     <Portal
@@ -103,7 +105,9 @@ export const Drawer: FC<DrawerProps> = ({
       disabled={disablePortal}
     >
       <AnimatePresence presence={open}>
-        <div className={cn(drawerPortalRootStyles({ portal: !disablePortal }))}>
+        <div
+          className={cn(drawerPortalRootStyles({ portal: shouldFillViewport }))}
+        >
           {showOverlay && (
             <AnimatePresenceChild>
               <button
@@ -125,7 +129,13 @@ export const Drawer: FC<DrawerProps> = ({
               tabIndex={-1}
             >
               {(title || description || showCloseButton) && (
-                <div className={cn(drawerHeaderStyles())}>
+                <div
+                  className={cn(
+                    drawerHeaderStyles({
+                      withDescription: Boolean(description),
+                    }),
+                  )}
+                >
                   <div className={cn(drawerHeaderContentStyles())}>
                     {title && (
                       <div className={cn(drawerTitleStyles())}>{title}</div>

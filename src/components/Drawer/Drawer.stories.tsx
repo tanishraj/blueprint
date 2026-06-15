@@ -112,6 +112,24 @@ Drawer is a controlled overlay panel for secondary workflows. It renders through
     },
   ],
   argTypes: {
+    placement: {
+      control: { type: 'radio' },
+      options: placements,
+      table: {
+        category: 'Appearance',
+        type: { summary: placements.join(' | ') },
+        defaultValue: { summary: 'right' },
+      },
+    },
+    size: {
+      control: { type: 'radio' },
+      options: sizes,
+      table: {
+        category: 'Appearance',
+        type: { summary: sizes.join(' | ') },
+        defaultValue: { summary: 'md' },
+      },
+    },
     open: {
       control: 'boolean',
       table: {
@@ -131,24 +149,6 @@ Drawer is a controlled overlay panel for secondary workflows. It renders through
       table: {
         category: 'Content',
         type: { summary: 'ReactNode' },
-      },
-    },
-    placement: {
-      control: { type: 'radio' },
-      options: placements,
-      table: {
-        category: 'Appearance',
-        type: { summary: placements.join(' | ') },
-        defaultValue: { summary: 'right' },
-      },
-    },
-    size: {
-      control: { type: 'radio' },
-      options: sizes,
-      table: {
-        category: 'Appearance',
-        type: { summary: sizes.join(' | ') },
-        defaultValue: { summary: 'md' },
       },
     },
     closeOnEscape: {
@@ -191,6 +191,57 @@ Drawer is a controlled overlay panel for secondary workflows. It renders through
       table: {
         category: 'Portal',
         type: { summary: 'string' },
+      },
+    },
+    children: {
+      control: 'object',
+      table: {
+        category: 'Advanced',
+        type: { summary: 'ReactNode' },
+      },
+    },
+    footer: {
+      control: 'object',
+      table: {
+        category: 'Advanced',
+        type: { summary: 'ReactNode' },
+      },
+    },
+    onClose: {
+      control: false,
+      table: {
+        category: 'Advanced',
+        type: { summary: '() => void' },
+      },
+    },
+    closeLabel: {
+      control: 'text',
+      table: {
+        category: 'Advanced',
+        type: { summary: 'string' },
+        defaultValue: { summary: 'Close drawer' },
+      },
+    },
+    container: {
+      control: 'object',
+      table: {
+        category: 'Advanced',
+        type: { summary: 'HTMLElement | null' },
+      },
+    },
+    containerRef: {
+      control: 'object',
+      table: {
+        category: 'Advanced',
+        type: { summary: 'RefObject<HTMLElement | null>' },
+      },
+    },
+    role: {
+      control: 'text',
+      table: {
+        category: 'Advanced',
+        type: { summary: 'AriaRole' },
+        defaultValue: { summary: 'dialog' },
       },
     },
   },

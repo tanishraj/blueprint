@@ -33,6 +33,30 @@ describe('Drawer Component', () => {
     expect(screen.getByText('Drawer content')).toBeInTheDocument();
   });
 
+  it('centers header content when only a title is provided', () => {
+    render(
+      <Drawer open title='Drawer title'>
+        Drawer content
+      </Drawer>,
+    );
+
+    expect(screen.getByText('Drawer title').closest('.flex')).toHaveClass(
+      'items-center',
+    );
+  });
+
+  it('top-aligns header content when a description is provided', () => {
+    render(
+      <Drawer description='Drawer description' open title='Drawer title'>
+        Drawer content
+      </Drawer>,
+    );
+
+    expect(screen.getByText('Drawer title').closest('.flex')).toHaveClass(
+      'items-start',
+    );
+  });
+
   it('calls onClose from close button', () => {
     const handleClose = vi.fn();
 
@@ -158,6 +182,25 @@ describe('Drawer Component', () => {
     expect(screen.getByRole('dialog')).toHaveClass('left-0', 'w-80');
   });
 
+  it('removes the placement edge border for full-screen drawers', () => {
+    const { rerender } = render(
+      <Drawer open placement='right' size='md'>
+        Content
+      </Drawer>,
+    );
+
+    expect(screen.getByRole('dialog')).toHaveClass('border-l');
+
+    rerender(
+      <Drawer open placement='right' size='full'>
+        Content
+      </Drawer>,
+    );
+
+    expect(screen.getByRole('dialog')).not.toHaveClass('border-l');
+    expect(screen.getByRole('dialog')).toHaveClass('w-full');
+  });
+
   it('applies full-distance slide classes based on placement', () => {
     const { rerender } = render(
       <Drawer open placement='right'>
@@ -204,5 +247,16 @@ describe('Drawer Component', () => {
     );
 
     expect(target).toHaveTextContent('Content');
+    expect(target.querySelector('.isolate')).toHaveClass('absolute', 'inset-0');
+    expect(target.querySelector('.isolate')).not.toHaveClass('fixed');
+  });
+
+  it('fills the viewport when no custom container is provided', () => {
+    const { container } = render(<Drawer open>Content</Drawer>);
+
+    expect(container.ownerDocument.body.querySelector('.isolate')).toHaveClass(
+      'fixed',
+      'inset-0',
+    );
   });
 });
