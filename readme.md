@@ -5,13 +5,14 @@
 [![license](https://img.shields.io/github/license/tanishraj/ui-kit.svg)](https://github.com/tanishraj/ui-kit/blob/develop/LICENSE)
 [![storybook](https://img.shields.io/badge/storybook-live-purple)](https://tanishraj.github.io/ui-kit/)
 
-A production-ready React + TypeScript UI component library built with Vite, Storybook, Tailwind CSS, CVA, and strict quality gates.
+A production-ready React + TypeScript UI component library built with Vite, Storybook, Tailwind CSS, CVA, Floating UI, and strict quality gates.
 
 ## Table of Contents
 
 - [About](#about)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Setup for app consumers](#setup-for-app-consumers)
 - [Component Library API](#component-library-api)
 - [Theming](#theming)
 - [Accessibility](#accessibility)
@@ -21,6 +22,7 @@ A production-ready React + TypeScript UI component library built with Vite, Stor
 - [Publishing](#publishing)
 - [Release Process](#release-process)
 - [Repository Structure](#repository-structure)
+- [Components](#components)
 - [Contributing](#contributing)
 - [License](#license)
 - [Changelog](#changelog)
@@ -57,20 +59,25 @@ pnpm add @tanishraj/ui-kit
 
 ```tsx
 import {
+  Accordion,
+  Alert,
   AnimatePresence,
   AnimatePresenceChild,
-  Button,
   Badge,
   Avatar,
   AvatarGroup,
   Breadcrumb,
+  Button,
+  ButtonGroup,
   Checkbox,
   CheckboxGroup,
   Chip,
   Divider,
   Drawer,
-  Portal,
   Link,
+  OrganizationChart,
+  Popover,
+  Portal,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
@@ -100,8 +107,9 @@ import {
   Button,
   Chip,
   Divider,
-  Link,
   Drawer,
+  Link,
+  Popover,
 } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -119,6 +127,12 @@ export default function Demo() {
         Active
       </Chip>
       <Button onClick={() => setDrawerOpen(true)}>Open Drawer</Button>
+      <Popover
+        title='Title'
+        trigger={<Button appearance='filled'>Open Popover</Button>}
+      >
+        Slot Area
+      </Popover>
       <Drawer
         footer={<Button onClick={() => setDrawerOpen(false)}>Close</Button>}
         onClose={() => setDrawerOpen(false)}
@@ -146,6 +160,12 @@ export default function Demo() {
 ### Theme file options
 
 ```ts
+// Optional: import globals explicitly when your bundler does not auto-include package CSS
+import '@tanishraj/ui-kit/globals.css';
+
+// Optional: import base color tokens directly
+import '@tanishraj/ui-kit/base.css';
+
 // Optional: import this only when you want secondary theme
 import '@tanishraj/ui-kit/theme-secondary.css';
 ```
@@ -163,6 +183,7 @@ To add a new packaged theme later:
 You can also import through:
 
 ```ts
+import '@tanishraj/ui-kit/themes/primary.css';
 import '@tanishraj/ui-kit/themes/secondary.css';
 ```
 
@@ -193,6 +214,7 @@ import {
   Divider,
   Drawer,
   Link,
+  Popover,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
 
@@ -239,6 +261,15 @@ export function ComponentExamples() {
         </Button>
       </Divider>
 
+      <Popover
+        placement='bottom'
+        title='Title'
+        trigger={<Button variant='primary'>Open popover</Button>}
+        variant='primary'
+      >
+        Slot Area
+      </Popover>
+
       <AnimatePresence presence>
         <AnimatePresenceChild>
           <div className='animate-in slide-in-from-right duration-500'>
@@ -261,6 +292,7 @@ export function ComponentExamples() {
 - `Drawer` is controlled with `open` and `onClose`, supports `placement="right" | "left" | "top" | "bottom"`, `size="sm" | "md" | "lg" | "full"`, overlay close, Escape close, footer actions, Portal targeting, and placement-aware slide animations.
 - `Portal` renders to `document.body` by default and can target a custom container via `container`, `containerRef`, or `containerId`.
 - `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
+- `Popover` is powered by Floating UI, supports `placement`, `align`, `variant`, optional arrow/close controls, controlled or uncontrolled open state, and slot-style body content.
 
 ### Documentation and examples
 
@@ -271,7 +303,10 @@ export function ComponentExamples() {
 
 - Component style variants are centralized with CVA + Tailwind utility patterns.
 - Theme tokens are built in and theme files are exported from package entry points:
+  - `base.css`
   - `theme-secondary.css`
+  - `themes/primary.css`
+  - `themes/secondary.css`
   - `globals.css`
 
 ## Accessibility
@@ -383,6 +418,7 @@ src/
 | Drawer            | `src/components/Drawer`            | [Drawer](https://tanishraj.github.io/ui-kit/?path=/story/components-drawer--playground)                            | Stable |
 | Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                                | Stable |
 | OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground)      | Stable |
+| Popover           | `src/components/Popover`           | [Popover](https://tanishraj.github.io/ui-kit/?path=/story/components-popover--playground)                          | Stable |
 | Portal            | `src/components/Portal`            | N/A                                                                                                                | Stable |
 
 ## Versioning and Changelog
