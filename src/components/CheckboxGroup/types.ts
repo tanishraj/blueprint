@@ -1,0 +1,39 @@
+import { type FieldsetHTMLAttributes, type ReactNode } from 'react';
+
+import type { CheckboxProps, CheckboxSizes } from '../Checkbox';
+
+export type CheckboxGroupOrientation = 'horizontal' | 'vertical';
+
+export type CheckboxGroupSizes = CheckboxSizes;
+
+export interface CheckboxGroupOption extends Omit<
+  CheckboxProps,
+  | 'checked'
+  | 'defaultChecked'
+  | 'children'
+  | 'error'
+  | 'name'
+  | 'onChange'
+  | 'ref'
+  | 'size'
+  | 'type'
+  | 'value'
+> {
+  value: string;
+}
+
+export interface CheckboxGroupProps extends Omit<
+  FieldsetHTMLAttributes<HTMLFieldSetElement>,
+  'children' | 'defaultValue' | 'onChange' | 'value'
+> {
+  options: CheckboxGroupOption[];
+  value?: string[];
+  defaultValue?: string[];
+  onValueChange?: (value: string[]) => void;
+  name?: string;
+  label?: ReactNode;
+  description?: ReactNode;
+  error?: ReactNode;
+  size?: CheckboxGroupSizes;
+  orientation?: CheckboxGroupOrientation;
+}
