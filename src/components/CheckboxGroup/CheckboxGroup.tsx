@@ -1,10 +1,4 @@
-import {
-  type FC,
-  type ReactNode,
-  useCallback,
-  useId,
-  useState,
-} from 'react';
+import { type FC, useCallback, useId, useState } from 'react';
 
 import { cn } from '@/utils';
 
@@ -28,7 +22,7 @@ interface CheckboxGroupItemProps {
   checked: boolean;
   disabled: boolean;
   invalid: boolean;
-  name?: string;
+  name: string | undefined;
   size?: CheckboxGroupSizes;
   onItemChange: (value: string, checked: boolean) => void;
 }
@@ -42,15 +36,20 @@ const CheckboxGroupItem: FC<CheckboxGroupItemProps> = ({
   size,
   onItemChange,
 }) => {
-  const { value, disabled: optionDisabled, ...checkboxProps } = option;
+  const {
+    value,
+    disabled: optionDisabled,
+    onChange: optionOnChange,
+    ...checkboxProps
+  } = option;
   const resolvedDisabled = disabled || Boolean(optionDisabled);
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       onItemChange(value, event.target.checked);
-      checkboxProps.onChange?.(event);
+      optionOnChange?.(event);
     },
-    [checkboxProps, onItemChange, value],
+    [onItemChange, optionOnChange, value],
   );
 
   return (
@@ -73,7 +72,7 @@ const toggleValue = (
   checked: boolean,
 ) => {
   if (checked) {
-    return currentValue.includes(optionValue)
+    return currentValue.indexOf(optionValue) >= 0
       ? currentValue
       : [...currentValue, optionValue];
   }
@@ -119,11 +118,16 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
     [isControlled, onValueChange, selectedValue],
   );
 
-  const renderHeader = (headerLabel: ReactNode) => (
-    <span className={cn(checkboxGroupHeaderStyles())}>
-      {headerLabel && (
+  return (
+    <fieldset
+      {...restProps}
+      disabled={disabled}
+      aria-describedby={helperText ? helperId : restProps['aria-describedby']}
+      className={cn(checkboxGroupStyles({ disabled }), className)}
+    >
+      {label && (
         <legend className={cn(checkboxGroupLegendStyles({ size }))}>
-          {headerLabel}
+          {label}
           {required && (
             <span
               aria-hidden='true'
@@ -135,30 +139,21 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
         </legend>
       )}
       {helperText && (
-        <span
-          id={helperId}
-          className={cn(checkboxGroupDescriptionStyles({ size, invalid }))}
-        >
-          {helperText}
+        <span className={cn(checkboxGroupHeaderStyles())}>
+          <span
+            id={helperId}
+            className={cn(checkboxGroupDescriptionStyles({ size, invalid }))}
+          >
+            {helperText}
+          </span>
         </span>
       )}
-    </span>
-  );
-
-  return (
-    <fieldset
-      {...restProps}
-      disabled={disabled}
-      aria-describedby={helperText ? helperId : restProps['aria-describedby']}
-      className={cn(checkboxGroupStyles({ disabled }), className)}
-    >
-      {(label || helperText) && renderHeader(label)}
       <div className={cn(checkboxGroupItemsStyles({ orientation }))}>
         {options.map(option => (
           <CheckboxGroupItem
             key={option.value}
             option={option}
-            checked={selectedValue.includes(option.value)}
+            checked={selectedValue.indexOf(option.value) >= 0}
             disabled={disabled}
             invalid={invalid}
             name={name}

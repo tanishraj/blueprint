@@ -55,9 +55,7 @@ describe('CheckboxGroup Component', () => {
   it('supports horizontal orientation', () => {
     render(<CheckboxGroup options={options} orientation='horizontal' />);
 
-    expect(screen.getAllByRole('checkbox')[0].closest('div')).toHaveClass(
-      'flex-row',
-    );
+    expect(screen.getByRole('group').querySelector('.flex-row')).toBeTruthy();
   });
 
   it('marks the group invalid when error text is provided', () => {

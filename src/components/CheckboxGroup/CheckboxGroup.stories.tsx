@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { CheckboxGroup, CheckboxGroupProps } from './CheckboxGroup';
+import { CheckboxGroup } from './CheckboxGroup';
+import type { CheckboxGroupProps } from './types';
 
 const sizes = ['sm', 'md', 'lg'] as const;
 const orientations = ['vertical', 'horizontal'] as const;

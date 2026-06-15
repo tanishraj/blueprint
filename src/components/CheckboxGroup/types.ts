@@ -13,7 +13,6 @@ export interface CheckboxGroupOption extends Omit<
   | 'children'
   | 'error'
   | 'name'
-  | 'onChange'
   | 'ref'
   | 'size'
   | 'type'
@@ -36,4 +35,5 @@ export interface CheckboxGroupProps extends Omit<
   error?: ReactNode;
   size?: CheckboxGroupSizes;
   orientation?: CheckboxGroupOrientation;
+  required?: boolean;
 }
