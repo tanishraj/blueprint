@@ -126,7 +126,7 @@ export const drawerTitleStyles = cva('truncate text-base font-semibold');
 export const drawerDescriptionStyles = cva('mt-1 text-sm text-gray-600');
 
 export const drawerCloseButtonStyles = cva(
-  'inline-flex size-8 shrink-0 items-center justify-center rounded outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
+  'inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
 );
 
 export const drawerCloseIconStyles = cva('size-4 shrink-0');

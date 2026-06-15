@@ -66,7 +66,11 @@ describe('Drawer Component', () => {
       </Drawer>,
     );
 
-    fireEvent.click(screen.getByRole('button', { name: /^close drawer$/i }));
+    const closeButton = screen.getByRole('button', { name: /^close drawer$/i });
+
+    expect(closeButton).toHaveClass('cursor-pointer');
+
+    fireEvent.click(closeButton);
 
     expect(handleClose).toHaveBeenCalledTimes(1);
   });

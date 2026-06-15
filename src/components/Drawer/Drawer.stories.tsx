@@ -25,7 +25,7 @@ const DrawerDemo = (args: DrawerProps) => {
             <Button appearance='outline' onClick={handleClose}>
               Cancel
             </Button>
-            <Button onClick={handleClose} variant='primary'>
+            <Button appearance='filled' onClick={handleClose} variant='primary'>
               Button
             </Button>
           </>
@@ -67,7 +67,7 @@ const ContainerDemo = () => {
         containerRef={containerRef}
         disablePortal={false}
         footer={
-          <Button onClick={handleClose} variant='primary'>
+          <Button appearance='filled' onClick={handleClose} variant='primary'>
             Button
           </Button>
         }
