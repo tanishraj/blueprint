@@ -27,6 +27,7 @@ import { CircleAlert, CircleCheck, Info, TriangleAlert, X } from 'lucide-react';
 
 import { cn } from '@/utils';
 
+import { Button } from '../Button';
 import {
   popoverBodyStyles,
   popoverArrowStyles,
@@ -153,7 +154,7 @@ export const Popover: FC<PopoverProps> = ({
     }
 
     return (
-      <button
+      <Button
         {...getReferenceProps({
           ref: refs.setReference,
           'aria-expanded': isOpen,
@@ -162,7 +163,7 @@ export const Popover: FC<PopoverProps> = ({
         type='button'
       >
         {trigger}
-      </button>
+      </Button>
     );
   };
 
