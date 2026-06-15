@@ -1,0 +1,105 @@
+import { cva } from 'class-variance-authority';
+
+export const drawerPortalRootStyles = cva('z-50', {
+  variants: {
+    portal: {
+      true: 'fixed inset-0',
+      false: 'absolute inset-0',
+    },
+  },
+  defaultVariants: {
+    portal: true,
+  },
+});
+
+export const drawerOverlayStyles = cva(
+  'absolute inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity',
+);
+
+export const drawerPanelStyles = cva(
+  'absolute flex max-h-full max-w-full flex-col overflow-hidden border-gray-400 bg-base text-default shadow-xl outline-none',
+  {
+    variants: {
+      placement: {
+        right: 'right-0 top-0 h-full border-l',
+        left: 'left-0 top-0 h-full border-r',
+        top: 'left-0 top-0 w-full border-b',
+        bottom: 'bottom-0 left-0 w-full border-t',
+      },
+      size: {
+        sm: '',
+        md: '',
+        lg: '',
+        full: '',
+      },
+    },
+    compoundVariants: [
+      {
+        placement: ['left', 'right'],
+        size: 'sm',
+        className: 'w-80',
+      },
+      {
+        placement: ['left', 'right'],
+        size: 'md',
+        className: 'w-96',
+      },
+      {
+        placement: ['left', 'right'],
+        size: 'lg',
+        className: 'w-[32rem]',
+      },
+      {
+        placement: ['left', 'right'],
+        size: 'full',
+        className: 'w-full',
+      },
+      {
+        placement: ['top', 'bottom'],
+        size: 'sm',
+        className: 'h-64',
+      },
+      {
+        placement: ['top', 'bottom'],
+        size: 'md',
+        className: 'h-80',
+      },
+      {
+        placement: ['top', 'bottom'],
+        size: 'lg',
+        className: 'h-[32rem]',
+      },
+      {
+        placement: ['top', 'bottom'],
+        size: 'full',
+        className: 'h-full',
+      },
+    ],
+    defaultVariants: {
+      placement: 'right',
+      size: 'md',
+    },
+  },
+);
+
+export const drawerHeaderStyles = cva(
+  'flex min-h-14 shrink-0 items-start justify-between gap-4 border-b border-gray-400 px-6 py-4',
+);
+
+export const drawerHeaderContentStyles = cva('min-w-0 flex-1');
+
+export const drawerTitleStyles = cva('truncate text-base font-semibold');
+
+export const drawerDescriptionStyles = cva('mt-1 text-sm text-gray-600');
+
+export const drawerCloseButtonStyles = cva(
+  'inline-flex size-8 shrink-0 items-center justify-center rounded outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
+);
+
+export const drawerCloseIconStyles = cva('size-4 shrink-0');
+
+export const drawerBodyStyles = cva('min-h-0 flex-1 overflow-auto px-6 py-5');
+
+export const drawerFooterStyles = cva(
+  'flex shrink-0 items-center justify-end gap-3 border-t border-gray-400 px-6 py-4',
+);

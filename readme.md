@@ -66,6 +66,8 @@ import {
   CheckboxGroup,
   Chip,
   Divider,
+  Drawer,
+  Portal,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
@@ -88,10 +90,13 @@ npm install @tanishraj/ui-kit
 Use component APIs directly from the package.
 
 ```tsx
-import { Avatar, Button, Chip, Divider } from '@tanishraj/ui-kit';
+import { Avatar, Button, Chip, Divider, Drawer } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Demo() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   return (
     <div className='flex items-center gap-4'>
       <Button variant='primary' size='md'>
@@ -101,6 +106,15 @@ export default function Demo() {
       <Chip icon={Plus} variant='success'>
         Active
       </Chip>
+      <Button onClick={() => setDrawerOpen(true)}>Open Drawer</Button>
+      <Drawer
+        footer={<Button onClick={() => setDrawerOpen(false)}>Close</Button>}
+        onClose={() => setDrawerOpen(false)}
+        open={drawerOpen}
+        title='Title'
+      >
+        Drawer content
+      </Drawer>
       <Divider className='w-32' />
     </div>
   );
@@ -153,6 +167,7 @@ import {
   CheckboxGroup,
   Chip,
   Divider,
+  Drawer,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
 
@@ -198,6 +213,8 @@ export function ComponentExamples() {
 - `Checkbox` and `CheckboxGroup` support `shape="square" | "circle"`, with `square` as the default.
 - `Chip` supports `variant`, `appearance="filled" | "outline"`, `shape`, `size`, `inverted`, optional `icon`, and removable chips via `onClose`.
 - `Divider` supports `orientation="horizontal" | "vertical"` and optional centered content through `children`.
+- `Drawer` is controlled with `open` and `onClose`, supports `placement="right" | "left" | "top" | "bottom"`, `size="sm" | "md" | "lg" | "full"`, overlay close, Escape close, footer actions, and Portal targeting.
+- `Portal` renders to `document.body` by default and can target a custom container via `container`, `containerRef`, or `containerId`.
 
 ### Documentation and examples
 
@@ -316,7 +333,9 @@ src/
 | CheckboxGroup     | `src/components/CheckboxGroup`     | [CheckboxGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-checkboxgroup--playground)         | Stable |
 | Chip              | `src/components/Chip`              | [Chip](https://tanishraj.github.io/ui-kit/?path=/story/components-chip--playground)                           | Stable |
 | Divider           | `src/components/Divider`           | [Divider](https://tanishraj.github.io/ui-kit/?path=/story/components-divider--playground)                     | Stable |
+| Drawer            | `src/components/Drawer`            | [Drawer](https://tanishraj.github.io/ui-kit/?path=/story/components-drawer--playground)                       | Stable |
 | OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground) | Stable |
+| Portal            | `src/components/Portal`            | N/A                                                                                                           | Stable |
 
 ## Versioning and Changelog
 

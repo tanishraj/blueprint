@@ -8,6 +8,8 @@ export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Chip';
 export * from './Divider';
+export * from './Drawer';
+export * from './Portal';
 export * from './Avatar';
 export * from './AvatarGroup';
 export * from './OrganizationChart';
