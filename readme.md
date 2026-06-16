@@ -78,6 +78,7 @@ import {
   Input,
   ListBox,
   Link,
+  Modal,
   OrganizationChart,
   Popover,
   Portal,
@@ -115,6 +116,7 @@ import {
   Input,
   ListBox,
   Link,
+  Modal,
   Popover,
 } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
@@ -122,6 +124,7 @@ import { useState } from 'react';
 
 export default function Demo() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div className='flex items-center gap-4'>
@@ -145,6 +148,15 @@ export default function Demo() {
         ]}
       />
       <Dropdown variant='primary'>Dropdown</Dropdown>
+      <Button onClick={() => setModalOpen(true)}>Open Modal</Button>
+      <Modal
+        footer={<Button onClick={() => setModalOpen(false)}>Close</Button>}
+        onClose={() => setModalOpen(false)}
+        open={modalOpen}
+        title='Title'
+      >
+        Modal content
+      </Modal>
       <Button onClick={() => setDrawerOpen(true)}>Open Drawer</Button>
       <Popover
         title='Title'
@@ -236,6 +248,7 @@ import {
   Input,
   ListBox,
   Link,
+  Modal,
   Popover,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
@@ -306,6 +319,16 @@ export function ComponentExamples() {
         selectedValue='two'
       />
 
+      <Modal
+        footer={<Button variant='primary'>Button</Button>}
+        leadingIcon={Plus}
+        onClose={() => undefined}
+        open={false}
+        title='Title'
+      >
+        Slot Area
+      </Modal>
+
       <Popover
         placement='bottom'
         title='Title'
@@ -338,6 +361,7 @@ export function ComponentExamples() {
 - `Drawer` is controlled with `open` and `onClose`, supports `placement="right" | "left" | "top" | "bottom"`, `size="sm" | "md" | "lg" | "full"`, overlay close, Escape close, footer actions, Portal targeting, and placement-aware slide animations.
 - `Input` supports `label`, `caption`, `error`, `variant`, `size`, required marker, disabled state, optional leading/trailing icons, `clearable`, `onClear`, and `fullWidth`.
 - `ListBox` and `ListItem` provide reusable selectable list surfaces with shared row spacing, selected state, disabled state, optional leading icons, and `option` / `menuitem` semantics.
+- `Modal` is controlled with `open` and `onClose`, supports `size="sm" | "md" | "lg"`, optional leading header icon, overlay close, Escape close, footer actions, Portal targeting, and centered fade/scale animations.
 - `Portal` renders to `document.body` by default and can target a custom container via `container`, `containerRef`, or `containerId`.
 - `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
 - `Popover` is powered by Floating UI, supports `placement`, `align`, `variant`, optional arrow/close controls, controlled or uncontrolled open state, and slot-style body content.
@@ -468,6 +492,7 @@ src/
 | Input             | `src/components/Input`             | [Input](https://tanishraj.github.io/ui-kit/?path=/story/components-input--playground)                              | Stable |
 | ListBox           | `src/components/ListBox`           | [ListBox](https://tanishraj.github.io/ui-kit/?path=/story/components-listbox--playground)                          | Stable |
 | Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                                | Stable |
+| Modal             | `src/components/Modal`             | [Modal](https://tanishraj.github.io/ui-kit/?path=/story/components-modal--playground)                              | Stable |
 | OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground)      | Stable |
 | Popover           | `src/components/Popover`           | [Popover](https://tanishraj.github.io/ui-kit/?path=/story/components-popover--playground)                          | Stable |
 | Portal            | `src/components/Portal`            | N/A                                                                                                                | Stable |

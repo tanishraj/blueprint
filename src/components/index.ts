@@ -14,6 +14,7 @@ export * from './Input';
 export * from './ListBox';
 export * from './Link';
 export * from './Drawer';
+export * from './Modal';
 export * from './Popover';
 export * from './Portal';
 export * from './Avatar';
