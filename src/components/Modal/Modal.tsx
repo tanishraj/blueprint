@@ -85,12 +85,13 @@ export const Modal: FC<ModalProps> = ({
       scrollUnlockTimeoutRef.current = null;
     }
 
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const bodyStyle = document.body.style;
+    const originalOverflow = bodyStyle.overflow;
+    bodyStyle.overflow = 'hidden';
 
     return () => {
       scrollUnlockTimeoutRef.current = window.setTimeout(() => {
-        document.body.style.overflow = originalOverflow;
+        bodyStyle.overflow = originalOverflow;
         scrollUnlockTimeoutRef.current = null;
       }, MODAL_EXIT_DURATION_MS);
     };
