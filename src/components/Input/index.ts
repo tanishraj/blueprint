@@ -1,2 +1,2 @@
-export * from './Dropdown';
+export * from './Input';
 export type * from './types';

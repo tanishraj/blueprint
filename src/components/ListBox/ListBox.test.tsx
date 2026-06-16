@@ -1,0 +1,60 @@
+import { User } from 'lucide-react';
+import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+
+import { ListBox } from './ListBox';
+import { ListItem } from './ListItem';
+
+const items = [
+  { label: 'Item One', value: 'one', leadingIcon: User },
+  { label: 'Item Two', value: 'two' },
+  { label: 'Disabled Item', value: 'disabled', disabled: true },
+];
+
+describe('ListBox Component', () => {
+  it('renders listbox items with option semantics', () => {
+    render(<ListBox items={items} selectedValue='two' />);
+
+    expect(screen.getByRole('listbox')).toBeInTheDocument();
+    expect(
+      screen.getByRole('option', { name: /item one/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: /item two/i })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+  });
+
+  it('calls onItemSelect when enabled items are clicked', () => {
+    const handleItemSelect = vi.fn();
+
+    render(<ListBox items={items} onItemSelect={handleItemSelect} />);
+
+    fireEvent.click(screen.getByRole('option', { name: /item one/i }));
+
+    expect(handleItemSelect).toHaveBeenCalledWith(items[0]);
+  });
+
+  it('does not select disabled items', () => {
+    const handleItemSelect = vi.fn();
+
+    render(<ListBox items={items} onItemSelect={handleItemSelect} />);
+
+    fireEvent.click(screen.getByRole('option', { name: /disabled item/i }));
+
+    expect(handleItemSelect).not.toHaveBeenCalled();
+  });
+
+  it('supports direct ListItem usage', () => {
+    const handleSelect = vi.fn();
+
+    render(<ListItem item={items[0]} onSelect={handleSelect} selected />);
+
+    fireEvent.click(screen.getByRole('option', { name: /item one/i }));
+
+    expect(handleSelect).toHaveBeenCalledWith(items[0]);
+    expect(screen.getByRole('option', { name: /item one/i })).toHaveClass(
+      'font-medium',
+    );
+  });
+});

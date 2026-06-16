@@ -82,12 +82,13 @@ export const Drawer: FC<DrawerProps> = ({
       scrollUnlockTimeoutRef.current = null;
     }
 
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const bodyStyle = document.body.style;
+    const originalOverflow = bodyStyle.overflow;
+    bodyStyle.overflow = 'hidden';
 
     return () => {
       scrollUnlockTimeoutRef.current = window.setTimeout(() => {
-        document.body.style.overflow = originalOverflow;
+        bodyStyle.overflow = originalOverflow;
         scrollUnlockTimeoutRef.current = null;
       }, DRAWER_EXIT_DURATION_MS);
     };

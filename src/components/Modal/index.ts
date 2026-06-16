@@ -1,2 +1,2 @@
-export * from './Dropdown';
+export * from './Modal';
 export type * from './types';
