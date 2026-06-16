@@ -76,6 +76,7 @@ import {
   Dropdown,
   Drawer,
   Input,
+  ListBox,
   Link,
   OrganizationChart,
   Popover,
@@ -112,6 +113,7 @@ import {
   Dropdown,
   Drawer,
   Input,
+  ListBox,
   Link,
   Popover,
 } from '@tanishraj/ui-kit';
@@ -135,6 +137,12 @@ export default function Demo() {
         label='Label'
         placeholder='Placeholder'
         variant='primary'
+      />
+      <ListBox
+        items={[
+          { label: 'Item Name', value: 'one' },
+          { label: 'Item Name', value: 'two' },
+        ]}
       />
       <Dropdown variant='primary'>Dropdown</Dropdown>
       <Button onClick={() => setDrawerOpen(true)}>Open Drawer</Button>
@@ -226,6 +234,7 @@ import {
   Dropdown,
   Drawer,
   Input,
+  ListBox,
   Link,
   Popover,
 } from '@tanishraj/ui-kit';
@@ -288,6 +297,15 @@ export function ComponentExamples() {
         variant='primary'
       />
 
+      <ListBox
+        items={[
+          { label: 'Item Name', value: 'one' },
+          { label: 'Item Name', value: 'two' },
+          { label: 'Item Name', value: 'three' },
+        ]}
+        selectedValue='two'
+      />
+
       <Popover
         placement='bottom'
         title='Title'
@@ -316,9 +334,10 @@ export function ComponentExamples() {
 - `Checkbox` and `CheckboxGroup` support `shape="square" | "circle"`, with `square` as the default.
 - `Chip` supports `variant`, `appearance="filled" | "outline"`, `shape`, `size`, `inverted`, optional `icon`, and removable chips via `onClose`.
 - `Divider` supports `orientation="horizontal" | "vertical"` and optional centered content through `children`.
-- `Dropdown` opens a Floating UI menu-style popover list. It shares Button `variant`, `appearance`, `size`, `loading`, `disabled`, `inverted`, and `fullWidth` props, with default chevron, optional icon-only mode, `items`, `selectedValue`, `onItemSelect`, custom `trigger` / `menuContent`, `triggerAction="click" | "hover"`, `menuPlacement`, `menuOffset`, optional arrow, and Portal targeting. `DropdownList` and `DropdownItem` are exported for lower-level composition.
+- `Dropdown` opens a Floating UI menu-style popover list. It shares Button `variant`, `appearance`, `size`, `loading`, `disabled`, `inverted`, and `fullWidth` props, with default chevron, optional icon-only mode, `items`, `selectedValue`, `onItemSelect`, custom `trigger` / `menuContent`, `triggerAction="click" | "hover"`, `menuPlacement`, `menuOffset`, optional arrow, and Portal targeting. It uses `ListBox` internally for list rendering.
 - `Drawer` is controlled with `open` and `onClose`, supports `placement="right" | "left" | "top" | "bottom"`, `size="sm" | "md" | "lg" | "full"`, overlay close, Escape close, footer actions, Portal targeting, and placement-aware slide animations.
 - `Input` supports `label`, `caption`, `error`, `variant`, `size`, required marker, disabled state, optional leading/trailing icons, `clearable`, `onClear`, and `fullWidth`.
+- `ListBox` and `ListItem` provide reusable selectable list surfaces with shared row spacing, selected state, disabled state, optional leading icons, and `option` / `menuitem` semantics.
 - `Portal` renders to `document.body` by default and can target a custom container via `container`, `containerRef`, or `containerId`.
 - `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
 - `Popover` is powered by Floating UI, supports `placement`, `align`, `variant`, optional arrow/close controls, controlled or uncontrolled open state, and slot-style body content.
@@ -447,6 +466,7 @@ src/
 | Dropdown          | `src/components/Dropdown`          | [Dropdown](https://tanishraj.github.io/ui-kit/?path=/story/components-dropdown--playground)                        | Stable |
 | Drawer            | `src/components/Drawer`            | [Drawer](https://tanishraj.github.io/ui-kit/?path=/story/components-drawer--playground)                            | Stable |
 | Input             | `src/components/Input`             | [Input](https://tanishraj.github.io/ui-kit/?path=/story/components-input--playground)                              | Stable |
+| ListBox           | `src/components/ListBox`           | [ListBox](https://tanishraj.github.io/ui-kit/?path=/story/components-listbox--playground)                          | Stable |
 | Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                                | Stable |
 | OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground)      | Stable |
 | Popover           | `src/components/Popover`           | [Popover](https://tanishraj.github.io/ui-kit/?path=/story/components-popover--playground)                          | Stable |

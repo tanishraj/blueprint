@@ -7,6 +7,7 @@ import type {
   ButtonSizes,
   ButtonVariants,
 } from '../Button';
+import type { ListBoxItemData } from '../ListBox';
 
 export type DropdownVariants = ButtonVariants;
 
@@ -24,35 +25,7 @@ export type DropdownTriggerAction = 'click' | 'hover';
 
 export type DropdownRenderAs = 'button' | 'unstyled';
 
-export interface DropdownItem {
-  disabled?: boolean;
-  id?: string;
-  label: ReactNode;
-  leadingIcon?: DropdownIcon;
-  value: string;
-}
-
-export interface DropdownItemComponentProps extends Omit<
-  ComponentPropsWithoutRef<'button'>,
-  'children' | 'disabled' | 'onSelect' | 'value'
-> {
-  item: DropdownItem;
-  onSelect?: (item: DropdownItem) => void;
-  selected?: boolean;
-}
-
-export interface DropdownListProps extends Omit<
-  ComponentPropsWithoutRef<'div'>,
-  'children'
-> {
-  children?: ReactNode;
-  closeMenu?: () => void;
-  closeOnSelect?: boolean;
-  items?: DropdownItem[];
-  leadingSlot?: ReactNode;
-  onItemSelect?: (item: DropdownItem) => void;
-  selectedValue?: string;
-}
+export type DropdownItem = ListBoxItemData;
 
 export interface DropdownProps extends Omit<
   ButtonProps,

@@ -31,8 +31,8 @@ import { ChevronDown, Plus } from 'lucide-react';
 import { cn } from '@/utils';
 
 import { Button } from '../Button';
+import { ListBox } from '../ListBox';
 import { dropdownArrowStyles, dropdownRootStyles } from './Dropdown.styles';
-import { DropdownList } from './DropdownList';
 import type { DropdownIcon, DropdownItem, DropdownProps } from './types';
 
 interface DropdownTriggerElementProps {
@@ -135,6 +135,17 @@ export const Dropdown: FC<DropdownProps> = ({
     setOpen(false);
   }, [setOpen]);
 
+  const handleItemSelect = useCallback(
+    (item: DropdownItem) => {
+      onItemSelect?.(item);
+
+      if (closeOnSelect) {
+        closeMenu();
+      }
+    },
+    [closeMenu, closeOnSelect, onItemSelect],
+  );
+
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setOpen,
@@ -235,7 +246,7 @@ export const Dropdown: FC<DropdownProps> = ({
     typeof menuContent === 'function' ? menuContent(closeMenu) : menuContent;
 
   const menu = isOpen ? (
-    <DropdownList
+    <ListBox
       {...getFloatingProps({
         ...menuProps,
         ref: refs.setFloating,
@@ -247,9 +258,11 @@ export const Dropdown: FC<DropdownProps> = ({
               ...menuProps?.style,
             },
       })}
-      closeMenu={closeMenu}
-      closeOnSelect={closeOnSelect}
+      itemRole='menuitem'
       items={items}
+      onItemSelect={handleItemSelect}
+      role='menu'
+      size='sm'
       {...(withArrow && !inline
         ? {
             leadingSlot: (
@@ -265,11 +278,10 @@ export const Dropdown: FC<DropdownProps> = ({
             ),
           }
         : {})}
-      {...(onItemSelect ? { onItemSelect } : {})}
       {...(selectedValue !== undefined ? { selectedValue } : {})}
     >
       {content}
-    </DropdownList>
+    </ListBox>
   ) : null;
 
   const shouldUsePortal = usePortal && !inline;

@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { Dropdown } from './Dropdown';
-import { DropdownList } from './DropdownList';
 
 const items = [
   { label: 'Profile', value: 'profile', leadingIcon: User },
@@ -152,43 +151,5 @@ describe('Dropdown Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /disabled/i }));
 
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
-  });
-
-  it('renders DropdownList items and closes after selecting an item', () => {
-    const handleItemSelect = vi.fn();
-    const closeMenu = vi.fn();
-
-    render(
-      <DropdownList
-        closeMenu={closeMenu}
-        items={items}
-        onItemSelect={handleItemSelect}
-        selectedValue='settings'
-      />,
-    );
-
-    fireEvent.click(screen.getByRole('menuitem', { name: /profile/i }));
-
-    expect(handleItemSelect).toHaveBeenCalledWith(items[0]);
-    expect(closeMenu).toHaveBeenCalledTimes(1);
-    expect(screen.getByRole('menuitem', { name: /settings/i })).toHaveClass(
-      'font-medium',
-    );
-  });
-
-  it('allows DropdownList to keep the menu open after selection', () => {
-    const closeMenu = vi.fn();
-
-    render(
-      <DropdownList
-        closeMenu={closeMenu}
-        closeOnSelect={false}
-        items={items}
-      />,
-    );
-
-    fireEvent.click(screen.getByRole('menuitem', { name: /profile/i }));
-
-    expect(closeMenu).not.toHaveBeenCalled();
   });
 });
