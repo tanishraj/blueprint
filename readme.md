@@ -73,6 +73,7 @@ import {
   CheckboxGroup,
   Chip,
   Divider,
+  Dropdown,
   Drawer,
   Link,
   OrganizationChart,
@@ -107,6 +108,7 @@ import {
   Button,
   Chip,
   Divider,
+  Dropdown,
   Drawer,
   Link,
   Popover,
@@ -126,6 +128,7 @@ export default function Demo() {
       <Chip icon={Plus} variant='success'>
         Active
       </Chip>
+      <Dropdown variant='primary'>Dropdown</Dropdown>
       <Button onClick={() => setDrawerOpen(true)}>Open Drawer</Button>
       <Popover
         title='Title'
@@ -212,6 +215,7 @@ import {
   CheckboxGroup,
   Chip,
   Divider,
+  Dropdown,
   Drawer,
   Link,
   Popover,
@@ -261,6 +265,10 @@ export function ComponentExamples() {
         </Button>
       </Divider>
 
+      <Dropdown appearance='outline' variant='primary'>
+        Dropdown
+      </Dropdown>
+
       <Popover
         placement='bottom'
         title='Title'
@@ -289,6 +297,7 @@ export function ComponentExamples() {
 - `Checkbox` and `CheckboxGroup` support `shape="square" | "circle"`, with `square` as the default.
 - `Chip` supports `variant`, `appearance="filled" | "outline"`, `shape`, `size`, `inverted`, optional `icon`, and removable chips via `onClose`.
 - `Divider` supports `orientation="horizontal" | "vertical"` and optional centered content through `children`.
+- `Dropdown` opens a Floating UI menu-style popover list. It shares Button `variant`, `appearance`, `size`, `loading`, `disabled`, `inverted`, and `fullWidth` props, with default chevron, optional icon-only mode, `items`, `selectedValue`, `onItemSelect`, custom `trigger` / `menuContent`, `triggerAction="click" | "hover"`, `menuPlacement`, `menuOffset`, optional arrow, and Portal targeting. `DropdownList` and `DropdownItem` are exported for lower-level composition.
 - `Drawer` is controlled with `open` and `onClose`, supports `placement="right" | "left" | "top" | "bottom"`, `size="sm" | "md" | "lg" | "full"`, overlay close, Escape close, footer actions, Portal targeting, and placement-aware slide animations.
 - `Portal` renders to `document.body` by default and can target a custom container via `container`, `containerRef`, or `containerId`.
 - `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
@@ -415,6 +424,7 @@ src/
 | CheckboxGroup     | `src/components/CheckboxGroup`     | [CheckboxGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-checkboxgroup--playground)              | Stable |
 | Chip              | `src/components/Chip`              | [Chip](https://tanishraj.github.io/ui-kit/?path=/story/components-chip--playground)                                | Stable |
 | Divider           | `src/components/Divider`           | [Divider](https://tanishraj.github.io/ui-kit/?path=/story/components-divider--playground)                          | Stable |
+| Dropdown          | `src/components/Dropdown`          | [Dropdown](https://tanishraj.github.io/ui-kit/?path=/story/components-dropdown--playground)                        | Stable |
 | Drawer            | `src/components/Drawer`            | [Drawer](https://tanishraj.github.io/ui-kit/?path=/story/components-drawer--playground)                            | Stable |
 | Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                                | Stable |
 | OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground)      | Stable |
