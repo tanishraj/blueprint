@@ -9,6 +9,7 @@ export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Chip';
 export * from './Divider';
+export * from './Dropdown';
 export * from './Link';
 export * from './Drawer';
 export * from './Popover';
