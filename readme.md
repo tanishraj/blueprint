@@ -81,6 +81,7 @@ import {
   Modal,
   OrganizationChart,
   Popover,
+  ProgressBar,
   Portal,
 } from '@tanishraj/ui-kit';
 
@@ -118,6 +119,7 @@ import {
   Link,
   Modal,
   Popover,
+  ProgressBar,
 } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -164,6 +166,12 @@ export default function Demo() {
       >
         Slot Area
       </Popover>
+      <ProgressBar
+        caption='There will be a caption text here'
+        label='Label'
+        value={30}
+        variant='primary'
+      />
       <Drawer
         footer={<Button onClick={() => setDrawerOpen(false)}>Close</Button>}
         onClose={() => setDrawerOpen(false)}
@@ -250,6 +258,7 @@ import {
   Link,
   Modal,
   Popover,
+  ProgressBar,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
 
@@ -338,6 +347,14 @@ export function ComponentExamples() {
         Slot Area
       </Popover>
 
+      <ProgressBar
+        caption='There will be a caption text here'
+        label='Label'
+        showDot
+        value={30}
+        variant='success'
+      />
+
       <AnimatePresence presence>
         <AnimatePresenceChild>
           <div className='animate-in slide-in-from-right duration-500'>
@@ -365,6 +382,7 @@ export function ComponentExamples() {
 - `Portal` renders to `document.body` by default and can target a custom container via `container`, `containerRef`, or `containerId`.
 - `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
 - `Popover` is powered by Floating UI, supports `placement`, `align`, `variant`, optional arrow/close controls, controlled or uncontrolled open state, and slot-style body content.
+- `ProgressBar` supports `appearance="linear" | "circular"`, semantic `variant`, `size`, labels, captions, visible values, optional linear endpoint dots, custom value formatting, `fullWidth`, and inverted dark-surface styling.
 
 ### Documentation and examples
 
@@ -495,6 +513,7 @@ src/
 | Modal             | `src/components/Modal`             | [Modal](https://tanishraj.github.io/ui-kit/?path=/story/components-modal--playground)                              | Stable |
 | OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground)      | Stable |
 | Popover           | `src/components/Popover`           | [Popover](https://tanishraj.github.io/ui-kit/?path=/story/components-popover--playground)                          | Stable |
+| ProgressBar       | `src/components/ProgressBar`       | [ProgressBar](https://tanishraj.github.io/ui-kit/?path=/story/components-progressbar--playground)                  | Stable |
 | Portal            | `src/components/Portal`            | N/A                                                                                                                | Stable |
 
 ## Versioning and Changelog

@@ -16,6 +16,7 @@ export * from './Link';
 export * from './Drawer';
 export * from './Modal';
 export * from './Popover';
+export * from './ProgressBar';
 export * from './Portal';
 export * from './Avatar';
 export * from './AvatarGroup';
