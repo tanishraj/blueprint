@@ -10,6 +10,7 @@ export * from './CheckboxGroup';
 export * from './Chip';
 export * from './Divider';
 export * from './Dropdown';
+export * from './Feedback';
 export * from './Input';
 export * from './ListBox';
 export * from './Link';

@@ -75,6 +75,7 @@ import {
   Divider,
   Dropdown,
   Drawer,
+  Feedback,
   Input,
   ListBox,
   Link,
@@ -117,6 +118,7 @@ import {
   Divider,
   Dropdown,
   Drawer,
+  Feedback,
   Input,
   ListBox,
   Link,
@@ -158,6 +160,7 @@ export default function Demo() {
           { label: 'SMS', value: 'sms' },
         ]}
       />
+      <Feedback defaultValue={4} />
       <Rating defaultValue={3.5} precision={0.5} />
       <ListBox
         items={[
@@ -269,6 +272,7 @@ import {
   Divider,
   Dropdown,
   Drawer,
+  Feedback,
   Input,
   ListBox,
   Link,
@@ -330,6 +334,7 @@ export function ComponentExamples() {
         orientation='horizontal'
       />
 
+      <Feedback defaultValue={4} />
       <Rating defaultValue={3.5} precision={0.5} />
 
       <Divider>
@@ -409,6 +414,7 @@ export function ComponentExamples() {
 - `Divider` supports `orientation="horizontal" | "vertical"` and optional centered content through `children`.
 - `Dropdown` opens a Floating UI menu-style popover list. It shares Button `variant`, `appearance`, `size`, `loading`, `disabled`, `inverted`, and `fullWidth` props, with default chevron, optional icon-only mode, `items`, `selectedValue`, `onItemSelect`, custom `trigger` / `menuContent`, `triggerAction="click" | "hover"`, `menuPlacement`, `menuOffset`, optional arrow, and Portal targeting. It uses `ListBox` internally for list rendering.
 - `Drawer` is controlled with `open` and `onClose`, supports `placement="right" | "left" | "top" | "bottom"`, `size="sm" | "md" | "lg" | "full"`, overlay close, Escape close, footer actions, Portal targeting, and placement-aware slide animations.
+- `Feedback` supports controlled or uncontrolled five-point sentiment selection with `value`, `defaultValue`, `onValueChange`, `options`, `variant="face" | "emoji"`, `size`, read-only state, disabled state, and custom accessible labels via `getLabelText`.
 - `Input` supports `label`, `caption`, `error`, `variant`, `size`, required marker, disabled state, optional leading/trailing icons, `clearable`, `onClear`, and `fullWidth`.
 - `ListBox` and `ListItem` provide reusable selectable list surfaces with shared row spacing, selected state, disabled state, optional leading icons, and `option` / `menuitem` semantics.
 - `Modal` is controlled with `open` and `onClose`, supports `size="sm" | "md" | "lg"`, optional leading header icon, overlay close, Escape close, footer actions, Portal targeting, and centered fade/scale animations.
@@ -543,6 +549,7 @@ src/
 | Divider           | `src/components/Divider`           | [Divider](https://tanishraj.github.io/ui-kit/?path=/story/components-divider--playground)                          | Stable |
 | Dropdown          | `src/components/Dropdown`          | [Dropdown](https://tanishraj.github.io/ui-kit/?path=/story/components-dropdown--playground)                        | Stable |
 | Drawer            | `src/components/Drawer`            | [Drawer](https://tanishraj.github.io/ui-kit/?path=/story/components-drawer--playground)                            | Stable |
+| Feedback          | `src/components/Feedback`          | [Feedback](https://tanishraj.github.io/ui-kit/?path=/story/components-feedback--playground)                        | Stable |
 | Input             | `src/components/Input`             | [Input](https://tanishraj.github.io/ui-kit/?path=/story/components-input--playground)                              | Stable |
 | ListBox           | `src/components/ListBox`           | [ListBox](https://tanishraj.github.io/ui-kit/?path=/story/components-listbox--playground)                          | Stable |
 | Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                                | Stable |
