@@ -7,7 +7,7 @@ import { AnimatePresenceChild } from './AnimatePresenceChild';
 import { Button } from '../Button';
 
 const meta: Meta<typeof AnimatePresence> = {
-  title: 'ui-kit/Components/AnimatePresence',
+  title: 'components/AnimatePresence',
   component: AnimatePresence,
   subcomponents: { AnimatePresenceChild },
 };
