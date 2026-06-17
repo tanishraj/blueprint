@@ -84,6 +84,7 @@ import {
   ProgressBar,
   Portal,
   Radio,
+  RadioGroup,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
@@ -122,6 +123,7 @@ import {
   Popover,
   ProgressBar,
   Radio,
+  RadioGroup,
 } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -146,6 +148,14 @@ export default function Demo() {
         variant='primary'
       />
       <Radio defaultChecked label='Radio' />
+      <RadioGroup
+        defaultValue='email'
+        label='Notification method'
+        options={[
+          { label: 'Email', value: 'email' },
+          { label: 'SMS', value: 'sms' },
+        ]}
+      />
       <ListBox
         items={[
           { label: 'Item Name', value: 'one' },
@@ -263,6 +273,7 @@ import {
   Popover,
   ProgressBar,
   Radio,
+  RadioGroup,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
 
@@ -304,6 +315,16 @@ export function ComponentExamples() {
       />
 
       <Radio defaultChecked label='Radio option' />
+
+      <RadioGroup
+        defaultValue='email'
+        label='Notification method'
+        options={[
+          { label: 'Email', value: 'email' },
+          { label: 'SMS', value: 'sms' },
+        ]}
+        orientation='horizontal'
+      />
 
       <Divider>
         <Button leadingIcon={Plus} size='sm' variant='default'>
@@ -390,6 +411,7 @@ export function ComponentExamples() {
 - `Popover` is powered by Floating UI, supports `placement`, `align`, `variant`, optional arrow/close controls, controlled or uncontrolled open state, and slot-style body content.
 - `ProgressBar` supports `appearance="linear" | "circular"`, semantic `variant`, `size`, labels, captions, visible values, optional linear endpoint dots, custom value formatting, `fullWidth`, and inverted dark-surface styling.
 - `Radio` supports `label`, `description`, `error`, `size`, required marker, disabled state, and native radio input props for single-option composition.
+- `RadioGroup` supports controlled or uncontrolled single selection with `value`, `defaultValue`, `onValueChange`, options, group label, description, error text, `orientation`, `size`, disabled state, and required marker.
 
 ### Documentation and examples
 
@@ -523,6 +545,7 @@ src/
 | ProgressBar       | `src/components/ProgressBar`       | [ProgressBar](https://tanishraj.github.io/ui-kit/?path=/story/components-progressbar--playground)                  | Stable |
 | Portal            | `src/components/Portal`            | N/A                                                                                                                | Stable |
 | Radio             | `src/components/Radio`             | [Radio](https://tanishraj.github.io/ui-kit/?path=/story/components-radio--playground)                              | Stable |
+| RadioGroup        | `src/components/RadioGroup`        | [RadioGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-radiogroup--playground)                    | Stable |
 
 ## Versioning and Changelog
 
