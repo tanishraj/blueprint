@@ -263,7 +263,10 @@ export const Feedback: FC<FeedbackProps> = ({
     getInitialValue(defaultValue, safeOptions),
   );
   const isControlled = value !== undefined;
-  const selectedValue = getInitialValue(value ?? uncontrolledValue, safeOptions);
+  const selectedValue = getInitialValue(
+    value ?? uncontrolledValue,
+    safeOptions,
+  );
   const selectedIndex = safeOptions.findIndex(
     option => option.value === selectedValue,
   );

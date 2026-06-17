@@ -75,7 +75,8 @@ export const feedbackLabelStyles = cva(
       { variant: 'emoji', size: 'lg', className: 'size-12 rounded-xl' },
       {
         variant: 'emoji',
-        className: 'text-default peer-checked:bg-primary-100 hover:bg-primary-50',
+        className:
+          'text-default peer-checked:bg-primary-100 hover:bg-primary-50',
       },
       {
         variant: 'face',

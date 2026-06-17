@@ -89,8 +89,6 @@ describe('Feedback Component', () => {
     );
 
     expect(screen.getAllByRole('radio')).toHaveLength(2);
-    expect(
-      screen.getByRole('radio', { name: '2 of 2, Good' }),
-    ).toBeChecked();
+    expect(screen.getByRole('radio', { name: '2 of 2, Good' })).toBeChecked();
   });
 });
