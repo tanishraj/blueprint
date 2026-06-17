@@ -20,6 +20,7 @@ export * from './ProgressBar';
 export * from './Portal';
 export * from './Radio';
 export * from './RadioGroup';
+export * from './Rating';
 export * from './Avatar';
 export * from './AvatarGroup';
 export * from './OrganizationChart';

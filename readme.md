@@ -85,6 +85,7 @@ import {
   Portal,
   Radio,
   RadioGroup,
+  Rating,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
@@ -124,6 +125,7 @@ import {
   ProgressBar,
   Radio,
   RadioGroup,
+  Rating,
 } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -156,6 +158,7 @@ export default function Demo() {
           { label: 'SMS', value: 'sms' },
         ]}
       />
+      <Rating defaultValue={3.5} precision={0.5} />
       <ListBox
         items={[
           { label: 'Item Name', value: 'one' },
@@ -274,6 +277,7 @@ import {
   ProgressBar,
   Radio,
   RadioGroup,
+  Rating,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
 
@@ -325,6 +329,8 @@ export function ComponentExamples() {
         ]}
         orientation='horizontal'
       />
+
+      <Rating defaultValue={3.5} precision={0.5} />
 
       <Divider>
         <Button leadingIcon={Plus} size='sm' variant='default'>
@@ -412,6 +418,7 @@ export function ComponentExamples() {
 - `ProgressBar` supports `appearance="linear" | "circular"`, semantic `variant`, `size`, labels, captions, visible values, optional linear endpoint dots, custom value formatting, `fullWidth`, and inverted dark-surface styling.
 - `Radio` supports `label`, `description`, `error`, `size`, required marker, disabled state, and native radio input props for single-option composition.
 - `RadioGroup` supports controlled or uncontrolled single selection with `value`, `defaultValue`, `onValueChange`, options, group label, description, error text, `orientation`, `size`, disabled state, and required marker.
+- `Rating` supports controlled or uncontrolled star ratings with `value`, `defaultValue`, `onValueChange`, `max`, `precision={1 | 0.5}`, `size`, read-only state, disabled state, and custom accessible labels.
 
 ### Documentation and examples
 
@@ -546,6 +553,7 @@ src/
 | Portal            | `src/components/Portal`            | N/A                                                                                                                | Stable |
 | Radio             | `src/components/Radio`             | [Radio](https://tanishraj.github.io/ui-kit/?path=/story/components-radio--playground)                              | Stable |
 | RadioGroup        | `src/components/RadioGroup`        | [RadioGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-radiogroup--playground)                    | Stable |
+| Rating            | `src/components/Rating`            | [Rating](https://tanishraj.github.io/ui-kit/?path=/story/components-rating--playground)                            | Stable |
 
 ## Versioning and Changelog
 
