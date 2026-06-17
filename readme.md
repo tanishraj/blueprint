@@ -83,6 +83,7 @@ import {
   Popover,
   ProgressBar,
   Portal,
+  Radio,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
@@ -120,6 +121,7 @@ import {
   Modal,
   Popover,
   ProgressBar,
+  Radio,
 } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -143,6 +145,7 @@ export default function Demo() {
         placeholder='Placeholder'
         variant='primary'
       />
+      <Radio defaultChecked label='Radio' />
       <ListBox
         items={[
           { label: 'Item Name', value: 'one' },
@@ -259,6 +262,7 @@ import {
   Modal,
   Popover,
   ProgressBar,
+  Radio,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
 
@@ -298,6 +302,8 @@ export function ComponentExamples() {
         ]}
         shape='square'
       />
+
+      <Radio defaultChecked label='Radio option' />
 
       <Divider>
         <Button leadingIcon={Plus} size='sm' variant='default'>
@@ -383,6 +389,7 @@ export function ComponentExamples() {
 - `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
 - `Popover` is powered by Floating UI, supports `placement`, `align`, `variant`, optional arrow/close controls, controlled or uncontrolled open state, and slot-style body content.
 - `ProgressBar` supports `appearance="linear" | "circular"`, semantic `variant`, `size`, labels, captions, visible values, optional linear endpoint dots, custom value formatting, `fullWidth`, and inverted dark-surface styling.
+- `Radio` supports `label`, `description`, `error`, `size`, required marker, disabled state, and native radio input props for single-option composition.
 
 ### Documentation and examples
 
@@ -515,6 +522,7 @@ src/
 | Popover           | `src/components/Popover`           | [Popover](https://tanishraj.github.io/ui-kit/?path=/story/components-popover--playground)                          | Stable |
 | ProgressBar       | `src/components/ProgressBar`       | [ProgressBar](https://tanishraj.github.io/ui-kit/?path=/story/components-progressbar--playground)                  | Stable |
 | Portal            | `src/components/Portal`            | N/A                                                                                                                | Stable |
+| Radio             | `src/components/Radio`             | [Radio](https://tanishraj.github.io/ui-kit/?path=/story/components-radio--playground)                              | Stable |
 
 ## Versioning and Changelog
 
