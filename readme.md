@@ -75,13 +75,18 @@ import {
   Divider,
   Dropdown,
   Drawer,
+  Feedback,
   Input,
   ListBox,
   Link,
   Modal,
   OrganizationChart,
   Popover,
+  ProgressBar,
   Portal,
+  Radio,
+  RadioGroup,
+  Rating,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
@@ -113,11 +118,16 @@ import {
   Divider,
   Dropdown,
   Drawer,
+  Feedback,
   Input,
   ListBox,
   Link,
   Modal,
   Popover,
+  ProgressBar,
+  Radio,
+  RadioGroup,
+  Rating,
 } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -141,6 +151,17 @@ export default function Demo() {
         placeholder='Placeholder'
         variant='primary'
       />
+      <Radio defaultChecked label='Radio' />
+      <RadioGroup
+        defaultValue='email'
+        label='Notification method'
+        options={[
+          { label: 'Email', value: 'email' },
+          { label: 'SMS', value: 'sms' },
+        ]}
+      />
+      <Feedback defaultValue={4} />
+      <Rating defaultValue={3.5} precision={0.5} />
       <ListBox
         items={[
           { label: 'Item Name', value: 'one' },
@@ -164,6 +185,12 @@ export default function Demo() {
       >
         Slot Area
       </Popover>
+      <ProgressBar
+        caption='There will be a caption text here'
+        label='Label'
+        value={30}
+        variant='primary'
+      />
       <Drawer
         footer={<Button onClick={() => setDrawerOpen(false)}>Close</Button>}
         onClose={() => setDrawerOpen(false)}
@@ -245,11 +272,16 @@ import {
   Divider,
   Dropdown,
   Drawer,
+  Feedback,
   Input,
   ListBox,
   Link,
   Modal,
   Popover,
+  ProgressBar,
+  Radio,
+  RadioGroup,
+  Rating,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
 
@@ -289,6 +321,21 @@ export function ComponentExamples() {
         ]}
         shape='square'
       />
+
+      <Radio defaultChecked label='Radio option' />
+
+      <RadioGroup
+        defaultValue='email'
+        label='Notification method'
+        options={[
+          { label: 'Email', value: 'email' },
+          { label: 'SMS', value: 'sms' },
+        ]}
+        orientation='horizontal'
+      />
+
+      <Feedback defaultValue={4} />
+      <Rating defaultValue={3.5} precision={0.5} />
 
       <Divider>
         <Button leadingIcon={Plus} size='sm' variant='default'>
@@ -338,6 +385,14 @@ export function ComponentExamples() {
         Slot Area
       </Popover>
 
+      <ProgressBar
+        caption='There will be a caption text here'
+        label='Label'
+        showDot
+        value={30}
+        variant='success'
+      />
+
       <AnimatePresence presence>
         <AnimatePresenceChild>
           <div className='animate-in slide-in-from-right duration-500'>
@@ -359,12 +414,17 @@ export function ComponentExamples() {
 - `Divider` supports `orientation="horizontal" | "vertical"` and optional centered content through `children`.
 - `Dropdown` opens a Floating UI menu-style popover list. It shares Button `variant`, `appearance`, `size`, `loading`, `disabled`, `inverted`, and `fullWidth` props, with default chevron, optional icon-only mode, `items`, `selectedValue`, `onItemSelect`, custom `trigger` / `menuContent`, `triggerAction="click" | "hover"`, `menuPlacement`, `menuOffset`, optional arrow, and Portal targeting. It uses `ListBox` internally for list rendering.
 - `Drawer` is controlled with `open` and `onClose`, supports `placement="right" | "left" | "top" | "bottom"`, `size="sm" | "md" | "lg" | "full"`, overlay close, Escape close, footer actions, Portal targeting, and placement-aware slide animations.
+- `Feedback` supports controlled or uncontrolled five-point sentiment selection with `value`, `defaultValue`, `onValueChange`, `options`, `variant="face" | "emoji"`, `size`, read-only state, disabled state, and custom accessible labels via `getLabelText`.
 - `Input` supports `label`, `caption`, `error`, `variant`, `size`, required marker, disabled state, optional leading/trailing icons, `clearable`, `onClear`, and `fullWidth`.
 - `ListBox` and `ListItem` provide reusable selectable list surfaces with shared row spacing, selected state, disabled state, optional leading icons, and `option` / `menuitem` semantics.
 - `Modal` is controlled with `open` and `onClose`, supports `size="sm" | "md" | "lg"`, optional leading header icon, overlay close, Escape close, footer actions, Portal targeting, and centered fade/scale animations.
 - `Portal` renders to `document.body` by default and can target a custom container via `container`, `containerRef`, or `containerId`.
 - `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
 - `Popover` is powered by Floating UI, supports `placement`, `align`, `variant`, optional arrow/close controls, controlled or uncontrolled open state, and slot-style body content.
+- `ProgressBar` supports `appearance="linear" | "circular"`, semantic `variant`, `size`, labels, captions, visible values, optional linear endpoint dots, custom value formatting, `fullWidth`, and inverted dark-surface styling.
+- `Radio` supports `label`, `description`, `error`, `size`, required marker, disabled state, and native radio input props for single-option composition.
+- `RadioGroup` supports controlled or uncontrolled single selection with `value`, `defaultValue`, `onValueChange`, options, group label, description, error text, `orientation`, `size`, disabled state, and required marker.
+- `Rating` supports controlled or uncontrolled star ratings with `value`, `defaultValue`, `onValueChange`, `max`, `precision={1 | 0.5}`, `size`, read-only state, disabled state, and custom accessible labels.
 
 ### Documentation and examples
 
@@ -489,13 +549,18 @@ src/
 | Divider           | `src/components/Divider`           | [Divider](https://tanishraj.github.io/ui-kit/?path=/story/components-divider--playground)                          | Stable |
 | Dropdown          | `src/components/Dropdown`          | [Dropdown](https://tanishraj.github.io/ui-kit/?path=/story/components-dropdown--playground)                        | Stable |
 | Drawer            | `src/components/Drawer`            | [Drawer](https://tanishraj.github.io/ui-kit/?path=/story/components-drawer--playground)                            | Stable |
+| Feedback          | `src/components/Feedback`          | [Feedback](https://tanishraj.github.io/ui-kit/?path=/story/components-feedback--playground)                        | Stable |
 | Input             | `src/components/Input`             | [Input](https://tanishraj.github.io/ui-kit/?path=/story/components-input--playground)                              | Stable |
 | ListBox           | `src/components/ListBox`           | [ListBox](https://tanishraj.github.io/ui-kit/?path=/story/components-listbox--playground)                          | Stable |
 | Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                                | Stable |
 | Modal             | `src/components/Modal`             | [Modal](https://tanishraj.github.io/ui-kit/?path=/story/components-modal--playground)                              | Stable |
 | OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground)      | Stable |
 | Popover           | `src/components/Popover`           | [Popover](https://tanishraj.github.io/ui-kit/?path=/story/components-popover--playground)                          | Stable |
+| ProgressBar       | `src/components/ProgressBar`       | [ProgressBar](https://tanishraj.github.io/ui-kit/?path=/story/components-progressbar--playground)                  | Stable |
 | Portal            | `src/components/Portal`            | N/A                                                                                                                | Stable |
+| Radio             | `src/components/Radio`             | [Radio](https://tanishraj.github.io/ui-kit/?path=/story/components-radio--playground)                              | Stable |
+| RadioGroup        | `src/components/RadioGroup`        | [RadioGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-radiogroup--playground)                    | Stable |
+| Rating            | `src/components/Rating`            | [Rating](https://tanishraj.github.io/ui-kit/?path=/story/components-rating--playground)                            | Stable |
 
 ## Versioning and Changelog
 
