@@ -376,7 +376,7 @@ export const buttonStyles = cva(
       },
     ],
     defaultVariants: {
-      shape: 'rounded',
+      shape: 'squared',
     },
   },
 );
