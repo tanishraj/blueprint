@@ -32,7 +32,7 @@ describe('ButtonGroup Component', () => {
 
     const buttons = screen.getAllByRole('button');
 
-    expect(buttons[0]).toHaveClass('px-3.5');
+    expect(buttons[0]).toHaveClass('px-[18px]');
     expect(buttons[0]).toHaveClass('text-default');
     expect(buttons[1]).toHaveClass('text-default');
   });

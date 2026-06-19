@@ -1,0 +1,6 @@
+.toast,
+.toast [data-sonner-toast],
+.toast [data-title],
+.toast [data-description] {
+  font-family: var(--font-body);
+}

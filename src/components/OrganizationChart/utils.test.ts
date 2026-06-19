@@ -114,8 +114,12 @@ describe('OrganizationChart utils', () => {
     expect(html).toContain('BORROWER');
     expect(html).toContain('Acme');
     expect(buttonHtml).toContain('3');
-    expect(buttonHtml).toContain('background:var(--background-color-primary-inverted)');
-    expect(collapsedButtonHtml).toContain('background:var(--background-color-primary)');
+    expect(buttonHtml).toContain(
+      'background:var(--background-color-primary-inverted)',
+    );
+    expect(collapsedButtonHtml).toContain(
+      'background:var(--background-color-primary)',
+    );
 
     const secondaryHtml = buildNodeContent(
       {

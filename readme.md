@@ -87,6 +87,11 @@ import {
   Radio,
   RadioGroup,
   Rating,
+  Slider,
+  Tab,
+  TabPanel,
+  Tabs,
+  TabsList,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
@@ -128,6 +133,11 @@ import {
   Radio,
   RadioGroup,
   Rating,
+  Slider,
+  Tab,
+  TabPanel,
+  Tabs,
+  TabsList,
 } from '@tanishraj/ui-kit';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -162,6 +172,15 @@ export default function Demo() {
       />
       <Feedback defaultValue={4} />
       <Rating defaultValue={3.5} precision={0.5} />
+      <Slider label='Slider Label' max={10} value={5} />
+      <Tabs defaultValue={0}>
+        <TabsList>
+          <Tab>Overview</Tab>
+          <Tab>Details</Tab>
+        </TabsList>
+        <TabPanel>Overview content</TabPanel>
+        <TabPanel>Details content</TabPanel>
+      </Tabs>
       <ListBox
         items={[
           { label: 'Item Name', value: 'one' },
@@ -282,6 +301,11 @@ import {
   Radio,
   RadioGroup,
   Rating,
+  Slider,
+  Tab,
+  TabPanel,
+  Tabs,
+  TabsList,
 } from '@tanishraj/ui-kit';
 import { Home, Plus, Tag } from 'lucide-react';
 
@@ -336,6 +360,15 @@ export function ComponentExamples() {
 
       <Feedback defaultValue={4} />
       <Rating defaultValue={3.5} precision={0.5} />
+      <Slider label='Slider Label' max={10} value={5} />
+      <Tabs defaultValue={0}>
+        <TabsList>
+          <Tab>Overview</Tab>
+          <Tab>Details</Tab>
+        </TabsList>
+        <TabPanel>Overview content</TabPanel>
+        <TabPanel>Details content</TabPanel>
+      </Tabs>
 
       <Divider>
         <Button leadingIcon={Plus} size='sm' variant='default'>
@@ -425,6 +458,8 @@ export function ComponentExamples() {
 - `Radio` supports `label`, `description`, `error`, `size`, required marker, disabled state, and native radio input props for single-option composition.
 - `RadioGroup` supports controlled or uncontrolled single selection with `value`, `defaultValue`, `onValueChange`, options, group label, description, error text, `orientation`, `size`, disabled state, and required marker.
 - `Rating` supports controlled or uncontrolled star ratings with `value`, `defaultValue`, `onValueChange`, `max`, `precision={1 | 0.5}`, `size`, read-only state, disabled state, and custom accessible labels.
+- `Slider` supports controlled or uncontrolled single or range selection with `value`, `defaultValue`, `onValueChange`, `min`, `max`, `step`, size variants, visible value markers, labels, captions, and error/disabled states.
+- `Tabs`, `TabsList`, `Tab`, and `TabPanel` provide a compound tabs API with controlled or uncontrolled selection, `variant="underline" | "pill"`, `size`, `orientation`, disabled states, optional adornments, status dots, and close actions.
 
 ### Documentation and examples
 
@@ -561,6 +596,8 @@ src/
 | Radio             | `src/components/Radio`             | [Radio](https://tanishraj.github.io/ui-kit/?path=/story/components-radio--playground)                              | Stable |
 | RadioGroup        | `src/components/RadioGroup`        | [RadioGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-radiogroup--playground)                    | Stable |
 | Rating            | `src/components/Rating`            | [Rating](https://tanishraj.github.io/ui-kit/?path=/story/components-rating--playground)                            | Stable |
+| Slider            | `src/components/Slider`            | [Slider](https://tanishraj.github.io/ui-kit/?path=/story/components-slider--playground)                            | Stable |
+| Tabs              | `src/components/Tabs`              | [Tabs](https://tanishraj.github.io/ui-kit/?path=/story/components-tabs--playground)                                | Stable |
 
 ## Versioning and Changelog
 
