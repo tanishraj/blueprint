@@ -293,41 +293,76 @@ export const Slider: FC<SliderProps> = ({
   }, [draggingThumb, getValueFromPointer, setThumbValue]);
 
   const handleThumbKeyDown = useCallback(
-    (thumb: 'start' | 'end', currentValue: number) =>
-      (event: KeyboardEvent<HTMLButtonElement>) => {
-        if (disabled) {
+    (
+      event: KeyboardEvent<HTMLButtonElement>,
+      thumb: 'start' | 'end',
+      currentValue: number,
+    ) => {
+      if (disabled) {
+        return;
+      }
+
+      let nextValue = currentValue;
+
+      switch (event.key) {
+        case 'ArrowRight':
+        case 'ArrowUp':
+          nextValue = currentValue + step;
+          break;
+        case 'ArrowLeft':
+        case 'ArrowDown':
+          nextValue = currentValue - step;
+          break;
+        case 'Home':
+          nextValue = thumb === 'end' && range ? startValue : safeMin;
+          break;
+        case 'End':
+          nextValue =
+            thumb === 'start' && range ? (endValue ?? safeMax) : safeMax;
+          break;
+        default:
           return;
-        }
+      }
 
-        let nextValue = currentValue;
-
-        switch (event.key) {
-          case 'ArrowRight':
-          case 'ArrowUp':
-            nextValue = currentValue + step;
-            break;
-          case 'ArrowLeft':
-          case 'ArrowDown':
-            nextValue = currentValue - step;
-            break;
-          case 'Home':
-            nextValue = thumb === 'end' && range ? startValue : safeMin;
-            break;
-          case 'End':
-            nextValue = thumb === 'start' && range ? endValue ?? safeMax : safeMax;
-            break;
-          default:
-            return;
-        }
-
-        event.preventDefault();
-        setThumbValue(
-          thumb,
-          clamp(roundToStep(nextValue, safeMin, step), safeMin, safeMax),
-        );
-      },
-    [disabled, endValue, range, safeMax, safeMin, setThumbValue, startValue, step],
+      event.preventDefault();
+      setThumbValue(
+        thumb,
+        clamp(roundToStep(nextValue, safeMin, step), safeMin, safeMax),
+      );
+    },
+    [
+      disabled,
+      endValue,
+      range,
+      safeMax,
+      safeMin,
+      setThumbValue,
+      startValue,
+      step,
+    ],
   );
+
+  const handleStartThumbKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>) => {
+      handleThumbKeyDown(event, 'start', startValue);
+    },
+    [handleThumbKeyDown, startValue],
+  );
+
+  const handleEndThumbKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLButtonElement>) => {
+      handleThumbKeyDown(event, 'end', endValue ?? startValue);
+    },
+    [endValue, handleThumbKeyDown, startValue],
+  );
+
+  const handleStartThumbPointerDown = useCallback(() => {
+    handleThumbPointerDown('start');
+  }, [handleThumbPointerDown]);
+
+  const handleEndThumbPointerDown = useCallback(() => {
+    handleThumbPointerDown('end');
+  }, [handleThumbPointerDown]);
 
   const sharedThumbProps = {
     'aria-describedby': helperText ? captionId : undefined,
@@ -344,7 +379,10 @@ export const Slider: FC<SliderProps> = ({
       {label && (
         <div className={cn(sliderHeaderStyles())}>
           <label
-            className={cn(sliderLabelStyles({ disabled, size }), labelClassName)}
+            className={cn(
+              sliderLabelStyles({ disabled, size }),
+              labelClassName,
+            )}
             htmlFor={`${generatedId}-thumb-end`}
           >
             {label}
@@ -382,8 +420,8 @@ export const Slider: FC<SliderProps> = ({
               thumbClassName,
             )}
             id={`${generatedId}-thumb-start`}
-            onKeyDown={handleThumbKeyDown('start', startValue)}
-            onPointerDown={() => handleThumbPointerDown('start')}
+            onKeyDown={handleStartThumbKeyDown}
+            onPointerDown={handleStartThumbPointerDown}
             ref={startThumbRef}
             role='slider'
             style={{ left: `${startPercentage}%` }}
@@ -394,7 +432,10 @@ export const Slider: FC<SliderProps> = ({
         <button
           {...sharedThumbProps}
           aria-label={
-            ariaLabel ?? (range ? `${label ?? 'Slider'} maximum value` : label?.toString() ?? 'Slider value')
+            ariaLabel ??
+            (range
+              ? `${label ?? 'Slider'} maximum value`
+              : (label?.toString() ?? 'Slider value'))
           }
           aria-valuenow={endValue ?? startValue}
           className={cn(
@@ -406,8 +447,8 @@ export const Slider: FC<SliderProps> = ({
             thumbClassName,
           )}
           id={`${generatedId}-thumb-end`}
-          onKeyDown={handleThumbKeyDown('end', endValue ?? startValue)}
-          onPointerDown={() => handleThumbPointerDown('end')}
+          onKeyDown={handleEndThumbKeyDown}
+          onPointerDown={handleEndThumbPointerDown}
           ref={endThumbRef}
           role='slider'
           style={{ left: `${endPercentage}%` }}
@@ -415,7 +456,10 @@ export const Slider: FC<SliderProps> = ({
         />
       </div>
 
-      {(showMinLabel || showStartValueLabel || showEndValueLabel || showMaxLabel) && (
+      {(showMinLabel ||
+        showStartValueLabel ||
+        showEndValueLabel ||
+        showMaxLabel) && (
         <div className={cn(sliderValuesRowStyles())}>
           {showMinLabel && (
             <span

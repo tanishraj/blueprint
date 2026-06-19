@@ -13,7 +13,7 @@ export const sliderRootStyles = cva('inline-flex flex-col gap-2', {
 });
 
 export const sliderHeaderStyles = cva(
-  'flex min-h-8 w-full items-center justify-start text-left',
+  'flex w-full items-center justify-start text-left',
 );
 
 export const sliderLabelStyles = cva(
@@ -123,7 +123,7 @@ export const sliderThumbStyles = cva(
   },
 );
 
-export const sliderValuesRowStyles = cva('relative min-h-7 w-full');
+export const sliderValuesRowStyles = cva('relative min-h-5 w-full');
 
 export const sliderValueStyles = cva(
   'absolute -translate-x-1/2 text-center font-medium tabular-nums text-gray-600',
