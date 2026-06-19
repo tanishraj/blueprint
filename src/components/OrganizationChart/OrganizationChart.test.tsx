@@ -239,10 +239,12 @@ describe('OrganizationChart', () => {
       companyHierarchy20Data.map(normalizeOrgChartNode),
     );
     expect(chart.layout).toHaveBeenCalledWith('top');
-    expect(chart.render).toHaveBeenCalled();
+    expect(chart.render).toHaveBeenCalledTimes(1);
     expect(
       screen.getByRole('region', { name: /organization chart/i }),
     ).toBeInTheDocument();
+    expect(screen.getByText('Secured Entity')).toBeInTheDocument();
+    expect(screen.getByText('Unsecured Entity')).toBeInTheDocument();
   });
 
   it('updates the zoom indicator and emits zoom changes', () => {
@@ -292,6 +294,7 @@ describe('OrganizationChart', () => {
     ref.current?.resetLevel();
     ref.current?.zoomOut();
     ref.current?.resetZoom();
+    ref.current?.resetOrientation();
     ref.current?.exportImg();
     ref.current?.exportSvg();
     ref.current?.expandAll();
@@ -317,10 +320,11 @@ describe('OrganizationChart', () => {
 
     unmount();
 
-    const callback = resizeObserverCallbacks[0];
+    const callback =
+      resizeObserverCallbacks[resizeObserverCallbacks.length - 1];
 
     expect(typeof callback).toBe('function');
-    callback();
+    callback?.();
 
     const chart = orgChartInstances[0];
 
@@ -376,5 +380,24 @@ describe('OrganizationChart', () => {
     );
 
     expect(screen.queryByText(/zoom:\s*100%/i)).not.toBeInTheDocument();
+  });
+
+  it('resets orientation through the forwarded ref for controlled usage', () => {
+    const ref = createRef<OrgChartRef>();
+    const onOrientationChange = vi.fn();
+
+    render(
+      <OrganizationChart
+        ref={ref}
+        data={companyHierarchy20Data}
+        className='h-180'
+        orientation='left'
+        onOrientationChange={onOrientationChange}
+      />,
+    );
+
+    ref.current?.resetOrientation();
+
+    expect(onOrientationChange).toHaveBeenCalledWith('top');
   });
 });

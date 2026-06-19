@@ -91,11 +91,31 @@ describe('OrganizationChart utils', () => {
       120,
     );
 
-    const buttonHtml = buildButtonContent(3);
+    const buttonHtml = buildButtonContent({
+      data: {
+        id: 'n-3',
+        parentId: null,
+        name: 'Acme',
+        position: 'Entity',
+        _directSubordinates: 3,
+      },
+      children: [{}],
+    });
+    const collapsedButtonHtml = buildButtonContent({
+      data: {
+        id: 'n-4',
+        parentId: null,
+        name: 'Gamma',
+        position: 'Subsidiary',
+        _directSubordinates: 2,
+      },
+    });
 
     expect(html).toContain('BORROWER');
     expect(html).toContain('Acme');
     expect(buttonHtml).toContain('3');
+    expect(buttonHtml).toContain('background:var(--background-color-primary-inverted)');
+    expect(collapsedButtonHtml).toContain('background:var(--background-color-primary)');
 
     const secondaryHtml = buildNodeContent(
       {

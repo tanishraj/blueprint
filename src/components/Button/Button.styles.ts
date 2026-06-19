@@ -1,13 +1,13 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonStyles = cva(
-  'inline-flex w-fit items-center justify-center gap-2.5 cursor-pointer text-sm p-2 rounded border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
+  'relative inline-flex w-fit items-center justify-center gap-2.5 cursor-pointer whitespace-nowrap text-sm p-2 border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
   {
     variants: {
       size: {
-        sm: 'p-2 text-sm gap-2',
-        md: 'px-3 py-2 text-base gap-2.5',
-        lg: 'px-3.5 py-2 text-lg gap-3',
+        sm: 'px-3 py-2 text-sm leading-none gap-2',
+        md: 'px-4 py-2 text-base leading-none gap-2.5',
+        lg: 'px-[18px] py-2 text-lg leading-none gap-3',
       },
       variant: {
         default: 'text-default',
@@ -22,6 +22,10 @@ export const buttonStyles = cva(
         outline: 'bg-transparent',
         dashed: 'bg-transparent border-dashed',
         ghost: 'bg-transparent',
+      },
+      shape: {
+        rounded: 'rounded-full',
+        squared: 'rounded',
       },
       disabled: {
         true: 'opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none',
@@ -371,9 +375,35 @@ export const buttonStyles = cva(
           'bg-default-loading-inverted text-loading-inverted hover:bg-default-loading-inverted active:bg-default-loading-inverted',
       },
     ],
-    defaultVariants: {},
+    defaultVariants: {
+      shape: 'squared',
+    },
   },
 );
+
+export const buttonContentStyles = cva(
+  'inline-flex items-center justify-center',
+  {
+    variants: {
+      size: {
+        sm: 'gap-2',
+        md: 'gap-2.5',
+        lg: 'gap-3',
+      },
+      loading: {
+        true: 'invisible',
+        false: '',
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+      loading: false,
+    },
+  },
+);
+
+export const buttonSpinnerOverlayStyles =
+  'pointer-events-none absolute inset-0 flex items-center justify-center';
 
 export const buttonSpinnerStyles = cva(
   'inline-block animate-spin rounded-full border-2 border-current border-t-transparent',
