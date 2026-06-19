@@ -14,7 +14,8 @@ import { TabsContext } from './context';
 import { tabsRootStyles } from './Tabs.styles';
 import type { TabsProps } from './types';
 
-const clampIndex = (index: number, max: number) => Math.min(Math.max(index, 0), max);
+const clampIndex = (index: number, max: number) =>
+  Math.min(Math.max(index, 0), max);
 
 export const Tabs: FC<TabsProps> = ({
   children,
@@ -43,7 +44,10 @@ export const Tabs: FC<TabsProps> = ({
 
   const setSelectedIndex = useCallback(
     (nextIndex: number) => {
-      const normalizedIndex = clampIndex(nextIndex, Math.max(panelCount - 1, 0));
+      const normalizedIndex = clampIndex(
+        nextIndex,
+        Math.max(panelCount - 1, 0),
+      );
 
       if (value === undefined) {
         setInternalValue(normalizedIndex);
@@ -64,7 +68,15 @@ export const Tabs: FC<TabsProps> = ({
       size,
       variant,
     }),
-    [activeIndex, baseId, disabled, orientation, setSelectedIndex, size, variant],
+    [
+      activeIndex,
+      baseId,
+      disabled,
+      orientation,
+      setSelectedIndex,
+      size,
+      variant,
+    ],
   );
 
   const activePanel = tabPanels[activeIndex];

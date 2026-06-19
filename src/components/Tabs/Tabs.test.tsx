@@ -1,5 +1,5 @@
 import { Briefcase, Settings, User } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -19,6 +19,8 @@ interface RenderTabsOptions {
   variant?: TabsVariant;
 }
 
+const noopOnClose = () => undefined;
+
 const renderTabs = ({
   disabled = false,
   initialValue = 0,
@@ -29,27 +31,28 @@ const renderTabs = ({
 }: RenderTabsOptions = {}) => {
   const Wrapper = () => {
     const [value, setValue] = useState(initialValue);
+    const handleValueChange = useCallback((nextValue: number) => {
+      setValue(nextValue);
+      onValueChange?.(nextValue);
+    }, []);
 
     return (
       <Tabs
         disabled={disabled}
-        onValueChange={nextValue => {
-          setValue(nextValue);
-          onValueChange?.(nextValue);
-        }}
+        onValueChange={handleValueChange}
         orientation={orientation}
         size={size}
         value={value}
         variant={variant}
       >
         <TabsList>
-          <Tab onClose={() => undefined} startAdornment={<Briefcase />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
             First
           </Tab>
-          <Tab onClose={() => undefined} startAdornment={<User />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<User />} statusDot>
             Second
           </Tab>
-          <Tab onClose={() => undefined} startAdornment={<Settings />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
             Third
           </Tab>
         </TabsList>
@@ -197,7 +200,9 @@ describe('Tabs Component', () => {
   it('renders adornments and status dot', () => {
     renderTabs();
 
-    expect(screen.getAllByRole('tab')[0].querySelector('svg')).toBeInTheDocument();
+    expect(
+      screen.getAllByRole('tab')[0].querySelector('svg'),
+    ).toBeInTheDocument();
     expect(
       screen.getAllByRole('tab')[0].querySelector('.bg-danger'),
     ).toBeInTheDocument();

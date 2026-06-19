@@ -12,6 +12,7 @@ import type { TabsProps } from './types';
 const sizes = ['sm', 'md', 'lg'] as const;
 const variants = ['underline', 'pill'] as const;
 const orientations = ['horizontal', 'vertical'] as const;
+const noopOnClose = () => undefined;
 
 const TabsPlayground = (args: TabsProps) => {
   const [, updateArgs] = useArgs<TabsProps>();
@@ -21,19 +22,15 @@ const TabsPlayground = (args: TabsProps) => {
   );
 
   return (
-    <Tabs
-      {...args}
-      value={args.value ?? 0}
-      onValueChange={handleValueChange}
-    >
+    <Tabs {...args} value={args.value ?? 0} onValueChange={handleValueChange}>
       <TabsList className={args.orientation === 'vertical' ? 'mr-4' : ''}>
-        <Tab onClose={() => undefined} startAdornment={<Briefcase />} statusDot>
+        <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
           Tab
         </Tab>
-        <Tab onClose={() => undefined} startAdornment={<User />} statusDot>
+        <Tab onClose={noopOnClose} startAdornment={<User />} statusDot>
           Tab
         </Tab>
-        <Tab onClose={() => undefined} startAdornment={<Settings />} statusDot>
+        <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
           Tab
         </Tab>
       </TabsList>
@@ -156,13 +153,13 @@ export const Variants: Story = {
       {variants.map(variant => (
         <Tabs key={variant} defaultValue={0} variant={variant}>
           <TabsList>
-            <Tab onClose={() => undefined} startAdornment={<Briefcase />} statusDot>
+            <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
               Tab
             </Tab>
-            <Tab onClose={() => undefined} startAdornment={<User />} statusDot>
+            <Tab onClose={noopOnClose} startAdornment={<User />} statusDot>
               Tab
             </Tab>
-            <Tab onClose={() => undefined} startAdornment={<Settings />} statusDot>
+            <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
               Tab
             </Tab>
           </TabsList>
@@ -181,13 +178,13 @@ export const Sizes: Story = {
       {sizes.map(size => (
         <Tabs key={size} defaultValue={0} size={size}>
           <TabsList>
-            <Tab onClose={() => undefined} startAdornment={<Briefcase />} statusDot>
+            <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
               Tab
             </Tab>
-            <Tab onClose={() => undefined} startAdornment={<User />} statusDot>
+            <Tab onClose={noopOnClose} startAdornment={<User />} statusDot>
               Tab
             </Tab>
-            <Tab onClose={() => undefined} startAdornment={<Settings />} statusDot>
+            <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
               Tab
             </Tab>
           </TabsList>
@@ -205,13 +202,13 @@ export const Orientation: Story = {
     <div className='flex flex-col gap-8'>
       <Tabs defaultValue={0} orientation='horizontal'>
         <TabsList>
-          <Tab onClose={() => undefined} startAdornment={<Briefcase />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
             Tab
           </Tab>
-          <Tab onClose={() => undefined} startAdornment={<User />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<User />} statusDot>
             Tab
           </Tab>
-          <Tab onClose={() => undefined} startAdornment={<Settings />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
             Tab
           </Tab>
         </TabsList>
@@ -222,13 +219,13 @@ export const Orientation: Story = {
 
       <Tabs defaultValue={0} orientation='vertical'>
         <TabsList className='mr-4'>
-          <Tab onClose={() => undefined} startAdornment={<Briefcase />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
             Tab
           </Tab>
-          <Tab onClose={() => undefined} startAdornment={<User />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<User />} statusDot>
             Tab
           </Tab>
-          <Tab onClose={() => undefined} startAdornment={<Settings />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
             Tab
           </Tab>
         </TabsList>
@@ -245,13 +242,18 @@ export const States: Story = {
     <div className='flex flex-col gap-6'>
       <Tabs defaultValue={0}>
         <TabsList>
-          <Tab onClose={() => undefined} startAdornment={<Briefcase />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
             Tab
           </Tab>
-          <Tab disabled onClose={() => undefined} startAdornment={<User />} statusDot>
+          <Tab
+            disabled
+            onClose={noopOnClose}
+            startAdornment={<User />}
+            statusDot
+          >
             Tab
           </Tab>
-          <Tab onClose={() => undefined} startAdornment={<Settings />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
             Tab
           </Tab>
         </TabsList>
@@ -262,13 +264,13 @@ export const States: Story = {
 
       <Tabs defaultValue={0} disabled>
         <TabsList>
-          <Tab onClose={() => undefined} startAdornment={<Briefcase />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
             Tab
           </Tab>
-          <Tab onClose={() => undefined} startAdornment={<User />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<User />} statusDot>
             Tab
           </Tab>
-          <Tab onClose={() => undefined} startAdornment={<Settings />} statusDot>
+          <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
             Tab
           </Tab>
         </TabsList>

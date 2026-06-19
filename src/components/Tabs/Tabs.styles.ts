@@ -12,34 +12,37 @@ export const tabsRootStyles = cva('flex w-full gap-4', {
   },
 });
 
-export const tabListStyles = cva('inline-flex w-fit max-w-full shrink-0 gap-2', {
-  variants: {
-    orientation: {
-      horizontal: 'flex-row items-end',
-      vertical: 'flex-col items-stretch',
+export const tabListStyles = cva(
+  'inline-flex w-fit max-w-full shrink-0 gap-2',
+  {
+    variants: {
+      orientation: {
+        horizontal: 'flex-row items-end',
+        vertical: 'flex-col items-stretch',
+      },
+      variant: {
+        underline: '',
+        pill: '',
+      },
     },
-    variant: {
-      underline: '',
-      pill: '',
-    },
-  },
-  compoundVariants: [
-    {
+    compoundVariants: [
+      {
+        orientation: 'horizontal',
+        variant: 'underline',
+        className: 'border-b border-default',
+      },
+      {
+        orientation: 'vertical',
+        variant: 'underline',
+        className: 'border-r border-default',
+      },
+    ],
+    defaultVariants: {
       orientation: 'horizontal',
       variant: 'underline',
-      className: 'border-b border-default',
     },
-    {
-      orientation: 'vertical',
-      variant: 'underline',
-      className: 'border-r border-default',
-    },
-  ],
-  defaultVariants: {
-    orientation: 'horizontal',
-    variant: 'underline',
   },
-});
+);
 
 export const tabRootStyles = cva(
   'group relative inline-flex shrink-0 select-none items-center gap-1.5 whitespace-nowrap font-medium text-default outline-none transition-colors focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',

@@ -20,7 +20,9 @@ export type TabsOrientation = RemoveNull<
   VariantProps<typeof tabsRootStyles>
 >['orientation'];
 
-export type TabsVariant = RemoveNull<VariantProps<typeof tabRootStyles>>['variant'];
+export type TabsVariant = RemoveNull<
+  VariantProps<typeof tabRootStyles>
+>['variant'];
 
 export type TabsSizes = RemoveNull<VariantProps<typeof tabRootStyles>>['size'];
 

@@ -10,24 +10,26 @@ export interface ToastProps extends AlertProps {
 
 export const useToast = () => {
   const showToast = (props: ToastProps) => {
-    const { duration = 5000, position, dismissable, children, ...alertProps } =
-      props;
+    const {
+      duration = 5000,
+      position,
+      dismissable,
+      children,
+      ...alertProps
+    } = props;
     const toastOptions = position ? { duration, position } : { duration };
 
-    return toast.custom(
-      (toastId: string | number) => {
-        const closeProps = dismissable
-          ? { onClose: () => toast.dismiss(toastId) }
-          : {};
+    return toast.custom((toastId: string | number) => {
+      const closeProps = dismissable
+        ? { onClose: () => toast.dismiss(toastId) }
+        : {};
 
-        return (
-          <Alert {...alertProps} {...closeProps}>
-            {children}
-          </Alert>
-        );
-      },
-      toastOptions,
-    );
+      return (
+        <Alert {...alertProps} {...closeProps}>
+          {children}
+        </Alert>
+      );
+    }, toastOptions);
   };
 
   return {

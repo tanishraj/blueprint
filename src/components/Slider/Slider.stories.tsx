@@ -203,7 +203,13 @@ export const Sizes: Story = {
   render: () => (
     <div className='flex w-[min(40rem,100%)] flex-col gap-8'>
       {sizes.map(size => (
-        <Slider key={size} label='Slider Label' max={10} size={size} value={5} />
+        <Slider
+          key={size}
+          label='Slider Label'
+          max={10}
+          size={size}
+          value={5}
+        />
       ))}
     </div>
   ),
@@ -230,9 +236,19 @@ export const RangeSizes: Story = {
 export const States: Story = {
   render: () => (
     <div className='flex w-[min(40rem,100%)] flex-col gap-8'>
-      <Slider caption='There will be a caption text here' label='Slider Label' max={10} value={5} />
+      <Slider
+        caption='There will be a caption text here'
+        label='Slider Label'
+        max={10}
+        value={5}
+      />
       <Slider disabled label='Slider Label' max={10} value={5} />
-      <Slider error='There will be an error text here' label='Slider Label' max={10} value={5} />
+      <Slider
+        error='There will be an error text here'
+        label='Slider Label'
+        max={10}
+        value={5}
+      />
       <Slider label='Slider Label' max={10} range showMaxLabel value={[0, 5]} />
     </div>
   ),
