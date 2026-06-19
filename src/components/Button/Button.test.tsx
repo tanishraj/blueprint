@@ -14,7 +14,22 @@ describe('Button Component', () => {
     const button = screen.getByRole('button', { name: /test button/i });
 
     expect(button).toBeInTheDocument();
-    expect(button).toHaveClass('w-fit', 'text-primary', 'px-3', 'py-2');
+    expect(button).toHaveClass(
+      'w-fit',
+      'text-primary',
+      'px-4',
+      'py-2',
+      'rounded',
+    );
+  });
+
+  it('supports squared shape', () => {
+    render(<Button shape='squared'>Squared</Button>);
+
+    const button = screen.getByRole('button', { name: /squared/i });
+
+    expect(button).toHaveClass('rounded');
+    expect(button).not.toHaveClass('rounded-full');
   });
 
   it('can fill the available container width', () => {
@@ -45,8 +60,14 @@ describe('Button Component', () => {
       </Button>,
     );
 
-    expect(screen.queryByText('Loading')).toBeNull();
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    const button = screen.getByRole('button', { name: /loading/i });
+    const content = button.querySelector('[data-slot="button-content"]');
+    const spinner = button.querySelector('[data-slot="button-spinner"]');
+
+    expect(button).toBeDisabled();
+    expect(content).toHaveClass('invisible');
+    expect(spinner).toBeInTheDocument();
+    expect(screen.getByText('Loading')).toBeInTheDocument();
   });
 
   it('renders leading and trailing icons around text', () => {
@@ -68,5 +89,18 @@ describe('Button Component', () => {
     const button = screen.getByRole('button');
 
     expect(button.querySelectorAll('svg')).toHaveLength(1);
+  });
+
+  it('is disabled when disabled is set without changing content layout', () => {
+    render(<Button disabled>Disabled</Button>);
+
+    const button = screen.getByRole('button', { name: /disabled/i });
+    const content = button.querySelector('[data-slot="button-content"]');
+
+    expect(button).toBeDisabled();
+    expect(content).not.toHaveClass('invisible');
+    expect(
+      button.querySelector('[data-slot="button-spinner"]'),
+    ).not.toBeInTheDocument();
   });
 });

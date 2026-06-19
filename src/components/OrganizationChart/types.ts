@@ -53,6 +53,7 @@ export interface OrgChartRef {
   zoomOut: () => void;
   resetZoom: () => void;
   resetLevel: () => void;
+  resetOrientation: () => void;
   exportImg: () => void;
   exportSvg: () => void;
   expandAll: () => void;
@@ -65,6 +66,7 @@ export interface OrgChartComponentProps extends Omit<
 > {
   data: Array<OrgChartNodeData | OrgChartApiNodeData>;
   orientation?: OrgChartOrientation;
+  onOrientationChange?: (orientation: OrgChartOrientation) => void;
   initialDepth?: number;
   imageName?: string;
   onNodeClick?: (nodeId: string) => void;
