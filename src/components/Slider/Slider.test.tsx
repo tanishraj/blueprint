@@ -3,6 +3,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import { Slider } from './Slider';
 
+const percentFormatter = (value: number) => `${value}%`;
+
 describe('Slider Component', () => {
   it('renders a single slider with label', () => {
     render(<Slider label='Slider Label' max={10} value={5} />);
@@ -43,7 +45,12 @@ describe('Slider Component', () => {
     const handleValueChange = vi.fn();
 
     render(
-      <Slider max={10} onValueChange={handleValueChange} range value={[0, 5]} />,
+      <Slider
+        max={10}
+        onValueChange={handleValueChange}
+        range
+        value={[0, 5]}
+      />,
     );
 
     fireEvent.keyDown(screen.getAllByRole('slider')[1], { key: 'ArrowRight' });
@@ -60,7 +67,9 @@ describe('Slider Component', () => {
       screen.getByText('There will be a caption text here'),
     ).toBeInTheDocument();
 
-    rerender(<Slider error='There will be an error text here' max={10} value={5} />);
+    rerender(
+      <Slider error='There will be an error text here' max={10} value={5} />,
+    );
 
     expect(
       screen.getByText('There will be an error text here'),
@@ -84,12 +93,7 @@ describe('Slider Component', () => {
 
   it('supports custom value formatting', () => {
     render(
-      <Slider
-        formatValue={value => `${value}%`}
-        max={10}
-        showMaxLabel
-        value={5}
-      />,
+      <Slider formatValue={percentFormatter} max={10} showMaxLabel value={5} />,
     );
 
     expect(screen.getByText('0%')).toBeInTheDocument();
