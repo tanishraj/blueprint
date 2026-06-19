@@ -3,7 +3,9 @@ import { type VariantProps } from 'class-variance-authority';
 
 import { cn, RemoveNull } from '../../utils';
 import {
+  buttonContentStyles,
   buttonIconStyle,
+  buttonSpinnerOverlayStyles,
   buttonSpinnerStyles,
   buttonStyles,
 } from './Button.styles';
@@ -52,17 +54,19 @@ export const Button: FC<ButtonProps> = ({
       )}
       disabled={isDisabled}
     >
+      <span
+        data-slot='button-content'
+        className={buttonContentStyles({ size, loading })}
+      >
+        {LeadingIcon && <LeadingIcon className={buttonIconStyle({ size })} />}
+        {children && <span>{children}</span>}
+        {TrailingIcon && <TrailingIcon className={buttonIconStyle({ size })} />}
+      </span>
       {loading ? (
-        <span aria-hidden='true' className={buttonSpinnerStyles({ size })} />
-      ) : (
-        <>
-          {LeadingIcon && <LeadingIcon className={buttonIconStyle({ size })} />}
-          {children && <span>{children}</span>}
-          {TrailingIcon && (
-            <TrailingIcon className={buttonIconStyle({ size })} />
-          )}
-        </>
-      )}
+        <span data-slot='button-spinner' className={buttonSpinnerOverlayStyles}>
+          <span aria-hidden='true' className={buttonSpinnerStyles({ size })} />
+        </span>
+      ) : null}
     </button>
   );
 };

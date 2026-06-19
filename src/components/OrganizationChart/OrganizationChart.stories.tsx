@@ -1,90 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { ComponentProps, SVGProps } from 'react';
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  Download,
+  Minus,
+  Plus,
+  RotateCcw,
+} from 'lucide-react';
+import type { ComponentProps } from 'react';
 import { useCallback, useRef, useState } from 'react';
 
 import { Button } from '../Button';
 import { companyHierarchy20Data, companyHierarchy50Data } from './mockData';
 import { OrganizationChart } from './OrganizationChart';
 import type { OrgChartOrientation, OrgChartRef } from './types';
-
-const iconProps = {
-  fill: 'none',
-  stroke: 'currentColor',
-  strokeWidth: 1.8,
-  strokeLinecap: 'round' as const,
-  strokeLinejoin: 'round' as const,
-};
-
-const PlusIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='M10 4v12M4 10h12' />
-  </svg>
-);
-
-const MinusIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='M4 10h12' />
-  </svg>
-);
-
-const FitIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='M7 4H4v3M13 4h3v3M4 13v3h3M16 13v3h-3' />
-  </svg>
-);
-
-const ResetIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='M4 10a6 6 0 1 0 2-4.47' />
-    <path d='M4 4v4h4' />
-  </svg>
-);
-
-const ExpandIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='m5 7 5 5 5-5' />
-    <path d='m5 3 5 5 5-5' />
-  </svg>
-);
-
-const CollapseIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='m5 13 5-5 5 5' />
-    <path d='m5 17 5-5 5 5' />
-  </svg>
-);
-
-const DownloadIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='M10 3v9' />
-    <path d='m6.5 9.5 3.5 3.5 3.5-3.5' />
-    <path d='M4 16h12' />
-  </svg>
-);
-
-const DownIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='m5 7 5 6 5-6' />
-  </svg>
-);
-
-const UpIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='m5 13 5-6 5 6' />
-  </svg>
-);
-
-const LeftIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='m13 5-6 5 6 5' />
-  </svg>
-);
-
-const RightIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg viewBox='0 0 20 20' {...iconProps} {...props}>
-    <path d='m7 5 6 5-6 5' />
-  </svg>
-);
 
 function ControlPanel({
   chartRef,
@@ -156,7 +87,7 @@ function ControlPanel({
       <div className='grid grid-cols-3 gap-2 rounded-sm border border-default p-2'>
         <Button
           aria-label='Zoom in'
-          leadingIcon={PlusIcon}
+          leadingIcon={Plus}
           onClick={handleZoomIn}
           size='sm'
           variant='default'
@@ -166,7 +97,7 @@ function ControlPanel({
         </Button>
         <Button
           aria-label='Zoom out'
-          leadingIcon={MinusIcon}
+          leadingIcon={Minus}
           onClick={handleZoomOut}
           size='sm'
           variant='default'
@@ -176,7 +107,7 @@ function ControlPanel({
         </Button>
         <Button
           aria-label='Reset zoom'
-          leadingIcon={FitIcon}
+          leadingIcon={RotateCcw}
           onClick={handleResetZoom}
           size='sm'
           variant='default'
@@ -192,7 +123,7 @@ function ControlPanel({
       <div className='grid grid-cols-2 gap-2 rounded-sm border border-default p-2'>
         <Button
           aria-label='Reset level'
-          leadingIcon={ResetIcon}
+          leadingIcon={RotateCcw}
           onClick={handleResetLevel}
           size='sm'
           variant='default'
@@ -202,7 +133,7 @@ function ControlPanel({
         </Button>
         <Button
           aria-label='Expand all'
-          leadingIcon={ExpandIcon}
+          leadingIcon={ChevronDown}
           onClick={handleExpandAll}
           size='sm'
           variant='default'
@@ -212,7 +143,7 @@ function ControlPanel({
         </Button>
         <Button
           aria-label='Collapse all'
-          leadingIcon={CollapseIcon}
+          leadingIcon={ChevronUp}
           onClick={handleCollapseAll}
           size='sm'
           variant='default'
@@ -222,7 +153,7 @@ function ControlPanel({
         </Button>
         <Button
           aria-label='Reset chart'
-          leadingIcon={ResetIcon}
+          leadingIcon={RotateCcw}
           onClick={handleResetAll}
           size='sm'
           variant='default'
@@ -238,7 +169,7 @@ function ControlPanel({
       <div className='grid grid-cols-2 gap-2 rounded-sm border border-default p-2'>
         <Button
           aria-label='Download PNG'
-          leadingIcon={DownloadIcon}
+          leadingIcon={Download}
           onClick={handleExportPNG}
           size='sm'
           variant='default'
@@ -248,7 +179,7 @@ function ControlPanel({
         </Button>
         <Button
           aria-label='Download SVG'
-          leadingIcon={DownloadIcon}
+          leadingIcon={Download}
           onClick={handleExportSVG}
           size='sm'
           variant='default'
@@ -264,7 +195,7 @@ function ControlPanel({
       <div className='grid grid-cols-2 gap-2 rounded-sm border border-default p-2'>
         <Button
           aria-label='Vertical orientation'
-          leadingIcon={DownIcon}
+          leadingIcon={ChevronDown}
           onClick={handleSetLayoutTop}
           size='sm'
           variant={layout === 'top' ? 'primary' : 'default'}
@@ -274,7 +205,7 @@ function ControlPanel({
         </Button>
         <Button
           aria-label='Left to right orientation'
-          leadingIcon={RightIcon}
+          leadingIcon={ChevronRight}
           onClick={handleSetLayoutLeft}
           size='sm'
           variant={layout === 'left' ? 'primary' : 'default'}
@@ -284,7 +215,7 @@ function ControlPanel({
         </Button>
         <Button
           aria-label='Bottom up orientation'
-          leadingIcon={UpIcon}
+          leadingIcon={ChevronUp}
           onClick={handleSetLayoutBottom}
           size='sm'
           variant={layout === 'bottom' ? 'primary' : 'default'}
@@ -294,7 +225,7 @@ function ControlPanel({
         </Button>
         <Button
           aria-label='Right to left orientation'
-          leadingIcon={LeftIcon}
+          leadingIcon={ChevronLeft}
           onClick={handleSetLayoutRight}
           size='sm'
           variant={layout === 'right' ? 'primary' : 'default'}

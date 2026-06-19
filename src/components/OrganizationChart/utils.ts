@@ -11,6 +11,20 @@ const COLORS = {
   chipBackground: 'var(--background-color-primary-inverted)',
   chipBorder: 'var(--border-color-primary)',
   chipText: 'var(--text-color-primary)',
+  chipTextStrong: 'var(--text-color-primary)',
+  chipBackgroundActive: 'var(--background-color-primary)',
+  chipBorderActive: 'var(--border-color-primary)',
+  chipTextOnActive: 'var(--text-color-white)',
+};
+
+type OrgChartButtonNodeData = OrgChartNodeData & {
+  _directSubordinates?: number;
+};
+
+type OrgChartButtonNode = {
+  data: OrgChartButtonNodeData;
+  children?: unknown[] | null | undefined;
+  _children?: unknown[] | null | undefined;
 };
 
 export const formatEnumLabel = (value?: string | null): string => {
@@ -223,7 +237,15 @@ export const buildNodeContent = (
     `;
 };
 
-export const buildButtonContent = (childCount: number) => {
+export const buildButtonContent = (node: OrgChartButtonNode) => {
+  const childCount = node.data._directSubordinates ?? 0;
+  const isExpanded = Boolean(node.children);
+  const background = isExpanded
+    ? COLORS.chipBackground
+    : COLORS.chipBackgroundActive;
+  const border = isExpanded ? COLORS.chipBorder : COLORS.chipBorderActive;
+  const text = isExpanded ? COLORS.chipTextStrong : COLORS.chipTextOnActive;
+
   return `
         <div style="
             display:flex;
@@ -232,10 +254,10 @@ export const buildButtonContent = (childCount: number) => {
             min-width:32px;
             height:32px;
             margin:auto;
-            border:2px solid ${COLORS.chipBorder};
+            border:2px solid ${border};
             border-radius:999px;
-            background:${COLORS.chipBackground};
-            color:${COLORS.chipText};
+            background:${background};
+            color:${text};
             font-family:var(--font-body);
             font-size:13px;
             font-weight:700;

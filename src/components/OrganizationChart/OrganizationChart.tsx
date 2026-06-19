@@ -1,11 +1,12 @@
 import { OrgChart } from 'd3-org-chart';
 import {
+  useCallback,
   forwardRef,
-  useEffect,
   useImperativeHandle,
   useLayoutEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 
 import { cn } from '../../utils';
@@ -13,12 +14,14 @@ import {
   organizationChartEmptyStateClassName,
   ORGANIZATION_CHART_NODE_HEIGHT,
   ORGANIZATION_CHART_NODE_WIDTH,
+  organizationChartLegendClassName,
   organizationChartWrapperClassName,
   organizationChartZoomIndicatorClassName,
 } from './OrganizationChart.styles';
 import type {
   OrgChartComponentProps,
   OrgChartNodeData,
+  OrgChartOrientation,
   OrgChartRef,
 } from './types';
 import {
@@ -27,13 +30,27 @@ import {
   normalizeOrgChartNode,
 } from './utils';
 
+const DEFAULT_ORIENTATION: OrgChartOrientation = 'top';
+
+const LEGEND_ITEMS = [
+  {
+    label: 'Secured Entity',
+    indicatorClassName: 'border-primary',
+  },
+  {
+    label: 'Unsecured Entity',
+    indicatorClassName: 'border-danger border-dashed',
+  },
+] as const;
+
 export const OrganizationChart = forwardRef<
   OrgChartRef,
   OrgChartComponentProps
 >(function OrganizationChart(
   {
     data,
-    orientation = 'top',
+    orientation: controlledOrientation,
+    onOrientationChange,
     initialDepth = 1,
     imageName = 'organization-chart',
     onNodeClick,
@@ -50,8 +67,21 @@ export const OrganizationChart = forwardRef<
   const containerRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<OrgChart<OrgChartNodeData> | null>(null);
   const zoomTextRef = useRef<HTMLDivElement | null>(null);
-  const resizeObserverRef = useRef<ResizeObserver | null>(null);
+  const [uncontrolledOrientation, setUncontrolledOrientation] =
+    useState<OrgChartOrientation>(controlledOrientation ?? DEFAULT_ORIENTATION);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const normalizedData = useMemo(() => data.map(normalizeOrgChartNode), [data]);
+  const orientation = controlledOrientation ?? uncontrolledOrientation;
+  const handleOrientationChange = useCallback(
+    (nextOrientation: OrgChartOrientation) => {
+      if (controlledOrientation === undefined) {
+        setUncontrolledOrientation(nextOrientation);
+      }
+
+      onOrientationChange?.(nextOrientation);
+    },
+    [controlledOrientation, onOrientationChange],
+  );
 
   useImperativeHandle(
     ref,
@@ -67,6 +97,9 @@ export const OrganizationChart = forwardRef<
           .initialExpandLevel(initialDepth)
           .render()
           .fit();
+      },
+      resetOrientation: () => {
+        handleOrientationChange(DEFAULT_ORIENTATION);
       },
       exportImg: () => chartRef.current?.exportImg({ full: true }),
       exportSvg: () => {
@@ -87,12 +120,12 @@ export const OrganizationChart = forwardRef<
         chartRef.current?.collapseAll().fit();
       },
     }),
-    [initialDepth],
+    [handleOrientationChange, initialDepth],
   );
 
   useLayoutEffect(() => {
-    const container = containerRef.current;
     const root = rootRef.current;
+    const container = containerRef.current;
 
     if (!container || !root || normalizedData.length === 0) {
       return;
@@ -103,101 +136,86 @@ export const OrganizationChart = forwardRef<
     const chart = new OrgChart<OrgChartNodeData>();
     chartRef.current = chart;
 
-    const renderChart = () => {
-      chart
-        .container(container as unknown as string)
-        .data(normalizedData)
-        .layout(orientation)
-        .imageName(imageName)
-        .initialExpandLevel(initialDepth)
-        .svgHeight(Math.max(root.clientHeight, 720))
-        .nodeWidth(() => ORGANIZATION_CHART_NODE_WIDTH)
-        .nodeHeight(() => ORGANIZATION_CHART_NODE_HEIGHT)
-        .childrenMargin(() => 64)
-        .siblingsMargin(() => 80)
-        .neighbourMargin(() => 96)
-        .compact(false)
-        .buttonContent(
-          ({
-            node,
-          }: {
-            node: { data: OrgChartNodeData & { _directSubordinates?: number } };
-          }) => {
-            const childCount = node.data._directSubordinates ?? 0;
+    chart
+      .container(container as unknown as string)
+      .data(normalizedData)
+      .layout(orientation)
+      .imageName(imageName)
+      .initialExpandLevel(initialDepth)
+      .svgHeight(Math.max(root.clientHeight, 720))
+      .nodeWidth(() => ORGANIZATION_CHART_NODE_WIDTH)
+      .nodeHeight(() => ORGANIZATION_CHART_NODE_HEIGHT)
+      .childrenMargin(() => 64)
+      .siblingsMargin(() => 80)
+      .neighbourMargin(() => 96)
+      .compact(false)
+      .buttonContent(
+        ({
+          node,
+        }: {
+          node: {
+            data: OrgChartNodeData & { _directSubordinates?: number };
+            children?: unknown[] | null | undefined;
+            _children?: unknown[] | null | undefined;
+          };
+        }) => buildButtonContent(node),
+      )
+      .nodeButtonWidth(() => 44)
+      .nodeButtonHeight(() => 32)
+      .nodeUpdate((_, index, elements) => {
+        const element = elements[index] as unknown as SVGElement;
+        const buttonGroup =
+          element.querySelector<SVGGElement>('.node-button-g');
+        const buttonCircle = element.querySelector<SVGCircleElement>(
+          '.node-button-circle',
+        );
+        const buttonText =
+          element.querySelector<SVGTextElement>('.node-button-text');
 
-            return buildButtonContent(childCount);
-          },
-        )
-        .nodeButtonWidth(() => 44)
-        .nodeButtonHeight(() => 32)
-        .nodeUpdate((_, index, elements) => {
-          const element = elements[index] as unknown as SVGElement;
-          const buttonGroup =
-            element.querySelector<SVGGElement>('.node-button-g');
-          const buttonCircle = element.querySelector<SVGCircleElement>(
-            '.node-button-circle',
-          );
-          const buttonText =
-            element.querySelector<SVGTextElement>('.node-button-text');
+        buttonGroup?.setAttribute('display', '');
 
-          buttonGroup?.setAttribute('display', '');
+        if (buttonCircle) {
+          buttonCircle.setAttribute('fill', 'transparent');
+          buttonCircle.setAttribute('stroke', 'transparent');
+        }
 
-          if (buttonCircle) {
-            buttonCircle.setAttribute('fill', 'transparent');
-            buttonCircle.setAttribute('stroke', 'transparent');
-          }
+        if (buttonText) {
+          buttonText.setAttribute('display', 'none');
+        }
+      })
+      .linkUpdate((_, index, elements) => {
+        const element = elements[index] as unknown as SVGPathElement;
 
-          if (buttonText) {
-            buttonText.setAttribute('display', 'none');
-          }
-        })
-        .linkUpdate((_, index, elements) => {
-          const element = elements[index] as unknown as SVGPathElement;
+        element.setAttribute('stroke', 'var(--border-color-default)');
+        element.setAttribute('stroke-width', '2');
+        element.setAttribute('fill', 'none');
+      })
+      .onZoom((event: { transform?: { k?: number } }) => {
+        const zoomPercent = Math.round((event.transform?.k ?? 1) * 100);
 
-          element.setAttribute('stroke', 'var(--border-color-default)');
-          element.setAttribute('stroke-width', '2');
-          element.setAttribute('fill', 'none');
-        })
-        .onZoom((event: { transform?: { k?: number } }) => {
-          const zoomPercent = Math.round((event.transform?.k ?? 1) * 100);
+        if (zoomTextRef.current) {
+          zoomTextRef.current.textContent = `Zoom: ${zoomPercent}%`;
+        }
 
-          if (zoomTextRef.current) {
-            zoomTextRef.current.textContent = `Zoom: ${zoomPercent}%`;
-          }
-
-          onZoomChange?.(zoomPercent);
-        })
-        .onNodeClick((node: { id?: string | number | undefined }) => {
-          if (node?.id) {
-            onNodeClick?.(String(node.id));
-          }
-        })
-        .nodeContent((node: { data: OrgChartNodeData }) =>
-          buildNodeContent(
-            node.data,
-            ORGANIZATION_CHART_NODE_WIDTH,
-            ORGANIZATION_CHART_NODE_HEIGHT,
-          ),
-        )
-        .render()
-        .fit();
-    };
-
-    renderChart();
-
-    resizeObserverRef.current?.disconnect();
-    resizeObserverRef.current = new ResizeObserver(() => {
-      if (!chartRef.current || normalizedData.length === 0) {
-        return;
-      }
-
-      renderChart();
-    });
-    resizeObserverRef.current.observe(root);
+        onZoomChange?.(zoomPercent);
+      })
+      .onNodeClick((node: { id?: string | number | undefined }) => {
+        if (node?.id) {
+          onNodeClick?.(String(node.id));
+        }
+      })
+      .nodeContent((node: { data: OrgChartNodeData }) =>
+        buildNodeContent(
+          node.data,
+          ORGANIZATION_CHART_NODE_WIDTH,
+          ORGANIZATION_CHART_NODE_HEIGHT,
+        ),
+      )
+      .render()
+      .fit();
 
     return () => {
-      resizeObserverRef.current?.disconnect();
-      resizeObserverRef.current = null;
+      chart.clear();
       if (chartRef.current === chart) {
         chartRef.current = null;
       }
@@ -212,13 +230,42 @@ export const OrganizationChart = forwardRef<
     orientation,
   ]);
 
-  useEffect(() => {
-    return () => {
-      resizeObserverRef.current?.disconnect();
-      chartRef.current?.clear();
-      chartRef.current = null;
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+
+    if (!root || normalizedData.length === 0) {
+      return;
+    }
+
+    const updateDimensions = () => {
+      setDimensions({
+        width: root.clientWidth,
+        height: root.clientHeight,
+      });
     };
-  }, []);
+
+    updateDimensions();
+
+    const observer = new ResizeObserver(updateDimensions);
+    observer.observe(root);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [normalizedData.length]);
+
+  useLayoutEffect(() => {
+    if (
+      !chartRef.current ||
+      !dimensions.width ||
+      !dimensions.height ||
+      normalizedData.length === 0
+    ) {
+      return;
+    }
+
+    chartRef.current.render().fit();
+  }, [dimensions.height, dimensions.width, normalizedData.length]);
 
   if (normalizedData.length === 0) {
     return (
@@ -240,6 +287,22 @@ export const OrganizationChart = forwardRef<
       ref={rootRef}
       className={cn(organizationChartWrapperClassName, className)}
     >
+      <div className={organizationChartLegendClassName}>
+        <div className='flex items-center gap-3 text-sm text-default'>
+          {LEGEND_ITEMS.map(item => (
+            <div key={item.label} className='flex items-center gap-2'>
+              <span
+                aria-hidden='true'
+                className={cn(
+                  'block h-4 w-4 rounded-[4px] border-2 bg-transparent',
+                  item.indicatorClassName,
+                )}
+              />
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
       {showZoomBadge ? (
         <div
           ref={zoomTextRef}
