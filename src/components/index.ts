@@ -24,6 +24,7 @@ export * from './RadioGroup';
 export * from './Rating';
 export * from './Slider';
 export * from './Tabs';
+export * from './Toast';
 export * from './Avatar';
 export * from './AvatarGroup';
 export * from './OrganizationChart';
