@@ -1,4 +1,9 @@
-import { type FC, type KeyboardEvent, type MouseEvent, useCallback } from 'react';
+import {
+  type FC,
+  type KeyboardEvent,
+  type MouseEvent,
+  useCallback,
+} from 'react';
 import { X } from 'lucide-react';
 
 import { cn } from '@/utils';
@@ -130,6 +135,13 @@ export const Tab: FC<InternalTabProps> = ({
     [onClose],
   );
 
+  const handleRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      registerTab(index, node);
+    },
+    [index, registerTab],
+  );
+
   return (
     <div
       {...restProps}
@@ -150,7 +162,7 @@ export const Tab: FC<InternalTabProps> = ({
       id={`${baseId}-tab-${index}`}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      ref={node => registerTab(index, node)}
+      ref={handleRef}
       role='tab'
       tabIndex={selectedIndex === index && !isDisabled ? 0 : -1}
     >
@@ -166,7 +178,9 @@ export const Tab: FC<InternalTabProps> = ({
           className={cn(tabStatusDotStyles({ selected }))}
         />
       )}
-      {endAdornment && <span className={cn(tabAdornmentStyles())}>{endAdornment}</span>}
+      {endAdornment && (
+        <span className={cn(tabAdornmentStyles())}>{endAdornment}</span>
+      )}
       {onClose && (
         <button
           aria-label={closeLabel}
