@@ -13,3 +13,7 @@ export type ButtonAppearances = RemoveNull<
 >['appearance'];
 
 export type ButtonSizes = RemoveNull<VariantProps<typeof buttonStyles>>['size'];
+
+export type ButtonShapes = RemoveNull<
+  VariantProps<typeof buttonStyles>
+>['shape'];

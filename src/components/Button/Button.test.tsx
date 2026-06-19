@@ -14,7 +14,22 @@ describe('Button Component', () => {
     const button = screen.getByRole('button', { name: /test button/i });
 
     expect(button).toBeInTheDocument();
-    expect(button).toHaveClass('w-fit', 'text-primary', 'px-3', 'py-2');
+    expect(button).toHaveClass(
+      'w-fit',
+      'text-primary',
+      'px-4',
+      'py-2',
+      'rounded-full',
+    );
+  });
+
+  it('supports squared shape', () => {
+    render(<Button shape='squared'>Squared</Button>);
+
+    const button = screen.getByRole('button', { name: /squared/i });
+
+    expect(button).toHaveClass('rounded');
+    expect(button).not.toHaveClass('rounded-full');
   });
 
   it('can fill the available container width', () => {

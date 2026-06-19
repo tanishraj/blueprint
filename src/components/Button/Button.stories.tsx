@@ -102,6 +102,14 @@ Accessibility:
         category: 'Appearance',
       },
     },
+    shape: {
+      description: 'Button corner treatment: rounded pill or squared corners.',
+      options: ['rounded', 'squared'],
+      control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
+    },
     leadingIcon: {
       description: 'Icon rendered before text.',
       options: ['None', 'Plus'],
@@ -170,6 +178,7 @@ Accessibility:
     size: 'md',
     variant: 'primary',
     appearance: 'filled',
+    shape: 'rounded',
     disabled: false,
     loading: false,
     fullWidth: false,
