@@ -28,6 +28,7 @@ import {
   buildButtonContent,
   buildNodeContent,
   normalizeOrgChartNode,
+  resolveCssColor,
 } from './utils';
 
 const DEFAULT_ORIENTATION: OrgChartOrientation = 'top';
@@ -186,7 +187,10 @@ export const OrganizationChart = forwardRef<
       .linkUpdate((_, index, elements) => {
         const element = elements[index] as unknown as SVGPathElement;
 
-        element.setAttribute('stroke', 'var(--border-color-default)');
+        element.setAttribute(
+          'stroke',
+          resolveCssColor('var(--border-color-default)'),
+        );
         element.setAttribute('stroke-width', '2');
         element.setAttribute('fill', 'none');
       })
