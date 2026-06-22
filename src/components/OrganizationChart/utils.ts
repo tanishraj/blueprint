@@ -32,7 +32,8 @@ export const resolveCssColor = (value: string): string => {
       window
         .getComputedStyle(document.documentElement)
         .getPropertyValue(variableName)
-        .trim() || document.documentElement.style.getPropertyValue(variableName);
+        .trim() ||
+      document.documentElement.style.getPropertyValue(variableName);
 
     if (resolvedVariable && resolvedVariable !== value) {
       return resolveCssColor(resolvedVariable.trim());
