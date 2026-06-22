@@ -18,17 +18,38 @@ describe('OrganizationChart utils', () => {
       '#111111',
     );
     document.documentElement.style.setProperty('--text-color-white', '#ffffff');
-    document.documentElement.style.setProperty('--border-color-primary', '#22aa44');
-    document.documentElement.style.setProperty('--border-color-danger', '#cc3344');
-    document.documentElement.style.setProperty('--border-color-default', '#445566');
-    document.documentElement.style.setProperty('--text-color-default', '#101820');
-    document.documentElement.style.setProperty('--text-color-caption', '#5c6773');
+    document.documentElement.style.setProperty(
+      '--border-color-primary',
+      '#22aa44',
+    );
+    document.documentElement.style.setProperty(
+      '--border-color-danger',
+      '#cc3344',
+    );
+    document.documentElement.style.setProperty(
+      '--border-color-default',
+      '#445566',
+    );
+    document.documentElement.style.setProperty(
+      '--text-color-default',
+      '#101820',
+    );
+    document.documentElement.style.setProperty(
+      '--text-color-caption',
+      '#5c6773',
+    );
     document.documentElement.style.setProperty(
       '--background-color-primary-inverted',
       '#eef7f0',
     );
-    document.documentElement.style.setProperty('--background-color-primary', '#2f8f5b');
-    document.documentElement.style.setProperty('--text-color-primary', '#2f8f5b');
+    document.documentElement.style.setProperty(
+      '--background-color-primary',
+      '#2f8f5b',
+    );
+    document.documentElement.style.setProperty(
+      '--text-color-primary',
+      '#2f8f5b',
+    );
   });
 
   it('resolves css color expressions for export-safe inline styles', () => {
