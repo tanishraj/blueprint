@@ -17,6 +17,117 @@ const COLORS = {
   chipTextOnActive: 'var(--text-color-white)',
 };
 
+export const resolveCssColor = (value: string): string => {
+  if (
+    typeof window === 'undefined' ||
+    typeof document === 'undefined' ||
+    !value
+  ) {
+    return value;
+  }
+
+  if (value.startsWith('var(')) {
+    const variableName = value.slice(4, -1).trim();
+    const resolvedVariable =
+      window
+        .getComputedStyle(document.documentElement)
+        .getPropertyValue(variableName)
+        .trim() || document.documentElement.style.getPropertyValue(variableName);
+
+    if (resolvedVariable && resolvedVariable !== value) {
+      return resolveCssColor(resolvedVariable.trim());
+    }
+  }
+
+  const probe = document.createElement('span');
+  probe.style.color = value;
+  probe.style.position = 'absolute';
+  probe.style.opacity = '0';
+  probe.style.pointerEvents = 'none';
+  document.body.appendChild(probe);
+
+  const resolvedValue = window.getComputedStyle(probe).color;
+
+  probe.remove();
+
+  return resolvedValue || value;
+};
+
+const parseColorChannel = (value: string) => {
+  const rgbMatch = value.match(
+    /rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/i,
+  );
+
+  if (rgbMatch) {
+    return rgbMatch.slice(1, 4).map(channel => Number(channel));
+  }
+
+  const hexMatch = value.match(/^#([\da-f]{6}|[\da-f]{3})$/i);
+
+  if (!hexMatch) {
+    return null;
+  }
+
+  const hex =
+    hexMatch[1].length === 3
+      ? hexMatch[1]
+          .split('')
+          .map(char => `${char}${char}`)
+          .join('')
+      : hexMatch[1];
+
+  return [
+    Number.parseInt(hex.slice(0, 2), 16),
+    Number.parseInt(hex.slice(2, 4), 16),
+    Number.parseInt(hex.slice(4, 6), 16),
+  ];
+};
+
+const mixResolvedColors = (
+  primary: string,
+  secondary: string,
+  primaryWeight: number,
+) => {
+  const resolvedPrimary = resolveCssColor(primary);
+  const resolvedSecondary = resolveCssColor(secondary);
+  const primaryChannels = parseColorChannel(resolvedPrimary);
+  const secondaryChannels = parseColorChannel(resolvedSecondary);
+
+  if (!primaryChannels || !secondaryChannels) {
+    return `color-mix(in srgb, ${primary} ${Math.round(primaryWeight * 100)}%, ${secondary} ${Math.round((1 - primaryWeight) * 100)}%)`;
+  }
+
+  const mixedChannels = primaryChannels.map((channel, index) => {
+    return Math.round(
+      channel * primaryWeight + secondaryChannels[index] * (1 - primaryWeight),
+    );
+  });
+
+  return `rgb(${mixedChannels[0]}, ${mixedChannels[1]}, ${mixedChannels[2]})`;
+};
+
+const getResolvedColors = () => {
+  return {
+    secured: resolveCssColor(COLORS.secured),
+    unsecured: resolveCssColor(COLORS.unsecured),
+    surface: mixResolvedColors(
+      'var(--background-color-default)',
+      'var(--text-color-white)',
+      0.86,
+    ),
+    border: resolveCssColor(COLORS.border),
+    textPrimary: resolveCssColor(COLORS.textPrimary),
+    textSecondary: resolveCssColor(COLORS.textSecondary),
+    chipBackground: resolveCssColor(COLORS.chipBackground),
+    chipBorder: resolveCssColor(COLORS.chipBorder),
+    chipText: resolveCssColor(COLORS.chipText),
+    chipTextStrong: resolveCssColor(COLORS.chipTextStrong),
+    chipBackgroundActive: resolveCssColor(COLORS.chipBackgroundActive),
+    chipBorderActive: resolveCssColor(COLORS.chipBorderActive),
+    chipTextOnActive: resolveCssColor(COLORS.chipTextOnActive),
+  };
+};
+
 type OrgChartButtonNodeData = OrgChartNodeData & {
   _directSubordinates?: number;
 };
@@ -167,6 +278,7 @@ export const buildNodeContent = (
     node.revenue !== undefined ? formatRevenueShare(node.revenueShare) : null;
   const tags = getBottomTags(node);
   const locationLabel = node.countryName ?? node.location ?? node.position;
+  const colors = getResolvedColors();
 
   return `
         <div style="
@@ -175,10 +287,10 @@ export const buildNodeContent = (
             width: ${width}px;
             height: ${height}px;
             border-radius: 16px;
-            border: 2px ${isUnsecured ? 'dashed' : 'solid'} ${isUnsecured ? COLORS.unsecured : COLORS.secured};
-            background: ${COLORS.surface};
+            border: 2px ${isUnsecured ? 'dashed' : 'solid'} ${isUnsecured ? colors.unsecured : colors.secured};
+            background: ${colors.surface};
             font-family: var(--font-body);
-            color: ${COLORS.textPrimary};
+            color: ${colors.textPrimary};
             padding: 20px;
             overflow: visible;
         ">
@@ -188,11 +300,11 @@ export const buildNodeContent = (
                         position: absolute;
                         top: -20px;
                         right: 24px;
-                        border: 2px solid ${COLORS.chipBorder};
+                        border: 2px solid ${colors.chipBorder};
                         border-radius: 999px;
-                        background: ${COLORS.chipBackground};
+                        background: ${colors.chipBackground};
                         padding: 8px 16px;
-                        color: ${COLORS.chipText};
+                        color: ${colors.chipText};
                         font-size: 14px;
                         font-weight: 700;
                         line-height: 1;
@@ -201,15 +313,15 @@ export const buildNodeContent = (
                 : ''
             }
             <div style="font-size: 18px; font-weight: 700; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escapeHtml(node.name)}">${escapeHtml(node.name)}</div>
-            <div style="display:flex; align-items:center; gap:10px; margin-top:16px; font-size:14px; line-height:20px; color:${COLORS.textPrimary}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            <div style="display:flex; align-items:center; gap:10px; margin-top:16px; font-size:14px; line-height:20px; color:${colors.textPrimary}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                 ${flagSrc ? `<img src="${flagSrc}" alt="" width="24" height="18" style="display:block; border-radius:2px; flex:0 0 auto;" />` : ''}
                 <span style="overflow:hidden; text-overflow:ellipsis;">${escapeHtml(locationLabel)}</span>
             </div>
-            <div style="margin-top:20px; font-size:16px; line-height:24px; color:${COLORS.textSecondary}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                ${revenueLabel}: <span style="font-weight:700; color:${COLORS.textPrimary};">${escapeHtml(revenue)}</span>
+            <div style="margin-top:20px; font-size:16px; line-height:24px; color:${colors.textSecondary}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                ${revenueLabel}: <span style="font-weight:700; color:${colors.textPrimary};">${escapeHtml(revenue)}</span>
                 ${revenueShare ? `<span> (${escapeHtml(revenueShare)})</span>` : ''}
             </div>
-            <div style="height:1px; margin:18px 0 16px; background:${COLORS.border};"></div>
+            <div style="height:1px; margin:18px 0 16px; background:${colors.border};"></div>
             <div style="display:flex; flex-wrap:wrap; gap:8px;">
                 ${tags
                   .map(
@@ -219,10 +331,10 @@ export const buildNodeContent = (
                             width:fit-content;
                             max-width:100%;
                             padding:6px 12px;
-                            border:2px solid ${COLORS.chipBorder};
+                            border:2px solid ${colors.chipBorder};
                             border-radius:999px;
-                            background:${COLORS.chipBackground};
-                            color:${COLORS.chipText};
+                            background:${colors.chipBackground};
+                            color:${colors.chipText};
                             font-size:13px;
                             font-weight:700;
                             line-height:1.2;
@@ -240,11 +352,12 @@ export const buildNodeContent = (
 export const buildButtonContent = (node: OrgChartButtonNode) => {
   const childCount = node.data._directSubordinates ?? 0;
   const isExpanded = Boolean(node.children);
+  const colors = getResolvedColors();
   const background = isExpanded
-    ? COLORS.chipBackground
-    : COLORS.chipBackgroundActive;
-  const border = isExpanded ? COLORS.chipBorder : COLORS.chipBorderActive;
-  const text = isExpanded ? COLORS.chipTextStrong : COLORS.chipTextOnActive;
+    ? colors.chipBackground
+    : colors.chipBackgroundActive;
+  const border = isExpanded ? colors.chipBorder : colors.chipBorderActive;
+  const text = isExpanded ? colors.chipTextStrong : colors.chipTextOnActive;
 
   return `
         <div style="

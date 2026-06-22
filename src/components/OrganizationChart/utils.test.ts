@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import {
   buildButtonContent,
@@ -8,9 +8,33 @@ import {
   formatRevenueShare,
   formatRoleLabel,
   normalizeOrgChartNode,
+  resolveCssColor,
 } from './utils';
 
 describe('OrganizationChart utils', () => {
+  beforeEach(() => {
+    document.documentElement.style.setProperty(
+      '--background-color-default',
+      '#111111',
+    );
+    document.documentElement.style.setProperty('--text-color-white', '#ffffff');
+    document.documentElement.style.setProperty('--border-color-primary', '#22aa44');
+    document.documentElement.style.setProperty('--border-color-danger', '#cc3344');
+    document.documentElement.style.setProperty('--border-color-default', '#445566');
+    document.documentElement.style.setProperty('--text-color-default', '#101820');
+    document.documentElement.style.setProperty('--text-color-caption', '#5c6773');
+    document.documentElement.style.setProperty(
+      '--background-color-primary-inverted',
+      '#eef7f0',
+    );
+    document.documentElement.style.setProperty('--background-color-primary', '#2f8f5b');
+    document.documentElement.style.setProperty('--text-color-primary', '#2f8f5b');
+  });
+
+  it('resolves css color expressions for export-safe inline styles', () => {
+    expect(resolveCssColor('rgb(10, 20, 30)')).toBe('rgb(10, 20, 30)');
+  });
+
   it('formats enum labels consistently', () => {
     expect(formatEnumLabel(undefined)).toBe('—');
     expect(formatEnumLabel('Primary_Risk')).toBe('Primary Risk');
@@ -114,12 +138,18 @@ describe('OrganizationChart utils', () => {
     expect(html).toContain('BORROWER');
     expect(html).toContain('Acme');
     expect(buttonHtml).toContain('3');
-    expect(buttonHtml).toContain(
-      'background:var(--background-color-primary-inverted)',
-    );
-    expect(collapsedButtonHtml).toContain(
-      'background:var(--background-color-primary)',
-    );
+    expect(html).not.toContain('color-mix(');
+    expect(html).not.toContain('var(--border-color');
+    expect(html).not.toContain('var(--background-color');
+    expect(html).not.toContain('var(--text-color');
+    expect(buttonHtml).not.toContain('var(--border-color');
+    expect(buttonHtml).not.toContain('var(--background-color');
+    expect(buttonHtml).not.toContain('var(--text-color');
+    expect(buttonHtml).not.toContain('color-mix(');
+    expect(collapsedButtonHtml).not.toContain('var(--border-color');
+    expect(collapsedButtonHtml).not.toContain('var(--background-color');
+    expect(collapsedButtonHtml).not.toContain('var(--text-color');
+    expect(collapsedButtonHtml).not.toContain('color-mix(');
 
     const secondaryHtml = buildNodeContent(
       {
