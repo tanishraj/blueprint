@@ -56,57 +56,224 @@ const meta: Meta<ConfirmationPopupProps> = {
     ),
   ],
   argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: variants,
+      table: {
+        category: 'Appearance',
+        type: { summary: variants.join(' | ') },
+        defaultValue: { summary: 'default' },
+      },
+    },
+    size: {
+      control: { type: 'select' },
+      options: sizes,
+      table: {
+        category: 'Appearance',
+        type: { summary: sizes.join(' | ') },
+        defaultValue: { summary: 'md' },
+      },
+    },
     title: {
       control: 'text',
+      table: {
+        category: 'Content',
+        type: { summary: 'ReactNode' },
+      },
     },
     description: {
       control: 'text',
-    },
-    variant: {
-      control: { type: 'radio' },
-      options: variants,
-    },
-    size: {
-      control: { type: 'radio' },
-      options: sizes,
+      table: {
+        category: 'Content',
+        type: { summary: 'ReactNode' },
+      },
     },
     placement: {
-      control: { type: 'radio' },
+      control: { type: 'select' },
       options: placements,
+      table: {
+        category: 'Position',
+        type: { summary: placements.join(' | ') },
+        defaultValue: { summary: 'bottom' },
+      },
     },
     align: {
-      control: { type: 'radio' },
+      control: { type: 'select' },
       options: ['start', 'center', 'end'],
-    },
-    trigger: {
-      control: false,
+      table: {
+        category: 'Position',
+        type: { summary: 'start | center | end' },
+        defaultValue: { summary: 'center' },
+      },
     },
     children: {
-      control: false,
+      control: 'text',
+      table: {
+        category: 'Content',
+        type: { summary: 'ReactNode' },
+      },
     },
     open: {
       control: false,
+      table: {
+        category: 'State',
+        type: { summary: 'boolean' },
+      },
     },
     defaultOpen: {
       control: false,
+      table: {
+        category: 'State',
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    actionLabel: {
+      control: 'text',
+      table: {
+        category: 'Content',
+        type: { summary: 'ReactNode' },
+        defaultValue: { summary: 'Action' },
+      },
+    },
+    cancelLabel: {
+      control: 'text',
+      table: {
+        category: 'Content',
+        type: { summary: 'ReactNode' },
+        defaultValue: { summary: 'Cancel' },
+      },
+    },
+    closeLabel: {
+      control: 'text',
+      table: {
+        category: 'Advanced',
+        type: { summary: 'string' },
+        defaultValue: { summary: 'Close confirmation popup' },
+      },
+    },
+    showArrow: {
+      control: 'boolean',
+      table: {
+        category: 'Behavior',
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showCloseButton: {
+      control: 'boolean',
+      table: {
+        category: 'Behavior',
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showCancelButton: {
+      control: 'boolean',
+      table: {
+        category: 'Behavior',
+        defaultValue: { summary: 'true' },
+      },
+    },
+    showActionButton: {
+      control: 'boolean',
+      table: {
+        category: 'Behavior',
+        defaultValue: { summary: 'true' },
+      },
+    },
+    closeOnEscape: {
+      control: 'boolean',
+      table: {
+        category: 'Behavior',
+        defaultValue: { summary: 'true' },
+      },
+    },
+    closeOnOutsideClick: {
+      control: 'boolean',
+      table: {
+        category: 'Behavior',
+        defaultValue: { summary: 'true' },
+      },
+    },
+    closeOnCancel: {
+      control: 'boolean',
+      table: {
+        category: 'Behavior',
+        defaultValue: { summary: 'true' },
+      },
+    },
+    closeOnAction: {
+      control: 'boolean',
+      table: {
+        category: 'Behavior',
+        defaultValue: { summary: 'true' },
+      },
+    },
+    trigger: {
+      control: false,
+      table: {
+        category: 'Advanced',
+        type: { summary: 'ReactNode' },
+      },
     },
     onOpenChange: {
       control: false,
+      table: {
+        category: 'Advanced',
+        type: { summary: '(open: boolean) => void' },
+      },
     },
     onClose: {
       control: false,
+      table: {
+        category: 'Advanced',
+        type: { summary: '() => void' },
+      },
     },
     onCancel: {
       control: false,
+      table: {
+        category: 'Advanced',
+        type: { summary: '(event: MouseEvent<HTMLButtonElement>) => void' },
+      },
     },
     onAction: {
       control: false,
+      table: {
+        category: 'Advanced',
+        type: { summary: '(event: MouseEvent<HTMLButtonElement>) => void' },
+      },
     },
     actionButtonProps: {
       control: false,
+      table: {
+        category: 'Advanced',
+        type: { summary: 'Partial<ButtonProps>' },
+      },
     },
     cancelButtonProps: {
       control: false,
+      table: {
+        category: 'Advanced',
+        type: { summary: 'Partial<ButtonProps>' },
+      },
+    },
+    className: {
+      control: 'text',
+      table: {
+        category: 'Layout',
+      },
+    },
+    contentClassName: {
+      control: 'text',
+      table: {
+        category: 'Layout',
+      },
+    },
+    triggerClassName: {
+      control: 'text',
+      table: {
+        category: 'Layout',
+      },
     },
   },
   args: {

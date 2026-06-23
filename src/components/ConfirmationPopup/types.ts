@@ -60,8 +60,6 @@ export interface ConfirmationPopupProps
   leadingIcon?: ConfirmationPopupIcon;
   contentClassName?: string;
   triggerClassName?: string;
-  bodyClassName?: string;
-  footerClassName?: string;
   actionButtonProps?: Partial<ButtonProps>;
   cancelButtonProps?: Partial<ButtonProps>;
 }

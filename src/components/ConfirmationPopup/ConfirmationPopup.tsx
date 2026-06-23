@@ -105,8 +105,6 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
   className,
   contentClassName,
   triggerClassName,
-  bodyClassName,
-  footerClassName,
   actionButtonProps,
   cancelButtonProps,
   ...restProps
@@ -294,12 +292,7 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
                 </button>
               ) : null}
             </div>
-            <div
-              className={cn(
-                confirmationPopupBodyStyles({ size }),
-                bodyClassName,
-              )}
-            >
+            <div className={cn(confirmationPopupBodyStyles({ size }))}>
               {description ? (
                 <p className={cn(confirmationPopupDescriptionStyles({ size }))}>
                   {description}
@@ -308,12 +301,7 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
               {children}
             </div>
             {(showCancelButton || showActionButton) && (
-              <div
-                className={cn(
-                  confirmationPopupFooterStyles({ size }),
-                  footerClassName,
-                )}
-              >
+              <div className={cn(confirmationPopupFooterStyles({ size }))}>
                 {showCancelButton ? (
                   <Button
                     {...cancelButtonProps}
