@@ -8,6 +8,7 @@ export * from './ButtonGroup';
 export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Chip';
+export * from './ConfirmationPopup';
 export * from './Divider';
 export * from './Dropdown';
 export * from './Feedback';
