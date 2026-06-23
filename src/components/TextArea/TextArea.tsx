@@ -70,6 +70,7 @@ export const TextArea: FC<TextAreaProps> = ({
   defaultValue,
   maxLength,
   onChange,
+  rows = 4,
   'aria-describedby': ariaDescribedBy,
   'aria-invalid': ariaInvalid,
   ...restProps
@@ -146,6 +147,7 @@ export const TextArea: FC<TextAreaProps> = ({
           disabled={disabled}
           maxLength={maxLength}
           onChange={handleChange}
+          rows={rows}
           required={required}
           value={value}
         />

@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ChangeEvent } from 'react';
-import { useCallback } from 'react';
-import { useArgs } from 'storybook/preview-api';
+import { useArgs, useCallback } from 'storybook/preview-api';
 
 import { TextArea } from './TextArea';
 import type { TextAreaProps } from './types';
@@ -77,7 +76,7 @@ function TextAreaStory(args: TextAreaProps) {
   );
 
   return (
-    <div className='w-full max-w-3xl'>
+    <div>
       <TextArea
         {...args}
         onChange={handleChange}
@@ -88,11 +87,11 @@ function TextAreaStory(args: TextAreaProps) {
 }
 
 export const Default: Story = {
-  render: args => <TextAreaStory {...args} />,
+  render: TextAreaStory,
 };
 
 export const WithCharacterCount: Story = {
-  render: args => <TextAreaStory {...args} />,
+  render: TextAreaStory,
   args: {
     maxLength: 500,
     value: 'Initial value',
@@ -100,7 +99,7 @@ export const WithCharacterCount: Story = {
 };
 
 export const WithCaption: Story = {
-  render: args => <TextAreaStory {...args} />,
+  render: TextAreaStory,
   args: {
     caption: 'This helper text replaces the character count.',
     maxLength: 500,
@@ -109,7 +108,7 @@ export const WithCaption: Story = {
 };
 
 export const WithError: Story = {
-  render: args => <TextAreaStory {...args} />,
+  render: TextAreaStory,
   args: {
     error: 'This is an error.',
     maxLength: 500,

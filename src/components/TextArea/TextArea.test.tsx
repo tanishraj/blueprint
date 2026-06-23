@@ -100,4 +100,16 @@ describe('TextArea Component', () => {
       screen.getByRole('textbox').parentElement?.parentElement,
     ).toHaveClass('w-full');
   });
+
+  it('does not force a fixed minimum height on the bordered field container', () => {
+    render(<TextArea aria-label='Notes' />);
+
+    const textarea = screen.getByRole('textbox', { name: /notes/i });
+    const field = textarea.parentElement;
+
+    expect(textarea).toHaveAttribute('rows', '4');
+    expect(field).not.toHaveClass('min-h-24');
+    expect(field).not.toHaveClass('min-h-28');
+    expect(field).not.toHaveClass('min-h-32');
+  });
 });

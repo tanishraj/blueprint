@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useCallback } from 'react';
-import { useArgs } from 'storybook/preview-api';
+import { useArgs, useCallback } from 'storybook/preview-api';
 
 import { Slider } from './Slider';
 import type { SliderProps } from './types';

@@ -37,9 +37,9 @@ export const textAreaFieldStyles = cva(
   {
     variants: {
       size: {
-        sm: 'min-h-24 min-w-48 px-2 py-2 text-sm',
-        md: 'min-h-28 min-w-64 px-2.5 py-2.5 text-base',
-        lg: 'min-h-32 min-w-80 px-3 py-3 text-lg',
+        sm: 'min-w-48 px-2 py-2 text-sm',
+        md: 'min-w-64 px-2.5 py-2.5 text-base',
+        lg: 'min-w-80 px-3 py-3 text-lg',
       },
       variant: {
         default:
@@ -78,7 +78,7 @@ export const textAreaFieldStyles = cva(
 );
 
 export const textAreaElementStyles = cva(
-  'min-h-full w-full flex-1 resize-y appearance-none border-0 bg-transparent p-0 text-current outline-none placeholder:text-gray-500 focus:outline-none focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:placeholder:text-gray-500',
+  'block w-full flex-1 resize-y appearance-none border-0 bg-transparent p-0 text-current outline-none placeholder:text-gray-500 focus:outline-none focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:placeholder:text-gray-500',
 );
 
 export const textAreaCaptionStyles = cva('font-medium text-default', {
