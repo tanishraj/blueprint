@@ -142,7 +142,7 @@ describe('ConfirmationPopup Component', () => {
   it('applies the selected size to the popup panel and default buttons', () => {
     render(<ConfirmationPopup open size='lg' title='Popup' />);
 
-    expect(screen.getByRole('dialog')).toHaveClass('w-64');
+    expect(screen.getByRole('dialog')).toHaveClass('p-4');
     expect(
       screen
         .getByRole('dialog')

@@ -9,9 +9,9 @@ export const confirmationPopupPanelStyles = cva(
   {
     variants: {
       size: {
-        sm: 'w-48 p-1.5',
-        md: 'w-56 p-2',
-        lg: 'w-64 p-3',
+        sm: 'p-3',
+        md: 'p-3.5',
+        lg: 'p-4',
       },
     },
     defaultVariants: {
