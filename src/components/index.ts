@@ -27,6 +27,7 @@ export * from './Slider';
 export * from './Tabs';
 export * from './TextArea';
 export * from './Toast';
+export * from './Tooltip';
 export * from './Avatar';
 export * from './AvatarGroup';
 export * from './OrganizationChart';
