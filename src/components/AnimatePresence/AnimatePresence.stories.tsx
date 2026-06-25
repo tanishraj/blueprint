@@ -25,8 +25,9 @@ export const BasicExample = () => {
         <AnimatePresenceChild>
           <div
             className={clsx('p-4 mt-4 rounded-sm bg-slate-200', {
-              'animate-in fade-in duration-500': isPresent,
-              'animate-out fade-out duration-500': !isPresent,
+              'animate-in fade-in [--tw-animation-duration:500ms]': isPresent,
+              'animate-out fade-out [--tw-animation-duration:500ms]':
+                !isPresent,
             })}
           >
             Basic Presence Example
@@ -51,7 +52,7 @@ export const TailwindExample: StoryObj<typeof AnimatePresence> = {
           <AnimatePresenceChild>
             <div
               data-state={isPresent ? 'open' : 'closed'}
-              className='p-4 mt-4 bg-slate-100 rounded-sm transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left'
+              className='mt-4 rounded-sm bg-slate-100 p-4 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:[--tw-animation-duration:300ms] data-[state=open]:[--tw-animation-duration:500ms] data-[state=closed]:[--tw-exit-translate-x:-100%] data-[state=open]:[--tw-enter-translate-x:-100%]'
             >
               First Child (Slide Animation From Left)
             </div>
@@ -59,7 +60,7 @@ export const TailwindExample: StoryObj<typeof AnimatePresence> = {
           <AnimatePresenceChild>
             <div
               data-state={isPresent ? 'open' : 'closed'}
-              className='p-4 mt-4 bg-slate-100 rounded-sm  transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right'
+              className='mt-4 rounded-sm bg-slate-100 p-4 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:[--tw-animation-duration:300ms] data-[state=open]:[--tw-animation-duration:500ms] data-[state=closed]:[--tw-exit-translate-x:100%] data-[state=open]:[--tw-enter-translate-x:100%]'
             >
               Second Child (Slide Animation From Right)
             </div>

@@ -79,4 +79,60 @@ describe('Presence', () => {
       expect(screen.queryByTestId('child')).not.toBeInTheDocument();
     });
   });
+
+  it('unmounts after a transitionend event', async () => {
+    const { rerender } = render(
+      <AnimatePresence presence={true}>
+        <AnimatePresenceChild>
+          <div
+            data-testid='transition-child'
+            style={{ transitionDuration: '150ms' }}
+          >
+            Child
+          </div>
+        </AnimatePresenceChild>
+      </AnimatePresence>,
+    );
+
+    rerender(
+      <AnimatePresence presence={false}>
+        <AnimatePresenceChild>
+          <div
+            data-testid='transition-child'
+            style={{ transitionDuration: '150ms' }}
+          >
+            Child
+          </div>
+        </AnimatePresenceChild>
+      </AnimatePresence>,
+    );
+
+    fireEvent.transitionEnd(screen.getByTestId('transition-child'));
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('transition-child')).not.toBeInTheDocument();
+    });
+  });
+
+  it('unmounts immediately when there is no motion duration', async () => {
+    const { rerender } = render(
+      <AnimatePresence presence={true}>
+        <AnimatePresenceChild>
+          <div data-testid='static-child'>Child</div>
+        </AnimatePresenceChild>
+      </AnimatePresence>,
+    );
+
+    rerender(
+      <AnimatePresence presence={false}>
+        <AnimatePresenceChild>
+          <div data-testid='static-child'>Child</div>
+        </AnimatePresenceChild>
+      </AnimatePresence>,
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('static-child')).not.toBeInTheDocument();
+    });
+  });
 });

@@ -189,7 +189,9 @@ describe('Modal Component', () => {
 
     expect(document.body.style.overflow).toBe('hidden');
 
-    rerender(<Modal open={false}>Content</Modal>);
+    act(() => {
+      rerender(<Modal open={false}>Content</Modal>);
+    });
 
     expect(document.body.style.overflow).toBe('hidden');
 

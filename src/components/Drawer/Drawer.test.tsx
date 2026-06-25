@@ -133,7 +133,9 @@ describe('Drawer Component', () => {
 
     expect(document.body.style.overflow).toBe('hidden');
 
-    rerender(<Drawer open={false}>Content</Drawer>);
+    act(() => {
+      rerender(<Drawer open={false}>Content</Drawer>);
+    });
 
     expect(document.body.style.overflow).toBe('hidden');
 

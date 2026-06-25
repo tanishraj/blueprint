@@ -13,7 +13,7 @@ export const modalPortalRootStyles = cva('isolate z-50', {
 });
 
 export const modalOverlayStyles = cva(
-  'absolute inset-0 z-10 bg-black/40 backdrop-blur-[1px] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:fill-mode-forwards data-[state=closed]:duration-200 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:duration-300',
+  'absolute inset-0 z-10 bg-black/40 backdrop-blur-[1px] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:fill-mode-forwards data-[state=closed]:[--tw-animation-duration:200ms] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:[--tw-animation-duration:300ms]',
 );
 
 export const modalPositionerStyles = cva(
@@ -21,7 +21,7 @@ export const modalPositionerStyles = cva(
 );
 
 export const modalPanelStyles = cva(
-  'pointer-events-auto flex max-h-[calc(100dvh-3rem)] w-full flex-col overflow-hidden rounded bg-white text-default shadow-xl outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:fill-mode-forwards data-[state=closed]:duration-200 data-[state=closed]:ease-in data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:duration-300 data-[state=open]:ease-out',
+  'pointer-events-auto flex max-h-[calc(100dvh-3rem)] w-full flex-col overflow-hidden rounded bg-white text-default shadow-xl outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:fill-mode-forwards data-[state=closed]:[--tw-animation-duration:200ms] data-[state=closed]:[animation-timing-function:var(--ease-in)] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:[--tw-animation-duration:300ms] data-[state=open]:[animation-timing-function:var(--ease-out)]',
   {
     variants: {
       size: {

@@ -18,10 +18,22 @@ const preview: Preview = {
     },
   },
   decorators: [
-    Story => {
+    (Story, context) => {
+      const story = <Story />;
+
+      if (context.viewMode === 'docs') {
+        return <StorybookThemeProvider>{story}</StorybookThemeProvider>;
+      }
+
+      if (context.parameters['layout'] !== 'centered') {
+        return <StorybookThemeProvider>{story}</StorybookThemeProvider>;
+      }
+
       return (
         <StorybookThemeProvider>
-          <Story />
+          <div className='flex min-h-screen w-full items-center justify-center p-8'>
+            {story}
+          </div>
         </StorybookThemeProvider>
       );
     },
