@@ -5,37 +5,15 @@
 [![license](https://img.shields.io/github/license/tanishraj/ui-kit.svg)](https://github.com/tanishraj/ui-kit/blob/develop/LICENSE)
 [![storybook](https://img.shields.io/badge/storybook-live-purple)](https://tanishraj.github.io/ui-kit/)
 
-A production-ready React + TypeScript UI component library built with Vite, Storybook, Tailwind CSS, CVA, Floating UI, and strict quality gates.
+A React + TypeScript component library for product UIs, built with Vite, Storybook, Tailwind CSS, CVA, Floating UI, and strict CI quality gates.
 
-## Table of Contents
+## Why this library
 
-- [About](#about)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Setup for app consumers](#setup-for-app-consumers)
-- [Component Library API](#component-library-api)
-- [Theming](#theming)
-- [Accessibility](#accessibility)
-- [Development](#development)
-- [Testing](#testing)
-- [CI / Automation](#ci--automation)
-- [Publishing](#publishing)
-- [Release Process](#release-process)
-- [Repository Structure](#repository-structure)
-- [Components](#components)
-- [Contributing](#contributing)
-- [License](#license)
-- [Changelog](#changelog)
-
-## About
-
-This package is designed to be consumed as a reusable component library for modern React apps. It includes:
-
-- TypeScript-first component APIs with prop-driven variants
-- Storybook docs and usage examples
+- TypeScript-first component APIs
+- Consistent visual variants and sizing patterns
+- Storybook-backed documentation and examples
 - Accessibility-minded defaults
-- Unit tests and coverage workflows
-- Automated release and quality checks
+- Unit tests, coverage checks, linting, and type checks
 
 ## Installation
 
@@ -55,660 +33,217 @@ or
 pnpm add @tanishraj/ui-kit
 ```
 
-## Usage
+## Quick Start
 
 ```tsx
-import {
-  Accordion,
-  Alert,
-  AnimatePresence,
-  AnimatePresenceChild,
-  Avatar,
-  AvatarGroup,
-  Badge,
-  Breadcrumb,
-  Button,
-  ButtonGroup,
-  Checkbox,
-  CheckboxGroup,
-  Chip,
-  CompactList,
-  ConfirmationPopup,
-  CountryFlag,
-  Divider,
-  Dropdown,
-  Drawer,
-  Feedback,
-  Input,
-  Label,
-  Link,
-  ListBox,
-  ListItem,
-  MetricCard,
-  MetricValueItem,
-  Modal,
-  OrganizationChart,
-  Popover,
-  Portal,
-  ProgressBar,
-  Radio,
-  RadioGroup,
-  Rating,
-  AsyncSelect,
-  CheckboxSelect,
-  GroupedSelect,
-  MultiSelectCompact,
-  Select,
-  SelectWithApply,
-  Slider,
-  Table,
-  Tab,
-  TabPanel,
-  Tabs,
-  TabsList,
-  TextArea,
-  Toaster,
-  Tooltip,
-  TrendIndicator,
-  useToast,
-} from '@tanishraj/ui-kit';
-
-export function Demo() {
-  return <Button variant='primary'>Get Started</Button>;
-}
-```
-
-## Setup for app consumers
-
-The library is built to be consumed like a standard React UI package:
-
-1. Install dependency
-
-```bash
-npm install @tanishraj/ui-kit
-```
-
-2. Use components (styles are included automatically on package import):
-
-Use component APIs directly from the package.
-
-```tsx
-import {
-  AnimatePresence,
-  AnimatePresenceChild,
-  Avatar,
-  Button,
-  Chip,
-  Divider,
-  Dropdown,
-  Drawer,
-  Feedback,
-  Input,
-  ListBox,
-  Link,
-  Modal,
-  Popover,
-  ProgressBar,
-  Radio,
-  RadioGroup,
-  Rating,
-  Slider,
-  Tab,
-  TabPanel,
-  Tabs,
-  TabsList,
-} from '@tanishraj/ui-kit';
-import { Plus } from 'lucide-react';
+import { Button, Input, Modal } from '@tanishraj/ui-kit';
 import { useState } from 'react';
 
-export default function Demo() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+export function Demo() {
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className='flex items-center gap-4'>
-      <Button variant='primary' size='md'>
-        Primary Button
+    <div className='flex flex-col gap-4'>
+      <Input label='Workspace name' placeholder='Enter a name' />
+
+      <Button variant='primary' onClick={() => setOpen(true)}>
+        Open modal
       </Button>
-      <Avatar initials='AB' variant='primary' />
-      <Chip icon={Plus} variant='success'>
-        Active
-      </Chip>
-      <Input
-        caption='There will be a caption text here'
-        label='Label'
-        placeholder='Placeholder'
-        variant='primary'
-      />
-      <Radio defaultChecked label='Radio' />
-      <RadioGroup
-        defaultValue='email'
-        label='Notification method'
-        options={[
-          { label: 'Email', value: 'email' },
-          { label: 'SMS', value: 'sms' },
-        ]}
-      />
-      <Feedback defaultValue={4} />
-      <Rating defaultValue={3.5} precision={0.5} />
-      <Slider label='Slider Label' max={10} value={5} />
-      <Tabs defaultValue={0}>
-        <TabsList>
-          <Tab>Overview</Tab>
-          <Tab>Details</Tab>
-        </TabsList>
-        <TabPanel>Overview content</TabPanel>
-        <TabPanel>Details content</TabPanel>
-      </Tabs>
-      <ListBox
-        items={[
-          { label: 'Item Name', value: 'one' },
-          { label: 'Item Name', value: 'two' },
-        ]}
-      />
-      <Dropdown variant='primary'>Dropdown</Dropdown>
-      <Button onClick={() => setModalOpen(true)}>Open Modal</Button>
+
       <Modal
-        footer={<Button onClick={() => setModalOpen(false)}>Close</Button>}
-        onClose={() => setModalOpen(false)}
-        open={modalOpen}
-        title='Title'
+        open={open}
+        title='Create workspace'
+        onClose={() => setOpen(false)}
+        footer={
+          <Button variant='primary' onClick={() => setOpen(false)}>
+            Done
+          </Button>
+        }
       >
-        Modal content
+        Your content goes here.
       </Modal>
-      <Button onClick={() => setDrawerOpen(true)}>Open Drawer</Button>
-      <Popover
-        title='Title'
-        trigger={<Button appearance='filled'>Open Popover</Button>}
-      >
-        Slot Area
-      </Popover>
-      <ProgressBar
-        caption='There will be a caption text here'
-        label='Label'
-        value={30}
-        variant='primary'
-      />
-      <Drawer
-        footer={<Button onClick={() => setDrawerOpen(false)}>Close</Button>}
-        onClose={() => setDrawerOpen(false)}
-        open={drawerOpen}
-        title='Title'
-      >
-        Drawer content
-      </Drawer>
-      <Link external href='/components' leadingIcon={Plus}>
-        Components
-      </Link>
-      <Divider className='w-32' />
-      <AnimatePresence presence={drawerOpen}>
-        <AnimatePresenceChild>
-          <div className='animate-in fade-in duration-500'>
-            Animated helper content
-          </div>
-        </AnimatePresenceChild>
-      </AnimatePresence>
     </div>
   );
 }
 ```
 
-### Theme file options
+## Styling
+
+Styles are included by the package entrypoint. If your app needs explicit stylesheet imports, use:
 
 ```ts
-// Optional: import globals explicitly when your bundler does not auto-include package CSS
 import '@tanishraj/ui-kit/globals.css';
-
-// Optional: import base color tokens directly
-import '@tanishraj/ui-kit/base.css';
-
-// Optional: import this only when you want secondary theme
-import '@tanishraj/ui-kit/theme-secondary.css';
 ```
 
-### Adding new themes (for maintainers)
-
-To add a new packaged theme later:
-
-1. Add `src/themes/<theme-name>.css`.
-2. Add a package export in `package.json`:
-   - `./theme-<theme-name>.css` -> `./dist/themes/<theme-name>.css`
-3. Update the `copy:theme` script to include the new file.
-4. Optionally publish a themed import via `./themes/<theme-name>.css` (already supported by the wildcard export pattern).
-
-You can also import through:
+Optional theme entrypoints:
 
 ```ts
+import '@tanishraj/ui-kit/base.css';
+import '@tanishraj/ui-kit/theme-secondary.css';
+
+// or
 import '@tanishraj/ui-kit/themes/primary.css';
 import '@tanishraj/ui-kit/themes/secondary.css';
 ```
 
-If your app uses a custom design token strategy, import one packaged theme and override required CSS variables in your own stylesheet after the theme import.
+## Documentation
 
-## Component Library API
+- Live Storybook: https://tanishraj.github.io/ui-kit/
+- Repository: https://github.com/tanishraj/ui-kit
+- Package: https://www.npmjs.com/package/@tanishraj/ui-kit
 
-- Components are exported from the package entrypoint in a single import surface.
-- Props follow consistent naming patterns:
-  - `size` (`sm`, `md`, `lg`)
-  - `variant` (status/visual intent)
-  - `appearance` (container treatment such as `filled`, `outline`, `ghost`, or `dashed`, depending on component)
-  - `shape` (`circle`, `square` where supported)
-  - `inverted` for alternate surface color modes where supported
-  - `disabled`, `loading`, and interaction states where applicable
-- Component stories in `*.stories.tsx` are the source of truth for public usage patterns and prop combinations.
+Storybook is the source of truth for public component usage, variants, and examples.
 
-### Common Examples
+## Included Components
 
-```tsx
-import {
-  AnimatePresence,
-  AnimatePresenceChild,
-  Breadcrumb,
-  Button,
-  CheckboxGroup,
-  Chip,
-  Divider,
-  Dropdown,
-  Drawer,
-  Feedback,
-  Input,
-  ListBox,
-  Link,
-  Modal,
-  Popover,
-  ProgressBar,
-  Radio,
-  RadioGroup,
-  Rating,
-  Slider,
-  Tab,
-  TabPanel,
-  Tabs,
-  TabsList,
-} from '@tanishraj/ui-kit';
-import { Home, Plus, Tag } from 'lucide-react';
+### Layout and overlays
 
-export function ComponentExamples() {
-  return (
-    <div className='flex flex-col gap-6'>
-      <Breadcrumb
-        appearance='outline'
-        items={[
-          { label: 'Home', href: '/', icon: Home },
-          { label: 'Components', href: '/components' },
-          { label: 'Chip' },
-        ]}
-        separator='>'
-      />
+- `Accordion`
+- `AnimatePresence`
+- `AnimatePresenceChild`
+- `ConfirmationPopup`
+- `Divider`
+- `Drawer`
+- `Modal`
+- `Popover`
+- `Portal`
+- `Table`
+- `Tabs`
+- `TabsList`
+- `Tab`
+- `TabPanel`
 
-      <Chip appearance='filled' icon={Tag} shape='circle' variant='primary'>
-        Filter
-      </Chip>
+### Actions and navigation
 
-      <Link
-        external
-        href='/components/link'
-        leadingIcon={Home}
-        truncate
-        underline='always'
-        variant='primary'
-      >
-        Link Truncated
-      </Link>
+- `Breadcrumb`
+- `Button`
+- `ButtonGroup`
+- `Dropdown`
+- `Link`
 
-      <CheckboxGroup
-        label='Notification channels'
-        options={[
-          { label: 'Email', value: 'email' },
-          { label: 'SMS', value: 'sms' },
-        ]}
-        shape='square'
-      />
+### Inputs and selection
 
-      <Radio defaultChecked label='Radio option' />
+- `Checkbox`
+- `CheckboxGroup`
+- `Input`
+- `Radio`
+- `RadioGroup`
+- `Select`
+- `AsyncSelect`
+- `CheckboxSelect`
+- `GroupedSelect`
+- `MultiSelectCompact`
+- `SelectWithApply`
+- `Slider`
+- `TextArea`
 
-      <RadioGroup
-        defaultValue='email'
-        label='Notification method'
-        options={[
-          { label: 'Email', value: 'email' },
-          { label: 'SMS', value: 'sms' },
-        ]}
-        orientation='horizontal'
-      />
+### Feedback and status
 
-      <Feedback defaultValue={4} />
-      <Rating defaultValue={3.5} precision={0.5} />
-      <Slider label='Slider Label' max={10} value={5} />
-      <Tabs defaultValue={0}>
-        <TabsList>
-          <Tab>Overview</Tab>
-          <Tab>Details</Tab>
-        </TabsList>
-        <TabPanel>Overview content</TabPanel>
-        <TabPanel>Details content</TabPanel>
-      </Tabs>
+- `Alert`
+- `Badge`
+- `Chip`
+- `Feedback`
+- `ProgressBar`
+- `Rating`
+- `Tooltip`
+- `TrendIndicator`
+- `Toaster`
+- `useToast`
 
-      <Divider>
-        <Button leadingIcon={Plus} size='sm' variant='default'>
-          Add item
-        </Button>
-      </Divider>
+### Data display
 
-      <Dropdown appearance='outline' variant='primary'>
-        Dropdown
-      </Dropdown>
+- `CompactList`
+- `CountryFlag`
+- `Label`
+- `ListBox`
+- `ListItem`
+- `MetricCard`
+- `MetricValueItem`
+- `OrganizationChart`
 
-      <Input
-        caption='There will be a caption text here'
-        label='Label'
-        leadingIcon={Plus}
-        placeholder='Placeholder'
-        required
-        trailingIcon={Plus}
-        variant='primary'
-      />
+### Identity
 
-      <ListBox
-        items={[
-          { label: 'Item Name', value: 'one' },
-          { label: 'Item Name', value: 'two' },
-          { label: 'Item Name', value: 'three' },
-        ]}
-        selectedValue='two'
-      />
+- `Avatar`
+- `AvatarGroup`
 
-      <Modal
-        footer={<Button variant='primary'>Button</Button>}
-        leadingIcon={Plus}
-        onClose={() => undefined}
-        open={false}
-        title='Title'
-      >
-        Slot Area
-      </Modal>
+## API Conventions
 
-      <Popover
-        placement='bottom'
-        title='Title'
-        trigger={<Button variant='primary'>Open popover</Button>}
-        variant='primary'
-      >
-        Slot Area
-      </Popover>
+Most components follow a shared set of prop patterns where relevant:
 
-      <ProgressBar
-        caption='There will be a caption text here'
-        label='Label'
-        showDot
-        value={30}
-        variant='success'
-      />
+- `size`: typically `sm`, `md`, `lg`
+- `variant`: semantic or visual intent
+- `appearance`: surface treatment such as `filled`, `outline`, or `ghost`
+- `disabled`: disabled interaction state
+- `fullWidth`: expands to parent width where supported
 
-      <AnimatePresence presence>
-        <AnimatePresenceChild>
-          <div className='animate-in slide-in-from-right duration-500'>
-            Presence-managed content
-          </div>
-        </AnimatePresenceChild>
-      </AnimatePresence>
-    </div>
-  );
-}
-```
-
-### Component Notes
-
-- `AnimatePresence` and `AnimatePresenceChild` keep exiting elements mounted until their CSS `animationend` event fires. Use them with `data-state`, `animate-in`, `animate-out`, and slide/fade utilities for smooth enter/exit motion.
-- `Breadcrumb` supports `appearance="ghost" | "outline"` and `separator=">" | "/"`. The chevron separator is rendered as an icon.
-- `Checkbox` and `CheckboxGroup` support `shape="square" | "circle"`, with `square` as the default.
-- `Chip` supports `variant`, `appearance="filled" | "outline"`, `shape`, `size`, `inverted`, optional `icon`, and removable chips via `onClose`.
-- `Divider` supports `orientation="horizontal" | "vertical"` and optional centered content through `children`.
-- `Dropdown` opens a Floating UI menu-style popover list. It shares Button `variant`, `appearance`, `size`, `loading`, `disabled`, `inverted`, and `fullWidth` props, with default chevron, optional icon-only mode, `items`, `selectedValue`, `onItemSelect`, custom `trigger` / `menuContent`, `triggerAction="click" | "hover"`, `menuPlacement`, `menuOffset`, optional arrow, and Portal targeting. It uses `ListBox` internally for list rendering.
-- `Drawer` is controlled with `open` and `onClose`, supports `placement="right" | "left" | "top" | "bottom"`, `size="sm" | "md" | "lg" | "full"`, overlay close, Escape close, footer actions, Portal targeting, and placement-aware slide animations.
-- `Feedback` supports controlled or uncontrolled five-point sentiment selection with `value`, `defaultValue`, `onValueChange`, `options`, `variant="face" | "emoji"`, `size`, read-only state, disabled state, and custom accessible labels via `getLabelText`.
-- `Input` supports `label`, `caption`, `error`, `variant`, `size`, required marker, disabled state, optional leading/trailing icons, `clearable`, `onClear`, and `fullWidth`.
-- `ListBox` and `ListItem` provide reusable selectable list surfaces with shared row spacing, selected state, disabled state, optional leading icons, and `option` / `menuitem` semantics.
-- `Modal` is controlled with `open` and `onClose`, supports `size="sm" | "md" | "lg"`, optional leading header icon, overlay close, Escape close, footer actions, Portal targeting, and centered fade/scale animations.
-- `Portal` renders to `document.body` by default and can target a custom container via `container`, `containerRef`, or `containerId`.
-- `Link` supports `variant`, `size`, `underline="none" | "hover" | "always"`, `inverted`, `disabled`, `truncate`, optional leading/trailing icons, and `external` links.
-- `Popover` is powered by Floating UI, supports `placement`, `align`, `variant`, optional arrow/close controls, controlled or uncontrolled open state, and slot-style body content.
-- `ProgressBar` supports `appearance="linear" | "circular"`, semantic `variant`, `size`, labels, captions, visible values, optional linear endpoint dots, custom value formatting, `fullWidth`, and inverted dark-surface styling.
-- `Radio` supports `label`, `description`, `error`, `size`, required marker, disabled state, and native radio input props for single-option composition.
-- `RadioGroup` supports controlled or uncontrolled single selection with `value`, `defaultValue`, `onValueChange`, options, group label, description, error text, `orientation`, `size`, disabled state, and required marker.
-- `Rating` supports controlled or uncontrolled star ratings with `value`, `defaultValue`, `onValueChange`, `max`, `precision={1 | 0.5}`, `size`, read-only state, disabled state, and custom accessible labels.
-- `Slider` supports controlled or uncontrolled single or range selection with `value`, `defaultValue`, `onValueChange`, `min`, `max`, `step`, size variants, visible value markers, labels, captions, and error/disabled states.
-- `Tabs`, `TabsList`, `Tab`, and `TabPanel` provide a compound tabs API with controlled or uncontrolled selection, `variant="underline" | "pill"`, `size`, `orientation`, disabled states, optional adornments, status dots, and close actions.
-
-### Documentation and examples
-
-- Storybook: run locally with `npm run storybook`
-- Deploy guide and live docs: see repository CI/Pages setup
-
-## Theming
-
-- Component style variants are centralized with CVA + Tailwind utility patterns.
-- Theme tokens are built in and theme files are exported from package entry points:
-  - `base.css`
-  - `theme-secondary.css`
-  - `themes/primary.css`
-  - `themes/secondary.css`
-  - `globals.css`
-
-## Accessibility
-
-This library is built with accessibility as a first-class goal:
-
-- Keyboard support follows platform conventions (`Tab`, `Enter`, `Space`, and focus-visible states).
-- ARIA attributes are applied where required.
-- Buttons, badges, and avatar controls are composed to preserve semantic meaning.
-- Disabled/loading states are explicitly represented in props and reflected visually and via attributes.
+Not every component supports every prop. Use Storybook or the exported TypeScript types for the exact API.
 
 ## Development
 
-### Prerequisites
+Prerequisites:
 
 - Node.js 20+
-- Yarn lockfile (`yarn.lock`) used in CI installs
+- `yarn.lock` is used in CI installs
 
-### Common scripts
+Common scripts:
 
 ```bash
-npm run build             # build distributable
-npm run lint              # lint source and config
-npm run type-check        # TypeScript checks
-npm run test              # run Vitest tests
-npm run release:check      # full release validation
-npm run test:coverage     # generate coverage report
-npm run storybook         # run Storybook locally
-npm run storybook:build   # build Storybook static site
-npm run clean             # remove generated artifacts
+npm run build
+npm run lint
+npm run type-check
+npm run test
+npm run test:coverage
+npm run storybook
+npm run storybook:build
 ```
 
-### Local component generation (Codex)
+## Quality Gates
 
-This repo can scaffold components from Figma via Codex workflows used by the maintainer.
+The repository validates changes with:
 
-## Testing
-
-- Run `npm run test` while developing.
-- Run coverage with `npm run test:coverage`.
-- CI publishes only when unit tests and type checks are green.
-
-## CI / Automation
-
-Current repository workflows:
-
-- `eslint.yml`
-- `type-check.yml`
-- `unit-tests.yml`
-- `coverage-report.yml`
-- `codeql.yml`
-- `npm-publish.yml`
-- `deploy-storybook.yml`
-
-Quality gates include linting, type checking, unit tests, and coverage checks.
+- ESLint
+- TypeScript type-checking
+- Vitest unit tests
+- coverage thresholds
+- GitHub Actions workflows for CI, releases, and Storybook deployment
 
 ## Publishing
 
-### Automated publish (recommended)
+Publishing is handled through GitHub Actions.
 
-- Publish is handled through GitHub Actions.
-- Workflow validates checks before `npm publish`.
-- Scope is controlled by repository secrets and workflow rules.
-
-### Required secret
-
-- `NPM_TOKEN`
-
-## Release Process
-
-A dedicated release guide is available:
-
-- [`release.md`](release.md)
+- npm publish workflow: `.github/workflows/npm-publish.yml`
+- required secret: `NPM_TOKEN`
+- release guide: [`release.md`](release.md)
 
 Quick release flow:
 
-1. bump version (`npm version patch|minor|major`)
-2. create release tag (for example: `v1.2.0`)
-3. CI validates + publishes
+1. Update the version with `npm version patch|minor|major`
+2. Create a release tag such as `v1.2.0`
+3. Let CI validate and publish
 
 ## Repository Structure
 
 ```text
 src/
   components/      # React component implementations
-  themes/          # theme entry files
-  utils/           # shared helpers and class utilities
-.storybook/        # Storybook config
-.github/workflows/ # CI and release automation
+  themes/          # exported theme files
+  utils/           # shared helpers and utilities
+.storybook/        # Storybook configuration
+.github/workflows/ # CI and publishing workflows
 ```
-
-## Components
-
-All public components are exported from `@tanishraj/ui-kit`. Storybook remains the best place to inspect props, variants, and composed examples; the list below is the high-level catalog of what the package ships today.
-
-### Layout and Structure
-
-| Export | Purpose |
-| ------ | ------- |
-| `Accordion` | Progressive disclosure for stacked sections of content. |
-| `Divider` | Horizontal or vertical separators, with optional slotted content. |
-| `Drawer` | Off-canvas panel for workflows, details, and secondary navigation. |
-| `Modal` | Centered dialog surface for blocking decisions and focused flows. |
-| `Popover` | Anchored floating container for rich contextual content. |
-| `Portal` | Low-level portal helper for rendering outside the current DOM subtree. |
-| `Table` | Simple data table built from data and column definitions. |
-| `Tabs`, `TabsList`, `Tab`, `TabPanel` | Tabbed navigation and panel composition primitives. |
-
-### Actions and Navigation
-
-| Export | Purpose |
-| ------ | ------- |
-| `Button` | Core action trigger with size, variant, and appearance support. |
-| `ButtonGroup` | Horizontal button grouping with connected visual treatment. |
-| `Breadcrumb` | Hierarchical navigation trail. |
-| `Dropdown` | Triggered action/content menu surface. |
-| `Link` | Styled text link with internal, external, truncation, and icon support. |
-
-### Form Inputs
-
-| Export | Purpose |
-| ------ | ------- |
-| `Checkbox` | Single boolean input. |
-| `CheckboxGroup` | Grouped checkbox selection for multiple values. |
-| `Input` | Single-line text input with labels, captions, validation, and variants. |
-| `Radio` | Single radio control. |
-| `RadioGroup` | Grouped single-select radio inputs. |
-| `Slider` | Numeric range selection with accessible pointer and keyboard support. |
-| `TextArea` | Multi-line text entry field with shared input styling and validation patterns. |
-
-### Select Family
-
-| Export | Purpose |
-| ------ | ------- |
-| `Select` | Base `react-select` wrapper for single, multi, and creatable selection. |
-| `AsyncSelect` | Async-loading select with the same field shell and styling model. |
-| `CheckboxSelect` | Multi-select that renders checkbox-style options. |
-| `GroupedSelect` | Multi-select that enforces one chosen option per group. |
-| `MultiSelectCompact` | Compact multi-select display for dense selected value presentation. |
-| `SelectWithApply` | Buffered selection workflow with an explicit apply action. |
-
-### Feedback and Status
-
-| Export | Purpose |
-| ------ | ------- |
-| `Alert` | Inline status messaging for info, success, warning, and danger states. |
-| `Badge` | Small count/status label. |
-| `Chip` | Selectable or removable pill-style value token. |
-| `ConfirmationPopup` | Lightweight confirmation surface for destructive or irreversible actions. |
-| `Feedback` | Quick sentiment or approval-style selection control. |
-| `ProgressBar` | Linear progress indicator with label and caption support. |
-| `Rating` | Star-based rating input and display. |
-| `Tooltip` | Hover/focus tooltip powered by `react-tooltip`. |
-| `TrendIndicator` | Delta/trend presentation for positive, negative, and neutral movement. |
-
-### Data Display
-
-| Export | Purpose |
-| ------ | ------- |
-| `CompactList` | Inline list that collapses overflow items behind a compact badge trigger. |
-| `CountryFlag` | Country flag renderer from ISO code and size. |
-| `Label` | Compact text label primitive for metadata and UI annotations. |
-| `ListBox`, `ListItem` | Styled listbox and list item building blocks. |
-| `MetricCard` | High-level metric summary card for dashboard-style presentation. |
-| `MetricValueItem` | Individual metric value row used inside metric cards. |
-| `OrganizationChart` | Hierarchical org/entity chart with zoom, export, and imperative controls. |
-
-### Identity and Avatars
-
-| Export | Purpose |
-| ------ | ------- |
-| `Avatar` | Person or entity avatar with initials, icon, or image treatment. |
-| `AvatarGroup` | Overlapping avatar stack for participants or entities. |
-
-### Motion and Toasts
-
-| Export | Purpose |
-| ------ | ------- |
-| `AnimatePresence` | Presence manager that keeps children mounted through exit motion. |
-| `AnimatePresenceChild` | Motion-aware child wrapper used with `AnimatePresence`. |
-| `Toaster` | Root toast renderer built on top of `sonner`. |
-| `useToast` | Imperative toast API hook/helper surface. |
-
-### Supporting Enums and Helpers
-
-| Export | Purpose |
-| ------ | ------- |
-| `ETrend` | Trend direction enum re-exported for `MetricCard` and `TrendIndicator` usage. |
-
-For concrete prop combinations and current examples, use the live Storybook:
-
-- https://tanishraj.github.io/ui-kit/
-
-## Versioning and Changelog
-
-- This package follows [Semantic Versioning (SemVer)](https://semver.org/).
-- Version updates use `npm version patch|minor|major`.
-- Pre-release versions are supported and published with the `next` tag when release is marked as prerelease.
-- Breaking changes are documented and shipped as a new major version.
-- Changes must be recorded in [`CHANGELOG.md`](CHANGELOG.md).
-
-## Changelog
-
-- Maintained using Keep a Changelog structure: `Unreleased`, `Added`, `Changed`, `Fixed`.
-- Update changelog before tagging and include impact, scope, and migration notes when needed.
-- Keep the latest released version at top below `Unreleased`.
 
 ## Contributing
 
 Contributions should include:
 
-- component changes with matching story updates
-- tests for new/changed behavior
-- lint-safe and type-safe implementation
+- implementation updates
+- matching Storybook examples when behavior changes
+- tests for new or changed behavior
+- lint-safe and type-safe code
 
-Please keep API changes minimal and backward-compatible unless part of an intentional major version.
+## Changelog
+
+See [`CHANGELOG.md`](CHANGELOG.md).
 
 ## License
 
