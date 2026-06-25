@@ -10,6 +10,8 @@ const options: SelectOption[] = [
   { label: 'Published', value: 'published' },
 ];
 
+const loadOptions = async () => options;
+
 describe('AsyncSelect', () => {
   it('hides the rendered selected value while the menu is open', async () => {
     render(
@@ -17,7 +19,7 @@ describe('AsyncSelect', () => {
         defaultValue={options[1]}
         defaultOptions={options}
         label='Async status'
-        loadOptions={async () => options}
+        loadOptions={loadOptions}
         options={options}
       />,
     );
@@ -38,7 +40,7 @@ describe('AsyncSelect', () => {
       <AsyncSelect
         defaultOptions={options}
         label='Async status'
-        loadOptions={async () => options}
+        loadOptions={loadOptions}
         options={options}
       />,
     );

@@ -6,10 +6,7 @@ import { CompactList } from './CompactList';
 describe('CompactList', () => {
   it('renders visible items and exposes hidden items in the popover', () => {
     render(
-      <CompactList
-        items={['Apple', 'Banana', 'Cherry']}
-        maxVisible={1}
-      />,
+      <CompactList items={['Apple', 'Banana', 'Cherry']} maxVisible={1} />,
     );
 
     expect(screen.getByText('Apple')).toBeInTheDocument();

@@ -33,18 +33,12 @@ const SelectDemo = (args: SelectProps<SelectOption>) => {
     (args.defaultValue as SelectOption | null) ?? null,
   );
 
-  return (
-    <Select<SelectOption>
-      {...args}
-      value={value}
-      onChange={nextValue => setValue(nextValue as SelectOption | null)}
-    />
-  );
+  return <Select<SelectOption> {...args} value={value} onChange={setValue} />;
 };
 
 const MultiSelectDemo = (args: SelectProps<SelectOption, true>) => {
-  const [value, setValue] = useState<SelectOption[]>(
-    (args.defaultValue as SelectOption[]) ?? [],
+  const [value, setValue] = useState<readonly SelectOption[]>(
+    (args.defaultValue as readonly SelectOption[]) ?? [],
   );
 
   return (
@@ -52,7 +46,7 @@ const MultiSelectDemo = (args: SelectProps<SelectOption, true>) => {
       {...args}
       isMulti
       value={value}
-      onChange={nextValue => setValue((nextValue as SelectOption[]) ?? [])}
+      onChange={setValue}
     />
   );
 };

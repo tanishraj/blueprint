@@ -15,8 +15,9 @@ export interface TableColumn<RowData> {
   id?: string;
 }
 
-export interface TableProps<RowData extends object = Record<string, unknown>>
-  extends Omit<ComponentPropsWithoutRef<'table'>, 'children' | 'size'> {
+export interface TableProps<
+  RowData extends object = Record<string, unknown>,
+> extends Omit<ComponentPropsWithoutRef<'table'>, 'children' | 'size'> {
   caption?: ReactNode;
   captionSide?: 'top' | 'bottom';
   columns: TableColumn<RowData>[];
@@ -32,18 +33,15 @@ export interface TableProps<RowData extends object = Record<string, unknown>>
   striped?: boolean;
 }
 
-export interface TableCaptionProps
-  extends ComponentPropsWithoutRef<'caption'> {
+export interface TableCaptionProps extends ComponentPropsWithoutRef<'caption'> {
   side?: 'top' | 'bottom';
 }
 
-export interface TableCellProps
-  extends ComponentPropsWithoutRef<'td'> {
+export interface TableCellProps extends ComponentPropsWithoutRef<'td'> {
   align?: TableAlign | undefined;
 }
 
-export interface TableHeadProps
-  extends ComponentPropsWithoutRef<'th'> {
+export interface TableHeadProps extends ComponentPropsWithoutRef<'th'> {
   align?: TableAlign | undefined;
 }
 

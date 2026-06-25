@@ -24,9 +24,16 @@ import {
   inputRootStyles,
 } from '../Input/Input.styles';
 import { Chip } from '../Chip';
-import type { SelectOption, SelectProps, SelectSizes, SelectVariants } from './types';
+import type {
+  SelectOption,
+  SelectProps,
+  SelectSizes,
+  SelectVariants,
+} from './types';
 
-export const defaultGetOptionLabel = <Option extends SelectOption>(option: Option) => {
+export const defaultGetOptionLabel = <Option extends SelectOption>(
+  option: Option,
+) => {
   if (typeof option.label === 'string') {
     return option.label;
   }
@@ -38,7 +45,9 @@ export const defaultGetOptionLabel = <Option extends SelectOption>(option: Optio
   return '';
 };
 
-export const defaultGetOptionValue = <Option extends SelectOption>(option: Option) => {
+export const defaultGetOptionValue = <Option extends SelectOption>(
+  option: Option,
+) => {
   if (typeof option.value === 'string' || typeof option.value === 'number') {
     return String(option.value);
   }
@@ -119,10 +128,7 @@ export const SelectFieldShell = ({
     <div className={cn(inputRootStyles({ fullWidth }), containerClassName)}>
       {label && (
         <label
-          className={cn(
-            inputLabelStyles({ size, disabled }),
-            labelClassName,
-          )}
+          className={cn(inputLabelStyles({ size, disabled }), labelClassName)}
           htmlFor={id}
         >
           {label}
@@ -161,11 +167,12 @@ interface BaseSelectComponentsOptions<
   customComponents?:
     | SelectComponentsConfig<Option, IsMulti, GroupBase<Option>>
     | undefined;
-  dropdownIndicator?: SelectComponentsConfig<
-    Option,
-    IsMulti,
-    GroupBase<Option>
-  >['DropdownIndicator']
+  dropdownIndicator?:
+    | SelectComponentsConfig<
+        Option,
+        IsMulti,
+        GroupBase<Option>
+      >['DropdownIndicator']
     | undefined;
   option?:
     | SelectComponentsConfig<Option, IsMulti, GroupBase<Option>>['Option']
@@ -176,17 +183,15 @@ interface BaseSelectComponentsOptions<
   group?:
     | SelectComponentsConfig<Option, IsMulti, GroupBase<Option>>['Group']
     | undefined;
-  multiValue?: SelectComponentsConfig<
-    Option,
-    IsMulti,
-    GroupBase<Option>
-  >['MultiValue']
+  multiValue?:
+    | SelectComponentsConfig<Option, IsMulti, GroupBase<Option>>['MultiValue']
     | undefined;
-  multiValueRemove?: SelectComponentsConfig<
-    Option,
-    IsMulti,
-    GroupBase<Option>
-  >['MultiValueRemove']
+  multiValueRemove?:
+    | SelectComponentsConfig<
+        Option,
+        IsMulti,
+        GroupBase<Option>
+      >['MultiValueRemove']
     | undefined;
   size: SelectSizes;
 }
@@ -230,22 +235,26 @@ export const createBaseSelectComponents = <
   ...(menu ? { Menu: menu } : {}),
   MultiValue:
     multiValue ??
-    ((props: MultiValueProps<Option, IsMulti, GroupBase<Option>>) => (
-      <div {...props.innerProps}>
-        <Chip
-          appearance='outline'
-          closeLabel={`Remove ${defaultGetOptionLabel(props.data)}`}
-          onClose={() => {
-            props.removeProps.onClick?.({} as never);
-          }}
-          shape='square'
-          size={size === 'lg' ? 'md' : 'sm'}
-          variant='primary'
-        >
-          {getChipContent(props.data)}
-        </Chip>
-      </div>
-    )),
+    ((props: MultiValueProps<Option, IsMulti, GroupBase<Option>>) => {
+      const closeProps = props.removeProps.onClick
+        ? { onClose: props.removeProps.onClick as () => void }
+        : {};
+
+      return (
+        <div {...props.innerProps}>
+          <Chip
+            appearance='outline'
+            closeLabel={`Remove ${defaultGetOptionLabel(props.data)}`}
+            shape='square'
+            size={size === 'lg' ? 'md' : 'sm'}
+            variant='primary'
+            {...closeProps}
+          >
+            {getChipContent(props.data)}
+          </Chip>
+        </div>
+      );
+    }),
   MultiValueRemove:
     multiValueRemove ??
     ((props: MultiValueRemoveProps<Option, IsMulti, GroupBase<Option>>) => (
@@ -405,9 +414,7 @@ interface BaseSelectStylesOptions<
   Option extends SelectOption,
   IsMulti extends boolean,
 > {
-  customStyles?:
-    | StylesConfig<Option, IsMulti, GroupBase<Option>>
-    | undefined;
+  customStyles?: StylesConfig<Option, IsMulti, GroupBase<Option>> | undefined;
   fullWidth?: boolean | undefined;
 }
 
@@ -439,7 +446,9 @@ export const createBaseSelectStyles = <
       ...base,
       alignItems: 'center',
       display:
-        state.isMulti && state.hasValue && state.selectProps.controlShouldRenderValue
+        state.isMulti &&
+        state.hasValue &&
+        state.selectProps.controlShouldRenderValue
           ? 'flex'
           : 'grid',
       flex: 1,
@@ -547,7 +556,9 @@ export const createBaseSelectStyles = <
       fontWeight: state.isSelected ? 500 : 400,
     };
 
-    return customStyles?.option ? customStyles.option(nextBase, state) : nextBase;
+    return customStyles?.option
+      ? customStyles.option(nextBase, state)
+      : nextBase;
   },
   multiValue: (base, state) => {
     const nextBase: typeof base = {
@@ -595,13 +606,15 @@ export const createBaseSelectStyles = <
   },
 });
 
-export const createFormatCreateLabel =
-  (createText: string) => (inputValue: string) => (
-    <span className='flex items-center gap-2 text-primary'>
-      <Plus aria-hidden='true' className='size-4' />
-      <span>{`${createText} "${inputValue}"`}</span>
-    </span>
-  );
+export const createFormatCreateLabel = (createText: string) =>
+  function formatCreateLabel(inputValue: string) {
+    return (
+      <span className='flex items-center gap-2 text-primary'>
+        <Plus aria-hidden='true' className='size-4' />
+        <span>{`${createText} "${inputValue}"`}</span>
+      </span>
+    );
+  };
 
 export const getResolvedPlaceholder = ({
   label,

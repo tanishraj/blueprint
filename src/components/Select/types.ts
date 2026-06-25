@@ -15,8 +15,9 @@ export interface SelectOption<T = string | number> {
   options?: SelectOption<T>[];
 }
 
-export interface GroupedSelectOption<T = string | number>
-  extends SelectOption<T> {
+export interface GroupedSelectOption<
+  T = string | number,
+> extends SelectOption<T> {
   group: string;
 }
 

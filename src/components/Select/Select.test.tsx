@@ -74,7 +74,10 @@ describe('Select', () => {
     render(
       <Select
         label='Status'
-        options={[...options, { label: 'Archived', value: 'archived', disabled: true }]}
+        options={[
+          ...options,
+          { label: 'Archived', value: 'archived', disabled: true },
+        ]}
       />,
     );
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo, useState } from 'react';
+import { useCallback, useId, useMemo, useState } from 'react';
 import { Check, Minus } from 'lucide-react';
 import ReactSelect, {
   components,
@@ -95,13 +95,13 @@ export const SelectWithApply = <
     required,
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [pendingValue, setPendingValue] = useState<OnChangeValue<Option, IsMulti>>(
-    (value ?? null) as OnChangeValue<Option, IsMulti>,
+  const committedValue = useMemo(
+    () => (value ?? null) as OnChangeValue<Option, IsMulti>,
+    [value],
   );
-
-  useEffect(() => {
-    setPendingValue((value ?? null) as OnChangeValue<Option, IsMulti>);
-  }, [value]);
+  const [pendingValue, setPendingValue] =
+    useState<OnChangeValue<Option, IsMulti>>(committedValue);
+  const [hasPendingChanges, setHasPendingChanges] = useState(false);
 
   const allOption = useMemo(
     () =>
@@ -115,29 +115,39 @@ export const SelectWithApply = <
   const realOptions = options as readonly Option[];
 
   const optionsWithAll = useMemo(
-    () => (isMulti ? ([allOption, ...realOptions] as readonly Option[]) : realOptions),
+    () =>
+      isMulti
+        ? ([allOption, ...realOptions] as readonly Option[])
+        : realOptions,
     [allOption, isMulti, realOptions],
   );
+  const resolvedPendingValue = hasPendingChanges
+    ? pendingValue
+    : committedValue;
 
-  const pendingCount = Array.isArray(pendingValue) ? pendingValue.length : 0;
+  const pendingCount = Array.isArray(resolvedPendingValue)
+    ? resolvedPendingValue.length
+    : 0;
   const allRealOptionsSelected =
-    Boolean(isMulti) && realOptions.length > 0 && pendingCount === realOptions.length;
+    Boolean(isMulti) &&
+    realOptions.length > 0 &&
+    pendingCount === realOptions.length;
   const someRealOptionsSelected =
     Boolean(isMulti) && pendingCount > 0 && !allRealOptionsSelected;
 
   const displayValue = useMemo(() => {
     if (!isMulti) {
-      return pendingValue;
+      return resolvedPendingValue;
     }
 
-    const pending = (pendingValue as MultiValue<Option>) ?? [];
+    const pending = (resolvedPendingValue as MultiValue<Option>) ?? [];
 
     if (allRealOptionsSelected) {
       return [allOption] as unknown as OnChangeValue<Option, IsMulti>;
     }
 
     return pending as unknown as OnChangeValue<Option, IsMulti>;
-  }, [allOption, allRealOptionsSelected, isMulti, pendingValue]);
+  }, [allOption, allRealOptionsSelected, isMulti, resolvedPendingValue]);
 
   const isOptionCurrentlySelected = useCallback(
     (option: Option) => {
@@ -148,21 +158,25 @@ export const SelectWithApply = <
       }
 
       if (!isMulti) {
-        const selectedValue = pendingValue as Option | null;
+        const selectedValue = resolvedPendingValue as Option | null;
         return selectedValue?.value === optionValue;
       }
 
-      return ((pendingValue as MultiValue<Option>) ?? []).some(
+      return ((resolvedPendingValue as MultiValue<Option>) ?? []).some(
         selected => selected.value === optionValue,
       );
     },
-    [allRealOptionsSelected, isMulti, pendingValue],
+    [allRealOptionsSelected, isMulti, resolvedPendingValue],
   );
 
   const handlePendingChange = useCallback(
-    (newValue: OnChangeValue<Option, IsMulti>, actionMeta: ActionMeta<Option>) => {
+    (
+      newValue: OnChangeValue<Option, IsMulti>,
+      actionMeta: ActionMeta<Option>,
+    ) => {
       if (!isMulti) {
         setPendingValue(newValue);
+        setHasPendingChanges(true);
         return;
       }
 
@@ -170,12 +184,16 @@ export const SelectWithApply = <
       const clickedAll = clickedValue === ALL_OPTION_VALUE;
 
       if (clickedAll && actionMeta.action === 'select-option') {
-        setPendingValue(realOptions as unknown as OnChangeValue<Option, IsMulti>);
+        setPendingValue(
+          realOptions as unknown as OnChangeValue<Option, IsMulti>,
+        );
+        setHasPendingChanges(true);
         return;
       }
 
       if (clickedAll && actionMeta.action === 'deselect-option') {
         setPendingValue([] as unknown as OnChangeValue<Option, IsMulti>);
+        setHasPendingChanges(true);
         return;
       }
 
@@ -184,8 +202,11 @@ export const SelectWithApply = <
         actionMeta.action === 'deselect-option' &&
         allRealOptionsSelected
       ) {
-        const remaining = realOptions.filter(option => option.value !== clickedValue);
+        const remaining = realOptions.filter(
+          option => option.value !== clickedValue,
+        );
         setPendingValue(remaining as unknown as OnChangeValue<Option, IsMulti>);
+        setHasPendingChanges(true);
         return;
       }
 
@@ -193,14 +214,31 @@ export const SelectWithApply = <
         option => option.value !== ALL_OPTION_VALUE,
       );
       setPendingValue(filtered as unknown as OnChangeValue<Option, IsMulti>);
+      setHasPendingChanges(true);
     },
     [allRealOptionsSelected, isMulti, realOptions],
   );
 
   const handleApply = useCallback(() => {
-    onChange?.(pendingValue, {} as ActionMeta<Option>);
+    onChange?.(resolvedPendingValue, {} as ActionMeta<Option>);
+    setHasPendingChanges(false);
     setIsMenuOpen(false);
-  }, [onChange, pendingValue]);
+  }, [onChange, resolvedPendingValue]);
+  const handleMenuOpen = useCallback(() => {
+    setPendingValue(committedValue);
+    setHasPendingChanges(false);
+    setIsMenuOpen(true);
+  }, [committedValue]);
+  const handleMenuClose = useCallback(() => {
+    setIsMenuOpen(false);
+    setPendingValue(committedValue);
+    setHasPendingChanges(false);
+  }, [committedValue]);
+  const resolvedIsOptionDisabled = useCallback(
+    (option: Option, selectValue: readonly Option[]) =>
+      isOptionDisabled?.(option, selectValue) ?? Boolean(option.disabled),
+    [isOptionDisabled],
+  );
 
   const mergedComponents = useMemo(
     () =>
@@ -385,23 +423,19 @@ export const SelectWithApply = <
         isClearable={restProps.isClearable ?? false}
         isDisabled={isSelectDisabled}
         isMulti={isMulti}
-        isOptionDisabled={
-          isOptionDisabled ?? ((option: Option) => Boolean(option.disabled))
-        }
-        isOptionSelected={option => isOptionCurrentlySelected(option)}
+        isOptionDisabled={resolvedIsOptionDisabled}
+        isOptionSelected={isOptionCurrentlySelected}
         isSearchable={isReadOnly ? false : isSearchable}
         menuIsOpen={isReadOnly ? false : isMenuOpen}
         menuPlacement={menuPlacement}
         menuPortalTarget={
-          menuPortalTarget ?? (typeof document !== 'undefined' ? document.body : null)
+          menuPortalTarget ??
+          (typeof document !== 'undefined' ? document.body : null)
         }
         menuPosition={menuPosition}
         onChange={handlePendingChange}
-        onMenuClose={() => {
-          setIsMenuOpen(false);
-          setPendingValue((value ?? null) as OnChangeValue<Option, IsMulti>);
-        }}
-        onMenuOpen={() => setIsMenuOpen(true)}
+        onMenuClose={handleMenuClose}
+        onMenuOpen={handleMenuOpen}
         options={optionsWithAll}
         placeholder={resolvedPlaceholder}
         styles={mergedStyles}

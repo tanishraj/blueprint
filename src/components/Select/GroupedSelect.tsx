@@ -132,12 +132,17 @@ export const GroupedSelect = <
     },
     [onChange],
   );
+  const resolvedIsOptionDisabled = useCallback(
+    (option: Option) => Boolean(option.disabled),
+    [],
+  );
 
   const mergedComponents = useMemo(
     () =>
       createBaseSelectComponents<Option, true>({
         group: groupProps => {
-          const groups = groupProps.selectProps.options as readonly GroupBase<Option>[];
+          const groups = groupProps.selectProps
+            .options as readonly GroupBase<Option>[];
           const isFirstGroup = groups[0] === groupProps.data;
 
           return (
@@ -190,7 +195,7 @@ export const GroupedSelect = <
         ),
         size,
       }),
-    [compactDisplay, options, size],
+    [compactDisplay, size],
   );
 
   const mergedClassNames = useMemo(
@@ -222,7 +227,9 @@ export const GroupedSelect = <
         customStyles: {
           ...styles,
           control: (base, state) => {
-            const nextBase = styles?.control ? styles.control(base, state) : base;
+            const nextBase = styles?.control
+              ? styles.control(base, state)
+              : base;
 
             return compactDisplay
               ? {
@@ -279,12 +286,13 @@ export const GroupedSelect = <
         isClearable={isClearable}
         isDisabled={isSelectDisabled}
         isMulti
-        isOptionDisabled={option => Boolean(option.disabled)}
+        isOptionDisabled={resolvedIsOptionDisabled}
         isSearchable={isReadOnly ? false : isSearchable}
         menuIsOpen={isReadOnly ? false : menuIsOpen}
         menuPlacement={menuPlacement}
         menuPortalTarget={
-          menuPortalTarget ?? (typeof document !== 'undefined' ? document.body : null)
+          menuPortalTarget ??
+          (typeof document !== 'undefined' ? document.body : null)
         }
         menuPosition={menuPosition}
         onChange={handleChange}

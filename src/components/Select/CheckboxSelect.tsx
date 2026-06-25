@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import { useId, useMemo } from 'react';
+import { useCallback, useId, useMemo } from 'react';
 import ReactSelect, {
   components,
   type GroupBase,
@@ -88,6 +88,11 @@ export const CheckboxSelect = <
     placeholder,
     required,
   });
+  const resolvedIsOptionDisabled = useCallback(
+    (option: Option, selectValue: readonly Option[]) =>
+      isOptionDisabled?.(option, selectValue) ?? Boolean(option.disabled),
+    [isOptionDisabled],
+  );
 
   const mergedComponents = useMemo(
     () =>
@@ -218,7 +223,9 @@ export const CheckboxSelect = <
         ref={ref}
         aria-describedby={helperText ? `${selectId}-caption` : undefined}
         aria-invalid={invalid || undefined}
-        backspaceRemovesValue={isReadOnly ? false : restProps.backspaceRemovesValue}
+        backspaceRemovesValue={
+          isReadOnly ? false : restProps.backspaceRemovesValue
+        }
         classNames={mergedClassNames}
         closeMenuOnSelect={restProps.closeMenuOnSelect ?? false}
         components={mergedComponents}
@@ -230,14 +237,13 @@ export const CheckboxSelect = <
         instanceId={selectId}
         isDisabled={isSelectDisabled}
         isMulti={isMulti}
-        isOptionDisabled={
-          isOptionDisabled ?? ((option: Option) => Boolean(option.disabled))
-        }
+        isOptionDisabled={resolvedIsOptionDisabled}
         isSearchable={isReadOnly ? false : isSearchable}
         menuIsOpen={isReadOnly ? false : menuIsOpen}
         menuPlacement={menuPlacement}
         menuPortalTarget={
-          menuPortalTarget ?? (typeof document !== 'undefined' ? document.body : null)
+          menuPortalTarget ??
+          (typeof document !== 'undefined' ? document.body : null)
         }
         menuPosition={menuPosition}
         openMenuOnClick={isReadOnly ? false : openMenuOnClick}

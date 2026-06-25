@@ -66,9 +66,7 @@ export const AnimatePresence: FC<AnimatePresenceProps> = ({
 
       return durationValues.reduce((maxDuration, durationValue, index) => {
         const delayValue =
-          delayValues[index] ??
-          delayValues[delayValues.length - 1] ??
-          0;
+          delayValues[index] ?? delayValues[delayValues.length - 1] ?? 0;
 
         return Math.max(maxDuration, durationValue + delayValue);
       }, 0);
@@ -99,8 +97,9 @@ export const AnimatePresence: FC<AnimatePresenceProps> = ({
           resolve();
           return;
         }
+        const currentNode = node;
 
-        const maxMotionDuration = getMaxMotionDuration(node);
+        const maxMotionDuration = getMaxMotionDuration(currentNode);
 
         if (maxMotionDuration === 0) {
           resolve();
@@ -110,16 +109,7 @@ export const AnimatePresence: FC<AnimatePresenceProps> = ({
         let hasResolved = false;
         let fallbackTimeout: ReturnType<typeof window.setTimeout> | null = null;
 
-        const cleanup = () => {
-          node.removeEventListener('animationend', handleMotionEnd);
-          node.removeEventListener('transitionend', handleMotionEnd);
-
-          if (fallbackTimeout) {
-            window.clearTimeout(fallbackTimeout);
-            fallbackTimeout = null;
-          }
-        };
-        const complete = () => {
+        function complete() {
           if (hasResolved) {
             return;
           }
@@ -127,15 +117,26 @@ export const AnimatePresence: FC<AnimatePresenceProps> = ({
           hasResolved = true;
           cleanup();
           resolve();
-        };
-        const handleMotionEnd = (event: AnimationEvent | TransitionEvent) => {
-          if (event.target === node) {
+        }
+
+        function handleMotionEnd(event: AnimationEvent | TransitionEvent) {
+          if (event.target === currentNode) {
             complete();
           }
-        };
+        }
 
-        node.addEventListener('animationend', handleMotionEnd);
-        node.addEventListener('transitionend', handleMotionEnd);
+        function cleanup() {
+          currentNode.removeEventListener('animationend', handleMotionEnd);
+          currentNode.removeEventListener('transitionend', handleMotionEnd);
+
+          if (fallbackTimeout) {
+            window.clearTimeout(fallbackTimeout);
+            fallbackTimeout = null;
+          }
+        }
+
+        currentNode.addEventListener('animationend', handleMotionEnd);
+        currentNode.addEventListener('transitionend', handleMotionEnd);
         fallbackTimeout = window.setTimeout(complete, maxMotionDuration + 50);
       });
     });

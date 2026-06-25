@@ -15,30 +15,21 @@ const statusOptions: SelectOption[] = [
 
 const SingleSelectDemo = (args: ComponentProps<typeof SelectWithApply>) => {
   const [value, setValue] = useState<OnChangeValue<SelectOption, false>>(null);
+  const handleChange = setValue as NonNullable<
+    ComponentProps<typeof SelectWithApply>['onChange']
+  >;
 
-  return (
-    <SelectWithApply
-      {...args}
-      value={value}
-      onChange={nextValue =>
-        setValue(nextValue as OnChangeValue<SelectOption, false>)
-      }
-    />
-  );
+  return <SelectWithApply {...args} value={value} onChange={handleChange} />;
 };
 
 const MultiSelectDemo = (args: ComponentProps<typeof SelectWithApply>) => {
   const [value, setValue] = useState<MultiValue<SelectOption>>([]);
+  const handleChange = setValue as NonNullable<
+    ComponentProps<typeof SelectWithApply>['onChange']
+  >;
 
   return (
-    <SelectWithApply
-      {...args}
-      isMulti
-      value={value}
-      onChange={nextValue =>
-        setValue((nextValue as MultiValue<SelectOption>) ?? [])
-      }
-    />
+    <SelectWithApply {...args} isMulti value={value} onChange={handleChange} />
   );
 };
 

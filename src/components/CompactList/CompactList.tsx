@@ -16,12 +16,21 @@ import { cn } from '@/utils';
 
 import { Badge, type BadgeProps } from '../Badge';
 
-type PrimitiveValue = string | number | boolean | bigint | symbol | null | undefined;
+type PrimitiveValue =
+  | string
+  | number
+  | boolean
+  | bigint
+  | symbol
+  | null
+  | undefined;
 type ObjectItem = Record<string, unknown>;
 type ItemType = PrimitiveValue | ObjectItem;
 
 const isPrimitiveValue = (value: ItemType): value is PrimitiveValue => {
-  return value === null || (typeof value !== 'object' && typeof value !== 'function');
+  return (
+    value === null || (typeof value !== 'object' && typeof value !== 'function')
+  );
 };
 
 export interface CompactListProps<T extends ItemType> {
@@ -35,7 +44,9 @@ export interface CompactListProps<T extends ItemType> {
   renderItem?: (item: T, index: number) => ReactNode;
 }
 
-const getLineClampStyle = (lineClampSize: number): CSSProperties | undefined => {
+const getLineClampStyle = (
+  lineClampSize: number,
+): CSSProperties | undefined => {
   if (lineClampSize <= 0) {
     return undefined;
   }
@@ -76,23 +87,24 @@ export const CompactList = <T extends ItemType>({
   ]);
 
   const getDisplayValue = useMemo(
-    () => (item: T, index: number): ReactNode => {
-      if (renderItem) {
-        return renderItem(item, index);
-      }
+    () =>
+      (item: T, index: number): ReactNode => {
+        if (renderItem) {
+          return renderItem(item, index);
+        }
 
-      if (isPrimitiveValue(item)) {
-        return String(item);
-      }
+        if (isPrimitiveValue(item)) {
+          return String(item);
+        }
 
-      if (displayKey && typeof item === 'object' && item !== null) {
-        return String(
-          (item as Record<PropertyKey, unknown>)[displayKey as PropertyKey],
-        );
-      }
+        if (displayKey && typeof item === 'object' && item !== null) {
+          return String(
+            (item as Record<PropertyKey, unknown>)[displayKey as PropertyKey],
+          );
+        }
 
-      return JSON.stringify(item);
-    },
+        return JSON.stringify(item);
+      },
     [displayKey, renderItem],
   );
 

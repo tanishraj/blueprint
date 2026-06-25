@@ -19,7 +19,12 @@ const rows: InvoiceRow[] = [{ id: 'INV001', amount: '$250.00' }];
 describe('Table', () => {
   it('renders a semantic table from columns and data', () => {
     render(
-      <Table caption='Invoice summary' columns={columns} data={rows} rowKey='id' />,
+      <Table
+        caption='Invoice summary'
+        columns={columns}
+        data={rows}
+        rowKey='id'
+      />,
     );
 
     expect(screen.getByText('Invoice summary')).toBeInTheDocument();
@@ -68,7 +73,9 @@ describe('Table', () => {
   });
 
   it('renders the empty state when no rows are provided', () => {
-    render(<Table columns={columns} data={[]} emptyMessage='No invoices found.' />);
+    render(
+      <Table columns={columns} data={[]} emptyMessage='No invoices found.' />,
+    );
 
     expect(screen.getByText('No invoices found.')).toBeInTheDocument();
   });

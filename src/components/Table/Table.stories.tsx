@@ -19,7 +19,12 @@ interface CountryRow {
 const invoices: InvoiceRow[] = [
   { id: 'INV001', status: 'Paid', method: 'Credit Card', amount: '$250.00' },
   { id: 'INV002', status: 'Pending', method: 'PayPal', amount: '$150.00' },
-  { id: 'INV003', status: 'Unpaid', method: 'Bank Transfer', amount: '$350.00' },
+  {
+    id: 'INV003',
+    status: 'Unpaid',
+    method: 'Bank Transfer',
+    amount: '$350.00',
+  },
   { id: 'INV004', status: 'Paid', method: 'Wire', amount: '$450.00' },
   { id: 'INV005', status: 'Draft', method: 'ACH', amount: '$550.00' },
 ];

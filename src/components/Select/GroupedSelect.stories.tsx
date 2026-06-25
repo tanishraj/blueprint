@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { GroupBase, MultiValue } from 'react-select';
 
@@ -25,14 +25,14 @@ const options: GroupBase<GroupedSelectOption>[] = [
 
 const GroupedSelectDemo = (args: ComponentProps<typeof GroupedSelect>) => {
   const [value, setValue] = useState<MultiValue<GroupedSelectOption>>([]);
-
-  return (
-    <GroupedSelect
-      {...args}
-      value={value}
-      onChange={nextValue => setValue(nextValue)}
-    />
+  const handleChange = useCallback(
+    (nextValue: MultiValue<GroupedSelectOption>) => {
+      setValue(nextValue);
+    },
+    [],
   );
+
+  return <GroupedSelect {...args} value={value} onChange={handleChange} />;
 };
 
 const meta: Meta<typeof GroupedSelect> = {

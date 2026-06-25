@@ -31,7 +31,9 @@ describe('CountryFlag', () => {
   });
 
   it('returns null for invalid codes', () => {
-    const { container, rerender } = render(<CountryFlag code='IND' name='India' />);
+    const { container, rerender } = render(
+      <CountryFlag code='IND' name='India' />,
+    );
 
     expect(container).toBeEmptyDOMElement();
 

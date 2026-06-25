@@ -1,5 +1,5 @@
-import { type ReactNode, useId, useMemo } from 'react';
-import { ChevronDown, Plus, X } from 'lucide-react';
+import { type ReactNode, useCallback, useId, useMemo } from 'react';
+import { ChevronDown, X } from 'lucide-react';
 import ReactSelect, {
   components,
   type ClassNamesConfig,
@@ -25,6 +25,7 @@ import {
   inputRootStyles,
 } from '../Input/Input.styles';
 import { Chip } from '../Chip';
+import { createFormatCreateLabel } from './shared';
 import type { SelectOption, SelectProps } from './types';
 
 const defaultGetOptionLabel = <Option extends SelectOption>(option: Option) => {
@@ -47,7 +48,9 @@ const defaultGetOptionValue = <Option extends SelectOption>(option: Option) => {
   return defaultGetOptionLabel(option);
 };
 
-const defaultFormatOptionLabel = <Option extends SelectOption>(option: Option) => {
+const defaultFormatOptionLabel = <Option extends SelectOption>(
+  option: Option,
+) => {
   return option.label;
 };
 
@@ -147,6 +150,15 @@ export const Select = <
     typeof placeholder === 'string' && required && !label
       ? `${placeholder} *`
       : placeholder;
+  const resolvedIsOptionDisabled = useCallback(
+    (option: Option, selectValue: readonly Option[]) =>
+      isOptionDisabled?.(option, selectValue) ?? Boolean(option.disabled),
+    [isOptionDisabled],
+  );
+  const resolvedFormatCreateLabel = useMemo(
+    () => formatCreateLabel ?? createFormatCreateLabel(createText),
+    [createText, formatCreateLabel],
+  );
 
   const mergedComponents = useMemo<
     SelectComponentsConfig<Option, IsMulti, GroupBase<Option>>
@@ -172,22 +184,26 @@ export const Select = <
       ),
       MultiValue: (
         props: MultiValueProps<Option, IsMulti, GroupBase<Option>>,
-      ) => (
-        <div {...props.innerProps}>
-          <Chip
-            appearance='outline'
-            closeLabel={`Remove ${defaultGetOptionLabel(props.data)}`}
-            onClose={() => {
-              props.removeProps.onClick?.({} as never);
-            }}
-            shape='square'
-            size={size === 'lg' ? 'md' : 'sm'}
-            variant='primary'
-          >
-            {getChipContent(props.data)}
-          </Chip>
-        </div>
-      ),
+      ) => {
+        const closeProps = props.removeProps.onClick
+          ? { onClose: props.removeProps.onClick as () => void }
+          : {};
+
+        return (
+          <div {...props.innerProps}>
+            <Chip
+              appearance='outline'
+              closeLabel={`Remove ${defaultGetOptionLabel(props.data)}`}
+              shape='square'
+              size={size === 'lg' ? 'md' : 'sm'}
+              variant='primary'
+              {...closeProps}
+            >
+              {getChipContent(props.data)}
+            </Chip>
+          </div>
+        );
+      },
       MultiValueRemove: (
         props: MultiValueRemoveProps<Option, IsMulti, GroupBase<Option>>,
       ) => <components.MultiValueRemove {...props} />,
@@ -201,7 +217,11 @@ export const Select = <
   >(
     () => ({
       container: state =>
-        cn('min-w-0', fullWidth && 'w-full', customClassNames?.container?.(state)),
+        cn(
+          'min-w-0',
+          fullWidth && 'w-full',
+          customClassNames?.container?.(state),
+        ),
       control: state =>
         cn(
           inputFieldStyles({
@@ -221,15 +241,16 @@ export const Select = <
           'flex min-w-0 flex-1 flex-wrap items-center gap-1 p-0',
           customClassNames?.valueContainer?.(state),
         ),
-      input: state => cn('m-0 p-0 text-current', customClassNames?.input?.(state)),
+      input: state =>
+        cn('m-0 p-0 text-current', customClassNames?.input?.(state)),
       placeholder: state =>
         cn('m-0 text-gray-500', customClassNames?.placeholder?.(state)),
       singleValue: state =>
         cn('m-0 text-default', customClassNames?.singleValue?.(state)),
-      multiValue: state =>
-        cn('my-0.5', customClassNames?.multiValue?.(state)),
+      multiValue: state => cn('my-0.5', customClassNames?.multiValue?.(state)),
       multiValueLabel: state => cn(customClassNames?.multiValueLabel?.(state)),
-      multiValueRemove: state => cn('hidden', customClassNames?.multiValueRemove?.(state)),
+      multiValueRemove: state =>
+        cn('hidden', customClassNames?.multiValueRemove?.(state)),
       indicatorsContainer: state =>
         cn(
           'flex shrink-0 items-center gap-1 self-stretch',
@@ -263,9 +284,15 @@ export const Select = <
           customClassNames?.option?.(state),
         ),
       noOptionsMessage: state =>
-        cn('px-3 py-2 text-sm text-gray-600', customClassNames?.noOptionsMessage?.(state)),
+        cn(
+          'px-3 py-2 text-sm text-gray-600',
+          customClassNames?.noOptionsMessage?.(state),
+        ),
       loadingMessage: state =>
-        cn('px-3 py-2 text-sm text-gray-600', customClassNames?.loadingMessage?.(state)),
+        cn(
+          'px-3 py-2 text-sm text-gray-600',
+          customClassNames?.loadingMessage?.(state),
+        ),
       group: state => cn('p-0', customClassNames?.group?.(state)),
       groupHeading: state =>
         cn(
@@ -285,7 +312,9 @@ export const Select = <
     ],
   );
 
-  const mergedStyles = useMemo<StylesConfig<Option, IsMulti, GroupBase<Option>>>(
+  const mergedStyles = useMemo<
+    StylesConfig<Option, IsMulti, GroupBase<Option>>
+  >(
     () => ({
       ...customStyles,
       container: (base, state) => {
@@ -323,7 +352,9 @@ export const Select = <
           padding: 0,
         };
 
-        return customStyles?.input ? customStyles.input(nextBase, state) : nextBase;
+        return customStyles?.input
+          ? customStyles.input(nextBase, state)
+          : nextBase;
       },
       placeholder: (base, state) => {
         const nextBase: typeof base = {
@@ -373,7 +404,9 @@ export const Select = <
           zIndex: 50,
         };
 
-        return customStyles?.menu ? customStyles.menu(nextBase, state) : nextBase;
+        return customStyles?.menu
+          ? customStyles.menu(nextBase, state)
+          : nextBase;
       },
       menuList: (base, state) => {
         const nextBase: typeof base = {
@@ -406,7 +439,9 @@ export const Select = <
           fontWeight: state.isSelected ? 600 : 400,
         };
 
-        return customStyles?.option ? customStyles.option(nextBase, state) : nextBase;
+        return customStyles?.option
+          ? customStyles.option(nextBase, state)
+          : nextBase;
       },
       multiValue: (base, state) => {
         const nextBase: typeof base = {
@@ -453,7 +488,7 @@ export const Select = <
           : nextBase;
       },
     }),
-    [customStyles],
+    [customStyles, fullWidth],
   );
 
   const selectProps = {
@@ -464,27 +499,20 @@ export const Select = <
     backspaceRemovesValue: isReadOnly ? false : backspaceRemovesValue,
     classNames: mergedClassNames,
     components: mergedComponents,
-    formatCreateLabel:
-      formatCreateLabel ??
-      ((inputValue: string) => (
-        <span className='flex items-center gap-2 text-primary'>
-          <Plus aria-hidden='true' className='size-4' />
-          <span>{`${createText} "${inputValue}"`}</span>
-        </span>
-      )),
+    formatCreateLabel: resolvedFormatCreateLabel,
     formatOptionLabel: formatOptionLabel ?? defaultFormatOptionLabel,
     getOptionLabel: getOptionLabel ?? defaultGetOptionLabel,
     getOptionValue: getOptionValue ?? defaultGetOptionValue,
     inputId: selectId,
     instanceId: selectId,
     isDisabled: isSelectDisabled,
-    isOptionDisabled:
-      isOptionDisabled ?? ((option: Option) => Boolean(option.disabled)),
+    isOptionDisabled: resolvedIsOptionDisabled,
     isSearchable: isReadOnly ? false : isSearchable,
     menuIsOpen: isReadOnly ? false : menuIsOpen,
     menuPlacement,
     menuPortalTarget:
-      menuPortalTarget ?? (typeof document !== 'undefined' ? document.body : null),
+      menuPortalTarget ??
+      (typeof document !== 'undefined' ? document.body : null),
     menuPosition,
     openMenuOnClick: isReadOnly ? false : openMenuOnClick,
     placeholder: resolvedPlaceholder,
