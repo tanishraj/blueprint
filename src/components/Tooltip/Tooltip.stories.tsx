@@ -140,7 +140,7 @@ export const HoverTriggered: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className='flex min-h-[420px] w-full flex-col items-center justify-center gap-16 px-6 py-8 md:flex-row md:gap-20'>
+    <div className='flex min-h-105 w-full flex-col items-center justify-center gap-16 px-6 py-8 md:flex-row md:gap-20'>
       <div className='flex min-w-56 flex-col items-center justify-center gap-3'>
         <Button
           data-tooltip-content='Primary tooltip content'
