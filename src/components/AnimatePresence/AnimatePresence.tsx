@@ -5,6 +5,7 @@ import {
   startTransition,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -24,29 +25,118 @@ export const AnimatePresence: FC<AnimatePresenceProps> = ({
   const registeredRefs = useRef<RefObject<HTMLElement | null>[]>([]);
   const latestPresence = useRef(presence);
 
-  const registerRef = (ref: RefObject<HTMLElement | null>) => {
-    registeredRefs.current.push(ref);
-  };
+  const registerRef = useCallback((ref: RefObject<HTMLElement | null>) => {
+    if (!registeredRefs.current.some(registeredRef => registeredRef === ref)) {
+      registeredRefs.current.push(ref);
+    }
+  }, []);
 
-  const unregisterRef = (ref: RefObject<HTMLElement | null>) => {
+  const unregisterRef = useCallback((ref: RefObject<HTMLElement | null>) => {
     registeredRefs.current = registeredRefs.current.filter(r => r !== ref);
-  };
+  }, []);
+
+  const getMaxMotionDuration = useCallback((node: HTMLElement) => {
+    if (typeof window === 'undefined') {
+      return 0;
+    }
+
+    const computedStyle = window.getComputedStyle(node);
+    const parseTimeValue = (value: string) => {
+      const trimmedValue = value.trim();
+
+      if (!trimmedValue) {
+        return 0;
+      }
+
+      if (trimmedValue.endsWith('ms')) {
+        return Number.parseFloat(trimmedValue);
+      }
+
+      if (trimmedValue.endsWith('s')) {
+        return Number.parseFloat(trimmedValue) * 1000;
+      }
+
+      return Number.parseFloat(trimmedValue) || 0;
+    };
+    const parseTimeList = (value: string) =>
+      value.split(',').map(parseTimeValue);
+    const getTotalDuration = (durations: string, delays: string) => {
+      const durationValues = parseTimeList(durations);
+      const delayValues = parseTimeList(delays);
+
+      return durationValues.reduce((maxDuration, durationValue, index) => {
+        const delayValue =
+          delayValues[index] ??
+          delayValues[delayValues.length - 1] ??
+          0;
+
+        return Math.max(maxDuration, durationValue + delayValue);
+      }, 0);
+    };
+
+    return Math.max(
+      getTotalDuration(
+        computedStyle.animationDuration,
+        computedStyle.animationDelay,
+      ),
+      getTotalDuration(
+        computedStyle.transitionDuration,
+        computedStyle.transitionDelay,
+      ),
+    );
+  }, []);
 
   const handleExitAnimation = useCallback(async () => {
+    if (registeredRefs.current.length === 0) {
+      setIsPresent(false);
+      return;
+    }
+
     const animationPromises = registeredRefs.current.map(ref => {
       return new Promise<void>(resolve => {
         const node = ref.current;
-        if (node) {
-          const handleAnimationEnd = (event: AnimationEvent) => {
-            if (event.target === node) {
-              node.removeEventListener('animationend', handleAnimationEnd);
-              resolve();
-            }
-          };
-          node.addEventListener('animationend', handleAnimationEnd);
-        } else {
+        if (!node) {
           resolve();
+          return;
         }
+
+        const maxMotionDuration = getMaxMotionDuration(node);
+
+        if (maxMotionDuration === 0) {
+          resolve();
+          return;
+        }
+
+        let hasResolved = false;
+        let fallbackTimeout: ReturnType<typeof window.setTimeout> | null = null;
+
+        const cleanup = () => {
+          node.removeEventListener('animationend', handleMotionEnd);
+          node.removeEventListener('transitionend', handleMotionEnd);
+
+          if (fallbackTimeout) {
+            window.clearTimeout(fallbackTimeout);
+            fallbackTimeout = null;
+          }
+        };
+        const complete = () => {
+          if (hasResolved) {
+            return;
+          }
+
+          hasResolved = true;
+          cleanup();
+          resolve();
+        };
+        const handleMotionEnd = (event: AnimationEvent | TransitionEvent) => {
+          if (event.target === node) {
+            complete();
+          }
+        };
+
+        node.addEventListener('animationend', handleMotionEnd);
+        node.addEventListener('transitionend', handleMotionEnd);
+        fallbackTimeout = window.setTimeout(complete, maxMotionDuration + 50);
       });
     });
 
@@ -61,7 +151,12 @@ export const AnimatePresence: FC<AnimatePresenceProps> = ({
     } catch (error) {
       console.error('HandleExitAnimation failed!!', error);
     }
-  }, []);
+  }, [getMaxMotionDuration]);
+
+  const contextValue = useMemo(
+    () => ({ registerRef, unregisterRef }),
+    [registerRef, unregisterRef],
+  );
 
   useEffect(() => {
     latestPresence.current = presence;
@@ -84,7 +179,7 @@ export const AnimatePresence: FC<AnimatePresenceProps> = ({
   }
 
   return (
-    <AnimatePresenceContext value={{ registerRef, unregisterRef }}>
+    <AnimatePresenceContext value={contextValue}>
       {children}
     </AnimatePresenceContext>
   );

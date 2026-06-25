@@ -13,11 +13,11 @@ export const drawerPortalRootStyles = cva('isolate z-50', {
 });
 
 export const drawerOverlayStyles = cva(
-  'absolute inset-0 z-10 bg-black/40 backdrop-blur-[1px] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:fill-mode-forwards data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:duration-500',
+  'absolute inset-0 z-10 bg-black/40 backdrop-blur-[1px] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:fill-mode-forwards data-[state=closed]:[--tw-animation-duration:300ms] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:[--tw-animation-duration:500ms]',
 );
 
 export const drawerPanelStyles = cva(
-  'absolute z-20 flex max-h-full max-w-full flex-col overflow-hidden border-gray-400 bg-white text-default shadow-xl outline-none data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards data-[state=closed]:duration-300 data-[state=closed]:ease-in data-[state=open]:animate-in data-[state=open]:duration-500 data-[state=open]:ease-out',
+  'absolute z-20 flex max-h-full max-w-full flex-col overflow-hidden border-gray-400 bg-white text-default shadow-xl outline-none data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards data-[state=closed]:[--tw-animation-duration:300ms] data-[state=closed]:[animation-timing-function:var(--ease-in)] data-[state=open]:animate-in data-[state=open]:[--tw-animation-duration:500ms] data-[state=open]:[animation-timing-function:var(--ease-out)]',
   {
     variants: {
       placement: {
