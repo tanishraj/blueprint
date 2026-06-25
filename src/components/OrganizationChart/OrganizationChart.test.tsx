@@ -290,16 +290,19 @@ describe('OrganizationChart', () => {
 
     vi.useFakeTimers();
 
-    ref.current?.zoomIn();
-    ref.current?.resetLevel();
-    ref.current?.zoomOut();
-    ref.current?.resetZoom();
-    ref.current?.resetOrientation();
-    ref.current?.exportImg();
-    ref.current?.exportSvg();
-    ref.current?.expandAll();
+    act(() => {
+      ref.current?.zoomIn();
+      ref.current?.resetLevel();
+      ref.current?.zoomOut();
+      ref.current?.resetZoom();
+      ref.current?.resetOrientation();
+      ref.current?.exportImg();
+      ref.current?.exportSvg();
+      ref.current?.expandAll();
 
-    vi.advanceTimersByTime(1100);
+      vi.advanceTimersByTime(1100);
+    });
+
     vi.useRealTimers();
 
     expect(chart.zoomIn).toHaveBeenCalled();
