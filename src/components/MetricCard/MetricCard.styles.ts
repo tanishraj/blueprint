@@ -1,8 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-import type {
-  TMetricCardColorVariant,
-} from './types';
+import type { TMetricCardColorVariant } from './types';
 
 const metricCardToneClasses: Record<TMetricCardColorVariant, string> = {
   secondary: 'text-default',
@@ -44,11 +42,14 @@ export const metricCardValueStyles = cva(
   },
 );
 
-export const metricCardHintStyles = cva('text-sm leading-5 font-normal text-caption', {
-  variants: {
-    color: metricCardToneClasses,
+export const metricCardHintStyles = cva(
+  'text-sm leading-5 font-normal text-caption',
+  {
+    variants: {
+      color: metricCardToneClasses,
+    },
   },
-});
+);
 
 export const metricCardValueSupportStyles = cva('text-caption', {
   variants: {

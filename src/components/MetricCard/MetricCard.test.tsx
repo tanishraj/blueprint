@@ -7,7 +7,9 @@ import { ETrend } from './types';
 
 describe('MetricCard', () => {
   it('renders label and value', () => {
-    render(<MetricCard label={{ text: 'Revenue' }} value={{ text: '$100M' }} />);
+    render(
+      <MetricCard label={{ text: 'Revenue' }} value={{ text: '$100M' }} />,
+    );
 
     expect(screen.getByText('Revenue')).toBeInTheDocument();
     expect(screen.getByText('$100M')).toBeInTheDocument();
@@ -95,7 +97,9 @@ describe('MetricCard', () => {
   });
 
   it('uses large support text when no main value exists', () => {
-    render(<MetricCard value={{ supportText: 'Active', supportTextSize: 'lg' }} />);
+    render(
+      <MetricCard value={{ supportText: 'Active', supportTextSize: 'lg' }} />,
+    );
 
     expect(screen.getByText('Active')).toHaveClass('text-lg');
     expect(screen.getByText('Active')).toHaveClass('font-semibold');
@@ -103,7 +107,9 @@ describe('MetricCard', () => {
 
   it('keeps support text small when a value is present', () => {
     render(
-      <MetricCard value={{ text: '100', supportText: 'items', supportTextSize: 'lg' }} />,
+      <MetricCard
+        value={{ text: '100', supportText: 'items', supportTextSize: 'lg' }}
+      />,
     );
 
     expect(screen.getByText('items')).toHaveClass('text-sm');

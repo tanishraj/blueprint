@@ -2,13 +2,24 @@ import type { FC } from 'react';
 
 import { cn } from '@/utils';
 
-import {
-  metricCardItemsStyles,
-  metricCardStyles,
-} from './MetricCard.styles';
+import { metricCardItemsStyles, metricCardStyles } from './MetricCard.styles';
 import { MetricValueItem } from './MetricValueItem';
 import type { IMetricCardProps, IMetricValueItem } from './types';
 import { Label } from '../Label';
+
+const getMetricItemKey = (item: IMetricValueItem) =>
+  [
+    item.value?.text,
+    item.value?.supportText,
+    item.value?.color,
+    item.value?.trend,
+    item.hint?.text,
+    item.hint?.color,
+    item.hint?.trend,
+    item.hint?.trendPosition,
+  ]
+    .map(part => String(part ?? ''))
+    .join('::');
 
 export const MetricCard: FC<IMetricCardProps> = ({
   className,
@@ -26,7 +37,8 @@ export const MetricCard: FC<IMetricCardProps> = ({
           ...(hint ? { hint } : {}),
         }
       : null;
-  const valueItems: IMetricValueItem[] = items ?? (fallbackItem ? [fallbackItem] : []);
+  const valueItems: IMetricValueItem[] =
+    items ?? (fallbackItem ? [fallbackItem] : []);
 
   return (
     <div
@@ -35,12 +47,11 @@ export const MetricCard: FC<IMetricCardProps> = ({
     >
       {label?.text ? <Label {...label} /> : null}
 
-      <div className={metricCardItemsStyles({ multiple: valueItems.length > 1 })}>
-        {valueItems.map((item, index) => (
-          <MetricValueItem
-            key={`${String(item.value?.text ?? 'metric')}-${String(item.hint?.text ?? index)}-${index}`}
-            {...item}
-          />
+      <div
+        className={metricCardItemsStyles({ multiple: valueItems.length > 1 })}
+      >
+        {valueItems.map(item => (
+          <MetricValueItem key={getMetricItemKey(item)} {...item} />
         ))}
       </div>
     </div>

@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+
 import type { ILabelProps } from '../Label';
 import { ETrend } from '../TrendIndicator';
 
@@ -34,8 +35,10 @@ export interface IMetricValueItem {
   value?: IMetricValue;
 }
 
-export interface IMetricCardProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface IMetricCardProps extends Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'children'
+> {
   hint?: IMetricHint;
   items?: IMetricValueItem[];
   label?: ILabelProps;

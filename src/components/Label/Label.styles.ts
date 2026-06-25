@@ -1,10 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-import type {
-  LabelPosition,
-  LabelSize,
-  LabelVariant,
-} from './types';
+import type { LabelPosition, LabelSize, LabelVariant } from './types';
 
 export const labelVariants: Record<LabelVariant, string> = {
   primary: 'text-caption',

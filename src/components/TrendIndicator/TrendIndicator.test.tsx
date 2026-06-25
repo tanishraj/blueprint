@@ -23,7 +23,11 @@ describe('TrendIndicator', () => {
 
   it('renders value and label', () => {
     render(
-      <TrendIndicator label='Compared to last month' value='12%' variant={ETrend.positive} />,
+      <TrendIndicator
+        label='Compared to last month'
+        value='12%'
+        variant={ETrend.positive}
+      />,
     );
 
     expect(screen.getByText('12%')).toBeInTheDocument();
