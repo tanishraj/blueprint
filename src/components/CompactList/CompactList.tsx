@@ -59,6 +59,32 @@ const getLineClampStyle = (
   };
 };
 
+const getItemKey = <T extends ItemType>(
+  item: T,
+  index: number,
+  displayKey?: T extends ObjectItem ? keyof T : never,
+) => {
+  if (isPrimitiveValue(item)) {
+    return `primitive-${String(item)}-${index}`;
+  }
+
+  const objectItem = item as ObjectItem;
+  const itemId = objectItem['id'];
+
+  if (typeof itemId === 'string' || typeof itemId === 'number') {
+    return `id-${String(itemId)}`;
+  }
+
+  const displayValue =
+    displayKey !== undefined ? objectItem[displayKey as string] : undefined;
+
+  if (typeof displayValue !== 'undefined') {
+    return `display-${String(displayValue)}-${index}`;
+  }
+
+  return `object-${JSON.stringify(objectItem)}-${index}`;
+};
+
 export const CompactList = <T extends ItemType>({
   badgeProps,
   displayKey,
@@ -134,7 +160,7 @@ export const CompactList = <T extends ItemType>({
 
         return (
           <div
-            key={index}
+            key={getItemKey(item, index, displayKey)}
             className='min-w-0'
             style={lineClampStyle}
             title={title}
@@ -177,7 +203,7 @@ export const CompactList = <T extends ItemType>({
               >
                 <div className='flex flex-col gap-3 text-sm text-default'>
                   {hiddenItems.map((item, index) => (
-                    <div key={index + maxVisible}>
+                    <div key={getItemKey(item, index + maxVisible, displayKey)}>
                       {getDisplayValue(item, index + maxVisible)}
                     </div>
                   ))}

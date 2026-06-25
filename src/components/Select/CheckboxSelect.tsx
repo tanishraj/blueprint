@@ -7,6 +7,7 @@ import ReactSelect, {
 } from 'react-select';
 
 import { Badge } from '../Badge';
+import { SelectFieldShell } from './shared';
 import {
   buildHelperText,
   createBaseSelectClassNames,
@@ -16,8 +17,7 @@ import {
   defaultGetOptionLabel,
   defaultGetOptionValue,
   getResolvedPlaceholder,
-  SelectFieldShell,
-} from './shared';
+} from './shared.helpers';
 import type { SelectOption, SelectProps } from './types';
 
 export interface CheckboxSelectProps<

@@ -12,6 +12,7 @@ import ReactSelect, {
 
 import { Badge } from '../Badge';
 import { Button } from '../Button';
+import { SelectFieldShell } from './shared';
 import {
   buildHelperText,
   createBaseSelectClassNames,
@@ -20,8 +21,7 @@ import {
   defaultGetOptionLabel,
   defaultGetOptionValue,
   getResolvedPlaceholder,
-  SelectFieldShell,
-} from './shared';
+} from './shared.helpers';
 import type { SelectOption, SelectProps } from './types';
 
 const ALL_OPTION_VALUE = '__select_all__' as const;

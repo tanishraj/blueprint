@@ -25,7 +25,7 @@ import {
   inputRootStyles,
 } from '../Input/Input.styles';
 import { Chip } from '../Chip';
-import { createFormatCreateLabel } from './shared';
+import { createFormatCreateLabel } from './shared.helpers';
 import type { SelectOption, SelectProps } from './types';
 
 const defaultGetOptionLabel = <Option extends SelectOption>(option: Option) => {
