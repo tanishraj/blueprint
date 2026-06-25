@@ -63,35 +63,54 @@ import {
   Alert,
   AnimatePresence,
   AnimatePresenceChild,
-  Badge,
   Avatar,
   AvatarGroup,
+  Badge,
   Breadcrumb,
   Button,
   ButtonGroup,
   Checkbox,
   CheckboxGroup,
   Chip,
+  CompactList,
+  ConfirmationPopup,
+  CountryFlag,
   Divider,
   Dropdown,
   Drawer,
   Feedback,
   Input,
-  ListBox,
+  Label,
   Link,
+  ListBox,
+  ListItem,
+  MetricCard,
+  MetricValueItem,
   Modal,
   OrganizationChart,
   Popover,
-  ProgressBar,
   Portal,
+  ProgressBar,
   Radio,
   RadioGroup,
   Rating,
+  AsyncSelect,
+  CheckboxSelect,
+  GroupedSelect,
+  MultiSelectCompact,
+  Select,
+  SelectWithApply,
   Slider,
+  Table,
   Tab,
   TabPanel,
   Tabs,
   TabsList,
+  TextArea,
+  Toaster,
+  Tooltip,
+  TrendIndicator,
+  useToast,
 } from '@tanishraj/ui-kit';
 
 export function Demo() {
@@ -567,37 +586,105 @@ src/
 
 ## Components
 
-| Component         | Location                           | Storybook                                                                                                          | Status |
-| ----------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------ |
-| Accordion         | `src/components/Accordion`         | [Accordion](https://tanishraj.github.io/ui-kit/?path=/story/components-accordion--default)                         | Stable |
-| Alert             | `src/components/Alert`             | [Alert](https://tanishraj.github.io/ui-kit/?path=/story/components-alert--default)                                 | Stable |
-| AnimatePresence   | `src/components/AnimatePresence`   | [AnimatePresence](https://tanishraj.github.io/ui-kit/?path=/story/ui-kit-components-animatepresence--basicexample) | Stable |
-| Avatar            | `src/components/Avatar`            | [Avatar](https://tanishraj.github.io/ui-kit/?path=/story/components-avatar--playground)                            | Stable |
-| AvatarGroup       | `src/components/AvatarGroup`       | [AvatarGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-avatargroup--default)                     | Stable |
-| Badge             | `src/components/Badge`             | [Badge](https://tanishraj.github.io/ui-kit/?path=/story/components-badge--playground)                              | Stable |
-| Breadcrumb        | `src/components/Breadcrumb`        | [Breadcrumb](https://tanishraj.github.io/ui-kit/?path=/story/components-breadcrumb--playground)                    | Stable |
-| Button            | `src/components/Button`            | [Button](https://tanishraj.github.io/ui-kit/?path=/story/components-button--playground)                            | Stable |
-| ButtonGroup       | `src/components/ButtonGroup`       | [ButtonGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-buttongroup--playground)                  | Stable |
-| Checkbox          | `src/components/Checkbox`          | [Checkbox](https://tanishraj.github.io/ui-kit/?path=/story/components-checkbox--playground)                        | Stable |
-| CheckboxGroup     | `src/components/CheckboxGroup`     | [CheckboxGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-checkboxgroup--playground)              | Stable |
-| Chip              | `src/components/Chip`              | [Chip](https://tanishraj.github.io/ui-kit/?path=/story/components-chip--playground)                                | Stable |
-| Divider           | `src/components/Divider`           | [Divider](https://tanishraj.github.io/ui-kit/?path=/story/components-divider--playground)                          | Stable |
-| Dropdown          | `src/components/Dropdown`          | [Dropdown](https://tanishraj.github.io/ui-kit/?path=/story/components-dropdown--playground)                        | Stable |
-| Drawer            | `src/components/Drawer`            | [Drawer](https://tanishraj.github.io/ui-kit/?path=/story/components-drawer--playground)                            | Stable |
-| Feedback          | `src/components/Feedback`          | [Feedback](https://tanishraj.github.io/ui-kit/?path=/story/components-feedback--playground)                        | Stable |
-| Input             | `src/components/Input`             | [Input](https://tanishraj.github.io/ui-kit/?path=/story/components-input--playground)                              | Stable |
-| ListBox           | `src/components/ListBox`           | [ListBox](https://tanishraj.github.io/ui-kit/?path=/story/components-listbox--playground)                          | Stable |
-| Link              | `src/components/Link`              | [Link](https://tanishraj.github.io/ui-kit/?path=/story/components-link--playground)                                | Stable |
-| Modal             | `src/components/Modal`             | [Modal](https://tanishraj.github.io/ui-kit/?path=/story/components-modal--playground)                              | Stable |
-| OrganizationChart | `src/components/OrganizationChart` | [OrganizationChart](https://tanishraj.github.io/ui-kit/?path=/story/components-organizationchart--playground)      | Stable |
-| Popover           | `src/components/Popover`           | [Popover](https://tanishraj.github.io/ui-kit/?path=/story/components-popover--playground)                          | Stable |
-| ProgressBar       | `src/components/ProgressBar`       | [ProgressBar](https://tanishraj.github.io/ui-kit/?path=/story/components-progressbar--playground)                  | Stable |
-| Portal            | `src/components/Portal`            | N/A                                                                                                                | Stable |
-| Radio             | `src/components/Radio`             | [Radio](https://tanishraj.github.io/ui-kit/?path=/story/components-radio--playground)                              | Stable |
-| RadioGroup        | `src/components/RadioGroup`        | [RadioGroup](https://tanishraj.github.io/ui-kit/?path=/story/components-radiogroup--playground)                    | Stable |
-| Rating            | `src/components/Rating`            | [Rating](https://tanishraj.github.io/ui-kit/?path=/story/components-rating--playground)                            | Stable |
-| Slider            | `src/components/Slider`            | [Slider](https://tanishraj.github.io/ui-kit/?path=/story/components-slider--playground)                            | Stable |
-| Tabs              | `src/components/Tabs`              | [Tabs](https://tanishraj.github.io/ui-kit/?path=/story/components-tabs--playground)                                | Stable |
+All public components are exported from `@tanishraj/ui-kit`. Storybook remains the best place to inspect props, variants, and composed examples; the list below is the high-level catalog of what the package ships today.
+
+### Layout and Structure
+
+| Export | Purpose |
+| ------ | ------- |
+| `Accordion` | Progressive disclosure for stacked sections of content. |
+| `Divider` | Horizontal or vertical separators, with optional slotted content. |
+| `Drawer` | Off-canvas panel for workflows, details, and secondary navigation. |
+| `Modal` | Centered dialog surface for blocking decisions and focused flows. |
+| `Popover` | Anchored floating container for rich contextual content. |
+| `Portal` | Low-level portal helper for rendering outside the current DOM subtree. |
+| `Table` | Simple data table built from data and column definitions. |
+| `Tabs`, `TabsList`, `Tab`, `TabPanel` | Tabbed navigation and panel composition primitives. |
+
+### Actions and Navigation
+
+| Export | Purpose |
+| ------ | ------- |
+| `Button` | Core action trigger with size, variant, and appearance support. |
+| `ButtonGroup` | Horizontal button grouping with connected visual treatment. |
+| `Breadcrumb` | Hierarchical navigation trail. |
+| `Dropdown` | Triggered action/content menu surface. |
+| `Link` | Styled text link with internal, external, truncation, and icon support. |
+
+### Form Inputs
+
+| Export | Purpose |
+| ------ | ------- |
+| `Checkbox` | Single boolean input. |
+| `CheckboxGroup` | Grouped checkbox selection for multiple values. |
+| `Input` | Single-line text input with labels, captions, validation, and variants. |
+| `Radio` | Single radio control. |
+| `RadioGroup` | Grouped single-select radio inputs. |
+| `Slider` | Numeric range selection with accessible pointer and keyboard support. |
+| `TextArea` | Multi-line text entry field with shared input styling and validation patterns. |
+
+### Select Family
+
+| Export | Purpose |
+| ------ | ------- |
+| `Select` | Base `react-select` wrapper for single, multi, and creatable selection. |
+| `AsyncSelect` | Async-loading select with the same field shell and styling model. |
+| `CheckboxSelect` | Multi-select that renders checkbox-style options. |
+| `GroupedSelect` | Multi-select that enforces one chosen option per group. |
+| `MultiSelectCompact` | Compact multi-select display for dense selected value presentation. |
+| `SelectWithApply` | Buffered selection workflow with an explicit apply action. |
+
+### Feedback and Status
+
+| Export | Purpose |
+| ------ | ------- |
+| `Alert` | Inline status messaging for info, success, warning, and danger states. |
+| `Badge` | Small count/status label. |
+| `Chip` | Selectable or removable pill-style value token. |
+| `ConfirmationPopup` | Lightweight confirmation surface for destructive or irreversible actions. |
+| `Feedback` | Quick sentiment or approval-style selection control. |
+| `ProgressBar` | Linear progress indicator with label and caption support. |
+| `Rating` | Star-based rating input and display. |
+| `Tooltip` | Hover/focus tooltip powered by `react-tooltip`. |
+| `TrendIndicator` | Delta/trend presentation for positive, negative, and neutral movement. |
+
+### Data Display
+
+| Export | Purpose |
+| ------ | ------- |
+| `CompactList` | Inline list that collapses overflow items behind a compact badge trigger. |
+| `CountryFlag` | Country flag renderer from ISO code and size. |
+| `Label` | Compact text label primitive for metadata and UI annotations. |
+| `ListBox`, `ListItem` | Styled listbox and list item building blocks. |
+| `MetricCard` | High-level metric summary card for dashboard-style presentation. |
+| `MetricValueItem` | Individual metric value row used inside metric cards. |
+| `OrganizationChart` | Hierarchical org/entity chart with zoom, export, and imperative controls. |
+
+### Identity and Avatars
+
+| Export | Purpose |
+| ------ | ------- |
+| `Avatar` | Person or entity avatar with initials, icon, or image treatment. |
+| `AvatarGroup` | Overlapping avatar stack for participants or entities. |
+
+### Motion and Toasts
+
+| Export | Purpose |
+| ------ | ------- |
+| `AnimatePresence` | Presence manager that keeps children mounted through exit motion. |
+| `AnimatePresenceChild` | Motion-aware child wrapper used with `AnimatePresence`. |
+| `Toaster` | Root toast renderer built on top of `sonner`. |
+| `useToast` | Imperative toast API hook/helper surface. |
+
+### Supporting Enums and Helpers
+
+| Export | Purpose |
+| ------ | ------- |
+| `ETrend` | Trend direction enum re-exported for `MetricCard` and `TrendIndicator` usage. |
+
+For concrete prop combinations and current examples, use the live Storybook:
+
+- https://tanishraj.github.io/ui-kit/
 
 ## Versioning and Changelog
 
