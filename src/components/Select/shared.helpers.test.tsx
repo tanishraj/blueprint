@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import type { GroupBase, MultiValueProps } from 'react-select';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { SelectOption } from './types';
@@ -23,9 +24,9 @@ const option = {
 describe('select shared helpers', () => {
   it('resolves labels, values, and chip content from option data', () => {
     expect(defaultGetOptionLabel(option)).toBe('Active');
-    expect(defaultGetOptionLabel({ label: <span>Status</span>, value: 42 })).toBe(
-      '42',
-    );
+    expect(
+      defaultGetOptionLabel({ label: <span>Status</span>, value: 42 }),
+    ).toBe('42');
     expect(defaultGetOptionLabel({ label: <span>Status</span> })).toBe('');
 
     expect(defaultGetOptionValue(option)).toBe('active');
@@ -35,9 +36,9 @@ describe('select shared helpers', () => {
 
     expect(defaultFormatOptionLabel(option)).toBe('Active');
     expect(getChipContent({ label: 7 })).toBe(7);
-    expect(getChipContent({ label: <span>Status</span>, value: 'queued' })).toBe(
-      'queued',
-    );
+    expect(
+      getChipContent({ label: <span>Status</span>, value: 'queued' }),
+    ).toBe('queued');
     expect(getChipContent({ label: <span>Status</span> })).toBe('');
   });
 
@@ -276,7 +277,11 @@ describe('select shared helpers', () => {
       throw new Error('Expected MultiValue renderer');
     }
 
-    const multiValueProps: any = {
+    const multiValueProps: MultiValueProps<
+      SelectOption,
+      true,
+      GroupBase<SelectOption>
+    > = {
       children: 'Active',
       clearValue: vi.fn(),
       components: {} as never,
@@ -296,7 +301,7 @@ describe('select shared helpers', () => {
       removeProps: { onClick: handleRemove },
       selectOption: vi.fn(),
       selectProps: {} as never,
-      setValue: vi.fn(),
+      setValue: vi.fn() as never,
       theme: {} as never,
     };
 
