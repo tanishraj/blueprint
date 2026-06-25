@@ -12,7 +12,7 @@ const TooltipDemo = (args: TooltipProps) => {
   const tooltipContent = typeof args.content === 'string' ? args.content : null;
 
   return (
-    <div className='flex min-h-screen w-full items-center justify-center p-24'>
+    <div className='flex w-full items-center justify-center p-24'>
       <Button
         data-tooltip-content={tooltipContent}
         data-tooltip-id={tooltipId}
@@ -31,13 +31,13 @@ const meta: Meta<TooltipProps> = {
   component: Tooltip,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: `
 Tooltip attaches to any element with a matching \`data-tooltip-id\`. Provide content through the component itself or through the trigger's \`data-tooltip-content\` attribute to mirror the \`lqc-ui-kit\` usage pattern.
         `,
       },
-      layout: 'centered',
     },
   },
   argTypes: {

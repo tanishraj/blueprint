@@ -10,6 +10,7 @@ export * from './CheckboxGroup';
 export * from './Chip';
 export * from './CompactList';
 export * from './ConfirmationPopup';
+export * from './CountryFlag';
 export * from './Divider';
 export * from './Dropdown';
 export * from './Feedback';

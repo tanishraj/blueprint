@@ -6,8 +6,29 @@ import { Button } from '../Button';
 import { useToast, type ToastProps } from './useToast';
 import { Toaster } from './Toaster';
 
-const meta: Meta<ToastProps> = {
+function ToastDemo(args: ToastProps) {
+  const toaster = useToast();
+
+  const handleClick = useCallback(() => {
+    toaster.toast(args);
+  }, [args, toaster]);
+
+  return (
+    <>
+      <Toaster />
+      <Button variant='primary' appearance='filled' onClick={handleClick}>
+        Show toast
+      </Button>
+    </>
+  );
+}
+
+ToastDemo.displayName = 'ToastDemo';
+
+const meta: Meta<typeof ToastDemo> = {
   title: 'Components/Toast',
+  component: ToastDemo,
+  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
@@ -67,23 +88,6 @@ Toast provides transient notifications using Sonner for placement/queueing and t
 
 export default meta;
 type Story = StoryObj<ToastProps>;
-
-function ToastDemo(args: ToastProps) {
-  const toaster = useToast();
-
-  const handleClick = useCallback(() => {
-    toaster.toast(args);
-  }, [args, toaster]);
-
-  return (
-    <>
-      <Toaster />
-      <Button variant='primary' appearance='filled' onClick={handleClick}>
-        Show toast
-      </Button>
-    </>
-  );
-}
 
 export const Default: Story = {
   render: args => <ToastDemo {...args} />,
