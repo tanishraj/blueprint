@@ -15,7 +15,7 @@ export default defineConfig({
       indexName: 'index',
       bundleTypes: {
         extractorConfig: {
-          mainEntryPointFilePath: './dist/src/index.d.ts',
+          mainEntryPointFilePath: './dist/index.d.ts',
           dtsRollup: {
             enabled: true,
             untrimmedFilePath: './dist/index.d.ts',
