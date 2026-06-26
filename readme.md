@@ -123,6 +123,7 @@ Storybook is the source of truth for public component usage, variants, and examp
 
 ### Inputs and selection
 
+- `Calendar`
 - `Checkbox`
 - `CheckboxGroup`
 - `Input`
@@ -177,6 +178,8 @@ Most components follow a shared set of prop patterns where relevant:
 - `fullWidth`: expands to parent width where supported
 
 Not every component supports every prop. Use Storybook or the exported TypeScript types for the exact API.
+
+`Calendar` wraps `react-day-picker` with ui-kit styling, supports Day Picker selection modes such as `single`, `multiple`, and `range`, and includes `shape="squared" | "circle"` for day cells.
 
 ## Development
 
