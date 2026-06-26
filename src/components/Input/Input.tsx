@@ -56,6 +56,7 @@ export function Input({
   labelClassName,
   inputClassName,
   className,
+  fieldRef,
   disabled = false,
   required = false,
   value,
@@ -91,6 +92,12 @@ export function Input({
       assignRef(ref, node);
     },
     [ref],
+  );
+  const setFieldRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      assignRef(fieldRef, node);
+    },
+    [fieldRef],
   );
 
   const handleChange = useCallback(
@@ -142,6 +149,7 @@ export function Input({
           inputFieldStyles({ size, variant, disabled, invalid, fullWidth }),
           className,
         )}
+        ref={setFieldRef}
       >
         {LeadingIcon && (
           <LeadingIcon

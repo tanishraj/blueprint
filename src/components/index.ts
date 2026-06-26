@@ -12,6 +12,7 @@ export * from './Chip';
 export * from './CompactList';
 export * from './ConfirmationPopup';
 export * from './CountryFlag';
+export * from './DatePicker';
 export * from './Divider';
 export * from './Dropdown';
 export * from './Feedback';

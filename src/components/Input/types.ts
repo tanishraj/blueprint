@@ -1,6 +1,7 @@
 import type {
   ComponentPropsWithRef,
   ComponentType,
+  Ref,
   ReactNode,
   SVGProps,
 } from 'react';
@@ -22,6 +23,7 @@ export interface InputProps extends Omit<
   clearable?: boolean;
   containerClassName?: string;
   error?: ReactNode;
+  fieldRef?: Ref<HTMLDivElement>;
   fullWidth?: boolean;
   inputClassName?: string;
   label?: ReactNode;
