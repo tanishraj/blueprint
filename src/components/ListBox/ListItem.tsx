@@ -1,6 +1,6 @@
 import { forwardRef, type MouseEvent, useCallback } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   listItemIconStyles,
@@ -42,6 +42,7 @@ export const ListItem = forwardRef<HTMLButtonElement, ListItemProps>(
       <button
         {...props}
         ref={ref}
+        aria-disabled={item.disabled || undefined}
         aria-selected={role === 'option' ? selected : undefined}
         className={cn(listItemStyles({ size, selected }), className)}
         disabled={item.disabled}

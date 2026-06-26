@@ -16,6 +16,10 @@ describe('ListBox Component', () => {
     render(<ListBox items={items} selectedValue='two' />);
 
     expect(screen.getByRole('listbox')).toBeInTheDocument();
+    expect(screen.getByRole('listbox')).toHaveAttribute(
+      'aria-orientation',
+      'vertical',
+    );
     expect(
       screen.getByRole('option', { name: /item one/i }),
     ).toBeInTheDocument();
@@ -43,6 +47,31 @@ describe('ListBox Component', () => {
     fireEvent.click(screen.getByRole('option', { name: /disabled item/i }));
 
     expect(handleItemSelect).not.toHaveBeenCalled();
+  });
+
+  it('defaults generated items to menuitem semantics when role is menu', () => {
+    render(<ListBox items={items.slice(0, 2)} role='menu' />);
+
+    expect(screen.getByRole('menu')).toBeInTheDocument();
+    expect(
+      screen.getByRole('menuitem', { name: /item one/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('menuitem', { name: /item two/i }),
+    ).not.toHaveAttribute('aria-selected');
+  });
+
+  it('renders the leading slot before generated items', () => {
+    render(
+      <ListBox
+        items={items.slice(0, 1)}
+        leadingSlot={<span data-testid='listbox-leading-slot'>Arrow</span>}
+      />,
+    );
+
+    const listbox = screen.getByRole('listbox');
+
+    expect(listbox.firstChild).toBe(screen.getByTestId('listbox-leading-slot'));
   });
 
   it('supports direct ListItem usage', () => {
