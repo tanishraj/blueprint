@@ -1,12 +1,11 @@
 import {
   cloneElement,
-  type FC,
   isValidElement,
   type MouseEvent,
   type ReactElement,
   type ReactNode,
   useCallback,
-  useRef,
+  useId,
   useState,
 } from 'react';
 import {
@@ -28,14 +27,19 @@ import {
 } from '@floating-ui/react';
 import { ChevronDown, Plus } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { Button } from '../Button';
 import { ListBox } from '../ListBox';
-import { dropdownArrowStyles, dropdownRootStyles } from './Dropdown.styles';
+import {
+  dropdownArrowStyles,
+  dropdownRootStyles,
+  dropdownTriggerStyles,
+} from './Dropdown.styles';
 import type { DropdownIcon, DropdownItem, DropdownProps } from './types';
 
 interface DropdownTriggerElementProps {
+  'aria-controls'?: string;
   'aria-expanded'?: boolean;
   'aria-haspopup'?: DropdownProps['aria-haspopup'];
   className?: string;
@@ -57,7 +61,7 @@ const resolveDefaultAriaLabel = (children: ReactNode) => {
   return 'Dropdown';
 };
 
-export const Dropdown: FC<DropdownProps> = ({
+export function Dropdown({
   children = 'Dropdown',
   chevronIcon: ChevronIcon = ChevronDown as DropdownIcon,
   clickOutsideToClose = true,
@@ -67,7 +71,7 @@ export const Dropdown: FC<DropdownProps> = ({
   iconOnly = false,
   inline = false,
   items = defaultItems,
-  align = 'center',
+  align = 'start',
   menuClassName,
   menuContent,
   menuOffset = [6, 0],
@@ -95,9 +99,10 @@ export const Dropdown: FC<DropdownProps> = ({
   loading,
   onClick,
   ...restProps
-}) => {
+}: DropdownProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const arrowRef = useRef<SVGSVGElement | null>(null);
+  const [arrowElement, setArrowElement] = useState<SVGSVGElement | null>(null);
+  const menuId = useId();
   const isControlled = open !== undefined;
   const isOpen = isControlled ? open : uncontrolledOpen;
   const floatingPlacement =
@@ -106,6 +111,7 @@ export const Dropdown: FC<DropdownProps> = ({
   const resolvedLeadingIcon = iconOnly ? Icon : leadingIcon;
   const resolvedTrailingIcon =
     iconOnly || !showChevron ? undefined : ChevronIcon;
+  const separateLabelAndChevron = !iconOnly && showChevron;
   const resolvedChildren = iconOnly ? undefined : children;
   const fallbackAriaLabel = resolveDefaultAriaLabel(children);
   const resolvedAriaLabel =
@@ -156,8 +162,7 @@ export const Dropdown: FC<DropdownProps> = ({
       offset({ mainAxis: menuOffset[0], alignmentAxis: menuOffset[1] }),
       flip(),
       shift({ padding: 8 }),
-      // eslint-disable-next-line react-hooks/refs -- Floating UI arrow middleware accepts the ref object directly.
-      ...(withArrow ? [arrow({ element: arrowRef })] : []),
+      ...(withArrow && arrowElement ? [arrow({ element: arrowElement })] : []),
     ],
   });
 
@@ -181,14 +186,28 @@ export const Dropdown: FC<DropdownProps> = ({
   const renderTrigger = () => {
     const triggerProps = getReferenceProps({
       ref: refs.setReference,
+      'aria-controls': menuId,
       'aria-expanded': isOpen,
       'aria-haspopup': ariaHasPopup,
       'aria-label': resolvedAriaLabel,
-      className: triggerClassName,
+      className: cn(
+        dropdownTriggerStyles({ separateLabelAndChevron }),
+        triggerClassName,
+      ),
       onClick,
     });
 
     if (hasCustomTrigger) {
+      if (renderAs === 'unstyled') {
+        return (
+          <span className={cn(dropdownRootStyles(), className)}>
+            <button {...triggerProps} disabled={isDisabled} type={type}>
+              {resolvedTrigger}
+            </button>
+          </span>
+        );
+      }
+
       if (isValidElement<DropdownTriggerElementProps>(resolvedTrigger)) {
         const triggerElement =
           resolvedTrigger as ReactElement<DropdownTriggerElementProps>;
@@ -213,14 +232,6 @@ export const Dropdown: FC<DropdownProps> = ({
                 }
               },
             })}
-          </span>
-        );
-      }
-
-      if (renderAs === 'unstyled') {
-        return (
-          <span className={cn(dropdownRootStyles(), className)}>
-            <span {...triggerProps}>{resolvedTrigger}</span>
           </span>
         );
       }
@@ -249,6 +260,7 @@ export const Dropdown: FC<DropdownProps> = ({
     <ListBox
       {...getFloatingProps({
         ...menuProps,
+        id: menuId,
         ref: refs.setFloating,
         className: menuClassName,
         style: inline
@@ -267,7 +279,7 @@ export const Dropdown: FC<DropdownProps> = ({
         ? {
             leadingSlot: (
               <FloatingArrow
-                ref={arrowRef}
+                ref={setArrowElement}
                 className={cn(dropdownArrowStyles())}
                 context={context}
                 height={7}
@@ -298,4 +310,4 @@ export const Dropdown: FC<DropdownProps> = ({
       )}
     </>
   );
-};
+}
