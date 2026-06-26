@@ -37,6 +37,26 @@ describe('TextArea Component', () => {
     expect(screen.getByText(/something went wrong/i)).toHaveClass(
       'text-danger',
     );
+    expect(textarea).toHaveAttribute(
+      'aria-errormessage',
+      expect.stringContaining('-caption'),
+    );
+  });
+
+  it('merges helper text and external aria-describedby ids', () => {
+    render(
+      <TextArea
+        aria-describedby='external-description'
+        caption='Helpful text'
+        label='Description'
+      />,
+    );
+
+    const textarea = screen.getByLabelText(/description/i);
+    const describedBy = textarea.getAttribute('aria-describedby');
+
+    expect(describedBy).toContain('external-description');
+    expect(describedBy).toContain('-caption');
   });
 
   it('shows max length count when no caption or error is provided', () => {
