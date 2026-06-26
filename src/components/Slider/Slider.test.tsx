@@ -98,5 +98,35 @@ describe('Slider Component', () => {
 
     expect(screen.getByText('0%')).toBeInTheDocument();
     expect(screen.getByText('5%')).toBeInTheDocument();
+    expect(screen.getByRole('slider')).toHaveAttribute('aria-valuetext', '5%');
+  });
+
+  it('merges external aria-describedby with generated caption id', () => {
+    render(
+      <>
+        <span id='external-hint'>External hint</span>
+        <Slider
+          aria-describedby='external-hint'
+          caption='There will be a caption text here'
+          max={10}
+          value={5}
+        />
+      </>,
+    );
+
+    expect(screen.getByRole('slider')).toHaveAttribute(
+      'aria-describedby',
+      expect.stringContaining('external-hint'),
+    );
+    expect(screen.getByRole('slider')).toHaveAttribute(
+      'aria-describedby',
+      expect.stringContaining('-caption'),
+    );
+  });
+
+  it('renders falsy label and helper content', () => {
+    render(<Slider caption={0} label={0} max={10} value={5} />);
+
+    expect(screen.getAllByText('0').length).toBeGreaterThan(1);
   });
 });
