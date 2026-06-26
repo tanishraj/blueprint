@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "bump-deps": {
+      "source": "paulrberg/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/bump-deps/SKILL.md",
+      "computedHash": "9852c4d9450ac9e6954f34d39137fa5be0d0b68c689b7355f6369cc9474b0ec8"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "4eabc66183767153e404b39d1b839b1c37f2d82d86f0a0d7e880a579d8d62336"
+    },
+    "react-best-practices": {
+      "source": "vercel-labs/vercel-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "computedHash": "bdb13a3a239c067136b39cf77a34462ccc0dd4645d440362182409dcfd331221"
+    },
+    "react:components": {
+      "source": "google-labs-code/stitch-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/stitch-build/skills/react-components/SKILL.md",
+      "computedHash": "a268b19095b609184df0293fe39d56a792cdc8bdbd68860fc4c8aaeffa87407b"
+    },
+    "web-accessibility": {
+      "source": "hoodini/ai-agents-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-accessibility/SKILL.md",
+      "computedHash": "c097775d156645fb8b9994e461598518d91837eebc3f7e61a2f8bd18479bafda"
+    }
+  }
+}
