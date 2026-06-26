@@ -1,7 +1,7 @@
-import { FC, HTMLAttributes, SVGProps } from 'react';
+import type { ComponentPropsWithoutRef, ComponentType, SVGProps } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   badgeIconStyles,
@@ -10,12 +10,12 @@ import {
 } from './Badge.styles';
 export interface BadgeProps
   extends
-    HTMLAttributes<HTMLSpanElement>,
+    ComponentPropsWithoutRef<'span'>,
     Omit<VariantProps<typeof badgeVariants>, 'appearance'> {
-  icon?: FC<SVGProps<SVGSVGElement>>;
+  icon?: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
-export const Badge: FC<BadgeProps> = ({
+export function Badge({
   variant = 'default',
   size = 'md',
   shape = 'circle',
@@ -25,15 +25,27 @@ export const Badge: FC<BadgeProps> = ({
   role,
   className,
   ...restProps
-}) => {
+}: BadgeProps) {
+  const ariaLabel = restProps['aria-label'];
+  const ariaLabelledBy = restProps['aria-labelledby'];
   const hasText = !!children || children === 0;
-  const appearance = hasText ? 'text' : Icon ? 'icon' : 'dots';
-  const hasIcon = Icon && appearance !== 'dots';
+  const hasIcon = typeof Icon !== 'undefined';
+  const appearance = hasText ? 'text' : hasIcon ? 'icon' : 'dots';
+  const showsIcon = hasIcon && appearance !== 'dots';
   const resolvedRole = hasText ? role : (role ?? 'img');
+  const isDecorative =
+    resolvedRole === 'presentation' || resolvedRole === 'none';
   const defaultAriaLabel =
-    resolvedRole === 'img' ? `Badge, ${variant}` : undefined;
-  const ariaLabel = restProps['aria-label'] ?? defaultAriaLabel;
-  const hasTextIcon = hasText && Icon && appearance === 'text';
+    resolvedRole === 'img'
+      ? appearance === 'icon'
+        ? `${variant} badge icon`
+        : `${variant} badge indicator`
+      : undefined;
+  const resolvedAriaLabel =
+    ariaLabelledBy || isDecorative
+      ? undefined
+      : (ariaLabel ?? defaultAriaLabel);
+  const hasTextIcon = hasText && hasIcon && appearance === 'text';
 
   const badgeClassName = cn(
     badgeVariants({
@@ -52,10 +64,10 @@ export const Badge: FC<BadgeProps> = ({
     <span
       {...restProps}
       role={resolvedRole}
-      aria-label={ariaLabel}
+      aria-label={resolvedAriaLabel}
       className={cn(badgeClassName, className)}
     >
-      {hasIcon && (
+      {showsIcon && (
         <Icon
           aria-hidden='true'
           focusable='false'
@@ -65,4 +77,4 @@ export const Badge: FC<BadgeProps> = ({
       {hasText && <span className={badgeTextClassName}>{children}</span>}
     </span>
   );
-};
+}

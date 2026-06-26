@@ -1,6 +1,6 @@
 import { type VariantProps } from 'class-variance-authority';
 
-import { RemoveNull } from '@/utils';
+import type { RemoveNull } from '@/utils/types';
 
 import { badgeVariants } from './Badge.styles';
 
