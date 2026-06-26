@@ -56,6 +56,14 @@ describe('Badge Component', () => {
     expect(screen.getByText('0')).toBeInTheDocument();
   });
 
+  it('keeps a default accessible name for non-text status badges', () => {
+    render(<Badge role='status' icon={Check} />);
+
+    expect(
+      screen.getByRole('status', { name: /default badge icon/i }),
+    ).toBeInTheDocument();
+  });
+
   it('respects aria-labelledby for icon-only badges', () => {
     render(
       <>

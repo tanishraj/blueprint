@@ -36,7 +36,7 @@ export function Badge({
   const isDecorative =
     resolvedRole === 'presentation' || resolvedRole === 'none';
   const defaultAriaLabel =
-    resolvedRole === 'img'
+    !hasText && !isDecorative
       ? appearance === 'icon'
         ? `${variant} badge icon`
         : `${variant} badge indicator`
