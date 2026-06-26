@@ -25,10 +25,11 @@ const FeedbackPlayground = (args: FeedbackProps) => {
 };
 
 const meta: Meta<FeedbackProps> = {
-  title: 'components/Feedback',
+  title: 'Components/Feedback',
   component: Feedback,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
     },
@@ -37,7 +38,6 @@ const meta: Meta<FeedbackProps> = {
         component:
           'Feedback captures five sentiment choices with either outlined face icons or emoji tiles.',
       },
-      layout: 'centered',
     },
   },
   decorators: [

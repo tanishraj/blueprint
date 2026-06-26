@@ -10,7 +10,7 @@ describe('Feedback Component', () => {
     expect(screen.getAllByRole('radio')).toHaveLength(5);
     expect(screen.getByRole('radiogroup')).toHaveAttribute(
       'aria-label',
-      '1 of 5, Very dissatisfied',
+      'Feedback',
     );
   });
 
@@ -57,6 +57,10 @@ describe('Feedback Component', () => {
     fireEvent.click(screen.getByRole('radio', { name: '5 of 5, Love it' }));
 
     expect(handleValueChange).not.toHaveBeenCalled();
+    expect(screen.getByRole('radiogroup')).toHaveAttribute(
+      'aria-readonly',
+      'true',
+    );
   });
 
   it('disables radios when disabled', () => {
@@ -90,5 +94,14 @@ describe('Feedback Component', () => {
 
     expect(screen.getAllByRole('radio')).toHaveLength(2);
     expect(screen.getByRole('radio', { name: '2 of 2, Good' })).toBeChecked();
+  });
+
+  it('supports a custom accessible group label', () => {
+    render(<Feedback aria-label='Rate your experience' />);
+
+    expect(screen.getByRole('radiogroup')).toHaveAttribute(
+      'aria-label',
+      'Rate your experience',
+    );
   });
 });
