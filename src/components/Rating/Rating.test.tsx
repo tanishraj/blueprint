@@ -125,6 +125,25 @@ describe('Rating Component', () => {
     );
   });
 
+  it('respects a custom aria-label', () => {
+    render(<Rating aria-label='Product rating' value={4} />);
+
+    expect(screen.getByRole('radiogroup')).toHaveAttribute(
+      'aria-label',
+      'Product rating',
+    );
+  });
+
+  it('clamps invalid default values into range', () => {
+    render(<Rating defaultValue={12} max={5} />);
+
+    expect(screen.getByRole('radio', { name: '5 out of 5' })).toBeChecked();
+    expect(screen.getByRole('radiogroup')).toHaveAttribute(
+      'aria-label',
+      '5 out of 5',
+    );
+  });
+
   it('supports xs size', () => {
     const { container } = render(<Rating size='xs' value={1} />);
 

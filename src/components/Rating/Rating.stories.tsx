@@ -25,10 +25,11 @@ const RatingPlayground = (args: RatingProps) => {
 };
 
 const meta: Meta<RatingProps> = {
-  title: 'components/Rating',
+  title: 'Components/Rating',
   component: Rating,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
     },
@@ -37,7 +38,6 @@ const meta: Meta<RatingProps> = {
         component:
           'Rating displays a star-based score and can be interactive, read-only, disabled, or half-step precise.',
       },
-      layout: 'centered',
     },
   },
   decorators: [
