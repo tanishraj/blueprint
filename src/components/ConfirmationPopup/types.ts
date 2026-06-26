@@ -1,13 +1,13 @@
 import type {
-  HTMLAttributes,
+  ComponentPropsWithoutRef,
+  ComponentType,
   MouseEvent,
   ReactNode,
   SVGProps,
-  FC,
 } from 'react';
 import type { VariantProps } from 'class-variance-authority';
 
-import type { RemoveNull } from '@/utils';
+import type { RemoveNull } from '@/utils/types';
 
 import type { ButtonProps } from '../Button';
 import {
@@ -27,11 +27,11 @@ export type ConfirmationPopupSizes = RemoveNull<
   VariantProps<typeof confirmationPopupPanelStyles>
 >['size'];
 
-export type ConfirmationPopupIcon = FC<SVGProps<SVGSVGElement>>;
+export type ConfirmationPopupIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 export interface ConfirmationPopupProps
   extends
-    Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'onCancel' | 'title'>,
+    Omit<ComponentPropsWithoutRef<'div'>, 'children' | 'onCancel' | 'title'>,
     RemoveNull<VariantProps<typeof confirmationPopupIconStyles>>,
     RemoveNull<VariantProps<typeof confirmationPopupPanelStyles>> {
   trigger?: ReactNode;
@@ -53,6 +53,7 @@ export interface ConfirmationPopupProps
   closeOnOutsideClick?: boolean;
   closeOnCancel?: boolean;
   closeOnAction?: boolean;
+  portalled?: boolean;
   showArrow?: boolean;
   showCloseButton?: boolean;
   showCancelButton?: boolean;

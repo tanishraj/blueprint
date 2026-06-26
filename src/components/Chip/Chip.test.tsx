@@ -41,6 +41,10 @@ describe('Chip Component', () => {
     const avatar = container.querySelector('[role="presentation"]');
 
     expect(avatar).toBeInTheDocument();
+    if (!avatar) {
+      throw new Error('Expected decorative avatar to be rendered.');
+    }
+
     expect(avatar).toHaveClass('size-5', '[&_svg]:size-3.5');
     expect(avatar.querySelector('svg')).toBeInTheDocument();
     expect(

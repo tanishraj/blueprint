@@ -1,11 +1,10 @@
 import {
   cloneElement,
-  type FC,
   isValidElement,
   type MouseEvent,
   type ReactElement,
   useCallback,
-  useRef,
+  useId,
   useState,
 } from 'react';
 import {
@@ -25,7 +24,7 @@ import {
 } from '@floating-ui/react';
 import { CircleAlert, CircleCheck, Info, TriangleAlert, X } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { Button } from '../Button';
 import type { ButtonSizes } from '../Button';
@@ -51,7 +50,9 @@ import type {
 } from './types';
 
 interface ConfirmationPopupTriggerElementProps {
+  'aria-controls'?: string;
   'aria-expanded'?: boolean;
+  'aria-haspopup'?: 'dialog';
   className?: string;
   onClick?: (event: MouseEvent<Element>) => void;
   ref?: (node: HTMLElement | null) => void;
@@ -75,7 +76,7 @@ const defaultButtonSizeByPopupSize: Record<
   lg: 'md',
 };
 
-export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
+export function ConfirmationPopup({
   trigger,
   title,
   description,
@@ -97,6 +98,7 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
   closeOnOutsideClick = true,
   closeOnCancel = true,
   closeOnAction = true,
+  portalled = true,
   showArrow = true,
   showCloseButton = true,
   showCancelButton = true,
@@ -108,9 +110,14 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
   actionButtonProps,
   cancelButtonProps,
   ...restProps
-}) => {
+}: ConfirmationPopupProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const arrowRef = useRef<SVGSVGElement | null>(null);
+  const [arrowElement, setArrowElement] = useState<SVGSVGElement | null>(null);
+  const popupId = useId();
+  const titleId = title ? `${popupId}-title` : undefined;
+  const descriptionId = description ? `${popupId}-description` : undefined;
+  const accessibleLabel =
+    restProps['aria-label'] ?? (title ? undefined : 'Confirmation popup');
   const isControlled = open !== undefined;
   const isOpen = isControlled ? open : uncontrolledOpen;
   const Icon = leadingIcon ?? variantIconMap[variant];
@@ -151,8 +158,7 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
       offset(10),
       flip(),
       shift({ padding: 8 }),
-      // eslint-disable-next-line react-hooks/refs -- Floating UI arrow middleware accepts the ref object directly.
-      arrow({ element: arrowRef }),
+      ...(arrowElement ? [arrow({ element: arrowElement })] : []),
     ],
   });
 
@@ -209,7 +215,9 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
         triggerElement,
         getReferenceProps({
           ref: refs.setReference,
+          'aria-controls': popupId,
           'aria-expanded': isOpen,
+          'aria-haspopup': 'dialog',
           className: cn(triggerElement.props.className, triggerClassName),
           onClick: event => {
             triggerElement.props.onClick?.(event);
@@ -222,7 +230,9 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
       <Button
         {...getReferenceProps({
           ref: refs.setReference,
+          'aria-controls': popupId,
           'aria-expanded': isOpen,
+          'aria-haspopup': 'dialog',
           className: cn(confirmationPopupTriggerStyles(), triggerClassName),
         })}
         type='button'
@@ -235,12 +245,135 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
   return (
     <div className={cn(confirmationPopupRootStyles(), className)}>
       {renderTrigger()}
-      {isOpen && (
-        <FloatingPortal>
+      {isOpen &&
+        (portalled ? (
+          <FloatingPortal>
+            <div
+              {...getFloatingProps({
+                ...restProps,
+                id: popupId,
+                'aria-label': accessibleLabel,
+                ref: refs.setFloating,
+                'aria-describedby': descriptionId,
+                'aria-labelledby': titleId,
+                className: cn(
+                  confirmationPopupPanelStyles({ size }),
+                  contentClassName,
+                ),
+                style: {
+                  ...floatingStyles,
+                  ...restProps.style,
+                },
+              })}
+            >
+              {showArrow && (
+                <FloatingArrow
+                  ref={setArrowElement}
+                  className={cn(confirmationPopupArrowStyles())}
+                  context={context}
+                  data-confirmation-popup-arrow=''
+                  height={7}
+                  stroke='currentColor'
+                  strokeWidth={0.5}
+                  width={14}
+                />
+              )}
+              <div className={cn(confirmationPopupHeaderStyles({ size }))}>
+                <div
+                  className={cn(confirmationPopupTitleWrapperStyles({ size }))}
+                >
+                  <Icon
+                    aria-hidden='true'
+                    className={cn(
+                      confirmationPopupIconStyles({ size, variant }),
+                    )}
+                    data-confirmation-popup-title-icon=''
+                  />
+                  {title ? (
+                    <div
+                      className={cn(confirmationPopupTitleStyles({ size }))}
+                      id={titleId}
+                    >
+                      {title}
+                    </div>
+                  ) : null}
+                </div>
+                {showCloseButton ? (
+                  <button
+                    aria-label={closeLabel}
+                    className={cn(confirmationPopupCloseButtonStyles({ size }))}
+                    onClick={handleCloseClick}
+                    type='button'
+                  >
+                    <X
+                      aria-hidden='true'
+                      className={cn(confirmationPopupCloseIconStyles({ size }))}
+                    />
+                  </button>
+                ) : null}
+              </div>
+              {description || children ? (
+                <div className={cn(confirmationPopupBodyStyles({ size }))}>
+                  {description ? (
+                    <p
+                      className={cn(
+                        confirmationPopupDescriptionStyles({ size }),
+                      )}
+                      id={descriptionId}
+                    >
+                      {description}
+                    </p>
+                  ) : null}
+                  {children}
+                </div>
+              ) : null}
+              {(showCancelButton || showActionButton) && (
+                <div className={cn(confirmationPopupFooterStyles({ size }))}>
+                  {showCancelButton ? (
+                    <Button
+                      {...cancelButtonProps}
+                      appearance={cancelButtonProps?.appearance ?? 'ghost'}
+                      onClick={handleCancelClick}
+                      shape={cancelButtonProps?.shape ?? 'squared'}
+                      size={
+                        cancelButtonProps?.size ??
+                        defaultButtonSizeByPopupSize[size]
+                      }
+                      type={cancelButtonProps?.type ?? 'button'}
+                      variant={cancelButtonProps?.variant ?? 'default'}
+                    >
+                      {cancelButtonProps?.children ?? cancelLabel}
+                    </Button>
+                  ) : null}
+                  {showActionButton ? (
+                    <Button
+                      {...actionButtonProps}
+                      appearance={actionButtonProps?.appearance ?? 'filled'}
+                      onClick={handleActionClick}
+                      shape={actionButtonProps?.shape ?? 'squared'}
+                      size={
+                        actionButtonProps?.size ??
+                        defaultButtonSizeByPopupSize[size]
+                      }
+                      type={actionButtonProps?.type ?? 'button'}
+                      variant={actionButtonProps?.variant ?? variant}
+                    >
+                      {actionButtonProps?.children ?? actionLabel}
+                    </Button>
+                  ) : null}
+                </div>
+              )}
+            </div>
+          </FloatingPortal>
+        ) : (
           <div
             {...getFloatingProps({
               ...restProps,
+              id: popupId,
+              'aria-label': accessibleLabel,
               ref: refs.setFloating,
+              'aria-describedby': descriptionId,
+              'aria-labelledby': titleId,
               className: cn(
                 confirmationPopupPanelStyles({ size }),
                 contentClassName,
@@ -253,7 +386,7 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
           >
             {showArrow && (
               <FloatingArrow
-                ref={arrowRef}
+                ref={setArrowElement}
                 className={cn(confirmationPopupArrowStyles())}
                 context={context}
                 data-confirmation-popup-arrow=''
@@ -273,7 +406,10 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
                   data-confirmation-popup-title-icon=''
                 />
                 {title ? (
-                  <div className={cn(confirmationPopupTitleStyles({ size }))}>
+                  <div
+                    className={cn(confirmationPopupTitleStyles({ size }))}
+                    id={titleId}
+                  >
                     {title}
                   </div>
                 ) : null}
@@ -292,14 +428,19 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
                 </button>
               ) : null}
             </div>
-            <div className={cn(confirmationPopupBodyStyles({ size }))}>
-              {description ? (
-                <p className={cn(confirmationPopupDescriptionStyles({ size }))}>
-                  {description}
-                </p>
-              ) : null}
-              {children}
-            </div>
+            {description || children ? (
+              <div className={cn(confirmationPopupBodyStyles({ size }))}>
+                {description ? (
+                  <p
+                    className={cn(confirmationPopupDescriptionStyles({ size }))}
+                    id={descriptionId}
+                  >
+                    {description}
+                  </p>
+                ) : null}
+                {children}
+              </div>
+            ) : null}
             {(showCancelButton || showActionButton) && (
               <div className={cn(confirmationPopupFooterStyles({ size }))}>
                 {showCancelButton ? (
@@ -337,8 +478,7 @@ export const ConfirmationPopup: FC<ConfirmationPopupProps> = ({
               </div>
             )}
           </div>
-        </FloatingPortal>
-      )}
+        ))}
     </div>
   );
-};
+}

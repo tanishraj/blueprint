@@ -170,12 +170,12 @@ export function CheckboxGroup({
             option={option}
             checked={selectedValue.indexOf(option.value) >= 0}
             disabled={disabled}
-            describedBy={describedBy}
             invalid={invalid}
             name={name}
             size={size}
             shape={shape}
             onItemChange={handleItemChange}
+            {...(describedBy !== undefined ? { describedBy } : {})}
           />
         ))}
       </div>
