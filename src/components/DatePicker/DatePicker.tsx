@@ -2,6 +2,7 @@ import {
   type KeyboardEvent,
   type MouseEvent,
   useCallback,
+  useEffect,
   useId,
   useMemo,
   useRef,
@@ -90,6 +91,7 @@ export function DatePicker({
   const inputId = id ?? generatedId;
   const dialogId = `${inputId}-dialog`;
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const fieldRef = useRef<HTMLDivElement | null>(null);
   const isControlled = value !== undefined;
   const isOpenControlled = open !== undefined;
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
@@ -228,9 +230,16 @@ export function DatePicker({
     () => mergeRefs<HTMLInputElement>(inputRef, restProps.ref),
     [restProps.ref],
   );
+  const fieldRefCallback = useCallback(
+    (node: HTMLDivElement | null) => {
+      fieldRef.current = node;
+      setReference(node);
+    },
+    [setReference],
+  );
   const inputProps = {
-    ...(className ? { className } : {}),
-    ...(inputClassName ? { inputClassName } : {}),
+    className: cn('cursor-pointer', className),
+    inputClassName: cn('cursor-pointer', inputClassName),
   };
   const calendarComponentProps = {
     ...(calendarClassName
@@ -248,22 +257,50 @@ export function DatePicker({
       ...floatingStyles,
     },
   });
-  const trailingIconProps =
-    clearable && hasValue ? {} : { trailingIcon: CalendarDays };
+
+  useEffect(() => {
+    const node = fieldRef.current;
+
+    if (!node) {
+      return;
+    }
+
+    const handleFieldClick = (event: globalThis.MouseEvent) => {
+      if (disabled || event.defaultPrevented) {
+        return;
+      }
+
+      if (
+        event.target instanceof HTMLInputElement ||
+        (event.target instanceof Element &&
+          event.target.closest('button') !== null)
+      ) {
+        return;
+      }
+
+      setOpen(!isOpen);
+      inputRef.current?.focus();
+    };
+
+    node.addEventListener('click', handleFieldClick);
+
+    return () => {
+      node.removeEventListener('click', handleFieldClick);
+    };
+  }, [disabled, isOpen, setOpen]);
 
   return (
     <div className={cn(datePickerRootStyles())}>
       <Input
         {...restProps}
         {...inputProps}
-        {...trailingIconProps}
         aria-controls={dialogId}
         aria-expanded={isCalendarOpen}
         aria-haspopup='dialog'
         clearLabel={clearLabel}
         clearable={clearable && hasValue}
         disabled={disabled}
-        fieldRef={setReference}
+        fieldRef={fieldRefCallback}
         id={inputId}
         label={label}
         onClear={handleClear}
@@ -273,6 +310,7 @@ export function DatePicker({
         readOnly
         ref={inputRefCallback}
         size={size}
+        trailingIcon={CalendarDays}
         value={formattedValue}
         variant={variant}
       />

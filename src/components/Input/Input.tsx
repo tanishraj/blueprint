@@ -124,8 +124,17 @@ export function Input({
   const handleClearMouseDown = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
+      event.stopPropagation();
     },
     [],
+  );
+
+  const handleClearClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      handleClear();
+    },
+    [handleClear],
   );
 
   return (
@@ -175,8 +184,8 @@ export function Input({
           <button
             aria-label={clearLabel}
             className={cn(inputClearButtonStyles({ size }))}
+            onClick={handleClearClick}
             onMouseDown={handleClearMouseDown}
-            onClick={handleClear}
             type='button'
           >
             <X aria-hidden='true' className={cn(inputIconStyles({ size }))} />

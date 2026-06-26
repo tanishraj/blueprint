@@ -47,6 +47,20 @@ describe('DatePicker', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('opens the calendar when clicking the calendar icon', () => {
+    const { container } = render(<DatePicker label='Date' value={undefined} />);
+
+    const calendarIcon = container.querySelector('svg.lucide-calendar-days');
+
+    expect(calendarIcon).not.toBeNull();
+
+    fireEvent.click(calendarIcon as SVGElement);
+
+    expect(
+      screen.getByRole('dialog', { name: 'Date calendar' }),
+    ).toBeInTheDocument();
+  });
+
   it('clears the selected value when clearable', () => {
     const handleValueChange = vi.fn();
 
@@ -62,6 +76,17 @@ describe('DatePicker', () => {
     fireEvent.click(screen.getByRole('button', { name: /clear date/i }));
 
     expect(handleValueChange).toHaveBeenCalledWith(undefined);
+  });
+
+  it('shows both the clear action and calendar icon when clearable has a value', () => {
+    const { container } = render(
+      <DatePicker clearable label='Date' value={selectedDate} />,
+    );
+
+    expect(
+      screen.getByRole('button', { name: /clear date/i }),
+    ).toBeInTheDocument();
+    expect(container.querySelectorAll('svg')).toHaveLength(2);
   });
 
   it('does not open when disabled', () => {
