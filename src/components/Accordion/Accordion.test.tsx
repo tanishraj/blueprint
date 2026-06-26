@@ -93,4 +93,33 @@ describe('Accordion Component', () => {
 
     expect(onValueChange).toHaveBeenCalledWith('account');
   });
+
+  it('keeps a single panel open when controlled value is passed as an array in single mode', () => {
+    render(
+      <Accordion items={items} type='single' value={['account', 'billing']} />,
+    );
+
+    expect(screen.getByText('Account content')).toBeInTheDocument();
+    expect(screen.queryByText('Billing content')).not.toBeInTheDocument();
+  });
+
+  it('does not close the active item in single mode when collapsible is false', () => {
+    render(
+      <Accordion
+        items={items}
+        type='single'
+        collapsible={false}
+        defaultValue='account'
+      />,
+    );
+
+    const accountTrigger = screen.getByRole('button', {
+      name: /account settings/i,
+    });
+
+    fireEvent.click(accountTrigger);
+
+    expect(screen.getByText('Account content')).toBeInTheDocument();
+    expect(accountTrigger).toHaveAttribute('aria-expanded', 'true');
+  });
 });

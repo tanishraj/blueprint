@@ -28,7 +28,7 @@ const sizes = ['sm', 'md', 'lg'] as const;
 const types = ['single', 'multiple'] as const;
 
 const meta: Meta<AccordionProps> = {
-  title: 'components/Accordion',
+  title: 'Components/Accordion',
   component: Accordion,
   tags: ['autodocs'],
   parameters: {

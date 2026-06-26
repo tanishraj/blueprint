@@ -34,7 +34,7 @@ export const accordionItemStyles = cva('bg-base border-default', {
 });
 
 export const accordionHeaderButtonStyles = cva(
-  'flex w-full items-center justify-between gap-3 text-left font-medium text-default outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:bg-default-hovered disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled disabled:hover:bg-disabled disabled:active:bg-disabled',
+  'flex w-full items-center justify-between gap-3 text-left font-medium text-default outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:bg-default-hovered focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset disabled:cursor-not-allowed disabled:bg-disabled disabled:text-disabled disabled:hover:bg-disabled disabled:active:bg-disabled',
   {
     variants: {
       size: {
@@ -49,7 +49,7 @@ export const accordionHeaderButtonStyles = cva(
   },
 );
 
-export const accordionTitleStyles = cva('flex-1 cursor-pointer', {
+export const accordionTitleStyles = cva('flex-1', {
   variants: {
     disabled: {
       true: 'cursor-not-allowed text-disabled',

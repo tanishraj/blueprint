@@ -1,7 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import { type MouseEventHandler, FC, useId, useState } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   accordionChevronStyles,
@@ -20,6 +20,15 @@ const toArray = (value?: string | string[]) => {
   }
 
   return value ? [value] : [];
+};
+
+const normalizeOpenItems = (
+  value: string | string[] | undefined,
+  type: AccordionType,
+) => {
+  const normalizedValue = toArray(value);
+
+  return type === 'multiple' ? normalizedValue : normalizedValue.slice(0, 1);
 };
 
 const getNextValue = (
@@ -56,11 +65,13 @@ export const Accordion: FC<AccordionProps> = ({
   ...restProps
 }) => {
   const isControlled = value !== undefined;
-  const [internalValue, setInternalValue] = useState<string[]>(
-    toArray(defaultValue),
+  const [internalValue, setInternalValue] = useState<string[]>(() =>
+    normalizeOpenItems(defaultValue, type),
   );
   const rootId = useId();
-  const openItems = isControlled ? toArray(value) : internalValue;
+  const openItems = isControlled
+    ? normalizeOpenItems(value, type)
+    : internalValue;
   const handleToggle = (itemValue: string) => {
     const nextValue = getNextValue(openItems, itemValue, type, collapsible);
 
@@ -83,12 +94,14 @@ export const Accordion: FC<AccordionProps> = ({
       {items.map((item, index) => {
         const isOpen = openItems.indexOf(item.value) !== -1;
         const isLast = index === items.length - 1;
-        const triggerId = `${rootId}-${item.value}-trigger`;
-        const contentId = `${rootId}-${item.value}-content`;
+        const triggerId = `${rootId}-trigger-${index}`;
+        const contentId = `${rootId}-content-${index}`;
 
         return (
           <div
             key={item.value}
+            data-disabled={item.disabled ? '' : undefined}
+            data-state={isOpen ? 'open' : 'closed'}
             className={cn(
               accordionItemStyles({
                 last: isLast,
@@ -103,6 +116,7 @@ export const Accordion: FC<AccordionProps> = ({
               aria-controls={contentId}
               aria-expanded={isOpen}
               disabled={item.disabled}
+              data-state={isOpen ? 'open' : 'closed'}
               className={cn(accordionHeaderButtonStyles({ size }))}
               onClick={handleItemClick}
             >
@@ -129,6 +143,7 @@ export const Accordion: FC<AccordionProps> = ({
                 id={contentId}
                 role='region'
                 aria-labelledby={triggerId}
+                data-state='open'
                 className={cn(accordionContentStyles())}
               >
                 <div className={cn(accordionContentInnerStyles({ size }))}>
