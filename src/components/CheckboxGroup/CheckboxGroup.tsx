@@ -1,6 +1,6 @@
-import { type FC, useCallback, useId, useState } from 'react';
+import { type ChangeEvent, useCallback, useId, useState } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { Checkbox } from '../Checkbox';
 import {
@@ -22,6 +22,7 @@ interface CheckboxGroupItemProps {
   option: CheckboxGroupOption;
   checked: boolean;
   disabled: boolean;
+  describedBy?: string;
   invalid: boolean;
   name: string | undefined;
   size?: CheckboxGroupSizes;
@@ -29,16 +30,17 @@ interface CheckboxGroupItemProps {
   onItemChange: (value: string, checked: boolean) => void;
 }
 
-const CheckboxGroupItem: FC<CheckboxGroupItemProps> = ({
+const CheckboxGroupItem = ({
   option,
   checked,
   disabled,
+  describedBy,
   invalid,
   name,
   size,
   shape,
   onItemChange,
-}) => {
+}: CheckboxGroupItemProps) => {
   const {
     value,
     shape: optionShape,
@@ -49,7 +51,7 @@ const CheckboxGroupItem: FC<CheckboxGroupItemProps> = ({
   const resolvedDisabled = disabled || Boolean(optionDisabled);
 
   const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: ChangeEvent<HTMLInputElement>) => {
       onItemChange(value, event.target.checked);
       optionOnChange?.(event);
     },
@@ -59,6 +61,7 @@ const CheckboxGroupItem: FC<CheckboxGroupItemProps> = ({
   return (
     <Checkbox
       {...checkboxProps}
+      aria-describedby={describedBy}
       name={name}
       value={value}
       size={size}
@@ -85,7 +88,7 @@ const toggleValue = (
   return currentValue.filter(value => value !== optionValue);
 };
 
-export const CheckboxGroup: FC<CheckboxGroupProps> = ({
+export function CheckboxGroup({
   options,
   value,
   defaultValue = [],
@@ -101,7 +104,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
   required = false,
   className,
   ...restProps
-}) => {
+}: CheckboxGroupProps) {
   const generatedId = useId();
   const helperId = `${generatedId}-helper`;
   const [uncontrolledValue, setUncontrolledValue] =
@@ -110,6 +113,12 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
   const selectedValue = value ?? uncontrolledValue;
   const invalid = Boolean(error) || restProps['aria-invalid'] === true;
   const helperText = error ?? description;
+  const describedByParts = [
+    restProps['aria-describedby'],
+    helperText ? helperId : undefined,
+  ].filter(Boolean);
+  const describedBy =
+    describedByParts.length > 0 ? describedByParts.join(' ') : undefined;
 
   const handleItemChange = useCallback(
     (optionValue: string, checked: boolean) => {
@@ -128,7 +137,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
     <fieldset
       {...restProps}
       disabled={disabled}
-      aria-describedby={helperText ? helperId : restProps['aria-describedby']}
+      aria-describedby={describedBy}
       className={cn(checkboxGroupStyles({ disabled }), className)}
     >
       {label && (
@@ -161,6 +170,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
             option={option}
             checked={selectedValue.indexOf(option.value) >= 0}
             disabled={disabled}
+            describedBy={describedBy}
             invalid={invalid}
             name={name}
             size={size}
@@ -171,4 +181,4 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
       </div>
     </fieldset>
   );
-};
+}

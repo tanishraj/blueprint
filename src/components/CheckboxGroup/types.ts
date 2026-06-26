@@ -11,6 +11,7 @@ export type CheckboxGroupShapes = CheckboxShapes;
 export interface CheckboxGroupOption extends Omit<
   CheckboxProps,
   | 'checked'
+  | 'description'
   | 'defaultChecked'
   | 'children'
   | 'error'

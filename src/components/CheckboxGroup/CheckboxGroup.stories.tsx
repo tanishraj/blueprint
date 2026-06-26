@@ -26,7 +26,7 @@ const options = [
 ];
 
 const meta: Meta<CheckboxGroupProps> = {
-  title: 'components/CheckboxGroup',
+  title: 'Components/CheckboxGroup',
   component: CheckboxGroup,
   tags: ['autodocs'],
   parameters: {
