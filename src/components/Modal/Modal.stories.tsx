@@ -77,17 +77,17 @@ const ContainerDemo = () => {
 };
 
 const meta: Meta<ModalProps> = {
-  title: 'components/Modal',
+  title: 'Components/Modal',
   component: Modal,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: `
 Modal is a controlled centered dialog for focused tasks. It renders through Portal by default, supports custom containers, and provides header, body, and footer slots.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [

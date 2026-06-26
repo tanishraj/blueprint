@@ -1,7 +1,7 @@
-import { type FC, useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { AnimatePresence, AnimatePresenceChild } from '../AnimatePresence';
 import { Portal } from '../Portal';
@@ -25,7 +25,7 @@ import type { ModalProps } from './types';
 
 const MODAL_EXIT_DURATION_MS = 200;
 
-export const Modal: FC<ModalProps> = ({
+export function Modal({
   open,
   children,
   title,
@@ -46,10 +46,20 @@ export const Modal: FC<ModalProps> = ({
   role = 'dialog',
   className,
   ...restProps
-}) => {
+}: ModalProps) {
   const scrollUnlockTimeoutRef = useRef<ReturnType<
     typeof window.setTimeout
   > | null>(null);
+  const titleId = useId();
+  const descriptionId = useId();
+  const hasCustomContainer = Boolean(container || containerId || containerRef);
+  const shouldFillViewport = !disablePortal && !hasCustomContainer;
+  const hasDescription = Boolean(description);
+  const titleElementId = title ? titleId : undefined;
+  const descriptionElementId = description ? descriptionId : undefined;
+  const accessibleLabel =
+    restProps['aria-label'] ?? (title ? undefined : 'Modal');
+  const modalRole = role === 'dialog' || role === 'alertdialog';
 
   const handleOverlayClick = useCallback(() => {
     if (closeOnOverlayClick) {
@@ -76,7 +86,7 @@ export const Modal: FC<ModalProps> = ({
   }, [closeOnEscape, onClose, open]);
 
   useEffect(() => {
-    if (!open || disablePortal || typeof document === 'undefined') {
+    if (!open || !shouldFillViewport || typeof document === 'undefined') {
       return;
     }
 
@@ -95,12 +105,9 @@ export const Modal: FC<ModalProps> = ({
         scrollUnlockTimeoutRef.current = null;
       }, MODAL_EXIT_DURATION_MS);
     };
-  }, [disablePortal, open]);
+  }, [open, shouldFillViewport]);
 
   const animationState = open ? 'open' : 'closed';
-  const hasCustomContainer = Boolean(container || containerId || containerRef);
-  const shouldFillViewport = !disablePortal && !hasCustomContainer;
-  const hasDescription = Boolean(description);
 
   return (
     <Portal
@@ -128,7 +135,10 @@ export const Modal: FC<ModalProps> = ({
             <AnimatePresenceChild>
               <div
                 {...restProps}
-                aria-modal={role === 'dialog' ? true : undefined}
+                aria-describedby={descriptionElementId}
+                aria-label={accessibleLabel}
+                aria-labelledby={titleElementId}
+                aria-modal={modalRole ? true : undefined}
                 className={cn(modalPanelStyles({ size }), className)}
                 data-state={animationState}
                 role={role}
@@ -161,10 +171,18 @@ export const Modal: FC<ModalProps> = ({
                       )}
                       <div className={cn(modalTitleGroupStyles())}>
                         {title && (
-                          <div className={cn(modalTitleStyles())}>{title}</div>
+                          <div
+                            className={cn(modalTitleStyles())}
+                            id={titleElementId}
+                          >
+                            {title}
+                          </div>
                         )}
                         {description && (
-                          <div className={cn(modalDescriptionStyles())}>
+                          <div
+                            className={cn(modalDescriptionStyles())}
+                            id={descriptionElementId}
+                          >
                             {description}
                           </div>
                         )}
@@ -196,4 +214,4 @@ export const Modal: FC<ModalProps> = ({
       </AnimatePresence>
     </Portal>
   );
-};
+}

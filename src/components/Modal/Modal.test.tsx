@@ -34,6 +34,27 @@ describe('Modal Component', () => {
     expect(screen.getByText('Modal content')).toBeInTheDocument();
   });
 
+  it('links dialog labelling to the title and description', () => {
+    render(
+      <Modal description='Modal description' open title='Modal title'>
+        Modal content
+      </Modal>,
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Modal title' });
+    const title = screen.getByText('Modal title');
+    const description = screen.getByText('Modal description');
+
+    expect(dialog).toHaveAttribute('aria-labelledby', title.id);
+    expect(dialog).toHaveAttribute('aria-describedby', description.id);
+  });
+
+  it('falls back to a default accessible name when title is omitted', () => {
+    render(<Modal open>Modal content</Modal>);
+
+    expect(screen.getByRole('dialog', { name: 'Modal' })).toBeInTheDocument();
+  });
+
   it('renders an optional leading icon in the header', () => {
     render(
       <Modal leadingIcon={Plus} open title='Modal title'>
@@ -202,6 +223,21 @@ describe('Modal Component', () => {
     expect(document.body.style.overflow).toBe(originalOverflow);
 
     vi.useRealTimers();
+  });
+
+  it('does not lock body scroll when rendered into a custom container', () => {
+    const target = document.createElement('div');
+    target.id = 'modal-container-scroll-lock';
+    document.body.appendChild(target);
+    const originalOverflow = document.body.style.overflow;
+
+    render(
+      <Modal containerId='modal-container-scroll-lock' open>
+        Content
+      </Modal>,
+    );
+
+    expect(document.body.style.overflow).toBe(originalOverflow);
   });
 
   it('applies size classes', () => {
