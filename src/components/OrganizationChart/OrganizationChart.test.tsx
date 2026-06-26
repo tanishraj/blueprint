@@ -230,7 +230,11 @@ describe('OrganizationChart', () => {
 
   it('configures the chart instance with the provided hierarchy data', () => {
     render(
-      <OrganizationChart data={companyHierarchy20Data} className='h-180' />,
+      <OrganizationChart
+        data={companyHierarchy20Data}
+        className='h-180'
+        dataTestId='organization-chart'
+      />,
     );
 
     const chart = orgChartInstances[0];
@@ -243,6 +247,7 @@ describe('OrganizationChart', () => {
     expect(
       screen.getByRole('region', { name: /organization chart/i }),
     ).toBeInTheDocument();
+    expect(screen.getByTestId('organization-chart')).toBeInTheDocument();
     expect(screen.getByText('Secured Entity')).toBeInTheDocument();
     expect(screen.getByText('Unsecured Entity')).toBeInTheDocument();
   });
@@ -341,6 +346,7 @@ describe('OrganizationChart', () => {
         ref={ref}
         data={[]}
         className='h-180'
+        dataTestId='organization-chart-empty'
         showZoomBadge={false}
       />,
     );
@@ -348,6 +354,7 @@ describe('OrganizationChart', () => {
     expect(
       screen.getByText('No organization chart data available.'),
     ).toBeInTheDocument();
+    expect(screen.getByTestId('organization-chart-empty')).toBeInTheDocument();
 
     expect(ref.current?.exportSvg).toBeInstanceOf(Function);
     ref.current?.exportSvg();
