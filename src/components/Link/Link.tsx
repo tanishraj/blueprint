@@ -1,12 +1,25 @@
-import { type FC, type MouseEvent, useCallback } from 'react';
+import { type MouseEvent, useCallback } from 'react';
 import { ExternalLink } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { linkIconStyles, linkLabelStyles, linkStyles } from './Link.styles';
 import type { LinkProps } from './types';
 
-export const Link: FC<LinkProps> = ({
+const getSafeRel = (target: LinkProps['target'], rel: LinkProps['rel']) => {
+  if (target !== '_blank') {
+    return rel;
+  }
+
+  const relValues = new Set((rel ?? '').split(/\s+/).filter(Boolean));
+
+  relValues.add('noreferrer');
+  relValues.add('noopener');
+
+  return Array.from(relValues).join(' ');
+};
+
+export function Link({
   ref,
   children,
   leadingIcon: LeadingIcon,
@@ -24,9 +37,9 @@ export const Link: FC<LinkProps> = ({
   className,
   onClick,
   ...restProps
-}) => {
+}: LinkProps) {
   const EndIcon = external ? ExternalLink : TrailingIcon;
-  const safeRel = target === '_blank' && !rel ? 'noreferrer noopener' : rel;
+  const safeRel = getSafeRel(target, rel);
   const handleClick = useCallback(
     (event: MouseEvent<HTMLAnchorElement>) => {
       if (disabled) {
@@ -51,6 +64,7 @@ export const Link: FC<LinkProps> = ({
       href={disabled ? undefined : href}
       onClick={handleClick}
       rel={safeRel}
+      tabIndex={disabled ? -1 : restProps.tabIndex}
       target={target}
     >
       {LeadingIcon && (
@@ -70,4 +84,4 @@ export const Link: FC<LinkProps> = ({
       )}
     </a>
   );
-};
+}
