@@ -1,7 +1,7 @@
-import type { FC, HTMLAttributes } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   avatarContainerStyles,
@@ -22,7 +22,7 @@ import type {
 
 export interface AvatarProps
   extends
-    HTMLAttributes<HTMLSpanElement>,
+    ComponentPropsWithoutRef<'span'>,
     Omit<VariantProps<typeof avatarContainerStyles>, 'stroke'> {
   icon?: AvatarIcon;
   img?: AvatarImage;
@@ -36,7 +36,7 @@ export interface AvatarProps
   stroke?: boolean;
 }
 
-export const Avatar: FC<AvatarProps> = ({
+export function Avatar({
   icon: Icon,
   img,
   initials,
@@ -50,22 +50,51 @@ export const Avatar: FC<AvatarProps> = ({
   className,
   role = 'img',
   ...restProps
-}) => {
+}: AvatarProps) {
+  const ariaLabel = restProps['aria-label'];
+  const ariaLabelledBy = restProps['aria-labelledby'];
+  const isDecorative = role === 'presentation' || role === 'none';
   const hasImage = typeof img?.src === 'string' && img.src.length > 0;
   const hasIcon = typeof Icon !== 'undefined';
   const normalizedInitials = initials?.trim();
   const resolvedInitials =
     size === 'xs' ? normalizedInitials?.slice(0, 1) : normalizedInitials;
   const showInitials = Boolean(resolvedInitials);
+  const fallbackAriaLabel = hasImage
+    ? img?.alt || 'User avatar'
+    : hasIcon
+      ? 'User avatar'
+      : showInitials
+        ? `${resolvedInitials} avatar`
+        : 'User avatar';
   const resolvedAriaLabel =
-    restProps['aria-label'] ??
-    (hasImage
-      ? img?.alt || 'User avatar'
-      : hasIcon
-        ? 'User avatar'
-        : showInitials
-          ? `${resolvedInitials} avatar`
-          : 'User avatar');
+    ariaLabelledBy || isDecorative
+      ? undefined
+      : (ariaLabel ?? fallbackAriaLabel);
+  let content: ReactNode = null;
+
+  if (hasImage) {
+    content = (
+      <img
+        src={img.src}
+        alt=''
+        aria-hidden='true'
+        className={avatarImageStyles({ shape })}
+      />
+    );
+  } else if (hasIcon) {
+    content = (
+      <Icon
+        className={avatarIconStyles({ size })}
+        aria-hidden='true'
+        focusable='false'
+      />
+    );
+  } else if (showInitials) {
+    content = (
+      <span className={avatarTextStyles({ size })}>{resolvedInitials}</span>
+    );
+  }
 
   return (
     <span
@@ -83,23 +112,9 @@ export const Avatar: FC<AvatarProps> = ({
         className,
       )}
     >
-      {hasImage ? (
-        <img
-          src={img.src}
-          alt={img.alt}
-          className={avatarImageStyles({ shape })}
-        />
-      ) : hasIcon ? (
-        <Icon
-          className={avatarIconStyles({ size })}
-          aria-hidden='true'
-          focusable='false'
-        />
-      ) : showInitials ? (
-        <span className={avatarTextStyles({ size })}>{resolvedInitials}</span>
-      ) : null}
+      {content}
 
-      {status && (
+      {status ? (
         <span
           data-avatar-status
           className={avatarStatusStyles({
@@ -109,7 +124,7 @@ export const Avatar: FC<AvatarProps> = ({
             size,
           })}
         />
-      )}
+      ) : null}
     </span>
   );
-};
+}
