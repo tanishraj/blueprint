@@ -7,6 +7,12 @@
       "skillPath": "skills/bump-deps/SKILL.md",
       "computedHash": "9852c4d9450ac9e6954f34d39137fa5be0d0b68c689b7355f6369cc9474b0ec8"
     },
+    "figma-to-react-components": {
+      "source": "ravnhq/ai-toolkit",
+      "sourceType": "github",
+      "skillPath": "skills/frontend/figma-to-react-components/SKILL.md",
+      "computedHash": "307b158cf5994d4a53ba91f87fa154aca1a6cc79181902a0b7f872804f95a90f"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
