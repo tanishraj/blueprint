@@ -1,6 +1,6 @@
-import { type FC } from 'react';
+import { Children } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   dividerContentStyles,
@@ -9,21 +9,23 @@ import {
 } from './Divider.styles';
 import type { DividerProps } from './types';
 
-export const Divider: FC<DividerProps> = ({
+export function Divider({
   children,
   orientation = 'horizontal',
   className,
   role = 'separator',
   ...restProps
-}) => {
-  const hasContent = Boolean(children || children === 0);
+}: DividerProps) {
+  const hasContent = Children.toArray(children).length > 0;
+  const orientationProps =
+    role === 'separator' ? { 'aria-orientation': orientation } : {};
 
   return (
     <div
       {...restProps}
-      role={role}
-      aria-orientation={orientation}
+      {...orientationProps}
       className={cn(dividerRootStyles({ orientation, hasContent }), className)}
+      role={role}
     >
       {hasContent && (
         <>
@@ -42,4 +44,4 @@ export const Divider: FC<DividerProps> = ({
       )}
     </div>
   );
-};
+}

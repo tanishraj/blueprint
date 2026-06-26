@@ -53,17 +53,17 @@ type DividerStoryProps = DividerProps & {
 };
 
 const meta: Meta<DividerStoryProps> = {
-  title: 'components/Divider',
+  title: 'Components/Divider',
   component: Divider,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: `
 Divider separates content into sections. It supports horizontal and vertical orientation, with optional centered content such as text, icons, buttons, or grouped actions.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [
