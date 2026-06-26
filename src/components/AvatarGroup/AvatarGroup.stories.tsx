@@ -37,7 +37,7 @@ const avatarItems = [
 ] satisfies AvatarGroupItem[];
 
 const meta: Meta<AvatarGroupProps> = {
-  title: 'components/AvatarGroup',
+  title: 'Components/AvatarGroup',
   component: AvatarGroup,
   tags: ['autodocs'],
   parameters: {
@@ -50,7 +50,6 @@ Usage:
 
 - Provide \`items\` to render avatar members in order.
 - Use \`max\` to limit visible avatars and show \`+N\` overflow.
-- Use \`overlap\` to tighten avatar stacking.
       `.trim(),
       },
     },
@@ -130,6 +129,13 @@ Usage:
     },
     'aria-label': {
       description: 'Accessible label for avatar group wrapper.',
+      control: 'text',
+      table: {
+        category: 'Accessibility',
+      },
+    },
+    'aria-labelledby': {
+      description: 'ID reference used to label the avatar group externally.',
       control: 'text',
       table: {
         category: 'Accessibility',
