@@ -1,4 +1,4 @@
-import type { ComponentProps, Ref, ReactNode } from 'react';
+import type { ComponentProps, ReactNode, Ref } from 'react';
 import { useCallback, useId, useMemo } from 'react';
 import { Check } from 'lucide-react';
 import ReactSelect, {
@@ -7,6 +7,7 @@ import ReactSelect, {
   type GroupBase,
   type MultiValue,
   type MultiValueProps,
+  type SelectInstance,
 } from 'react-select';
 
 import { Badge } from '../Badge';
@@ -19,9 +20,17 @@ import {
   createBaseSelectStyles,
   defaultGetOptionLabel,
   defaultGetOptionValue,
+  getHelperTextId,
   getResolvedPlaceholder,
+  isSelectInvalid,
+  mergeDescribedBy,
 } from './shared.helpers';
-import type { GroupedSelectOption, SelectSizes, SelectVariants } from './types';
+import type {
+  GroupedSelectOption,
+  SelectAriaInvalid,
+  SelectSizes,
+  SelectVariants,
+} from './types';
 
 export interface GroupedSelectProps<
   Option extends GroupedSelectOption = GroupedSelectOption,
@@ -54,12 +63,14 @@ export interface GroupedSelectProps<
   placeholder?: ReactNode;
   readOnly?: boolean;
   readonly?: boolean;
-  ref?: Ref<unknown>;
+  ref?: Ref<SelectInstance<Option, true, GroupBase<Option>>>;
   required?: boolean;
   size?: SelectSizes;
   styles?: ComponentProps<typeof ReactSelect<Option, true>>['styles'];
   value?: MultiValue<Option>;
   variant?: SelectVariants;
+  'aria-describedby'?: string;
+  'aria-invalid'?: SelectAriaInvalid;
 }
 
 export const GroupedSelect = <
@@ -96,10 +107,12 @@ export const GroupedSelect = <
   styles,
   value = [],
   variant = 'default',
+  'aria-describedby': ariaDescribedBy,
+  'aria-invalid': ariaInvalid,
 }: GroupedSelectProps<Option>) => {
   const generatedId = useId();
   const selectId = generatedId;
-  const invalid = Boolean(error ?? errorMsg);
+  const invalid = isSelectInvalid({ ariaInvalid, error, errorMsg });
   const helperText = buildHelperText({
     caption,
     error,
@@ -109,10 +122,16 @@ export const GroupedSelect = <
   });
   const isReadOnly = Boolean(readOnly ?? readonly);
   const isSelectDisabled = Boolean(disabled);
+  const helperTextId = getHelperTextId(selectId);
   const resolvedPlaceholder = getResolvedPlaceholder({
     label,
     placeholder,
     required,
+  });
+  const describedBy = mergeDescribedBy({
+    ariaDescribedBy,
+    helperText,
+    helperTextId,
   });
 
   const handleChange = useCallback(
@@ -271,8 +290,8 @@ export const GroupedSelect = <
       size={size}
     >
       <ReactSelect<Option, true, GroupBase<Option>>
-        ref={ref as never}
-        aria-describedby={helperText ? `${selectId}-caption` : undefined}
+        ref={ref}
+        aria-describedby={describedBy}
         aria-invalid={invalid || undefined}
         backspaceRemovesValue={false}
         classNames={mergedClassNames}

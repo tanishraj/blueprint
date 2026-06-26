@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   inputCaptionStyles,
@@ -9,6 +9,7 @@ import {
   inputRootStyles,
 } from '../Input/Input.styles';
 import type { SelectSizes } from './types';
+import { getHelperTextId, hasContent } from './shared.helpers';
 
 interface SelectFieldShellProps {
   children: ReactNode;
@@ -37,11 +38,11 @@ export const SelectFieldShell = ({
   required = false,
   size = 'md',
 }: SelectFieldShellProps) => {
-  const captionId = `${id}-caption`;
+  const captionId = getHelperTextId(id);
 
   return (
     <div className={cn(inputRootStyles({ fullWidth }), containerClassName)}>
-      {label && (
+      {hasContent(label) && (
         <label
           className={cn(inputLabelStyles({ size, disabled }), labelClassName)}
           htmlFor={id}
@@ -57,7 +58,7 @@ export const SelectFieldShell = ({
 
       {children}
 
-      {helperText && (
+      {hasContent(helperText) && (
         <p
           className={cn(
             inputCaptionStyles({

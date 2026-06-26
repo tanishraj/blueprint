@@ -15,7 +15,10 @@ import {
   defaultFormatOptionLabel,
   defaultGetOptionLabel,
   defaultGetOptionValue,
+  getHelperTextId,
   getResolvedPlaceholder,
+  isSelectInvalid,
+  mergeDescribedBy,
 } from './shared.helpers';
 import type { SelectOption, SelectProps } from './types';
 
@@ -51,6 +54,7 @@ export interface AsyncSelectProps<
       | 'size'
       | 'variant'
     > {
+  'aria-describedby'?: string;
   isDisabled?: boolean;
   options?: Options<Option>;
 }
@@ -106,11 +110,13 @@ export const AsyncSelect = <
   options = [],
   openMenuOnClick = true,
   styles: customStyles,
+  'aria-describedby': ariaDescribedBy,
+  'aria-invalid': ariaInvalid,
   ...restProps
 }: AsyncSelectProps<Option, IsMulti>) => {
   const generatedId = useId();
   const selectId = id ?? generatedId;
-  const invalid = Boolean(error ?? errorMsg);
+  const invalid = isSelectInvalid({ ariaInvalid, error, errorMsg });
   const helperText = buildHelperText({
     caption,
     error,
@@ -120,12 +126,18 @@ export const AsyncSelect = <
   });
   const isReadOnly = Boolean(readOnly ?? readonly);
   const isSelectDisabled = Boolean(disabled ?? isDisabled);
+  const helperTextId = getHelperTextId(selectId);
   const [isFocused, setIsFocused] = useState(false);
   const [isMenuOpenInternal, setIsMenuOpenInternal] = useState(false);
   const resolvedPlaceholder = getResolvedPlaceholder({
     label,
     placeholder,
     required,
+  });
+  const describedBy = mergeDescribedBy({
+    ariaDescribedBy,
+    helperText,
+    helperTextId,
   });
   const resolvedMenuIsOpen = menuIsOpen ?? isMenuOpenInternal;
   const shouldHideRenderedValue =
@@ -181,7 +193,7 @@ export const AsyncSelect = <
   const sharedProps = {
     ...restProps,
     ref,
-    'aria-describedby': helperText ? `${selectId}-caption` : undefined,
+    'aria-describedby': describedBy,
     'aria-invalid': invalid || undefined,
     classNames: mergedClassNames,
     components: mergedComponents,

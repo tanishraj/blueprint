@@ -12,8 +12,12 @@ import {
   defaultFormatOptionLabel,
   defaultGetOptionLabel,
   defaultGetOptionValue,
+  getHelperTextId,
   getChipContent,
   getResolvedPlaceholder,
+  hasContent,
+  isSelectInvalid,
+  mergeDescribedBy,
 } from './shared.helpers';
 
 const option = {
@@ -65,6 +69,12 @@ describe('select shared helpers', () => {
         hintText: 'Fallback hint',
       }),
     ).toBe('Fallback hint');
+
+    expect(
+      buildHelperText({
+        caption: 0,
+      }),
+    ).toBe(0);
   });
 
   it('resolves placeholders and create labels', () => {
@@ -88,6 +98,35 @@ describe('select shared helpers', () => {
     render(<>{formatCreateLabel('Pending')}</>);
 
     expect(screen.getByText('Create "Pending"')).toBeInTheDocument();
+  });
+
+  it('detects content, invalid state, and described-by ids consistently', () => {
+    expect(hasContent(0)).toBe(true);
+    expect(hasContent('')).toBe(false);
+    expect(getHelperTextId('status')).toBe('status-caption');
+
+    expect(
+      mergeDescribedBy({
+        ariaDescribedBy: 'external-id',
+        helperText: 'Helper',
+        helperTextId: 'status-caption',
+      }),
+    ).toBe('external-id status-caption');
+
+    expect(
+      isSelectInvalid({
+        error: undefined,
+        errorMsg: undefined,
+        ariaInvalid: 'true',
+      }),
+    ).toBe(true);
+    expect(
+      isSelectInvalid({
+        ariaInvalid: undefined,
+        error: undefined,
+        errorMsg: 'Required',
+      }),
+    ).toBe(true);
   });
 
   it('builds class names for active, invalid, and inactive control states', () => {

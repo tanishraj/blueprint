@@ -39,6 +39,28 @@ const meta: Meta<typeof GroupedSelect> = {
   title: 'Components/Select/GroupedSelect',
   component: GroupedSelect,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'GroupedSelect enforces one selection per group while preserving the shared Select field shell and grouped menu presentation.',
+      },
+    },
+  },
+  decorators: [
+    (Story, context) => {
+      if (context.viewMode === 'docs') {
+        return <Story />;
+      }
+
+      return (
+        <div className='flex min-h-screen w-full items-center justify-center p-8'>
+          <Story />
+        </div>
+      );
+    },
+  ],
   args: {
     label: 'Loan type',
     placeholder: 'Select one per group',

@@ -20,7 +20,10 @@ import {
   createBaseSelectStyles,
   defaultGetOptionLabel,
   defaultGetOptionValue,
+  getHelperTextId,
   getResolvedPlaceholder,
+  isSelectInvalid,
+  mergeDescribedBy,
 } from './shared.helpers';
 import type { SelectOption, SelectProps } from './types';
 
@@ -75,11 +78,13 @@ export const SelectWithApply = <
   value,
   allOptionLabel = 'All',
   applyButtonLabel = 'Apply',
+  'aria-describedby': ariaDescribedBy,
+  'aria-invalid': ariaInvalid,
   ...restProps
 }: SelectWithApplyProps<Option, IsMulti>) => {
   const generatedId = useId();
   const selectId = id ?? generatedId;
-  const invalid = Boolean(error ?? errorMsg);
+  const invalid = isSelectInvalid({ ariaInvalid, error, errorMsg });
   const helperText = buildHelperText({
     caption,
     error,
@@ -89,10 +94,16 @@ export const SelectWithApply = <
   });
   const isReadOnly = Boolean(readOnly ?? readonly);
   const isSelectDisabled = Boolean(disabled ?? isDisabled);
+  const helperTextId = getHelperTextId(selectId);
   const resolvedPlaceholder = getResolvedPlaceholder({
     label,
     placeholder,
     required,
+  });
+  const describedBy = mergeDescribedBy({
+    ariaDescribedBy,
+    helperText,
+    helperTextId,
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const committedValue = useMemo(
@@ -408,8 +419,8 @@ export const SelectWithApply = <
     >
       <ReactSelect<Option, IsMulti, GroupBase<Option>>
         {...restProps}
-        ref={ref as never}
-        aria-describedby={helperText ? `${selectId}-caption` : undefined}
+        ref={ref}
+        aria-describedby={describedBy}
         aria-invalid={invalid || undefined}
         backspaceRemovesValue={false}
         classNames={mergedClassNames}

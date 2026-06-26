@@ -37,6 +37,28 @@ const meta: Meta<typeof SelectWithApply> = {
   title: 'Components/Select/SelectWithApply',
   component: SelectWithApply,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'SelectWithApply keeps pending changes in the open menu until the user commits them with the apply action.',
+      },
+    },
+  },
+  decorators: [
+    (Story, context) => {
+      if (context.viewMode === 'docs') {
+        return <Story />;
+      }
+
+      return (
+        <div className='flex min-h-screen w-full items-center justify-center p-8'>
+          <Story />
+        </div>
+      );
+    },
+  ],
   args: {
     label: 'Status',
     placeholder: 'Select status',

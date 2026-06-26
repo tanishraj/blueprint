@@ -6,6 +6,12 @@ import type { InputSizes, InputVariants } from '../Input/types';
 
 export type SelectSizes = InputSizes;
 export type SelectVariants = InputVariants;
+export type SelectAriaInvalid =
+  | boolean
+  | 'false'
+  | 'grammar'
+  | 'spelling'
+  | 'true';
 
 export interface SelectOption<T = string | number> {
   label: ReactNode;
@@ -25,6 +31,8 @@ export interface SelectProps<
   Option extends SelectOption = SelectOption,
   IsMulti extends boolean = false,
 > extends Omit<CreatableProps<Option, IsMulti, GroupBase<Option>>, 'size'> {
+  'aria-describedby'?: string;
+  'aria-invalid'?: SelectAriaInvalid;
   caption?: ReactNode;
   containerClassName?: string;
   createText?: string;
