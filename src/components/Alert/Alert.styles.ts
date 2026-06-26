@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const alertWrapperStyles = cva(
-  'flex flex-row bg-default text-default p-3 gap-2.5 rounded-md border border-transparent',
+  'flex flex-row gap-2.5 rounded-md border border-transparent bg-default p-3 text-default',
   {
     variants: {
       appearance: {
@@ -12,7 +12,7 @@ export const alertWrapperStyles = cva(
       variant: {
         default: 'bg-default text-default',
         primary: 'bg-primary text-white',
-        info: ' bg-info text-white',
+        info: 'bg-info text-white',
         success: 'bg-success text-white',
         warning: 'bg-warning text-white',
         danger: 'bg-danger text-white',
@@ -100,7 +100,7 @@ export const alertWrapperStyles = cva(
   },
 );
 
-export const alertContentWrapperStyles = cva('flex flex-col flex-1 gap-2', {
+export const alertContentWrapperStyles = cva('flex flex-1 flex-col gap-2', {
   variants: {
     variant: {
       default: '',
@@ -115,9 +115,8 @@ export const alertContentWrapperStyles = cva('flex flex-col flex-1 gap-2', {
       outline: '',
       dashed: '',
     },
-    size: { sm: 'gap-2', md: 'gap2.5', lg: 'gap-3' },
+    size: { sm: 'gap-2', md: 'gap-2.5', lg: 'gap-3' },
   },
-  compoundVariants: [{}],
   defaultVariants: {
     size: 'md',
   },
@@ -180,7 +179,7 @@ export const alertTitleStyles = cva('font-semibold', {
   },
 });
 
-export const alertDescriptionStyles = cva('', {
+export const alertDescriptionStyles = cva('leading-relaxed', {
   variants: {
     appearance: {
       filled: 'text-white',
@@ -314,7 +313,7 @@ export const alertIconStyles = cva('stroke-2', {
 });
 
 export const alertCloseButtonStyles = cva(
-  'shrink-0 cursor-pointer text-default',
+  'inline-flex shrink-0 items-start justify-center rounded outline-none transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
   {
     variants: {
       appearance: {
@@ -336,6 +335,36 @@ export const alertCloseButtonStyles = cva(
       },
     },
     compoundVariants: [
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'default',
+        className: 'text-default',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'primary',
+        className: 'text-primary',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'info',
+        className: 'text-info',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'success',
+        className: 'text-success',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'warning',
+        className: 'text-warning',
+      },
+      {
+        appearance: ['outline', 'dashed'],
+        variant: 'danger',
+        className: 'text-danger',
+      },
       /* FILLED INVERTED */
       {
         appearance: ['filled'],

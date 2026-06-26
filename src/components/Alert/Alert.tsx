@@ -1,8 +1,14 @@
 import { X } from 'lucide-react';
-import { FC, ReactNode, SVGProps } from 'react';
+import type {
+  ComponentPropsWithoutRef,
+  ComponentType,
+  ReactNode,
+  SVGProps,
+} from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { cn, RemoveNull } from '@/utils';
+import { cn } from '@/utils/classNames';
+import type { RemoveNull } from '@/utils/types';
 
 import {
   alertCloseButtonStyles,
@@ -13,16 +19,20 @@ import {
   alertWrapperStyles,
 } from './Alert.styles';
 
-export interface AlertProps extends RemoveNull<
-  VariantProps<typeof alertWrapperStyles>
-> {
-  title?: string;
-  icon?: FC<SVGProps<SVGSVGElement>>;
+type AlertIcon = ComponentType<SVGProps<SVGSVGElement>>;
+
+export interface AlertProps
+  extends
+    ComponentPropsWithoutRef<'div'>,
+    RemoveNull<VariantProps<typeof alertWrapperStyles>> {
+  title?: ReactNode;
+  icon?: AlertIcon;
   children?: ReactNode;
   onClose?: () => void;
+  closeLabel?: string;
 }
 
-export const Alert: FC<AlertProps> = ({
+export function Alert({
   variant,
   appearance,
   size,
@@ -31,59 +41,96 @@ export const Alert: FC<AlertProps> = ({
   icon: Icon,
   children,
   onClose,
+  closeLabel = 'Dismiss alert',
+  className,
+  role,
   ...restProps
-}) => {
-  const alertWrapperClassName = cn(
-    alertWrapperStyles({
-      variant,
-      appearance,
-      size,
-      inverted,
-    }),
-  );
-  const alertContentWrapperClassName = cn(
-    alertContentWrapperStyles({
-      variant,
-      appearance,
-      size,
-    }),
-  );
-  const alertTitleClassName = cn(
-    alertTitleStyles({
-      variant,
-      appearance,
-      size,
-    }),
-  );
-  const alertDescriptionClassName = cn(
-    alertDescriptionStyles({
-      appearance,
-      variant,
-      size,
-      inverted,
-    }),
-  );
-  const alertIconClassName = cn(
-    alertIconStyles({ variant, appearance, size, inverted }),
-  );
-  const alertCloseButtonClassName = cn(
-    alertCloseButtonStyles({
-      appearance,
-      variant,
-      size,
-      inverted,
-    }),
-  );
+}: AlertProps) {
+  const hasTitle = title !== null && title !== undefined;
+  const hasDescription = children !== null && children !== undefined;
+
   return (
-    <div {...restProps} className={alertWrapperClassName}>
-      <div>
-        {Icon && <Icon className={alertIconClassName} strokeWidth={1} />}
-      </div>
-      <div className={alertContentWrapperClassName}>
-        <div className={alertTitleClassName}>{title}</div>
-        <div className={alertDescriptionClassName}>{children}</div>
-      </div>
-      {onClose && <X className={alertCloseButtonClassName} onClick={onClose} />}
+    <div
+      {...restProps}
+      role={role ?? 'alert'}
+      className={cn(
+        alertWrapperStyles({
+          variant,
+          appearance,
+          size,
+          inverted,
+        }),
+        className,
+      )}
+    >
+      {Icon ? (
+        <div>
+          <Icon
+            aria-hidden='true'
+            className={cn(
+              alertIconStyles({ variant, appearance, size, inverted }),
+            )}
+            strokeWidth={1.75}
+          />
+        </div>
+      ) : null}
+      {hasTitle || hasDescription ? (
+        <div
+          className={cn(
+            alertContentWrapperStyles({
+              variant,
+              appearance,
+              size,
+            }),
+          )}
+        >
+          {hasTitle ? (
+            <div
+              className={cn(
+                alertTitleStyles({
+                  variant,
+                  appearance,
+                  size,
+                  inverted,
+                }),
+              )}
+            >
+              {title}
+            </div>
+          ) : null}
+          {hasDescription ? (
+            <div
+              className={cn(
+                alertDescriptionStyles({
+                  appearance,
+                  variant,
+                  size,
+                  inverted,
+                }),
+              )}
+            >
+              {children}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+      {onClose ? (
+        <button
+          type='button'
+          aria-label={closeLabel}
+          className={cn(
+            alertCloseButtonStyles({
+              appearance,
+              variant,
+              size,
+              inverted,
+            }),
+          )}
+          onClick={onClose}
+        >
+          <X aria-hidden='true' />
+        </button>
+      ) : null}
     </div>
   );
-};
+}
