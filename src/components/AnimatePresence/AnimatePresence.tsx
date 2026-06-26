@@ -1,9 +1,6 @@
 import {
-  type FC,
   type ReactElement,
-  type RefObject,
   startTransition,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -17,146 +14,115 @@ interface AnimatePresenceProps {
   presence: boolean;
 }
 
-export const AnimatePresence: FC<AnimatePresenceProps> = ({
-  children,
-  presence,
-}) => {
-  const [isPresent, setIsPresent] = useState(presence);
-  const registeredRefs = useRef<RefObject<HTMLElement | null>[]>([]);
-  const latestPresence = useRef(presence);
+const parseTimeValue = (value: string) => {
+  const trimmedValue = value.trim();
 
-  const registerRef = useCallback((ref: RefObject<HTMLElement | null>) => {
-    if (!registeredRefs.current.some(registeredRef => registeredRef === ref)) {
-      registeredRefs.current.push(ref);
-    }
-  }, []);
+  if (!trimmedValue) {
+    return 0;
+  }
 
-  const unregisterRef = useCallback((ref: RefObject<HTMLElement | null>) => {
-    registeredRefs.current = registeredRefs.current.filter(r => r !== ref);
-  }, []);
+  if (trimmedValue.endsWith('ms')) {
+    return Number.parseFloat(trimmedValue);
+  }
 
-  const getMaxMotionDuration = useCallback((node: HTMLElement) => {
-    if (typeof window === 'undefined') {
-      return 0;
-    }
+  if (trimmedValue.endsWith('s')) {
+    return Number.parseFloat(trimmedValue) * 1000;
+  }
 
-    const computedStyle = window.getComputedStyle(node);
-    const parseTimeValue = (value: string) => {
-      const trimmedValue = value.trim();
+  return Number.parseFloat(trimmedValue) || 0;
+};
 
-      if (!trimmedValue) {
-        return 0;
+const parseTimeList = (value: string) => value.split(',').map(parseTimeValue);
+
+const getTotalDuration = (durations: string, delays: string) => {
+  const durationValues = parseTimeList(durations);
+  const delayValues = parseTimeList(delays);
+
+  return durationValues.reduce((maxDuration, durationValue, index) => {
+    const delayValue =
+      delayValues[index] ?? delayValues[delayValues.length - 1] ?? 0;
+
+    return Math.max(maxDuration, durationValue + delayValue);
+  }, 0);
+};
+
+const getMaxMotionDuration = (node: HTMLElement) => {
+  if (typeof window === 'undefined') {
+    return 0;
+  }
+
+  const computedStyle = window.getComputedStyle(node);
+
+  return Math.max(
+    getTotalDuration(
+      computedStyle.animationDuration,
+      computedStyle.animationDelay,
+    ),
+    getTotalDuration(
+      computedStyle.transitionDuration,
+      computedStyle.transitionDelay,
+    ),
+  );
+};
+
+const waitForNodeExit = (node: HTMLElement) => {
+  const maxMotionDuration = getMaxMotionDuration(node);
+
+  if (maxMotionDuration === 0) {
+    return Promise.resolve();
+  }
+
+  return new Promise<void>(resolve => {
+    let hasResolved = false;
+    let fallbackTimeout: ReturnType<typeof window.setTimeout> | null = null;
+
+    function cleanup() {
+      node.removeEventListener('animationend', handleMotionEnd);
+      node.removeEventListener('transitionend', handleMotionEnd);
+
+      if (fallbackTimeout) {
+        window.clearTimeout(fallbackTimeout);
+        fallbackTimeout = null;
       }
-
-      if (trimmedValue.endsWith('ms')) {
-        return Number.parseFloat(trimmedValue);
-      }
-
-      if (trimmedValue.endsWith('s')) {
-        return Number.parseFloat(trimmedValue) * 1000;
-      }
-
-      return Number.parseFloat(trimmedValue) || 0;
-    };
-    const parseTimeList = (value: string) =>
-      value.split(',').map(parseTimeValue);
-    const getTotalDuration = (durations: string, delays: string) => {
-      const durationValues = parseTimeList(durations);
-      const delayValues = parseTimeList(delays);
-
-      return durationValues.reduce((maxDuration, durationValue, index) => {
-        const delayValue =
-          delayValues[index] ?? delayValues[delayValues.length - 1] ?? 0;
-
-        return Math.max(maxDuration, durationValue + delayValue);
-      }, 0);
-    };
-
-    return Math.max(
-      getTotalDuration(
-        computedStyle.animationDuration,
-        computedStyle.animationDelay,
-      ),
-      getTotalDuration(
-        computedStyle.transitionDuration,
-        computedStyle.transitionDelay,
-      ),
-    );
-  }, []);
-
-  const handleExitAnimation = useCallback(async () => {
-    if (registeredRefs.current.length === 0) {
-      setIsPresent(false);
-      return;
     }
 
-    const animationPromises = registeredRefs.current.map(ref => {
-      return new Promise<void>(resolve => {
-        const node = ref.current;
-        if (!node) {
-          resolve();
-          return;
-        }
-        const currentNode = node;
-
-        const maxMotionDuration = getMaxMotionDuration(currentNode);
-
-        if (maxMotionDuration === 0) {
-          resolve();
-          return;
-        }
-
-        let hasResolved = false;
-        let fallbackTimeout: ReturnType<typeof window.setTimeout> | null = null;
-
-        function complete() {
-          if (hasResolved) {
-            return;
-          }
-
-          hasResolved = true;
-          cleanup();
-          resolve();
-        }
-
-        function handleMotionEnd(event: AnimationEvent | TransitionEvent) {
-          if (event.target === currentNode) {
-            complete();
-          }
-        }
-
-        function cleanup() {
-          currentNode.removeEventListener('animationend', handleMotionEnd);
-          currentNode.removeEventListener('transitionend', handleMotionEnd);
-
-          if (fallbackTimeout) {
-            window.clearTimeout(fallbackTimeout);
-            fallbackTimeout = null;
-          }
-        }
-
-        currentNode.addEventListener('animationend', handleMotionEnd);
-        currentNode.addEventListener('transitionend', handleMotionEnd);
-        fallbackTimeout = window.setTimeout(complete, maxMotionDuration + 50);
-      });
-    });
-
-    try {
-      await Promise.all(animationPromises);
-
-      if (latestPresence.current) {
+    function complete() {
+      if (hasResolved) {
         return;
       }
 
-      setIsPresent(false);
-    } catch (error) {
-      console.error('HandleExitAnimation failed!!', error);
+      hasResolved = true;
+      cleanup();
+      resolve();
     }
-  }, [getMaxMotionDuration]);
+
+    function handleMotionEnd(event: AnimationEvent | TransitionEvent) {
+      if (event.target === node) {
+        complete();
+      }
+    }
+
+    node.addEventListener('animationend', handleMotionEnd);
+    node.addEventListener('transitionend', handleMotionEnd);
+    fallbackTimeout = window.setTimeout(complete, maxMotionDuration + 50);
+  });
+};
+
+export function AnimatePresence({ children, presence }: AnimatePresenceProps) {
+  const [isPresent, setIsPresent] = useState(presence);
+  const registeredNodes = useRef(new Set<HTMLElement>());
+  const latestPresence = useRef(presence);
 
   const contextValue = useMemo(
-    () => ({ registerRef, unregisterRef }),
-    [registerRef, unregisterRef],
+    () => ({
+      registerNode(node: HTMLElement) {
+        registeredNodes.current.add(node);
+      },
+      unregisterNode(node: HTMLElement) {
+        registeredNodes.current.delete(node);
+      },
+    }),
+    [],
   );
 
   useEffect(() => {
@@ -170,10 +136,28 @@ export const AnimatePresence: FC<AnimatePresenceProps> = ({
       return;
     }
 
-    startTransition(() => {
-      void handleExitAnimation();
-    });
-  }, [presence, handleExitAnimation]);
+    let isCancelled = false;
+
+    const runExitAnimation = async () => {
+      const animationTargets = Array.from(registeredNodes.current);
+
+      if (animationTargets.length > 0) {
+        await Promise.all(animationTargets.map(waitForNodeExit));
+      }
+
+      if (isCancelled || latestPresence.current) {
+        return;
+      }
+
+      setIsPresent(false);
+    };
+
+    void runExitAnimation();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [presence]);
 
   if (!isPresent) {
     return null;
@@ -184,4 +168,4 @@ export const AnimatePresence: FC<AnimatePresenceProps> = ({
       {children}
     </AnimatePresenceContext>
   );
-};
+}

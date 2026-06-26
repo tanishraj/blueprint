@@ -1,8 +1,8 @@
-import { createContext, type RefObject } from 'react';
+import { createContext } from 'react';
 
 interface AnimatePresenceContextProps {
-  registerRef: (ref: RefObject<HTMLElement | null>) => void;
-  unregisterRef: (ref: RefObject<HTMLElement | null>) => void;
+  registerNode: (node: HTMLElement) => void;
+  unregisterNode: (node: HTMLElement) => void;
 }
 
 export const AnimatePresenceContext =
