@@ -62,6 +62,10 @@ describe('Checkbox Component', () => {
       'aria-invalid',
       'true',
     );
+    expect(screen.getByRole('checkbox')).toHaveAttribute(
+      'aria-errormessage',
+      expect.stringMatching(/description$/),
+    );
     expect(screen.getByText('This field is required')).toBeInTheDocument();
   });
 
@@ -71,5 +75,19 @@ describe('Checkbox Component', () => {
     expect(
       screen.getByRole('checkbox', { name: /^checkbox$/i }),
     ).toBeInTheDocument();
+  });
+
+  it('associates description text with the input', () => {
+    render(
+      <Checkbox
+        label='Newsletter'
+        description='You can unsubscribe at any time.'
+      />,
+    );
+
+    const checkbox = screen.getByRole('checkbox', { name: /newsletter/i });
+    const description = screen.getByText(/unsubscribe at any time/i);
+
+    expect(checkbox).toHaveAttribute('aria-describedby', description.id);
   });
 });
