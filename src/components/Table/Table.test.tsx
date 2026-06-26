@@ -79,4 +79,20 @@ describe('Table', () => {
 
     expect(screen.getByText('No invoices found.')).toBeInTheDocument();
   });
+
+  it('renders falsy caption content and accessor values', () => {
+    render(
+      <Table
+        caption={0}
+        columns={[
+          { accessorKey: 'id', header: 'Invoice' },
+          { accessorKey: 'amount', header: 'Amount' },
+        ]}
+        data={[{ id: 'INV001', amount: 0 as unknown as string }]}
+      />,
+    );
+
+    expect(screen.getAllByText('0')).toHaveLength(2);
+    expect(screen.getByRole('cell', { name: '0' })).toBeInTheDocument();
+  });
 });
