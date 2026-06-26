@@ -1,6 +1,6 @@
-import { type FC, useId } from 'react';
+import { useId } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   progressBarCaptionStyles,
@@ -31,6 +31,8 @@ const circularConfig: Record<
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
 
+const hasContent = (value: unknown) => value !== undefined && value !== null;
+
 const getProgressState = (value: number, min: number, max: number) => {
   const safeMin = Number.isFinite(min) ? min : 0;
   const safeMax = Number.isFinite(max) && max > safeMin ? max : safeMin + 1;
@@ -46,7 +48,7 @@ const getProgressState = (value: number, min: number, max: number) => {
   };
 };
 
-export const ProgressBar: FC<ProgressBarProps> = ({
+export function ProgressBar({
   appearance = 'linear',
   caption,
   captionClassName,
@@ -71,7 +73,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledBy,
   ...restProps
-}) => {
+}: ProgressBarProps) {
   const generatedId = useId();
   const labelId = `${generatedId}-label`;
   const captionId = `${generatedId}-caption`;
@@ -79,26 +81,38 @@ export const ProgressBar: FC<ProgressBarProps> = ({
   const displayValue = valueFormatter
     ? valueFormatter(state)
     : `${Math.round(state.percentage)}%`;
-  const labelledBy = ariaLabelledBy ?? (label ? labelId : undefined);
-  const describedBy = ariaDescribedBy ?? (caption ? captionId : undefined);
+  const labelledBy = [hasContent(label) ? labelId : undefined, ariaLabelledBy]
+    .filter(Boolean)
+    .join(' ');
+  const describedBy = [
+    hasContent(caption) ? captionId : undefined,
+    ariaDescribedBy,
+  ]
+    .filter(Boolean)
+    .join(' ');
+  const valueText =
+    typeof displayValue === 'string' || typeof displayValue === 'number'
+      ? String(displayValue)
+      : undefined;
   const commonA11yProps = {
-    'aria-describedby': describedBy,
+    'aria-describedby': describedBy || undefined,
     'aria-label': ariaLabel,
-    'aria-labelledby': labelledBy,
+    'aria-labelledby': labelledBy || undefined,
     'aria-valuemax': state.max,
     'aria-valuemin': state.min,
     'aria-valuenow': state.value,
+    'aria-valuetext': valueText,
     role,
   };
 
   const renderMeta = () => {
-    if (!label && !showValue) {
+    if (!hasContent(label) && !showValue) {
       return null;
     }
 
     return (
       <div className={cn(progressBarMetaStyles({ size, inverted }))}>
-        {label && (
+        {hasContent(label) && (
           <span
             className={cn(progressBarLabelStyles(), labelClassName)}
             id={labelId}
@@ -121,7 +135,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
   };
 
   const renderCaption = () => {
-    if (!caption) {
+    if (!hasContent(caption)) {
       return null;
     }
 
@@ -153,7 +167,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
           className,
         )}
       >
-        {label && (
+        {hasContent(label) && (
           <span
             className={cn(
               progressBarMetaStyles({ size, inverted }),
@@ -250,4 +264,4 @@ export const ProgressBar: FC<ProgressBarProps> = ({
       {renderCaption()}
     </div>
   );
-};
+}

@@ -49,6 +49,30 @@ describe('ProgressBar Component', () => {
     );
 
     expect(screen.getByText('50 of 200')).toBeInTheDocument();
+    expect(
+      screen.getByRole('progressbar', { name: /install/i }),
+    ).toHaveAttribute('aria-valuetext', '50 of 200');
+  });
+
+  it('merges caption and external aria-describedby values', () => {
+    render(
+      <>
+        <span id='external-description'>External description</span>
+        <ProgressBar
+          aria-describedby='external-description'
+          caption='There will be a caption text here'
+          label='Label'
+          value={30}
+        />
+      </>,
+    );
+
+    const progressbar = screen.getByRole('progressbar', { name: /label/i });
+    const caption = screen.getByText(/there will be a caption text here/i);
+    const describedBy = progressbar.getAttribute('aria-describedby');
+
+    expect(describedBy).toContain('external-description');
+    expect(describedBy).toContain(caption.getAttribute('id'));
   });
 
   it('renders a circular progressbar', () => {
@@ -94,5 +118,12 @@ describe('ProgressBar Component', () => {
     expect(screen.getByRole('progressbar')).toHaveClass('progress-root');
     expect(document.querySelector('.progress-track')).toBeInTheDocument();
     expect(document.querySelector('.progress-indicator')).toBeInTheDocument();
+  });
+
+  it('renders valid falsy label and caption content', () => {
+    render(<ProgressBar caption={0} label={0} value={0} />);
+
+    expect(screen.getByText('0%')).toBeInTheDocument();
+    expect(screen.getAllByText('0')).toHaveLength(2);
   });
 });

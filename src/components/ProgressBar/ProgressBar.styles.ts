@@ -92,7 +92,7 @@ export const progressBarTrackStyles = cva(
         lg: 'h-2',
       },
       inverted: {
-        true: 'bg-white/80',
+        true: 'bg-white/16',
         false: 'bg-gray-200',
       },
     },
@@ -136,7 +136,7 @@ export const progressBarIndicatorStyles = cva(
 );
 
 export const progressBarDotStyles = cva(
-  'absolute top-1/2 rounded-full border-2 border-base transition-[left] duration-300 ease-out',
+  'absolute top-1/2 rounded-full border-2 transition-[left] duration-300 ease-out',
   {
     variants: {
       size: {
@@ -153,8 +153,8 @@ export const progressBarDotStyles = cva(
         danger: 'bg-danger',
       },
       inverted: {
-        true: '',
-        false: '',
+        true: 'border-default-inverted',
+        false: 'border-base',
       },
     },
     compoundVariants: [
@@ -181,7 +181,7 @@ export const progressBarCaptionStyles = cva('text-gray-600', {
       lg: 'text-sm',
     },
     inverted: {
-      true: 'text-gray-400',
+      true: 'text-caption-inverted',
       false: 'text-gray-600',
     },
   },
@@ -212,7 +212,7 @@ export const progressBarCircleSvgStyles = cva('block -rotate-90');
 export const progressBarCircleTrackStyles = cva('stroke-gray-200', {
   variants: {
     inverted: {
-      true: 'stroke-white/80',
+      true: 'stroke-white/20',
       false: 'stroke-gray-200',
     },
   },
