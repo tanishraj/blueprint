@@ -2,12 +2,10 @@ import type { DayPickerProps } from 'react-day-picker';
 
 export type CalendarShape = 'squared' | 'circle';
 
-type CalendarDayPickerProps = DayPickerProps extends infer Props
-  ? Props extends unknown
-    ? Omit<Props, 'navLayout'>
-    : never
+type DistributiveOmit<T, K extends PropertyKey> = T extends unknown
+  ? Omit<T, K>
   : never;
 
-export type CalendarProps = CalendarDayPickerProps & {
+export type CalendarProps = DistributiveOmit<DayPickerProps, 'navLayout'> & {
   shape?: CalendarShape;
 };
