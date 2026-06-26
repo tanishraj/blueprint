@@ -50,6 +50,22 @@ describe('Toaster', () => {
     expect(props.position).toBe('bottom-right');
   });
 
+  it('merges className and toastOptions instead of replacing them', () => {
+    const { getByTestId } = render(
+      <Toaster
+        className='custom-toaster'
+        toastOptions={{ className: 'custom-toast' }}
+      />,
+    );
+    const sonner = getByTestId('mock-sonner');
+    const props = JSON.parse(sonner.getAttribute('data-props') || '{}');
+
+    expect(props.className).toContain('toast');
+    expect(props.className).toContain('custom-toaster');
+    expect(props.toastOptions.className).toContain('rounded-md');
+    expect(props.toastOptions.className).toContain('custom-toast');
+  });
+
   it('uses createPortal in the client environment', () => {
     render(<Toaster />);
 

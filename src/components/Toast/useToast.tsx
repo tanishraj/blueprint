@@ -1,20 +1,21 @@
+import { useCallback, useMemo } from 'react';
 import { toast, type ToasterProps } from 'sonner';
 
 import { Alert, type AlertProps } from '../Alert';
 
 export interface ToastProps extends AlertProps {
+  dismissable?: boolean;
   duration?: number;
   position?: ToasterProps['position'];
-  dismissable?: boolean;
 }
 
-export const useToast = () => {
-  const showToast = (props: ToastProps) => {
+export function useToast() {
+  const showToast = useCallback((props: ToastProps) => {
     const {
+      children,
+      dismissable,
       duration = 5000,
       position,
-      dismissable,
-      children,
       ...alertProps
     } = props;
     const toastOptions = position ? { duration, position } : { duration };
@@ -30,24 +31,27 @@ export const useToast = () => {
         </Alert>
       );
     }, toastOptions);
-  };
+  }, []);
 
-  return {
-    toast: showToast,
-    default: (props: Omit<ToastProps, 'variant'>) =>
-      showToast({ ...props, variant: 'default' }),
-    primary: (props: Omit<ToastProps, 'variant'>) =>
-      showToast({ ...props, variant: 'primary' }),
-    info: (props: Omit<ToastProps, 'variant'>) =>
-      showToast({ ...props, variant: 'info' }),
-    success: (props: Omit<ToastProps, 'variant'>) =>
-      showToast({ ...props, variant: 'success' }),
-    warning: (props: Omit<ToastProps, 'variant'>) =>
-      showToast({ ...props, variant: 'warning' }),
-    danger: (props: Omit<ToastProps, 'variant'>) =>
-      showToast({ ...props, variant: 'danger' }),
-    error: (props: Omit<ToastProps, 'variant'>) =>
-      showToast({ ...props, variant: 'danger' }),
-    dismiss: toast.dismiss,
-  };
-};
+  return useMemo(
+    () => ({
+      toast: showToast,
+      default: (props: Omit<ToastProps, 'variant'>) =>
+        showToast({ ...props, variant: 'default' }),
+      primary: (props: Omit<ToastProps, 'variant'>) =>
+        showToast({ ...props, variant: 'primary' }),
+      info: (props: Omit<ToastProps, 'variant'>) =>
+        showToast({ ...props, variant: 'info' }),
+      success: (props: Omit<ToastProps, 'variant'>) =>
+        showToast({ ...props, variant: 'success' }),
+      warning: (props: Omit<ToastProps, 'variant'>) =>
+        showToast({ ...props, variant: 'warning' }),
+      danger: (props: Omit<ToastProps, 'variant'>) =>
+        showToast({ ...props, variant: 'danger' }),
+      error: (props: Omit<ToastProps, 'variant'>) =>
+        showToast({ ...props, variant: 'danger' }),
+      dismiss: toast.dismiss,
+    }),
+    [showToast],
+  );
+}
