@@ -1,6 +1,6 @@
 import type { FieldsetHTMLAttributes, ReactNode } from 'react';
 
-import type { RadioProps, RadioSizes } from '../Radio';
+import type { RadioProps, RadioSizes } from '../Radio/types';
 
 export type RadioGroupOrientation = 'horizontal' | 'vertical';
 

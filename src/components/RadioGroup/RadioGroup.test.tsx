@@ -67,6 +67,29 @@ describe('RadioGroup Component', () => {
     expect(screen.getByRole('group').querySelector('.flex-row')).toBeTruthy();
   });
 
+  it('merges external aria-describedby with generated helper text id', () => {
+    render(
+      <>
+        <span id='hint-id'>Hint</span>
+        <RadioGroup
+          aria-describedby='hint-id'
+          description='Choose exactly one team.'
+          label='Teams'
+          options={options}
+        />
+      </>,
+    );
+
+    expect(screen.getByRole('group', { name: /teams/i })).toHaveAttribute(
+      'aria-describedby',
+      expect.stringContaining('hint-id'),
+    );
+    expect(screen.getByRole('group', { name: /teams/i })).toHaveAttribute(
+      'aria-describedby',
+      expect.stringContaining('-description'),
+    );
+  });
+
   it('marks the group invalid when error text is provided', () => {
     render(
       <RadioGroup error='Choose one team' label='Teams' options={options} />,
@@ -100,5 +123,12 @@ describe('RadioGroup Component', () => {
     fireEvent.click(screen.getByRole('radio', { name: /disabled/i }));
 
     expect(handleValueChange).not.toHaveBeenCalled();
+  });
+
+  it('renders falsy label and helper text content', () => {
+    render(<RadioGroup description={0} label={0} options={options} />);
+
+    expect(screen.getByRole('group')).toBeInTheDocument();
+    expect(screen.getAllByText('0')).toHaveLength(2);
   });
 });

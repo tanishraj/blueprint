@@ -15,10 +15,11 @@ const options = [
 ];
 
 const meta: Meta<RadioGroupProps> = {
-  title: 'components/RadioGroup',
+  title: 'Components/RadioGroup',
   component: RadioGroup,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: `
@@ -27,7 +28,6 @@ RadioGroup collects related radio options under one accessible group label.
 Use \`value\` for controlled state, \`defaultValue\` for uncontrolled state, and \`onValueChange\` to receive the selected option value.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [

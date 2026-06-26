@@ -1,8 +1,14 @@
-import { type ChangeEvent, type FC, useCallback, useId, useState } from 'react';
+import {
+  type ChangeEvent,
+  type ReactNode,
+  useCallback,
+  useId,
+  useState,
+} from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
-import { Radio } from '../Radio';
+import { Radio } from '../Radio/Radio';
 import {
   radioGroupDescriptionStyles,
   radioGroupHeaderStyles,
@@ -27,7 +33,7 @@ interface RadioGroupItemProps {
   size?: RadioGroupSizes;
 }
 
-const RadioGroupItem: FC<RadioGroupItemProps> = ({
+const RadioGroupItem = ({
   checked,
   disabled,
   invalid,
@@ -35,7 +41,7 @@ const RadioGroupItem: FC<RadioGroupItemProps> = ({
   onItemChange,
   option,
   size,
-}) => {
+}: RadioGroupItemProps) => {
   const {
     value,
     disabled: optionDisabled,
@@ -73,7 +79,13 @@ const RadioGroupItem: FC<RadioGroupItemProps> = ({
   );
 };
 
-export const RadioGroup: FC<RadioGroupProps> = ({
+function hasContent(value: ReactNode | undefined) {
+  return (
+    value !== undefined && value !== null && value !== false && value !== ''
+  );
+}
+
+export function RadioGroup({
   options,
   value,
   defaultValue,
@@ -90,9 +102,9 @@ export const RadioGroup: FC<RadioGroupProps> = ({
   'aria-describedby': ariaDescribedBy,
   'aria-invalid': ariaInvalid,
   ...restProps
-}) => {
+}: RadioGroupProps) {
   const generatedId = useId();
-  const helperId = `${generatedId}-helper`;
+  const helperId = `${generatedId}-description`;
   const groupName = name ?? generatedId;
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const isControlled = value !== undefined;
@@ -100,6 +112,14 @@ export const RadioGroup: FC<RadioGroupProps> = ({
   const invalid =
     Boolean(error) || ariaInvalid === true || ariaInvalid === 'true';
   const helperText = error ?? description;
+  const hasLabel = hasContent(label);
+  const hasHelperText = hasContent(helperText);
+  const describedByParts = [
+    ariaDescribedBy,
+    hasHelperText ? helperId : undefined,
+  ].filter(Boolean);
+  const describedBy =
+    describedByParts.length > 0 ? describedByParts.join(' ') : undefined;
 
   const handleItemChange = useCallback(
     (optionValue: string) => {
@@ -115,11 +135,11 @@ export const RadioGroup: FC<RadioGroupProps> = ({
   return (
     <fieldset
       {...restProps}
-      aria-describedby={helperText ? helperId : ariaDescribedBy}
+      aria-describedby={describedBy}
       className={cn(radioGroupStyles({ disabled }), className)}
       disabled={disabled}
     >
-      {label && (
+      {hasLabel && (
         <legend className={cn(radioGroupLegendStyles({ size }))}>
           {label}
           {required && (
@@ -129,7 +149,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
           )}
         </legend>
       )}
-      {helperText && (
+      {hasHelperText && (
         <span className={cn(radioGroupHeaderStyles())}>
           <span
             className={cn(radioGroupDescriptionStyles({ size, invalid }))}
@@ -155,4 +175,4 @@ export const RadioGroup: FC<RadioGroupProps> = ({
       </div>
     </fieldset>
   );
-};
+}
