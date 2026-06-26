@@ -1,7 +1,7 @@
 import {
   type ChangeEvent,
-  type FC,
   type Ref,
+  type MouseEvent,
   useCallback,
   useId,
   useRef,
@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { X } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   inputCaptionStyles,
@@ -39,7 +39,7 @@ const assignRef = <T,>(ref: Ref<T> | undefined, value: T) => {
 const hasInputValue = (value: InputProps['value']) =>
   value !== undefined && value !== null && String(value).length > 0;
 
-export const Input: FC<InputProps> = ({
+export function Input({
   ref,
   id,
   label,
@@ -65,7 +65,7 @@ export const Input: FC<InputProps> = ({
   'aria-describedby': ariaDescribedBy,
   'aria-invalid': ariaInvalid,
   ...restProps
-}) => {
+}: InputProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const captionId = `${inputId}-caption`;
@@ -77,6 +77,9 @@ export const Input: FC<InputProps> = ({
   const invalid =
     Boolean(error) || ariaInvalid === true || ariaInvalid === 'true';
   const helperText = error ?? caption;
+  const describedBy = [helperText ? captionId : undefined, ariaDescribedBy]
+    .filter(Boolean)
+    .join(' ');
   const showClearButton =
     clearable &&
     !disabled &&
@@ -111,6 +114,13 @@ export const Input: FC<InputProps> = ({
     onClear?.();
   }, [isControlled, onClear]);
 
+  const handleClearMouseDown = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+    },
+    [],
+  );
+
   return (
     <div className={cn(inputRootStyles({ fullWidth }), containerClassName)}>
       {label && (
@@ -142,14 +152,14 @@ export const Input: FC<InputProps> = ({
         )}
         <input
           {...restProps}
-          ref={setInputRef}
-          id={inputId}
-          aria-describedby={helperText ? captionId : ariaDescribedBy}
+          aria-describedby={describedBy || undefined}
           aria-invalid={invalid || undefined}
           className={cn(inputElementStyles(), inputClassName)}
           defaultValue={defaultValue}
           disabled={disabled}
+          id={inputId}
           onChange={handleChange}
+          ref={setInputRef}
           required={required}
           value={value}
         />
@@ -157,6 +167,7 @@ export const Input: FC<InputProps> = ({
           <button
             aria-label={clearLabel}
             className={cn(inputClearButtonStyles({ size }))}
+            onMouseDown={handleClearMouseDown}
             onClick={handleClear}
             type='button'
           >
@@ -182,4 +193,4 @@ export const Input: FC<InputProps> = ({
       )}
     </div>
   );
-};
+}

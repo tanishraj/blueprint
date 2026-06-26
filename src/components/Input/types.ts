@@ -1,4 +1,9 @@
-import type { ComponentPropsWithRef, FC, ReactNode, SVGProps } from 'react';
+import type {
+  ComponentPropsWithRef,
+  ComponentType,
+  ReactNode,
+  SVGProps,
+} from 'react';
 
 import type { ButtonSizes, ButtonVariants } from '../Button';
 
@@ -6,7 +11,7 @@ export type InputVariants = ButtonVariants;
 
 export type InputSizes = ButtonSizes;
 
-export type InputIcon = FC<SVGProps<SVGSVGElement>>;
+export type InputIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 export interface InputProps extends Omit<
   ComponentPropsWithRef<'input'>,

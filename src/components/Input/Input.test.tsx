@@ -26,6 +26,26 @@ describe('Input Component', () => {
     ).toBeInTheDocument();
   });
 
+  it('merges helper text with a custom aria-describedby value', () => {
+    render(
+      <>
+        <span id='external-description'>External help</span>
+        <Input
+          aria-describedby='external-description'
+          caption='Caption text'
+          label='Label'
+        />
+      </>,
+    );
+
+    const input = screen.getByLabelText(/label/i);
+    const describedBy = input.getAttribute('aria-describedby');
+    const caption = screen.getByText('Caption text');
+
+    expect(describedBy).toContain('external-description');
+    expect(describedBy).toContain(caption.getAttribute('id'));
+  });
+
   it('renders leading and trailing icons', () => {
     render(<Input aria-label='Email' leadingIcon={Plus} trailingIcon={Mail} />);
 
@@ -69,6 +89,7 @@ describe('Input Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /clear input/i }));
 
     expect(input).toHaveValue('');
+    expect(input).toHaveFocus();
     expect(handleClear).toHaveBeenCalledTimes(1);
   });
 
