@@ -1,7 +1,7 @@
-import type { ComponentPropsWithoutRef, FC, SVGProps } from 'react';
+import type { ComponentPropsWithoutRef, ComponentType, SVGProps } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { RemoveNull } from '@/utils';
+import type { RemoveNull } from '@/utils/types';
 
 import { chipStyles } from './Chip.styles';
 
@@ -13,7 +13,7 @@ export type ChipVariants = RemoveNull<
   VariantProps<typeof chipStyles>
 >['variant'];
 
-export type ChipIcon = FC<SVGProps<SVGSVGElement>>;
+export type ChipIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 export interface ChipProps
   extends
