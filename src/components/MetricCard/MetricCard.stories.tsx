@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { CircleHelp } from 'lucide-react';
 
 import { MetricCard } from './MetricCard';
-import { ETrend, type IMetricCardProps } from './types';
+import { ETrend, type MetricCardProps } from './types';
 import { Button } from '../Button';
 import { Popover } from '../Popover';
 
-const meta: Meta<IMetricCardProps> = {
+const meta: Meta<MetricCardProps> = {
   title: 'Components/MetricCard',
   component: MetricCard,
   tags: ['autodocs'],
@@ -83,7 +83,7 @@ Compact metric summary card for dashboards and stat blocks.
 };
 
 export default meta;
-type Story = StoryObj<IMetricCardProps>;
+type Story = StoryObj<MetricCardProps>;
 
 export const Playground: Story = {};
 

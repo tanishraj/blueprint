@@ -1,14 +1,15 @@
-import type { FC } from 'react';
-
 import {
   metricCardHintStyles,
   metricCardValueStyles,
   metricCardValueSupportStyles,
 } from './MetricCard.styles';
-import type { IMetricValueItem } from './types';
+import type { MetricValueItemData } from './types';
 import { TrendIndicator } from '../TrendIndicator';
 
-export const MetricValueItem: FC<IMetricValueItem> = ({ value, hint }) => {
+const hasContent = (content: unknown) =>
+  content !== undefined && content !== null;
+
+export function MetricValueItem({ value, hint }: MetricValueItemData) {
   const valueClassName = metricCardValueStyles({ color: value?.color });
   const valueSupportClassName = metricCardValueSupportStyles({
     size:
@@ -33,8 +34,10 @@ export const MetricValueItem: FC<IMetricValueItem> = ({ value, hint }) => {
     <div className='min-w-0'>
       <div className='flex items-center gap-1'>
         <div className='flex items-baseline gap-2'>
-          {value?.text && <span className={valueClassName}>{value.text}</span>}
-          {value?.supportText && (
+          {hasContent(value?.text) && (
+            <span className={valueClassName}>{value?.text}</span>
+          )}
+          {hasContent(value?.supportText) && (
             <span className={valueSupportClassName}>{value.supportText}</span>
           )}
         </div>
@@ -50,14 +53,16 @@ export const MetricValueItem: FC<IMetricValueItem> = ({ value, hint }) => {
         )}
       </div>
 
-      {(hint?.text || hint?.trend) && (
+      {(hasContent(hint?.text) || hint?.trend) && (
         <div className='flex items-center gap-1'>
           {hint?.trendPosition === 'left' && hintTrendIndicator}
-          {hint?.text && <div className={hintClassName}>{hint.text}</div>}
+          {hasContent(hint?.text) && (
+            <div className={hintClassName}>{hint?.text}</div>
+          )}
           {(hint?.trendPosition === 'right' || !hint?.trendPosition) &&
             hintTrendIndicator}
         </div>
       )}
     </div>
   );
-};
+}

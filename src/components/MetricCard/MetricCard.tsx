@@ -1,14 +1,15 @@
-import type { FC } from 'react';
-
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { metricCardItemsStyles, metricCardStyles } from './MetricCard.styles';
 import { MetricValueItem } from './MetricValueItem';
-import type { IMetricCardProps, IMetricValueItem } from './types';
+import type { MetricCardProps, MetricValueItemData } from './types';
 import { Label } from '../Label';
 
-const getMetricItemKey = (item: IMetricValueItem) =>
+const hasLabelText = (text: unknown) => text !== undefined && text !== null;
+
+const getMetricItemKey = (item: MetricValueItemData, index: number) =>
   [
+    index,
     item.value?.text,
     item.value?.supportText,
     item.value?.color,
@@ -21,7 +22,7 @@ const getMetricItemKey = (item: IMetricValueItem) =>
     .map(part => String(part ?? ''))
     .join('::');
 
-export const MetricCard: FC<IMetricCardProps> = ({
+export function MetricCard({
   className,
   hint,
   items,
@@ -29,15 +30,15 @@ export const MetricCard: FC<IMetricCardProps> = ({
   showDivider = false,
   value,
   ...restProps
-}) => {
-  const fallbackItem: IMetricValueItem | null =
+}: MetricCardProps) {
+  const fallbackItem: MetricValueItemData | null =
     value || hint
       ? {
           ...(value ? { value } : {}),
           ...(hint ? { hint } : {}),
         }
       : null;
-  const valueItems: IMetricValueItem[] =
+  const valueItems: MetricValueItemData[] =
     items ?? (fallbackItem ? [fallbackItem] : []);
 
   return (
@@ -45,15 +46,15 @@ export const MetricCard: FC<IMetricCardProps> = ({
       {...restProps}
       className={cn(metricCardStyles({ hasDivider: showDivider }), className)}
     >
-      {label?.text ? <Label {...label} /> : null}
+      {hasLabelText(label?.text) ? <Label {...label} /> : null}
 
       <div
         className={metricCardItemsStyles({ multiple: valueItems.length > 1 })}
       >
-        {valueItems.map(item => (
-          <MetricValueItem key={getMetricItemKey(item)} {...item} />
+        {valueItems.map((item, index) => (
+          <MetricValueItem key={getMetricItemKey(item, index)} {...item} />
         ))}
       </div>
     </div>
   );
-};
+}
