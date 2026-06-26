@@ -15,6 +15,7 @@ export * from './CountryFlag';
 export * from './DatePicker';
 export * from './Divider';
 export * from './Dropdown';
+export * from './EmptyState';
 export * from './Feedback';
 export * from './Input';
 export * from './Label';
