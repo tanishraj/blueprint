@@ -5,6 +5,7 @@ export * from './Badge';
 export * from './Breadcrumb';
 export * from './Button';
 export * from './ButtonGroup';
+export * from './Calendar';
 export * from './Checkbox';
 export * from './CheckboxGroup';
 export * from './Chip';
