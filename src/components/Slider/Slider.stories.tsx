@@ -64,8 +64,10 @@ const meta: Meta<SliderProps> = {
       }
 
       return (
-        <div className='flex min-h-screen w-full items-center justify-center p-12'>
-          <Story />
+        <div className='flex min-h-screen w-2xl items-center justify-center p-12'>
+          <div className='w-full max-w-3xl'>
+            <Story />
+          </div>
         </div>
       );
     },
