@@ -1,20 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Radio, RadioProps } from './Radio';
+import { Radio } from './Radio';
+import type { RadioProps } from './types';
 
 const sizes = ['sm', 'md', 'lg'] as const;
 
 const meta: Meta<RadioProps> = {
-  title: 'components/Radio',
+  title: 'Components/Radio',
   component: Radio,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component:
           'Radio is a single selectable option primitive. Use `label` for visible option text, `description` for supporting copy, and `error` for validation messaging.',
       },
-      layout: 'centered',
     },
   },
   decorators: [
