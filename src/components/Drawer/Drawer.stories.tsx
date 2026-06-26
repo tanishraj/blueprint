@@ -85,17 +85,17 @@ const ContainerDemo = () => {
 };
 
 const meta: Meta<DrawerProps> = {
-  title: 'components/Drawer',
+  title: 'Components/Drawer',
   component: Drawer,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: `
 Drawer is a controlled overlay panel for secondary workflows. It renders through Portal by default and supports custom portal containers through an element, container id, or container ref.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [

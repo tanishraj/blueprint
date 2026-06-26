@@ -1,7 +1,7 @@
-import { type FC, useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { AnimatePresence, AnimatePresenceChild } from '../AnimatePresence';
 import { Portal } from '../Portal';
@@ -22,7 +22,7 @@ import type { DrawerProps } from './types';
 
 const DRAWER_EXIT_DURATION_MS = 300;
 
-export const Drawer: FC<DrawerProps> = ({
+export function Drawer({
   open,
   children,
   title,
@@ -43,10 +43,18 @@ export const Drawer: FC<DrawerProps> = ({
   role = 'dialog',
   className,
   ...restProps
-}) => {
+}: DrawerProps) {
   const scrollUnlockTimeoutRef = useRef<ReturnType<
     typeof window.setTimeout
   > | null>(null);
+  const titleId = useId();
+  const descriptionId = useId();
+  const hasCustomContainer = Boolean(container || containerId || containerRef);
+  const shouldFillViewport = !disablePortal && !hasCustomContainer;
+  const titleElementId = title ? titleId : undefined;
+  const descriptionElementId = description ? descriptionId : undefined;
+  const accessibleLabel =
+    restProps['aria-label'] ?? (title ? undefined : 'Drawer');
 
   const handleOverlayClick = useCallback(() => {
     if (closeOnOverlayClick) {
@@ -73,7 +81,7 @@ export const Drawer: FC<DrawerProps> = ({
   }, [closeOnEscape, onClose, open]);
 
   useEffect(() => {
-    if (!open || disablePortal || typeof document === 'undefined') {
+    if (!open || !shouldFillViewport || typeof document === 'undefined') {
       return;
     }
 
@@ -92,11 +100,9 @@ export const Drawer: FC<DrawerProps> = ({
         scrollUnlockTimeoutRef.current = null;
       }, DRAWER_EXIT_DURATION_MS);
     };
-  }, [disablePortal, open]);
+  }, [open, shouldFillViewport]);
 
   const animationState = open ? 'open' : 'closed';
-  const hasCustomContainer = Boolean(container || containerId || containerRef);
-  const shouldFillViewport = !disablePortal && !hasCustomContainer;
 
   return (
     <Portal
@@ -123,6 +129,9 @@ export const Drawer: FC<DrawerProps> = ({
           <AnimatePresenceChild>
             <div
               {...restProps}
+              aria-describedby={descriptionElementId}
+              aria-label={accessibleLabel}
+              aria-labelledby={titleElementId}
               aria-modal={role === 'dialog' ? true : undefined}
               className={cn(drawerPanelStyles({ placement, size }), className)}
               data-state={animationState}
@@ -139,10 +148,18 @@ export const Drawer: FC<DrawerProps> = ({
                 >
                   <div className={cn(drawerHeaderContentStyles())}>
                     {title && (
-                      <div className={cn(drawerTitleStyles())}>{title}</div>
+                      <div
+                        className={cn(drawerTitleStyles())}
+                        id={titleElementId}
+                      >
+                        {title}
+                      </div>
                     )}
                     {description && (
-                      <div className={cn(drawerDescriptionStyles())}>
+                      <div
+                        className={cn(drawerDescriptionStyles())}
+                        id={descriptionElementId}
+                      >
                         {description}
                       </div>
                     )}
@@ -172,4 +189,4 @@ export const Drawer: FC<DrawerProps> = ({
       </AnimatePresence>
     </Portal>
   );
-};
+}
