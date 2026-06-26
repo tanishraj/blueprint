@@ -75,6 +75,7 @@ export function Checkbox({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const invalid = Boolean(error) || restProps['aria-invalid'] === true;
   const helperText = error ?? description;
+  const hasHelperText = Boolean(helperText);
   const describedByParts = [
     restProps['aria-describedby'],
     helperText ? helperTextId : undefined,
@@ -122,7 +123,7 @@ export function Checkbox({
   return (
     <label
       htmlFor={inputId}
-      className={cn(checkboxRootStyles({ disabled }), className)}
+      className={cn(checkboxRootStyles({ disabled, hasHelperText }), className)}
     >
       <span className='relative inline-flex'>
         <input
@@ -144,7 +145,13 @@ export function Checkbox({
         <span
           aria-hidden='true'
           className={cn(
-            checkboxControlStyles({ size, shape, invalid, indeterminate }),
+            checkboxControlStyles({
+              size,
+              shape,
+              hasHelperText,
+              invalid,
+              indeterminate,
+            }),
           )}
         >
           {indeterminate ? (

@@ -90,4 +90,16 @@ describe('Checkbox Component', () => {
 
     expect(checkbox).toHaveAttribute('aria-describedby', description.id);
   });
+
+  it('centers the checkbox control when there is no helper text', () => {
+    render(<Checkbox label='Centered checkbox' />);
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: /centered checkbox/i,
+    });
+
+    expect(checkbox.parentElement?.parentElement).toHaveClass('items-center');
+    expect(checkbox.nextElementSibling).toHaveClass('self-center');
+    expect(checkbox.nextElementSibling).not.toHaveClass('mt-0.5');
+  });
 });
