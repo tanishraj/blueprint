@@ -18,11 +18,11 @@ const appearances = ['filled', 'outline', 'dashed', 'ghost'] as const;
 const iconSections = [
   {
     label: 'Leading icon',
-    props: { leadingIcon: PlusIcon, children: null },
+    props: { leadingIcon: PlusIcon },
   },
   {
     label: 'Trailing icon',
-    props: { trailingIcon: PlusIcon, children: null },
+    props: { trailingIcon: PlusIcon },
   },
   {
     label: 'Leading with text',
@@ -190,7 +190,33 @@ export default meta;
 type Story = StoryObj<ButtonProps>;
 
 export const Default: Story = {
+  parameters: {
+    layout: 'centered',
+  },
   render: args => <Button {...args} />,
+};
+
+export const IconOnly: Story = {
+  parameters: {
+    layout: 'centered',
+  },
+  args: {
+    leadingIcon: PlusIcon,
+    'aria-label': 'Add item',
+  },
+  render: args => {
+    const { children, ...buttonArgs } = args;
+
+    void children;
+
+    return (
+      <div className='flex items-center justify-center gap-4'>
+        {sizes.map(size => (
+          <Button {...buttonArgs} key={size} size={size} />
+        ))}
+      </div>
+    );
+  },
 };
 
 export const ButtonSizes: Story = {
@@ -462,9 +488,7 @@ export const ButtonIcon: Story = {
                   appearance='filled'
                   variant='primary'
                   aria-label={label}
-                >
-                  {props.children}
-                </Button>
+                />
               ))}
             </Fragment>
           ))}
