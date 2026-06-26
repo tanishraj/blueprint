@@ -7,7 +7,7 @@ import type {
 } from 'react';
 import type { VariantProps } from 'class-variance-authority';
 
-import type { RemoveNull } from '@/utils';
+import type { RemoveNull } from '@/utils/types';
 
 import {
   tabListStyles,

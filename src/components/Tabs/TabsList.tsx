@@ -2,24 +2,19 @@ import {
   Children,
   cloneElement,
   isValidElement,
-  type FC,
   type ReactElement,
   useCallback,
   useMemo,
   useRef,
 } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { TabsListContext, useTabs } from './context';
 import { tabListStyles } from './Tabs.styles';
 import type { InternalTabProps, TabsListProps } from './types';
 
-export const TabsList: FC<TabsListProps> = ({
-  children,
-  className,
-  ...restProps
-}) => {
+export function TabsList({ children, className, ...restProps }: TabsListProps) {
   const {
     baseId,
     disabled,
@@ -29,7 +24,10 @@ export const TabsList: FC<TabsListProps> = ({
     size,
     variant,
   } = useTabs();
-  const childArray = Children.toArray(children).filter(isValidElement);
+  const childArray = Children.toArray(children).filter(
+    (child): child is ReactElement<InternalTabProps> =>
+      isValidElement<InternalTabProps>(child),
+  );
   const tabCount = childArray.length;
   const tabRefs = useRef<Array<HTMLDivElement | null>>([]);
   const disabledIndices = useRef<Set<number>>(new Set());
@@ -142,7 +140,7 @@ export const TabsList: FC<TabsListProps> = ({
         role='tablist'
       >
         {childArray.map((child, index) =>
-          cloneElement(child as ReactElement<InternalTabProps>, {
+          cloneElement(child, {
             index,
             panelId: `${baseId}-panel-${index}`,
             selected: index === selectedIndex,
@@ -151,4 +149,4 @@ export const TabsList: FC<TabsListProps> = ({
       </div>
     </TabsListContext>
   );
-};
+}

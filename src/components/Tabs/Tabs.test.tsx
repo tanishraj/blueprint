@@ -21,50 +21,52 @@ interface RenderTabsOptions {
 
 const noopOnClose = () => undefined;
 
-const renderTabs = ({
+function TabsHarness({
   disabled = false,
   initialValue = 0,
   onValueChange,
   orientation = 'horizontal',
   size = 'md',
   variant = 'underline',
-}: RenderTabsOptions = {}) => {
-  const Wrapper = () => {
-    const [value, setValue] = useState(initialValue);
-    const handleValueChange = useCallback((nextValue: number) => {
+}: RenderTabsOptions) {
+  const [value, setValue] = useState(initialValue);
+  const handleValueChange = useCallback(
+    (nextValue: number) => {
       setValue(nextValue);
       onValueChange?.(nextValue);
-    }, []);
+    },
+    [onValueChange],
+  );
 
-    return (
-      <Tabs
-        disabled={disabled}
-        onValueChange={handleValueChange}
-        orientation={orientation}
-        size={size}
-        value={value}
-        variant={variant}
-      >
-        <TabsList>
-          <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
-            First
-          </Tab>
-          <Tab onClose={noopOnClose} startAdornment={<User />} statusDot>
-            Second
-          </Tab>
-          <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
-            Third
-          </Tab>
-        </TabsList>
-        <TabPanel>First content</TabPanel>
-        <TabPanel>Second content</TabPanel>
-        <TabPanel>Third content</TabPanel>
-      </Tabs>
-    );
-  };
+  return (
+    <Tabs
+      disabled={disabled}
+      onValueChange={handleValueChange}
+      orientation={orientation}
+      size={size}
+      value={value}
+      variant={variant}
+    >
+      <TabsList>
+        <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
+          First
+        </Tab>
+        <Tab onClose={noopOnClose} startAdornment={<User />} statusDot>
+          Second
+        </Tab>
+        <Tab onClose={noopOnClose} startAdornment={<Settings />} statusDot>
+          Third
+        </Tab>
+      </TabsList>
+      <TabPanel>First content</TabPanel>
+      <TabPanel>Second content</TabPanel>
+      <TabPanel>Third content</TabPanel>
+    </Tabs>
+  );
+}
 
-  return render(<Wrapper />);
-};
+const renderTabs = (options: RenderTabsOptions = {}) =>
+  render(<TabsHarness {...options} />);
 
 describe('Tabs Component', () => {
   const user = userEvent.setup();
@@ -194,6 +196,48 @@ describe('Tabs Component', () => {
     await user.click(screen.getByRole('button', { name: /close tab/i }));
 
     expect(handleClose).toHaveBeenCalled();
+    expect(screen.getByRole('tabpanel')).toHaveTextContent('First content');
+  });
+
+  it('does not call onClose for disabled tabs', async () => {
+    const handleClose = vi.fn();
+
+    render(
+      <Tabs defaultValue={0}>
+        <TabsList>
+          <Tab disabled onClose={handleClose}>
+            First
+          </Tab>
+          <Tab>Second</Tab>
+        </TabsList>
+        <TabPanel>First content</TabPanel>
+        <TabPanel>Second content</TabPanel>
+      </Tabs>,
+    );
+
+    const closeButton = screen.getByRole('button', { name: /close tab/i });
+    expect(closeButton).toBeDisabled();
+
+    await user.click(closeButton);
+
+    expect(handleClose).not.toHaveBeenCalled();
+  });
+
+  it('ignores empty compound children when rendering panels', () => {
+    render(
+      <Tabs defaultValue={0}>
+        {false}
+        <TabsList>
+          <Tab>First</Tab>
+          <Tab>Second</Tab>
+        </TabsList>
+        {null}
+        <TabPanel>First content</TabPanel>
+        <TabPanel>Second content</TabPanel>
+      </Tabs>,
+    );
+
+    expect(screen.getByRole('tablist')).toBeInTheDocument();
     expect(screen.getByRole('tabpanel')).toHaveTextContent('First content');
   });
 

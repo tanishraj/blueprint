@@ -1,12 +1,7 @@
-import {
-  type FC,
-  type KeyboardEvent,
-  type MouseEvent,
-  useCallback,
-} from 'react';
+import { type KeyboardEvent, type MouseEvent, useCallback } from 'react';
 import { X } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { useTabsList } from './context';
 import {
@@ -18,7 +13,7 @@ import {
 } from './Tabs.styles';
 import type { InternalTabProps } from './types';
 
-export const Tab: FC<InternalTabProps> = ({
+export function Tab({
   children,
   className,
   closeLabel = 'Close tab',
@@ -31,7 +26,7 @@ export const Tab: FC<InternalTabProps> = ({
   startAdornment,
   statusDot = false,
   ...restProps
-}) => {
+}: InternalTabProps) {
   const {
     baseId,
     disabled: tabsDisabled,
@@ -130,9 +125,14 @@ export const Tab: FC<InternalTabProps> = ({
   const handleClose = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
+
+      if (isDisabled) {
+        return;
+      }
+
       onClose?.(event);
     },
-    [onClose],
+    [isDisabled, onClose],
   );
 
   const handleRef = useCallback(
@@ -185,6 +185,7 @@ export const Tab: FC<InternalTabProps> = ({
         <button
           aria-label={closeLabel}
           className={cn(tabCloseButtonStyles({ selected, size, variant }))}
+          disabled={isDisabled}
           onClick={handleClose}
           tabIndex={-1}
           type='button'
@@ -194,4 +195,4 @@ export const Tab: FC<InternalTabProps> = ({
       )}
     </div>
   );
-};
+}
