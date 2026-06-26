@@ -12,12 +12,22 @@ describe('CountryFlag', () => {
     expect(image).toHaveAttribute('src', 'https://flagcdn.com/24x18/in.png');
     expect(image).toHaveAttribute('width', '24');
     expect(image).toHaveAttribute('height', '18');
+    expect(image).toHaveAttribute('decoding', 'async');
   });
 
   it('uses the code in alt text when country name is not provided', () => {
     render(<CountryFlag code='US' />);
 
     expect(screen.getByAltText('US flag')).toBeInTheDocument();
+  });
+
+  it('normalizes padded or lowercase country codes', () => {
+    render(<CountryFlag code=' ae ' name='United Arab Emirates' />);
+
+    expect(screen.getByAltText('United Arab Emirates flag')).toHaveAttribute(
+      'src',
+      'https://flagcdn.com/24x18/ae.png',
+    );
   });
 
   it('renders the requested size', () => {

@@ -1,5 +1,3 @@
-import type { FC } from 'react';
-
 import type { CountryFlagProps, CountryFlagSize } from './types';
 
 const FLAG_SIZES: Record<CountryFlagSize, { width: number; height: number }> = {
@@ -9,29 +7,42 @@ const FLAG_SIZES: Record<CountryFlagSize, { width: number; height: number }> = {
   lg: { width: 32, height: 24 },
 };
 
-export const CountryFlag: FC<CountryFlagProps> = ({
+function getNormalizedCountryCode(code?: string) {
+  const normalizedCode = code?.trim().toLowerCase();
+
+  return normalizedCode && /^[a-z]{2}$/.test(normalizedCode)
+    ? normalizedCode
+    : null;
+}
+
+export function CountryFlag({
   code,
   name,
   size = 'md',
   className,
   loading = 'lazy',
+  decoding = 'async',
   ...restProps
-}) => {
-  if (!code || code.length !== 2) {
+}: CountryFlagProps) {
+  const normalizedCode = getNormalizedCountryCode(code);
+
+  if (!normalizedCode) {
     return null;
   }
 
   const { width, height } = FLAG_SIZES[size];
+  const accessibleCountryName = name?.trim() || normalizedCode.toUpperCase();
 
   return (
     <img
       {...restProps}
-      alt={name ? `${name} flag` : `${code} flag`}
+      alt={`${accessibleCountryName} flag`}
       className={className}
+      decoding={decoding}
       height={height}
       loading={loading}
-      src={`https://flagcdn.com/${width}x${height}/${code.toLowerCase()}.png`}
+      src={`https://flagcdn.com/${width}x${height}/${normalizedCode}.png`}
       width={width}
     />
   );
-};
+}
