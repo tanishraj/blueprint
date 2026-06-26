@@ -141,4 +141,60 @@ describe('Calendar Component', () => {
       'rounded-full',
     );
   });
+
+  it('supports month and year dropdown captions', () => {
+    render(
+      <Calendar
+        captionLayout='dropdown'
+        defaultMonth={january2026}
+        endMonth={new Date(2030, 11, 1)}
+        mode='single'
+        startMonth={new Date(2020, 0, 1)}
+      />,
+    );
+
+    expect(screen.getByLabelText(/choose the month/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/choose the year/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/choose the month/i)).toHaveClass(
+      'absolute',
+      'calendar-month-dropdown',
+      'opacity-0',
+    );
+    expect(
+      screen.getByLabelText(/choose the month/i).parentElement,
+    ).toHaveClass(
+      'group',
+      'rounded',
+      'border',
+      'bg-white',
+      'has-[.calendar-month-dropdown]:w-[120px]',
+    );
+    expect(
+      screen
+        .getByLabelText(/choose the month/i)
+        .parentElement?.querySelector('[aria-hidden="true"]'),
+    ).toHaveClass(
+      'text-sm',
+      'font-semibold',
+      'group-has-[.calendar-month-dropdown]:justify-between',
+      'group-has-[.calendar-month-dropdown]:[&>svg]:size-4',
+    );
+    expect(
+      screen.getByLabelText(/choose the month/i).parentElement,
+    ).not.toHaveClass('focus-within:ring-2');
+    expect(screen.getByLabelText(/choose the year/i).parentElement).toHaveClass(
+      'has-[.calendar-year-dropdown]:w-[80px]',
+    );
+    expect(
+      screen
+        .getByLabelText(/choose the year/i)
+        .parentElement?.querySelector('[aria-hidden="true"]'),
+    ).toHaveClass(
+      'text-sm',
+      'font-semibold',
+      'group-has-[.calendar-year-dropdown]:justify-between',
+      'group-has-[.calendar-year-dropdown]:[&>svg]:size-4',
+    );
+    expect(screen.getByLabelText(/choose the year/i)).toHaveValue('2026');
+  });
 });

@@ -20,6 +20,12 @@ const disabledDates = [
   { dayOfWeek: [0, 6] },
 ];
 const shapes = ['squared', 'circle'] as const;
+const captionLayouts = [
+  'label',
+  'dropdown',
+  'dropdown-months',
+  'dropdown-years',
+] as const;
 
 const meta: Meta<CalendarProps> = {
   title: 'components/Calendar',
@@ -76,6 +82,25 @@ const meta: Meta<CalendarProps> = {
         category: 'Navigation',
       },
     },
+    captionLayout: {
+      control: { type: 'select' },
+      options: captionLayouts,
+      table: {
+        category: 'Navigation',
+      },
+    },
+    startMonth: {
+      control: false,
+      table: {
+        category: 'Navigation',
+      },
+    },
+    endMonth: {
+      control: false,
+      table: {
+        category: 'Navigation',
+      },
+    },
     showOutsideDays: {
       control: 'boolean',
       table: {
@@ -121,6 +146,7 @@ const meta: Meta<CalendarProps> = {
     },
   },
   args: {
+    captionLayout: 'label',
     defaultMonth: january2026,
     fixedWeeks: true,
     mode: 'single',
@@ -174,6 +200,18 @@ export const MultipleMonths: Story = {
     mode: 'single',
     numberOfMonths: 2,
     selected: selectedDate,
+  },
+};
+
+export const MonthYearSelect: Story = {
+  args: {
+    captionLayout: 'dropdown',
+    defaultMonth: january2026,
+    endMonth: new Date(2030, 11, 1),
+    fixedWeeks: true,
+    mode: 'single',
+    selected: selectedDate,
+    startMonth: new Date(2020, 0, 1),
   },
 };
 

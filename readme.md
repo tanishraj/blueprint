@@ -179,7 +179,7 @@ Most components follow a shared set of prop patterns where relevant:
 
 Not every component supports every prop. Use Storybook or the exported TypeScript types for the exact API.
 
-`Calendar` wraps `react-day-picker` with ui-kit styling, supports Day Picker selection modes such as `single`, `multiple`, and `range`, and includes `shape="squared" | "circle"` for day cells.
+`Calendar` wraps `react-day-picker` with ui-kit styling, supports Day Picker selection modes such as `single`, `multiple`, and `range`, includes `shape="squared" | "circle"` for day cells, and can show month/year selectors with `captionLayout="dropdown"` plus optional `startMonth`/`endMonth` bounds.
 
 ## Development
 

@@ -143,6 +143,16 @@ const getCalendarClassNames = (
     classNames?.[UI.DropdownRoot],
   ),
   [UI.Dropdown]: cn(calendarDropdownStyles(), classNames?.[UI.Dropdown]),
+  [UI.MonthsDropdown]: cn(
+    calendarDropdownStyles(),
+    'calendar-month-dropdown',
+    classNames?.[UI.MonthsDropdown],
+  ),
+  [UI.YearsDropdown]: cn(
+    calendarDropdownStyles(),
+    'calendar-year-dropdown',
+    classNames?.[UI.YearsDropdown],
+  ),
   [UI.Footer]: cn(calendarFooterStyles(), classNames?.[UI.Footer]),
   [SelectionState.selected]: cn(
     calendarSelectedStyles(),
@@ -198,6 +208,7 @@ export const Calendar: FC<CalendarProps> = ({
       className={cn(calendarRootStyles(), className)}
       classNames={mergedClassNames}
       components={mergedComponents}
+      navLayout='after'
       showOutsideDays={showOutsideDays}
     />
   );

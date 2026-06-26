@@ -13,7 +13,7 @@ export const calendarMonthCaptionStyles = cva(
 );
 
 export const calendarCaptionLabelStyles = cva(
-  'text-sm font-semibold text-default',
+  'inline-flex items-center gap-1 text-sm font-semibold text-default group-has-[.calendar-month-dropdown]:w-full group-has-[.calendar-month-dropdown]:justify-between group-has-[.calendar-month-dropdown]:gap-2 group-has-[.calendar-month-dropdown]:truncate group-has-[.calendar-month-dropdown]:[&>svg]:size-4 group-has-[.calendar-month-dropdown]:[&>svg]:shrink-0 group-has-[.calendar-year-dropdown]:w-full group-has-[.calendar-year-dropdown]:justify-between group-has-[.calendar-year-dropdown]:gap-2 group-has-[.calendar-year-dropdown]:truncate group-has-[.calendar-year-dropdown]:[&>svg]:size-4 group-has-[.calendar-year-dropdown]:[&>svg]:shrink-0',
 );
 
 export const calendarNavStyles = cva(
@@ -129,10 +129,12 @@ export const calendarDropdownsStyles = cva(
   'flex items-center justify-center gap-2',
 );
 
-export const calendarDropdownRootStyles = cva('relative inline-flex');
+export const calendarDropdownRootStyles = cva(
+  'group relative inline-flex h-8 items-center justify-center rounded border border-gray-300 bg-white px-2 text-sm text-default outline-none has-[.calendar-month-dropdown]:w-[120px] has-[.calendar-year-dropdown]:w-[80px]',
+);
 
 export const calendarDropdownStyles = cva(
-  'rounded border border-gray-300 bg-white px-2 py-1 text-sm text-default outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
+  'absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0 outline-none',
 );
 
 export const calendarFooterStyles = cva('pt-3 text-xs text-gray-600');
