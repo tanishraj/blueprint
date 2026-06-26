@@ -22,8 +22,15 @@ const meta: Meta<LabelProps> = {
   component: Label,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
+    },
+    docs: {
+      description: {
+        component:
+          'Label arranges descriptive text around a field or custom child, with size, weight, adornment, and required-state support.',
+      },
     },
   },
   argTypes: {

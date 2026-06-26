@@ -1,8 +1,11 @@
-import type { FC } from 'react';
+import { cn } from '@/utils/classNames';
 
-import { cn } from '@/utils';
-
-import { labelStyles, labelTextStyles } from './Label.styles';
+import {
+  labelAdornmentStyles,
+  labelRequiredStyles,
+  labelStyles,
+  labelTextStyles,
+} from './Label.styles';
 import type { LabelProps } from './types';
 
 const labelWeightClassMap = {
@@ -11,7 +14,10 @@ const labelWeightClassMap = {
   normal: 'font-normal',
 } as const;
 
-export const Label: FC<LabelProps> = ({
+const hasLabelText = (text: LabelProps['text']) =>
+  text !== undefined && text !== null;
+
+export function Label({
   children,
   className,
   disabled = false,
@@ -23,14 +29,20 @@ export const Label: FC<LabelProps> = ({
   text,
   variant = 'primary',
   ...restProps
-}) => {
+}: LabelProps) {
   const labelText = (
     <div className={cn(labelTextStyles({ variant, size }))}>
       <span className={labelWeightClassMap[labelWeight]}>
         {text}
-        {required ? ' *' : null}
+        {required ? (
+          <span aria-hidden='true' className={cn(labelRequiredStyles())}>
+            *
+          </span>
+        ) : null}
       </span>
-      {endAdornment ? <div>{endAdornment}</div> : null}
+      {endAdornment ? (
+        <span className={cn(labelAdornmentStyles())}>{endAdornment}</span>
+      ) : null}
     </div>
   );
   const isTop = position === 'top';
@@ -40,12 +52,13 @@ export const Label: FC<LabelProps> = ({
 
   return (
     <label
+      aria-disabled={disabled || undefined}
       {...restProps}
       className={cn(labelStyles({ variant, position, disabled }), className)}
     >
-      {(isTop || isLeft) && text ? labelText : null}
+      {(isTop || isLeft) && hasLabelText(text) ? labelText : null}
       {children}
-      {(isBottom || isRight) && text ? labelText : null}
+      {(isBottom || isRight) && hasLabelText(text) ? labelText : null}
     </label>
   );
-};
+}
