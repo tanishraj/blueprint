@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { DatePicker } from './DatePicker';
@@ -76,6 +77,54 @@ describe('DatePicker', () => {
     fireEvent.click(screen.getByRole('button', { name: /clear date/i }));
 
     expect(handleValueChange).toHaveBeenCalledWith(undefined);
+  });
+
+  it('clears the rendered field value on the first clear-button click', () => {
+    function ControlledWrapper() {
+      const [value, setValue] = useState<Date | undefined>(selectedDate);
+
+      return (
+        <DatePicker
+          clearable
+          label='Date'
+          onValueChange={setValue}
+          value={value}
+        />
+      );
+    }
+
+    render(<ControlledWrapper />);
+
+    fireEvent.click(screen.getByRole('button', { name: /clear date/i }));
+
+    expect(screen.getByLabelText('Date')).toHaveValue('');
+  });
+
+  it('clears immediately after selecting a date from an empty controlled state', () => {
+    function ControlledWrapper() {
+      const [value, setValue] = useState<Date | undefined>(undefined);
+
+      return (
+        <DatePicker
+          calendarProps={{ defaultMonth: january2026, fixedWeeks: true }}
+          clearable
+          label='Date'
+          onValueChange={setValue}
+          value={value}
+        />
+      );
+    }
+
+    render(<ControlledWrapper />);
+
+    fireEvent.click(screen.getByLabelText('Date'));
+    fireEvent.click(screen.getByText('15'));
+
+    expect(screen.getByLabelText('Date')).toHaveValue('Jan 15, 2026');
+
+    fireEvent.click(screen.getByRole('button', { name: /clear date/i }));
+
+    expect(screen.getByLabelText('Date')).toHaveValue('');
   });
 
   it('shows both the clear action and calendar icon when clearable has a value', () => {

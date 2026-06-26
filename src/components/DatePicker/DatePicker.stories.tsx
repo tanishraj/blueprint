@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useCallback } from 'react';
-import { useArgs } from 'storybook/preview-api';
+import { useCallback, useState } from 'react';
 
 import { DatePicker } from './DatePicker';
 import type { DatePickerProps } from './types';
@@ -8,20 +7,20 @@ import type { DatePickerProps } from './types';
 const january2026 = new Date(2026, 0, 1);
 const selectedDate = new Date(2026, 0, 15);
 
-function DatePickerPlayground(args: DatePickerProps) {
-  const [, updateArgs] = useArgs<DatePickerProps>();
-  const handleValueChange = useCallback(
-    (nextValue: Date | undefined) => {
-      updateArgs({ value: nextValue });
-    },
-    [updateArgs],
-  );
-  const handleOpenChange = useCallback(
-    (nextOpen: boolean) => {
-      updateArgs({ open: nextOpen });
-    },
-    [updateArgs],
-  );
+function DatePickerStoryState({
+  args,
+}: Readonly<{
+  args: DatePickerProps;
+}>) {
+  const [storyValue, setStoryValue] = useState<Date | undefined>(args.value);
+  const [storyOpen, setStoryOpen] = useState(args.open ?? false);
+
+  const handleValueChange = useCallback((nextValue: Date | undefined) => {
+    setStoryValue(nextValue);
+  }, []);
+  const handleOpenChange = useCallback((nextOpen: boolean) => {
+    setStoryOpen(nextOpen);
+  }, []);
 
   return (
     <div className='w-full'>
@@ -29,10 +28,15 @@ function DatePickerPlayground(args: DatePickerProps) {
         {...args}
         onOpenChange={handleOpenChange}
         onValueChange={handleValueChange}
-        {...(args.value !== undefined ? { value: args.value } : {})}
+        open={storyOpen}
+        value={storyValue}
       />
     </div>
   );
+}
+
+function DatePickerPlayground(args: DatePickerProps) {
+  return <DatePickerStoryState args={args} />;
 }
 
 const meta: Meta<DatePickerProps> = {
@@ -120,7 +124,7 @@ const meta: Meta<DatePickerProps> = {
       },
     },
     open: {
-      control: 'boolean',
+      control: false,
       table: {
         category: 'State',
       },

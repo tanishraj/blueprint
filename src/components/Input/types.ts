@@ -1,6 +1,7 @@
 import type {
   ComponentPropsWithRef,
   ComponentType,
+  MouseEventHandler,
   Ref,
   ReactNode,
   SVGProps,
@@ -30,7 +31,9 @@ export interface InputProps extends Omit<
   labelClassName?: string;
   leadingIcon?: InputIcon;
   onClear?: () => void;
+  onTrailingIconClick?: MouseEventHandler<HTMLButtonElement>;
   size?: InputSizes;
   trailingIcon?: InputIcon;
+  trailingIconLabel?: string;
   variant?: InputVariants;
 }

@@ -2,7 +2,6 @@ import {
   type KeyboardEvent,
   type MouseEvent,
   useCallback,
-  useEffect,
   useId,
   useMemo,
   useRef,
@@ -54,31 +53,34 @@ const getTextLabel = (
   return 'Choose date';
 };
 
-export function DatePicker({
-  calendarProps,
-  className,
-  clearLabel = 'Clear date',
-  clearable = false,
-  closeOnSelect = true,
-  defaultOpen = false,
-  defaultValue,
-  disabled = false,
-  formatDate = defaultFormatDate,
-  id,
-  inputClassName,
-  label,
-  onClear,
-  onClick,
-  onKeyDown,
-  onOpenChange,
-  onValueChange,
-  open,
-  panelClassName,
-  size = 'md',
-  value,
-  variant = 'default',
-  ...restProps
-}: DatePickerProps) {
+export function DatePicker(props: DatePickerProps) {
+  const isControlled = 'value' in props;
+  const isOpenControlled = 'open' in props;
+  const {
+    calendarProps,
+    className,
+    clearLabel = 'Clear date',
+    clearable = false,
+    closeOnSelect = true,
+    defaultOpen = false,
+    defaultValue,
+    disabled = false,
+    formatDate = defaultFormatDate,
+    id,
+    inputClassName,
+    label,
+    onClear,
+    onClick,
+    onKeyDown,
+    onOpenChange,
+    onValueChange,
+    open,
+    panelClassName,
+    size = 'md',
+    value,
+    variant = 'default',
+    ...restProps
+  } = props;
   const {
     className: calendarClassName,
     classNames: calendarBaseClassNames,
@@ -91,16 +93,13 @@ export function DatePicker({
   const inputId = id ?? generatedId;
   const dialogId = `${inputId}-dialog`;
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const fieldRef = useRef<HTMLDivElement | null>(null);
-  const isControlled = value !== undefined;
-  const isOpenControlled = open !== undefined;
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const [viewMonthOverride, setViewMonthOverride] = useState<Date | undefined>(
     () => defaultMonth,
   );
   const selectedDate = isControlled ? value : uncontrolledValue;
-  const isOpen = isOpenControlled ? open : uncontrolledOpen;
+  const isOpen = isOpenControlled ? (open ?? false) : uncontrolledOpen;
   const isCalendarOpen = !disabled && isOpen;
   const displayedMonth =
     controlledMonth ??
@@ -117,14 +116,27 @@ export function DatePicker({
 
   const setOpen = useCallback(
     (nextOpen: boolean) => {
+      if (disabled && nextOpen) {
+        return;
+      }
+
       if (!isOpenControlled) {
         setUncontrolledOpen(nextOpen);
       }
 
       onOpenChange?.(nextOpen);
     },
-    [isOpenControlled, onOpenChange],
+    [disabled, isOpenControlled, onOpenChange],
   );
+  const openCalendar = useCallback(() => {
+    setOpen(true);
+  }, [setOpen]);
+  const closeCalendar = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+  const toggleCalendar = useCallback(() => {
+    setOpen(!isCalendarOpen);
+  }, [isCalendarOpen, setOpen]);
 
   const setSelectedDate = useCallback(
     (nextValue: Date | undefined) => {
@@ -138,7 +150,7 @@ export function DatePicker({
   );
 
   const { refs, floatingStyles, context } = useFloating({
-    open: isOpen,
+    open: isCalendarOpen,
     onOpenChange: setOpen,
     placement: 'bottom-start',
     transform: false,
@@ -166,26 +178,26 @@ export function DatePicker({
 
   const handleSelect = useCallback(
     (nextDate: Date | undefined) => {
+      if (closeOnSelect && nextDate) {
+        closeCalendar();
+        inputRef.current?.focus();
+      }
+
       setSelectedDate(nextDate);
 
       if (nextDate && controlledMonth === undefined) {
         setViewMonthOverride(nextDate);
       }
-
-      if (closeOnSelect && nextDate) {
-        setOpen(false);
-        inputRef.current?.focus();
-      }
     },
-    [closeOnSelect, controlledMonth, setOpen, setSelectedDate],
+    [closeOnSelect, closeCalendar, controlledMonth, setSelectedDate],
   );
 
   const handleClear = useCallback(() => {
     setSelectedDate(undefined);
-    setOpen(false);
+    closeCalendar();
     inputRef.current?.focus();
     onClear?.();
-  }, [onClear, setOpen, setSelectedDate]);
+  }, [closeCalendar, onClear, setSelectedDate]);
 
   const handleInputClick = useCallback(
     (event: MouseEvent<HTMLInputElement>) => {
@@ -195,10 +207,18 @@ export function DatePicker({
         return;
       }
 
-      setOpen(!isOpen);
+      toggleCalendar();
     },
-    [disabled, isOpen, onClick, setOpen],
+    [disabled, onClick, toggleCalendar],
   );
+  const handleTrailingIconClick = useCallback(() => {
+    if (disabled) {
+      return;
+    }
+
+    toggleCalendar();
+    inputRef.current?.focus();
+  }, [disabled, toggleCalendar]);
 
   const handleInputKeyDown = useCallback(
     (event: KeyboardEvent<HTMLInputElement>) => {
@@ -208,9 +228,9 @@ export function DatePicker({
         return;
       }
 
-      if (event.key === 'Escape' && isOpen) {
+      if (event.key === 'Escape' && isCalendarOpen) {
         event.preventDefault();
-        setOpen(false);
+        closeCalendar();
         return;
       }
 
@@ -220,22 +240,15 @@ export function DatePicker({
         event.key === ' '
       ) {
         event.preventDefault();
-        setOpen(true);
+        openCalendar();
       }
     },
-    [disabled, isOpen, onKeyDown, setOpen],
+    [closeCalendar, disabled, isCalendarOpen, onKeyDown, openCalendar],
   );
 
   const inputRefCallback = useMemo(
     () => mergeRefs<HTMLInputElement>(inputRef, restProps.ref),
     [restProps.ref],
-  );
-  const fieldRefCallback = useCallback(
-    (node: HTMLDivElement | null) => {
-      fieldRef.current = node;
-      setReference(node);
-    },
-    [setReference],
   );
   const inputProps = {
     className: cn('cursor-pointer', className),
@@ -258,37 +271,6 @@ export function DatePicker({
     },
   });
 
-  useEffect(() => {
-    const node = fieldRef.current;
-
-    if (!node) {
-      return;
-    }
-
-    const handleFieldClick = (event: globalThis.MouseEvent) => {
-      if (disabled || event.defaultPrevented) {
-        return;
-      }
-
-      if (
-        event.target instanceof HTMLInputElement ||
-        (event.target instanceof Element &&
-          event.target.closest('button') !== null)
-      ) {
-        return;
-      }
-
-      setOpen(!isOpen);
-      inputRef.current?.focus();
-    };
-
-    node.addEventListener('click', handleFieldClick);
-
-    return () => {
-      node.removeEventListener('click', handleFieldClick);
-    };
-  }, [disabled, isOpen, setOpen]);
-
   return (
     <div className={cn(datePickerRootStyles())}>
       <Input
@@ -300,17 +282,19 @@ export function DatePicker({
         clearLabel={clearLabel}
         clearable={clearable && hasValue}
         disabled={disabled}
-        fieldRef={fieldRefCallback}
+        fieldRef={setReference}
         id={inputId}
         label={label}
         onClear={handleClear}
         onClick={handleInputClick}
         onKeyDown={handleInputKeyDown}
+        onTrailingIconClick={handleTrailingIconClick}
         placeholder={restProps.placeholder}
         readOnly
         ref={inputRefCallback}
         size={size}
         trailingIcon={CalendarDays}
+        trailingIconLabel='Open calendar'
         value={formattedValue}
         variant={variant}
       />

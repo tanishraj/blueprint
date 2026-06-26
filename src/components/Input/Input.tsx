@@ -1,5 +1,6 @@
 import {
   type ChangeEvent,
+  type PointerEvent,
   type Ref,
   type MouseEvent,
   useCallback,
@@ -63,6 +64,8 @@ export function Input({
   defaultValue,
   onChange,
   onClear,
+  onTrailingIconClick,
+  trailingIconLabel = 'Trailing action',
   'aria-describedby': ariaDescribedBy,
   'aria-invalid': ariaInvalid,
   ...restProps
@@ -121,20 +124,42 @@ export function Input({
     onClear?.();
   }, [isControlled, onClear]);
 
-  const handleClearMouseDown = useCallback(
+  const handleClearPointerDown = useCallback(
+    (event: PointerEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (event.pointerType !== 'mouse' || event.button === 0) {
+        handleClear();
+      }
+    },
+    [handleClear],
+  );
+
+  const handleClearClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+
+      // Keyboard-triggered activation dispatches click without a pointer down.
+      if (event.detail === 0) {
+        handleClear();
+      }
+    },
+    [handleClear],
+  );
+  const handleTrailingIconMouseDown = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       event.stopPropagation();
     },
     [],
   );
-
-  const handleClearClick = useCallback(
+  const handleTrailingIconClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
-      handleClear();
+      onTrailingIconClick?.(event);
     },
-    [handleClear],
+    [onTrailingIconClick],
   );
 
   return (
@@ -185,19 +210,34 @@ export function Input({
             aria-label={clearLabel}
             className={cn(inputClearButtonStyles({ size }))}
             onClick={handleClearClick}
-            onMouseDown={handleClearMouseDown}
+            onPointerDown={handleClearPointerDown}
             type='button'
           >
             <X aria-hidden='true' className={cn(inputIconStyles({ size }))} />
           </button>
         )}
-        {TrailingIcon && (
-          <TrailingIcon
-            aria-hidden='true'
-            className={cn(inputIconStyles({ size, muted: true }))}
-            focusable='false'
-          />
-        )}
+        {TrailingIcon &&
+          (onTrailingIconClick ? (
+            <button
+              aria-label={trailingIconLabel}
+              className={cn(inputClearButtonStyles({ size }))}
+              onClick={handleTrailingIconClick}
+              onMouseDown={handleTrailingIconMouseDown}
+              type='button'
+            >
+              <TrailingIcon
+                aria-hidden='true'
+                className={cn(inputIconStyles({ size, muted: true }))}
+                focusable='false'
+              />
+            </button>
+          ) : (
+            <TrailingIcon
+              aria-hidden='true'
+              className={cn(inputIconStyles({ size, muted: true }))}
+              focusable='false'
+            />
+          ))}
       </div>
 
       {helperText && (
