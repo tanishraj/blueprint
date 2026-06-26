@@ -23,7 +23,7 @@ type AlertIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 export interface AlertProps
   extends
-    ComponentPropsWithoutRef<'div'>,
+    Omit<ComponentPropsWithoutRef<'div'>, 'title'>,
     RemoveNull<VariantProps<typeof alertWrapperStyles>> {
   title?: ReactNode;
   icon?: AlertIcon;

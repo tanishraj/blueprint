@@ -1,7 +1,12 @@
-import { AnchorHTMLAttributes, FC, ReactNode, SVGProps } from 'react';
+import type {
+  ComponentPropsWithoutRef,
+  ComponentType,
+  ReactNode,
+  SVGProps,
+} from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { RemoveNull } from '@/utils';
+import type { RemoveNull } from '@/utils/types';
 
 import { breadcrumbStyles } from './Breadcrumb.styles';
 
@@ -12,12 +17,12 @@ export type BreadcrumbAppearances = RemoveNull<
 export type BreadcrumbSeparators = '/' | '>';
 
 export interface BreadcrumbItem extends Omit<
-  AnchorHTMLAttributes<HTMLAnchorElement>,
+  ComponentPropsWithoutRef<'a'>,
   'children'
 > {
   id?: string;
   label: ReactNode;
-  icon?: FC<SVGProps<SVGSVGElement>>;
+  icon?: ComponentType<SVGProps<SVGSVGElement>>;
   current?: boolean;
   disabled?: boolean;
 }

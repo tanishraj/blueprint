@@ -51,7 +51,10 @@ describe('Breadcrumb Component', () => {
       />,
     );
 
-    expect(getItemWrapper('Library')).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: /library/i })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
     expect(screen.getByRole('link', { name: /components/i })).toHaveAttribute(
       'href',
       '/components',
@@ -90,6 +93,20 @@ describe('Breadcrumb Component', () => {
     );
 
     expect(getItemWrapper('Disabled')).not.toHaveAttribute('href');
+    expect(getItemWrapper('Disabled')).toHaveAttribute('aria-disabled', 'true');
     expect(getItemWrapper('Disabled')).toHaveClass('opacity-40');
+  });
+
+  it('respects aria-labelledby for the navigation landmark', () => {
+    render(
+      <>
+        <span id='breadcrumb-label'>Project location</span>
+        <Breadcrumb items={items} aria-labelledby='breadcrumb-label' />
+      </>,
+    );
+
+    expect(
+      screen.getByRole('navigation', { name: /project location/i }),
+    ).toBeInTheDocument();
   });
 });

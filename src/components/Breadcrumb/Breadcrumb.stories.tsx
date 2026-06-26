@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Home, Layers, Settings, SquareArrowOutUpRight } from 'lucide-react';
 
-import { Breadcrumb, BreadcrumbProps } from './Breadcrumb';
+import { Breadcrumb } from './Breadcrumb';
+import type { BreadcrumbProps } from './Breadcrumb';
 
 const appearances = ['ghost', 'outline'] as const;
 const separators = ['>', '/'] as const;
@@ -14,7 +15,7 @@ const defaultItems = [
 ];
 
 const meta: Meta<BreadcrumbProps> = {
-  title: 'components/Breadcrumb',
+  title: 'Components/Breadcrumb',
   component: Breadcrumb,
   tags: ['autodocs'],
   parameters: {
@@ -72,6 +73,12 @@ Use \`appearance\` for the container treatment and \`separator\` for the visual 
       },
     },
     'aria-label': {
+      control: 'text',
+      table: {
+        category: 'Accessibility',
+      },
+    },
+    'aria-labelledby': {
       control: 'text',
       table: {
         category: 'Accessibility',
