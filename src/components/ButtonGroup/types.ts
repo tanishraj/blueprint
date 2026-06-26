@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 import type { ButtonProps, ButtonSizes } from '../Button';
 
@@ -15,12 +15,11 @@ export interface ButtonGroupItem extends Omit<
 }
 
 export interface ButtonGroupProps extends Omit<
-  HTMLAttributes<HTMLDivElement>,
-  'children' | 'className'
+  ComponentPropsWithoutRef<'div'>,
+  'children'
 > {
   buttons?: ButtonGroupItem[];
   orientation?: ButtonGroupOrientation;
   size?: ButtonGroupSizes;
   inverted?: boolean;
-  role?: 'group' | string;
 }
