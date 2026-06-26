@@ -2,6 +2,8 @@ import { cva } from 'class-variance-authority';
 
 export const trendIndicatorRootStyles = cva('inline-flex items-center gap-2');
 
+export const trendIndicatorLabelStyles = cva('text-current');
+
 export const trendIndicatorValueStyles = cva('', {
   variants: {
     tone: {
@@ -34,6 +36,6 @@ export const trendIndicatorIconStyles = cva('shrink-0', {
   },
   defaultVariants: {
     size: 'lg',
-    strokeWidth: 'thicker',
+    strokeWidth: 'thick',
   },
 });
