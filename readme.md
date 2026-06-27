@@ -79,12 +79,17 @@ Optional theme entrypoints:
 
 ```ts
 import '@tanishraj/ui-kit/base.css';
-import '@tanishraj/ui-kit/theme-secondary.css';
+import '@tanishraj/ui-kit/theme-indigo.css';
+import '@tanishraj/ui-kit/theme-violet.css';
 
 // or
-import '@tanishraj/ui-kit/themes/primary.css';
-import '@tanishraj/ui-kit/themes/secondary.css';
+import '@tanishraj/ui-kit/themes/indigo.css';
+import '@tanishraj/ui-kit/themes/violet.css';
 ```
+
+Legacy theme imports such as `@tanishraj/ui-kit/themes/primary.css`,
+`@tanishraj/ui-kit/themes/secondary.css`, and
+`@tanishraj/ui-kit/theme-secondary.css` remain available for compatibility.
 
 ## Documentation
 

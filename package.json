@@ -32,6 +32,16 @@
       "require": "./dist/colors/base.css",
       "default": "./dist/colors/base.css"
     },
+    "./theme-indigo.css": {
+      "import": "./dist/themes/indigo.css",
+      "require": "./dist/themes/indigo.css",
+      "default": "./dist/themes/indigo.css"
+    },
+    "./theme-violet.css": {
+      "import": "./dist/themes/violet.css",
+      "require": "./dist/themes/violet.css",
+      "default": "./dist/themes/violet.css"
+    },
     "./theme-secondary.css": {
       "import": "./dist/themes/secondary.css",
       "require": "./dist/themes/secondary.css",
@@ -51,7 +61,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && vite build && npm run copy:theme && rm -rf dist/src",
-    "copy:theme": "mkdir -p dist/themes dist/colors && cp src/themes/primary.css dist/themes/primary.css && cp src/themes/secondary.css dist/themes/secondary.css && perl -pe \"s#(\\@import '../themes/primary\\.css';)#\\@import './themes/primary.css';#\" src/styles/globals.css > dist/globals.css && cp src/styles/colors/base.css dist/colors/base.css",
+    "copy:theme": "mkdir -p dist/themes dist/colors && cp src/themes/*.css dist/themes/ && perl -pe \"s#(\\@import '../themes/indigo\\.css';)#\\@import './themes/indigo.css';#\" src/styles/globals.css > dist/globals.css && cp src/styles/colors/base.css dist/colors/base.css",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:watch": "vitest --watch",
