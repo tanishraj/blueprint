@@ -34,6 +34,7 @@ export * from './Select';
 export * from './Slider';
 export * from './Tabs';
 export * from './Table';
+export * from './Text';
 export * from './TextArea';
 export * from './Toast';
 export * from './TrendIndicator';
