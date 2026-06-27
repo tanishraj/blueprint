@@ -1,5 +1,6 @@
 .parcel-cache
 .codex_alt
+.agents
 node_modules
 dist
 coverage

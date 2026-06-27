@@ -1,7 +1,17 @@
-import { copyFile, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import {
+  copyFile,
+  mkdir,
+  readdir,
+  readFile,
+  writeFile,
+} from 'node:fs/promises';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const rootDir = process.cwd();
+const rootDir = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+);
 const distDir = path.join(rootDir, 'dist');
 const distThemesDir = path.join(distDir, 'themes');
 const distColorsDir = path.join(distDir, 'colors');

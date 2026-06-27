@@ -7,6 +7,12 @@
       "skillPath": "skills/bump-deps/SKILL.md",
       "computedHash": "9852c4d9450ac9e6954f34d39137fa5be0d0b68c689b7355f6369cc9474b0ec8"
     },
+    "component-library": {
+      "source": "bbeierle12/skill-mcp-claude",
+      "sourceType": "github",
+      "skillPath": "skills/component-library/SKILL.md",
+      "computedHash": "f084ff6547274a544a23eb8411201d27b4d32c171588114bbbc4e0c281d067ce"
+    },
     "figma-to-react-components": {
       "source": "ravnhq/ai-toolkit",
       "sourceType": "github",
