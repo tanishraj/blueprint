@@ -154,7 +154,7 @@ export const avatarIconStyles = cva('relative shrink-0', {
 });
 
 export const avatarStatusStyles = cva(
-  'absolute z-10 rounded-full border border-white',
+  'absolute z-10 rounded-full border border-base',
   {
     variants: {
       status: {

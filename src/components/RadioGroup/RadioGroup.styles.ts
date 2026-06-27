@@ -29,7 +29,7 @@ export const radioGroupLegendStyles = cva('font-medium text-default', {
 
 export const radioGroupRequiredStyles = cva('ml-1 text-danger');
 
-export const radioGroupDescriptionStyles = cva('text-gray-600', {
+export const radioGroupDescriptionStyles = cva('text-caption', {
   variants: {
     size: {
       sm: 'text-xs',

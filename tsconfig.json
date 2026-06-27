@@ -58,6 +58,7 @@
     "*.d.ts",
     "*.config.mjs",
     "*.config.ts",
+    "scripts/**/*.mjs",
     ".storybook/**/*.ts",
     ".storybook/**/*.tsx"
   ],

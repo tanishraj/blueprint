@@ -29,7 +29,7 @@ export const checkboxGroupLegendStyles = cva('font-medium text-default', {
 
 export const checkboxGroupRequiredStyles = cva('ml-1 text-danger');
 
-export const checkboxGroupDescriptionStyles = cva('text-gray-600', {
+export const checkboxGroupDescriptionStyles = cva('text-caption', {
   variants: {
     size: {
       sm: 'text-xs',

@@ -20,7 +20,7 @@ export const inputLabelStyles = cva('font-medium text-default', {
       lg: 'text-sm',
     },
     disabled: {
-      true: 'text-gray-500',
+      true: 'text-disabled',
       false: '',
     },
   },
@@ -43,7 +43,7 @@ export const inputFieldStyles = cva(
       },
       variant: {
         default:
-          'border-gray-400 hover:border-gray-600 focus-within:border-gray-600 focus-within:ring-[var(--gray-200)]',
+          'border-default hover:border-default focus-within:border-default focus-within:ring-[var(--border-color-ring)]',
         primary:
           'border-primary hover:border-primary-hovered focus-within:border-primary focus-within:ring-[var(--primary-100)]',
         info: 'border-info hover:border-info-hovered focus-within:border-info focus-within:ring-[var(--info-100)]',
@@ -55,7 +55,7 @@ export const inputFieldStyles = cva(
           'border-danger hover:border-danger-hovered focus-within:border-danger focus-within:ring-[var(--danger-100)]',
       },
       disabled: {
-        true: 'pointer-events-none cursor-not-allowed border-gray-300 bg-gray-100 text-gray-500 opacity-70 hover:border-gray-300 focus-within:ring-0',
+        true: 'pointer-events-none cursor-not-allowed border-disabled bg-disabled text-disabled opacity-70 hover:border-disabled focus-within:ring-0',
         false: '',
       },
       invalid: {
@@ -78,7 +78,7 @@ export const inputFieldStyles = cva(
 );
 
 export const inputElementStyles = cva(
-  'min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-current outline-none placeholder:text-gray-500 focus:outline-none focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:placeholder:text-gray-500',
+  'min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-current outline-none placeholder:text-placeholder focus:outline-none focus:ring-0 focus-visible:outline-none disabled:cursor-not-allowed disabled:placeholder:text-disabled',
 );
 
 export const inputIconStyles = cva('shrink-0 text-current', {
@@ -89,7 +89,7 @@ export const inputIconStyles = cva('shrink-0 text-current', {
       lg: 'size-5',
     },
     muted: {
-      true: 'text-gray-600',
+      true: 'text-caption',
       false: '',
     },
   },
@@ -100,7 +100,7 @@ export const inputIconStyles = cva('shrink-0 text-current', {
 });
 
 export const inputClearButtonStyles = cva(
-  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded text-gray-600 outline-none transition-colors hover:bg-default-hovered hover:text-default focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50',
+  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded text-caption outline-none transition-colors hover:bg-default-hovered hover:text-default focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       size: {
@@ -115,7 +115,7 @@ export const inputClearButtonStyles = cva(
   },
 );
 
-export const inputCaptionStyles = cva('text-gray-600', {
+export const inputCaptionStyles = cva('text-caption', {
   variants: {
     size: {
       sm: 'text-xs',
@@ -127,7 +127,7 @@ export const inputCaptionStyles = cva('text-gray-600', {
       false: '',
     },
     disabled: {
-      true: 'text-gray-500',
+      true: 'text-disabled',
       false: '',
     },
   },

@@ -66,7 +66,7 @@ describe('MetricCard', () => {
     );
 
     expect(container.firstChild).toHaveClass('border-l');
-    expect(container.firstChild).toHaveClass('border-gray-300');
+    expect(container.firstChild).toHaveClass('border-default');
     expect(container.firstChild).toHaveClass('pl-6');
   });
 

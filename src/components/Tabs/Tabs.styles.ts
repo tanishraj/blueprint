@@ -63,7 +63,7 @@ export const tabRootStyles = cva(
       },
       selected: {
         true: '',
-        false: 'text-gray-500',
+        false: 'text-caption',
       },
       disabled: {
         true: 'cursor-not-allowed opacity-40',
@@ -181,7 +181,7 @@ export const tabStatusDotStyles = cva('inline-flex size-1.5 rounded-full', {
 });
 
 export const tabCloseButtonStyles = cva(
-  'inline-flex shrink-0 items-center justify-center rounded text-gray-500 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-base',
+  'inline-flex shrink-0 items-center justify-center rounded text-caption outline-none transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-base',
   {
     variants: {
       size: {
@@ -194,8 +194,8 @@ export const tabCloseButtonStyles = cva(
         pill: '',
       },
       selected: {
-        true: 'text-gray-500',
-        false: 'text-gray-500',
+        true: 'text-caption',
+        false: 'text-caption',
       },
     },
     compoundVariants: [

@@ -5,7 +5,7 @@ export const linkStyles = cva(
   {
     variants: {
       variant: {
-        default: 'text-default hover:text-gray-700 active:text-gray-950',
+        default: 'text-default hover:text-caption active:text-default',
         primary:
           'text-primary hover:text-primary-hovered active:text-primary-pressed',
         info: 'text-info hover:text-info-hovered active:text-info-pressed',
@@ -27,7 +27,7 @@ export const linkStyles = cva(
         always: 'underline',
       },
       disabled: {
-        true: 'pointer-events-none cursor-not-allowed text-gray-500 opacity-60 hover:text-gray-500 active:text-gray-500',
+        true: 'pointer-events-none cursor-not-allowed text-disabled opacity-60 hover:text-disabled active:text-disabled',
         false: 'cursor-pointer',
       },
       inverted: {
@@ -86,7 +86,7 @@ export const linkStyles = cva(
         inverted: true,
         disabled: true,
         className:
-          'text-gray-400 hover:text-gray-400 active:text-gray-400 opacity-70',
+          'text-disabled hover:text-disabled active:text-disabled opacity-70',
       },
     ],
     defaultVariants: {

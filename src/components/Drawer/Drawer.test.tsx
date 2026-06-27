@@ -28,7 +28,7 @@ describe('Drawer Component', () => {
     );
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByRole('dialog')).toHaveClass('bg-white');
+    expect(screen.getByRole('dialog')).toHaveClass('bg-default');
     expect(screen.getByText('Drawer title')).toBeInTheDocument();
     expect(screen.getByText('Drawer content')).toBeInTheDocument();
   });

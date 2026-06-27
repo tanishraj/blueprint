@@ -17,7 +17,7 @@ export const drawerOverlayStyles = cva(
 );
 
 export const drawerPanelStyles = cva(
-  'absolute z-20 flex max-h-full max-w-full flex-col overflow-hidden border-gray-400 bg-white text-default shadow-xl outline-none data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards data-[state=closed]:[--tw-animation-duration:300ms] data-[state=closed]:[animation-timing-function:var(--ease-in)] data-[state=open]:animate-in data-[state=open]:[--tw-animation-duration:500ms] data-[state=open]:[animation-timing-function:var(--ease-out)]',
+  'absolute z-20 flex max-h-full max-w-full flex-col overflow-hidden border-default bg-default text-default shadow-xl outline-none data-[state=closed]:animate-out data-[state=closed]:fill-mode-forwards data-[state=closed]:[--tw-animation-duration:300ms] data-[state=closed]:[animation-timing-function:var(--ease-in)] data-[state=open]:animate-in data-[state=open]:[--tw-animation-duration:500ms] data-[state=open]:[animation-timing-function:var(--ease-out)]',
   {
     variants: {
       placement: {
@@ -105,7 +105,7 @@ export const drawerPanelStyles = cva(
 );
 
 export const drawerHeaderStyles = cva(
-  'flex min-h-14 shrink-0 justify-between gap-4 border-b border-gray-400 px-6 py-4',
+  'flex min-h-14 shrink-0 justify-between gap-4 border-b border-default px-6 py-4',
   {
     variants: {
       withDescription: {
@@ -123,7 +123,7 @@ export const drawerHeaderContentStyles = cva('min-w-0 flex-1');
 
 export const drawerTitleStyles = cva('truncate text-base font-semibold');
 
-export const drawerDescriptionStyles = cva('mt-1 text-sm text-gray-600');
+export const drawerDescriptionStyles = cva('mt-1 text-sm text-caption');
 
 export const drawerCloseButtonStyles = cva(
   'inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
@@ -134,5 +134,5 @@ export const drawerCloseIconStyles = cva('size-4 shrink-0');
 export const drawerBodyStyles = cva('min-h-0 flex-1 overflow-auto px-6 py-5');
 
 export const drawerFooterStyles = cva(
-  'flex shrink-0 items-center justify-end gap-3 border-t border-gray-400 px-6 py-4',
+  'flex shrink-0 items-center justify-end gap-3 border-t border-default px-6 py-4',
 );

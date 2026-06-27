@@ -36,7 +36,7 @@ export const radioControlStyles = cva(
       },
       invalid: {
         true: 'border-danger peer-checked:border-danger',
-        false: 'border-gray-400',
+        false: 'border-default',
       },
     },
     defaultVariants: {
@@ -99,7 +99,7 @@ export const radioLabelStyles = cva('font-medium text-default', {
 
 export const radioRequiredStyles = cva('ml-1 text-danger');
 
-export const radioDescriptionStyles = cva('text-gray-600', {
+export const radioDescriptionStyles = cva('text-caption', {
   variants: {
     size: {
       sm: 'text-xs',

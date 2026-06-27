@@ -367,6 +367,9 @@
   :root.dark {
     color-scheme: dark;
 
+    /* Disabled Background */
+    --background-color-disabled: var(--neutral-800);
+
     /* Default Background + Inverted */
     --background-color-default: var(--neutral-900);
     --background-color-default-hovered: var(--neutral-800);
