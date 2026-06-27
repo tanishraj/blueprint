@@ -92,9 +92,10 @@ describe('Tooltip Component', () => {
 
     expect(tooltip).toHaveClass('lqc-tooltip');
     expect(tooltip).toHaveClass('custom-tooltip');
-    expect(tooltip).toHaveStyle({
-      backgroundColor: 'var(--base-white)',
-      maxWidth: '420px',
-    });
+    expect(tooltip.style.backgroundColor).toBe(
+      'var(--background-color-default-hovered)',
+    );
+    expect(tooltip.style.border).toBe('1px solid var(--border-color-default)');
+    expect(tooltip.style.maxWidth).toBe('420px');
   });
 });

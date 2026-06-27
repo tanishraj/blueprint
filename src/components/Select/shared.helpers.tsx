@@ -262,7 +262,7 @@ const getSelectControlHoverClass = ({
   'invalid' | 'isInactive' | 'variant'
 >) => {
   if (isInactive) {
-    return 'hover:border-gray-300';
+    return 'hover:border-disabled';
   }
 
   if (invalid) {
@@ -282,7 +282,7 @@ const getSelectControlHoverClass = ({
       return 'hover:border-danger';
     case 'default':
     default:
-      return 'hover:border-gray-400';
+      return 'hover:border-default';
   }
 };
 
@@ -327,7 +327,7 @@ export const createBaseSelectClassNames = <
     ),
   input: state => cn('m-0 p-0 text-current', customClassNames?.input?.(state)),
   placeholder: state =>
-    cn('m-0 text-gray-500', customClassNames?.placeholder?.(state)),
+    cn('m-0 text-placeholder', customClassNames?.placeholder?.(state)),
   singleValue: state =>
     cn('m-0 text-default', customClassNames?.singleValue?.(state)),
   multiValue: state => cn('my-0.5', customClassNames?.multiValue?.(state)),
@@ -342,43 +342,43 @@ export const createBaseSelectClassNames = <
   clearIndicator: state =>
     cn(
       inputClearButtonStyles({ size }),
-      'bg-transparent p-0 hover:bg-transparent hover:text-gray-600 active:bg-transparent',
+      'bg-transparent p-0 hover:bg-transparent hover:text-default active:bg-transparent',
       customClassNames?.clearIndicator?.(state),
     ),
   dropdownIndicator: state =>
     cn(
       inputClearButtonStyles({ size }),
-      'bg-transparent p-0 hover:bg-transparent hover:text-gray-600 active:bg-transparent',
+      'bg-transparent p-0 hover:bg-transparent hover:text-default active:bg-transparent',
       customClassNames?.dropdownIndicator?.(state),
     ),
   menu: state =>
     cn(
-      'z-50 mt-1 overflow-hidden rounded-md border border-gray-200 bg-base shadow-lg',
+      'z-50 mt-1 overflow-hidden rounded-md border border-default bg-default shadow-lg',
       customClassNames?.menu?.(state),
     ),
   menuList: state => cn('max-h-60 py-1', customClassNames?.menuList?.(state)),
   option: state =>
     cn(
       'cursor-pointer px-3 py-2 text-sm outline-none transition-colors',
-      state.isDisabled && 'cursor-not-allowed text-gray-400',
+      state.isDisabled && 'cursor-not-allowed text-disabled',
       !state.isDisabled && 'text-default',
       state.isSelected && !state.isDisabled && 'font-medium',
       customClassNames?.option?.(state),
     ),
   noOptionsMessage: state =>
     cn(
-      'px-3 py-2 text-sm text-gray-600',
+      'px-3 py-2 text-sm text-caption',
       customClassNames?.noOptionsMessage?.(state),
     ),
   loadingMessage: state =>
     cn(
-      'px-3 py-2 text-sm text-gray-600',
+      'px-3 py-2 text-sm text-caption',
       customClassNames?.loadingMessage?.(state),
     ),
   group: state => cn('p-0', customClassNames?.group?.(state)),
   groupHeading: state =>
     cn(
-      'px-3 py-2 text-xs font-semibold tracking-wide text-gray-500 uppercase',
+      'px-3 py-2 text-xs font-semibold tracking-wide text-caption uppercase',
       customClassNames?.groupHeading?.(state),
     ),
 });
@@ -487,8 +487,8 @@ export const createBaseSelectStyles = <
   menu: (base, state) => {
     const nextBase: typeof base = {
       ...base,
-      backgroundColor: 'var(--base-white)',
-      border: '1px solid var(--gray-200)',
+      backgroundColor: 'var(--background-color-default)',
+      border: '1px solid var(--border-color-default)',
       borderRadius: '0.5rem',
       boxShadow: '0 20px 40px rgb(15 23 42 / 0.14)',
       marginTop: 4,
@@ -501,7 +501,7 @@ export const createBaseSelectStyles = <
   menuList: (base, state) => {
     const nextBase: typeof base = {
       ...base,
-      backgroundColor: 'var(--base-white)',
+      backgroundColor: 'var(--background-color-default)',
       paddingBottom: 4,
       paddingTop: 4,
     };
@@ -516,14 +516,14 @@ export const createBaseSelectStyles = <
       backgroundColor: state.isDisabled
         ? 'transparent'
         : state.isSelected
-          ? 'var(--primary-100)'
+          ? 'var(--background-color-primary-inverted)'
           : state.isFocused
-            ? 'var(--gray-100)'
+            ? 'var(--background-color-default-hovered)'
             : 'transparent',
       color: state.isDisabled
         ? 'var(--text-color-disabled)'
         : state.isSelected
-          ? 'var(--text-color-primary)'
+          ? 'var(--text-color-default)'
           : 'var(--text-color-default)',
       cursor: state.isDisabled ? 'not-allowed' : 'pointer',
       fontWeight: state.isSelected ? 500 : 400,

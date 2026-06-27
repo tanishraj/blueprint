@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const calendarRootStyles = cva(
-  'relative w-fit rounded-lg border border-gray-300 bg-white p-3 text-default shadow-sm',
+  'relative w-fit rounded-lg border border-default bg-base p-3 text-default shadow-sm',
 );
 
 export const calendarMonthsStyles = cva('flex flex-col gap-4 sm:flex-row');
@@ -21,7 +21,7 @@ export const calendarNavStyles = cva(
 );
 
 export const calendarNavButtonStyles = cva(
-  'pointer-events-auto relative z-20 inline-flex size-8 cursor-pointer items-center justify-center text-gray-700 outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-40 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
+  'pointer-events-auto relative z-20 inline-flex size-8 cursor-pointer items-center justify-center text-default outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-40 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
   {
     variants: {
       shape: {
@@ -130,7 +130,7 @@ export const calendarDropdownsStyles = cva(
 );
 
 export const calendarDropdownRootStyles = cva(
-  'group relative inline-flex h-8 items-center justify-center rounded border border-gray-300 bg-white px-2 text-sm text-default outline-none has-[.calendar-month-dropdown]:w-[120px] has-[.calendar-year-dropdown]:w-[80px]',
+  'group relative inline-flex h-8 items-center justify-center rounded border border-default bg-base px-2 text-sm text-default outline-none has-[.calendar-month-dropdown]:w-[120px] has-[.calendar-year-dropdown]:w-[80px]',
 );
 
 export const calendarDropdownStyles = cva(

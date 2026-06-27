@@ -203,7 +203,7 @@ export const GroupedSelect = <
                 aria-hidden='true'
                 className={`
                   flex size-4 items-center justify-center rounded-sm border
-                  ${optionProps.isSelected ? 'border-primary bg-primary text-white' : 'border-gray-400 bg-white text-transparent'}
+                  ${optionProps.isSelected ? 'border-primary bg-primary text-white' : 'border-default bg-base text-transparent'}
                 `}
               >
                 <Check className='size-3' strokeWidth={3} />

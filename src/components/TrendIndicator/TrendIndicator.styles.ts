@@ -4,7 +4,7 @@ export const trendIndicatorRootStyles = cva('inline-flex items-center gap-2');
 
 export const trendIndicatorLabelStyles = cva('text-current');
 
-export const trendIndicatorValueStyles = cva('', {
+export const trendIndicatorValueStyles = cva('text-default', {
   variants: {
     tone: {
       positive: 'text-success',

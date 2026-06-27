@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const listBoxStyles = cva(
-  'z-50 flex flex-col overflow-hidden rounded border border-gray-300 bg-white text-default shadow-md outline-none',
+  'z-50 flex flex-col overflow-hidden rounded border border-default bg-default text-default shadow-md outline-none',
   {
     variants: {
       size: {

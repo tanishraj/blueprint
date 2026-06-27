@@ -5,7 +5,7 @@ export const popoverRootStyles = cva('relative inline-flex');
 export const popoverTriggerStyles = cva('inline-flex w-fit');
 
 export const popoverPanelStyles = cva(
-  'z-50 w-64 rounded border border-gray-300 bg-white p-2 text-default shadow-md outline-none',
+  'z-50 w-64 rounded border border-default bg-default p-2 text-default shadow-md outline-none',
 );
 
 export const popoverHeaderStyles = cva(
@@ -21,7 +21,7 @@ export const popoverTitleStyles = cva('truncate text-xs font-semibold');
 export const popoverIconStyles = cva('size-3 shrink-0', {
   variants: {
     variant: {
-      default: 'text-gray-950',
+      default: 'text-default',
       primary: 'text-primary',
       info: 'text-info',
       success: 'text-success',
@@ -35,7 +35,7 @@ export const popoverIconStyles = cva('size-3 shrink-0', {
 });
 
 export const popoverCloseButtonStyles = cva(
-  'inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded text-gray-950 outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
+  'inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded text-default outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
 );
 
 export const popoverCloseIconStyles = cva('size-3.5 shrink-0');
@@ -56,5 +56,5 @@ export const popoverBodyStyles = cva(
 );
 
 export const popoverArrowStyles = cva(
-  'fill-white text-[var(--gray-300)] drop-shadow-[0_1px_1px_rgb(0_0_0_/_0.05)]',
+  'fill-[var(--background-color-default)] text-[var(--border-color-default)] drop-shadow-[0_1px_1px_rgb(0_0_0_/_0.05)]',
 );

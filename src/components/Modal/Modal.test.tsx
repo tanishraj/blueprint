@@ -28,8 +28,10 @@ describe('Modal Component', () => {
       </Modal>,
     );
 
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByRole('dialog')).toHaveClass('bg-white');
+    expect(screen.getByRole('dialog')).toHaveClass(
+      'bg-default',
+      'text-default',
+    );
     expect(screen.getByText('Modal title')).toBeInTheDocument();
     expect(screen.getByText('Modal content')).toBeInTheDocument();
   });
@@ -47,6 +49,25 @@ describe('Modal Component', () => {
 
     expect(dialog).toHaveAttribute('aria-labelledby', title.id);
     expect(dialog).toHaveAttribute('aria-describedby', description.id);
+    expect(description).toHaveClass('text-caption');
+  });
+
+  it('uses theme-aware divider classes for header and footer', () => {
+    render(
+      <Modal footer={<button type='button'>Save</button>} open title='Modal'>
+        Content
+      </Modal>,
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Modal' });
+    const title = screen.getByText('Modal');
+    const footerButton = screen.getByRole('button', { name: /save/i });
+
+    expect(title.closest('[class*="border-b"]')).toHaveClass('border-default');
+    expect(footerButton.closest('[class*="border-t"]')).toHaveClass(
+      'border-default',
+    );
+    expect(dialog).toHaveClass('bg-default');
   });
 
   it('falls back to a default accessible name when title is omitted', () => {

@@ -163,7 +163,7 @@ export const Variants: Story = {
         <Tooltip id='tooltip-secondary' isOpen variant='secondary'>
           <div className='space-y-1 p-3 text-sm'>
             <div className='font-medium text-default'>Secondary tooltip</div>
-            <div className='text-gray-600'>
+            <div className='text-caption'>
               Richer tooltip content can be passed as children.
             </div>
           </div>

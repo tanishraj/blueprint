@@ -24,6 +24,7 @@ describe('Calendar Component', () => {
       'relative',
       'rounded-lg',
       'border',
+      'bg-base',
     );
   });
 
@@ -166,7 +167,7 @@ describe('Calendar Component', () => {
       'group',
       'rounded',
       'border',
-      'bg-white',
+      'bg-base',
       'has-[.calendar-month-dropdown]:w-[120px]',
     );
     expect(

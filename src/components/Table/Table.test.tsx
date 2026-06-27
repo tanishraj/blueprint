@@ -41,8 +41,13 @@ describe('Table', () => {
     );
 
     expect(screen.getAllByRole('columnheader')[0]).toHaveClass('sticky');
+    expect(screen.getAllByRole('columnheader')[0]).toHaveClass(
+      'bg-default-hovered',
+      'border-default',
+      'text-caption',
+    );
     expect(screen.getAllByRole('rowgroup')[1]).toHaveClass(
-      '[&_tr:nth-child(odd)]:bg-gray-50/60',
+      '[&_tr:nth-child(odd)]:bg-default-hovered',
     );
   });
 
@@ -68,7 +73,12 @@ describe('Table', () => {
     expect(screen.getByText('Total').closest('td')).toHaveClass('border-r');
     expect(screen.getByRole('table').parentElement).toHaveClass('border');
     expect(screen.getByRole('table').parentElement).toHaveClass(
-      'border-gray-200',
+      'border-default',
+      'bg-default',
+    );
+    expect(screen.getByText('Total').closest('tfoot')).toHaveClass(
+      'bg-default-hovered',
+      'text-default',
     );
   });
 
