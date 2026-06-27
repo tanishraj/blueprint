@@ -40,7 +40,7 @@ export const checkboxControlStyles = cva(
       },
       invalid: {
         true: 'border-danger peer-checked:border-danger peer-checked:bg-danger',
-        false: 'border-gray-400',
+        false: 'border-default',
       },
       indeterminate: {
         true: 'border-primary bg-primary [&>svg]:flex',
@@ -132,7 +132,7 @@ export const checkboxLabelStyles = cva('font-medium text-default', {
 
 export const checkboxRequiredStyles = cva('ml-1 text-danger');
 
-export const checkboxDescriptionStyles = cva('text-gray-600', {
+export const checkboxDescriptionStyles = cva('text-caption', {
   variants: {
     size: {
       sm: 'text-xs',

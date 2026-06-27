@@ -87,10 +87,6 @@ import '@tanishraj/ui-kit/themes/indigo.css';
 import '@tanishraj/ui-kit/themes/violet.css';
 ```
 
-Legacy theme imports such as `@tanishraj/ui-kit/themes/primary.css`,
-`@tanishraj/ui-kit/themes/secondary.css`, and
-`@tanishraj/ui-kit/theme-secondary.css` remain available for compatibility.
-
 ## Documentation
 
 - Live Storybook: https://tanishraj.github.io/ui-kit/

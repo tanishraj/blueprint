@@ -47,11 +47,6 @@
       "require": "./dist/themes/violet.css",
       "default": "./dist/themes/violet.css"
     },
-    "./theme-secondary.css": {
-      "import": "./dist/themes/secondary.css",
-      "require": "./dist/themes/secondary.css",
-      "default": "./dist/themes/secondary.css"
-    },
     "./themes/*": {
       "import": "./dist/themes/*.css",
       "require": "./dist/themes/*.css",

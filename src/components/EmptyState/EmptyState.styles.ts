@@ -57,7 +57,7 @@ export const emptyStateBodyStyles = cva('flex', {
   },
 });
 
-export const emptyStateIconStyles = cva('shrink-0 text-gray-500', {
+export const emptyStateIconStyles = cva('shrink-0 text-caption', {
   variants: {
     size: {
       sm: 'size-14',
@@ -71,7 +71,7 @@ export const emptyStateIconStyles = cva('shrink-0 text-gray-500', {
 });
 
 export const emptyStateCustomIconStyles = cva(
-  'flex shrink-0 items-center justify-center text-gray-500',
+  'flex shrink-0 items-center justify-center text-caption',
   {
     variants: {
       size: {
@@ -104,7 +104,7 @@ export const emptyStateDetailsStyles = cva('flex flex-col', {
   },
 });
 
-export const emptyStateCopyStyles = cva('flex flex-col text-gray-600', {
+export const emptyStateCopyStyles = cva('flex flex-col text-caption', {
   variants: {
     size: {
       sm: 'max-w-xs gap-1.5 text-sm leading-5',

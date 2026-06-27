@@ -64,7 +64,7 @@ export const ratingOptionLabelStyles = cva(
   },
 );
 
-export const ratingEmptyIconStyles = cva('text-gray-500');
+export const ratingEmptyIconStyles = cva('text-caption');
 
 export const ratingFilledIconStyles = cva('text-primary');
 

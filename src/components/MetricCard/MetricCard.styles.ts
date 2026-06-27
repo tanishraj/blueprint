@@ -12,7 +12,7 @@ const metricCardToneClasses: Record<MetricCardColorVariant, string> = {
 export const metricCardStyles = cva('flex flex-col gap-1', {
   variants: {
     hasDivider: {
-      true: 'border-l border-gray-300 pl-6',
+      true: 'border-l border-default pl-6',
       false: '',
     },
   },

@@ -26,7 +26,7 @@ export const sliderLabelStyles = cva(
         lg: 'text-sm',
       },
       disabled: {
-        true: 'text-gray-500',
+        true: 'text-disabled',
         false: '',
       },
     },
@@ -40,7 +40,7 @@ export const sliderLabelStyles = cva(
 export const sliderTrackWrapStyles = cva('relative w-full py-2');
 
 export const sliderTrackStyles = cva(
-  'relative h-2 w-full rounded-full bg-gray-100',
+  'relative h-2 w-full rounded-full bg-default-hovered',
   {
     variants: {
       size: {
@@ -49,7 +49,7 @@ export const sliderTrackStyles = cva(
         lg: 'h-2',
       },
       disabled: {
-        true: 'bg-gray-200',
+        true: 'bg-disabled',
         false: '',
       },
     },
@@ -70,7 +70,7 @@ export const sliderActiveTrackStyles = cva(
         lg: 'h-2',
       },
       disabled: {
-        true: 'bg-gray-400',
+        true: 'bg-disabled',
         false: '',
       },
     },
@@ -112,7 +112,7 @@ export const sliderThumbStyles = cva(
         lg: '',
       },
       disabled: {
-        true: 'cursor-not-allowed bg-gray-400',
+        true: 'cursor-not-allowed bg-disabled',
         false: 'cursor-pointer',
       },
     },
@@ -126,7 +126,7 @@ export const sliderThumbStyles = cva(
 export const sliderValuesRowStyles = cva('relative min-h-5 w-full');
 
 export const sliderValueStyles = cva(
-  'absolute -translate-x-1/2 text-center font-medium tabular-nums text-gray-600',
+  'absolute -translate-x-1/2 text-center font-medium tabular-nums text-caption',
   {
     variants: {
       size: {
@@ -135,7 +135,7 @@ export const sliderValueStyles = cva(
         lg: 'text-sm',
       },
       disabled: {
-        true: 'text-gray-500',
+        true: 'text-disabled',
         false: '',
       },
       anchor: {
@@ -152,7 +152,7 @@ export const sliderValueStyles = cva(
   },
 );
 
-export const sliderCaptionStyles = cva('text-gray-600', {
+export const sliderCaptionStyles = cva('text-caption', {
   variants: {
     size: {
       sm: 'text-xs',
@@ -160,7 +160,7 @@ export const sliderCaptionStyles = cva('text-gray-600', {
       lg: 'text-sm',
     },
     disabled: {
-      true: 'text-gray-500',
+      true: 'text-disabled',
       false: '',
     },
     invalid: {

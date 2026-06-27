@@ -1,9 +1,9 @@
 import { ETrend } from './types';
 
 export const trendIndicatorColors = {
-  positive: '#16a34a',
-  negative: '#dc2626',
-  neutral: '#4f46e5',
+  positive: 'var(--text-color-success)',
+  negative: 'var(--text-color-danger)',
+  neutral: 'var(--text-color-primary)',
 };
 
 export const getTrendVariant = (

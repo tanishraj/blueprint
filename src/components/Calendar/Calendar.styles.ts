@@ -42,7 +42,7 @@ export const calendarMonthGridStyles = cva('w-full border-collapse');
 export const calendarWeekdaysStyles = cva('flex gap-1');
 
 export const calendarWeekdayStyles = cva(
-  'flex size-9 items-center justify-center text-xs font-medium text-gray-500',
+  'flex size-9 items-center justify-center text-xs font-medium text-caption',
 );
 
 export const calendarWeekStyles = cva('mt-1 flex w-full gap-1');
@@ -74,10 +74,10 @@ export const calendarTodayStyles = cva(
   '[&>button]:font-semibold [&>button]:text-primary',
 );
 
-export const calendarOutsideStyles = cva('[&>button]:text-gray-400');
+export const calendarOutsideStyles = cva('[&>button]:text-disabled');
 
 export const calendarDisabledStyles = cva(
-  '[&>button]:cursor-not-allowed [&>button]:text-gray-400 [&>button]:line-through',
+  '[&>button]:cursor-not-allowed [&>button]:text-disabled [&>button]:line-through',
 );
 
 export const calendarRangeStartStyles = cva(
@@ -137,4 +137,4 @@ export const calendarDropdownStyles = cva(
   'absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0 outline-none',
 );
 
-export const calendarFooterStyles = cva('pt-3 text-xs text-gray-600');
+export const calendarFooterStyles = cva('pt-3 text-xs text-caption');

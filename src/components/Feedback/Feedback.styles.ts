@@ -80,7 +80,7 @@ export const feedbackLabelStyles = cva(
       },
       {
         variant: 'face',
-        className: 'text-gray-500',
+        className: 'text-caption',
       },
     ],
     defaultVariants: {

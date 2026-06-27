@@ -245,6 +245,9 @@
   --danger-900: #4a0e1a;
   --danger-950: #25070d;
 
+  /* Disabled Background */
+  --background-color-disabled: var(--neutral-200);
+
   /* Default Background + Inverted */
   --background-color-default: var(--neutral-100);
   --background-color-default-hovered: var(--neutral-200);
@@ -363,6 +366,9 @@
 
   :root.dark {
     color-scheme: dark;
+
+    /* Disabled Background */
+    --background-color-disabled: var(--neutral-800);
 
     /* Default Background + Inverted */
     --background-color-default: var(--neutral-900);

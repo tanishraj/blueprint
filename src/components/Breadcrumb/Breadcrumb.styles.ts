@@ -6,7 +6,7 @@ export const breadcrumbStyles = cva(
     variants: {
       appearance: {
         ghost: 'min-h-6',
-        outline: 'min-h-12 rounded border border-gray-400 bg-base px-3',
+        outline: 'min-h-12 rounded border border-default bg-base px-3',
       },
     },
     defaultVariants: {
@@ -28,7 +28,7 @@ export const breadcrumbLinkStyles = cva(
   {
     variants: {
       current: {
-        true: 'cursor-default text-gray-600',
+        true: 'cursor-default text-caption',
         false: 'text-info hover:text-info-hovered active:text-info-pressed',
       },
       disabled: {
@@ -48,7 +48,7 @@ export const breadcrumbIconStyles = cva('size-4 shrink-0');
 export const breadcrumbLabelStyles = cva('min-w-0 truncate');
 
 export const breadcrumbSeparatorStyles = cva(
-  'inline-flex h-6 shrink-0 items-center justify-center text-gray-950',
+  'inline-flex h-6 shrink-0 items-center justify-center text-default',
 );
 
 export const breadcrumbSeparatorIconStyles = cva('size-4 shrink-0');

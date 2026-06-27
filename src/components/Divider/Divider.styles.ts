@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-export const dividerRootStyles = cva('flex shrink-0 text-gray-600', {
+export const dividerRootStyles = cva('flex shrink-0 text-caption', {
   variants: {
     orientation: {
       horizontal: 'w-full items-center',
@@ -15,12 +15,12 @@ export const dividerRootStyles = cva('flex shrink-0 text-gray-600', {
     {
       orientation: 'horizontal',
       hasContent: false,
-      className: 'h-px bg-gray-400',
+      className: 'h-px bg-[var(--border-color-default)]',
     },
     {
       orientation: 'vertical',
       hasContent: false,
-      className: 'w-px self-stretch bg-gray-400',
+      className: 'w-px self-stretch bg-[var(--border-color-default)]',
     },
   ],
   defaultVariants: {
@@ -29,20 +29,23 @@ export const dividerRootStyles = cva('flex shrink-0 text-gray-600', {
   },
 });
 
-export const dividerLineStyles = cva('shrink bg-gray-400', {
-  variants: {
-    orientation: {
-      horizontal: 'h-px min-w-8 flex-1',
-      vertical: 'w-px min-h-8 flex-1',
+export const dividerLineStyles = cva(
+  'shrink bg-[var(--border-color-default)]',
+  {
+    variants: {
+      orientation: {
+        horizontal: 'h-px min-w-8 flex-1',
+        vertical: 'w-px min-h-8 flex-1',
+      },
+    },
+    defaultVariants: {
+      orientation: 'horizontal',
     },
   },
-  defaultVariants: {
-    orientation: 'horizontal',
-  },
-});
+);
 
 export const dividerContentStyles = cva(
-  'inline-flex shrink-0 items-center justify-center text-sm font-medium leading-none text-gray-600',
+  'inline-flex shrink-0 items-center justify-center text-sm font-medium leading-none text-caption',
   {
     variants: {
       orientation: {
