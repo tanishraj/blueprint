@@ -1,6 +1,6 @@
 {
   "name": "@tanishraj/ui-kit",
-  "version": "2.5.6",
+  "version": "2.5.7",
   "description": "A production-ready React component library with modern tooling, Storybook docs, and TypeScript support.",
   "author": "Tanishraj",
   "license": "MIT",
@@ -32,6 +32,11 @@
       "require": "./dist/colors/base.css",
       "default": "./dist/colors/base.css"
     },
+    "./animation.css": {
+      "import": "./dist/animation.css",
+      "require": "./dist/animation.css",
+      "default": "./dist/animation.css"
+    },
     "./theme-indigo.css": {
       "import": "./dist/themes/indigo.css",
       "require": "./dist/themes/indigo.css",
@@ -61,7 +66,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && vite build && npm run copy:theme && rm -rf dist/src",
-    "copy:theme": "mkdir -p dist/themes dist/colors && cp src/themes/*.css dist/themes/ && perl -pe \"s#(\\@import '../themes/indigo\\.css';)#\\@import './themes/indigo.css';#\" src/styles/globals.css > dist/globals.css && cp src/styles/colors/base.css dist/colors/base.css",
+    "copy:theme": "node scripts/copy-theme.mjs",
     "prepublishOnly": "npm run build",
     "test": "vitest",
     "test:watch": "vitest --watch",
