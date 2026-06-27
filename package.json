@@ -73,8 +73,10 @@
     "format:check": "prettier --check .",
     "clean": "rm -rf dist node_modules coverage storybook-static",
     "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "storybook:build": "storybook build",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "chromatic": "npx chromatic --project-token=chpt_6d0044a26b550fc"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.19",

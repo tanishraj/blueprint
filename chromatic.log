@@ -1,0 +1,115 @@
+18:40:19.672 Chromatic CLI v17.7.2
+             https://www.chromatic.com/docs/cli 
+ 
+18:40:19.800 Authenticating with Chromatic 
+18:40:19.800     → Connecting to https://index.chromatic.com
+18:40:22.520 Authenticated with Chromatic
+                 → Using project token '****************50fc'
+18:40:22.522 Retrieving git information
+18:40:22.523 execGitCommand: git --version
+18:40:22.567 execGitCommand result: 'git version 2.39.2 (Apple Git-143)'
+18:40:22.568 execGitCommand: git --no-pager log -n 1 --format="%H ## %ct ## %ae ## %an"
+18:40:22.606 execGitCommand result: '248bba046f68fb54ce510cadcb74e602c3d40f12 ## 1782569586 ## learn.tanishraj@gmail.com ## tanishraj'
+18:40:22.606 execGitCommand: git branch --show-current
+18:40:22.638 execGitCommand result: 'feat/text-component'
+18:40:22.696 execGitCommand: git --no-pager log -n 1 --skip=1 --format="%H"
+18:40:22.836 execGitCommand result: '50e5d48e099732f3151e08548be058fc898aeb94'
+18:40:22.839 git info: {"commit":{"commit":"248bba046f68fb54ce510cadcb74e602c3d40f12","committedAt":1782569586000,"committerEmail":"learn.tanishraj@gmail.com","committerName":"tanishraj"},"branch":"feat/text-component","fromCI":false}
+18:40:22.843 execGitCommand: git config user.email
+18:40:22.895 execGitCommand result: 'learn.tanishraj@gmail.com'
+18:40:22.896 execGitCommand: git diff --name-only --no-relative --diff-filter=d --cached
+18:40:22.898 execGitCommand: git diff --name-only --no-relative --diff-filter=d
+18:40:22.903 execGitCommand: git ls-files --others --exclude-standard
+18:40:22.963 execGitCommand result: 'package.json
+             yarn.lock'
+18:40:22.972 execGitCommand result: 'chromatic.log'
+18:40:22.975 execGitCommand result: 'package.json'
+18:40:22.976 execGitCommand: git hash-object --stdin-paths
+18:40:23.025 execGitCommand result: '8f523e0b81e4ca0f6ba9090005c9e43f234ae024
+             89dba45604e51fbd1f55118b169d28b7e4347c8b
+             8f523e0b81e4ca0f6ba9090005c9e43f234ae024
+             8ec15003455be573e9b1631f8725404d42b76cbb'
+18:40:23.025 execGitCommand: git hash-object --stdin
+18:40:23.067 execGitCommand result: '5cb75682cd488b283c3b00584f9f9e9d2d0713ef'
+18:40:23.068 execGitCommand: git rev-parse --show-toplevel
+18:40:23.129 execGitCommand result: '/Users/tanishsingh/Tanish/ui-kit'
+18:40:23.130 execGitCommandOneLine: git log --reverse --format=%cd --date=iso
+18:40:23.530 execGitCommandOneLine: git log --follow --reverse --format=%cd --date=iso -- .storybook
+18:40:23.601 execGitCommandCountLines: git shortlog -sn --all --since="6 months ago"
+18:40:23.690 execGitCommandCountLines: git ls-files -- "*page*.js" "*page*.jsx" "*page*.ts" "*page*.tsx" "*Page*.js" "*Page*.jsx" "*Page*.ts" "*Page*.tsx" "*screen*.js" "*screen*.jsx" "*screen*.ts" "*screen*.tsx" "*Screen*.js" "*Screen*.jsx" "*Screen*.ts" "*Screen*.tsx"
+18:40:23.734 execGitCommand: git config --get remote.origin.url
+18:40:23.772 execGitCommand result: 'https://github.com/tanishraj/ui-kit.git'
+18:40:25.140 App firstBuild: %o, lastBuild: %o {"committedAt":1782569586000} {"commit":"248bba046f68fb54ce510cadcb74e602c3d40f12","committedAt":1782569586000}
+18:40:25.141 execGitCommand: git cat-file -e "248bba046f68fb54ce510cadcb74e602c3d40f12^{commit}"
+18:40:25.171 execGitCommand result: ''
+18:40:25.171 Adding last branch build commit 248bba046f68fb54ce510cadcb74e602c3d40f12 to commits with builds
+18:40:25.172 step: checking 20 up to 1782569586
+18:40:25.172 step: commitsWithBuilds: 248bba046f68fb54ce510cadcb74e602c3d40f12
+18:40:25.172 step: commitsWithoutBuilds:
+18:40:25.173 execGitCommand: git rev-list HEAD       --since 1782569586       -n 20 --not 248bba046f68fb54ce510cadcb74e602c3d40f12
+18:40:25.205 execGitCommand result: ''
+18:40:25.205 step: candidateCommits: , visitedCommitsWithoutBuilds:
+18:40:25.205 step: no candidateCommits; we are done
+18:40:26.103 Final commitsWithBuilds: 248bba046f68fb54ce510cadcb74e602c3d40f12
+18:40:26.104 execGitCommand: git rev-list 248bba046f68fb54ce510cadcb74e602c3d40f12 --not "248bba046f68fb54ce510cadcb74e602c3d40f12^@"
+18:40:26.136 execGitCommand result: '248bba046f68fb54ce510cadcb74e602c3d40f12'
+18:40:26.136 Found parentCommits: 248bba046f68fb54ce510cadcb74e602c3d40f12
+18:40:27.642 Retrieved git information
+                 → Commit '248bba0' on branch 'feat/text-component'; found 1 parent build
+18:40:27.643 Collecting Storybook metadata
+18:40:27.645 {"storybookV6error":{"code":"MODULE_NOT_FOUND","requireStack":["/Users/tanishsingh/Tanish/ui-kit/node_modules/chromatic/dist/node-src-DhlsC0xQ.cjs","/Users/tanishsingh/Tanish/ui-kit/node_modules/chromatic/dist/main-TqEqNPwt.cjs","/Users/tanishsingh/Tanish/ui-kit/node_modules/chromatic/dist/bin.cjs"]}}
+18:40:27.684 {"configDirectory":".storybook","mainConfig":{"code":"import type { StorybookConfig } from '@storybook/react-vite';\n\ndeclare const process: {\n  env: {\n    STORYBOOK_BASE_PATH?: string;\n  };\n};\n\nconst config: StorybookConfig = {\n  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],\n  viteFinal: async config => {\n    config.plugins = (config.plugins || []).filter(plugin => {\n      const resolvedPlugin = plugin as\n        | { name?: string }\n        | null\n        | undefined\n        | false;\n      if (!resolvedPlugin || !resolvedPlugin.name) {\n        return true;\n      }\n      return !resolvedPlugin.name.includes('dts');\n    });\n    return {\n      ...config,\n      base: process.env.STORYBOOK_BASE_PATH || '/',\n    };\n  },\n  addons: [\n    '@storybook/addon-onboarding',\n    '@chromatic-com/storybook',\n    '@storybook/addon-vitest',\n    '@storybook/addon-docs',\n    '@vueless/storybook-dark-mode',\n  ],\n  framework: {\n    name: '@storybook/react-vite',\n    options: {},\n  },\n};\nexport default config;\n"}}
+18:40:27.727 [{"status":"fulfilled","value":{}},{"status":"fulfilled","value":{"version":"10.4.6"}},{"status":"fulfilled","value":{"builder":{"name":"@storybook/react-vite","packageVersion":"10.4.6"}}},{"status":"fulfilled","value":{}},{"status":"fulfilled","value":{}}]
+18:40:27.727 Collected Storybook metadata
+                 → Build metadata gathered
+18:40:27.728 Initializing build
+18:40:27.728 Got environment:
+             {}
+18:40:29.147 [analytics] initializing Index analytics client
+18:40:29.148 Initialized build
+                 → Build 3 initialized
+18:40:29.156 Building your Storybook
+18:40:29.156     → Running command: yarn run build-storybook --output-dir=/private/var/folders/0p/zkr_38797gx3n0jp817x_y1c0000gn/T/chromatic--2267-TQexiTaXXlrc
+18:40:29.159 Running build command: yarn run build-storybook --output-dir=/private/var/folders/0p/zkr_38797gx3n0jp817x_y1c0000gn/T/chromatic--2267-TQexiTaXXlrc
+18:40:29.160 Runtime metadata: {
+               "nodePlatform": "darwin",
+               "nodeVersion": "24.15.0",
+               "packageManager": "yarn",
+               "packageManagerVersion": "1.22.22"
+             }
+18:40:48.388 Storybook built in 19 seconds
+                 → View build log at /Users/tanishsingh/Tanish/ui-kit/build-storybook.log
+18:40:48.389 Prepare your built Storybook
+18:40:48.389     → Validating Storybook files
+18:40:48.395 Prepare your built Storybook
+18:40:48.396     → Calculating file hashes
+18:40:48.529 Calculated file hashes in 133ms
+18:40:48.529 Preparation complete
+                 → Storybook files validated and prepared for upload
+18:40:48.529 Publishing your built Storybook
+18:40:48.529     → Starting publish
+18:40:48.531 Running uploadBuild batch 1 / 1
+18:40:49.582 Uploading project.json (1.35 kB) to https://chromatic-builds.s3.us-west-2.amazonaws.com/
+18:40:49.596     → [====================] 100%
+18:40:52.621 Uploaded project.json (1.35 kB)
+18:40:52.622 Publishing your built Storybook
+18:40:52.622     → Finalizing upload
+18:40:52.623 Waiting for 'files-copied.3594111361.txt' sentinel file to appear at https://chromatic-builds.s3.us-west-2.amazonaws.com/6a3f936ad34c32f37bf54a8a-mtgvkejrpg/.chromatic/files-copied.3594111361.txt?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAJVVEQEOBEEPXSNNQ%2F20260627%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260627T144050Z&X-Amz-Expires=1800&X-Amz-Signature=c66e81f14cd21276cdccdca5dd4e8bfae83e7ff20a40b41186b67a5dd55360ed&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject
+18:40:55.805 Sentinel file 'files-copied.3594111361.txt' OK.
+18:40:55.808 Publish complete in 7 seconds
+                 → Uploaded 1 file (1.35 kB), skipped 118 files
+18:40:55.808 Verifying your Storybook
+18:40:55.809     → This may take a few minutes
+18:41:02.771 ✔ Storybook published
+             We found 48 components with 212 stories.
+             ℹ View your Storybook at https://6a3f936ad34c32f37bf54a8a-mtgvkejrpg.chromatic.com/
+18:41:02.772 Started build 3
+                 → Continue setup at https://www.chromatic.com/setup?appId=6a3f936ad34c32f37bf54a8a
+18:41:02.772 Running 212 tests
+18:41:02.773     → This may take a few minutes
+18:41:02.773 ℹ Speed up Continuous Integration
+             Your project is linked to GitHub so Chromatic will report results there.
+             This means you can add the option `with: exitOnceUploaded: true` to your workflow to skip waiting for build results.
+             Read more here: https://www.chromatic.com/docs/configure/
+18:41:04.564 notify service handshake successful at wss://notify.chromatic.com/build/6a3fe0dd5a46f20ba97abf60
+18:41:23.657     → [                    ] 2/212  Accordion › Sizes
