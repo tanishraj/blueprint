@@ -112,6 +112,7 @@
     "@vitejs/plugin-react": "^6.0.3",
     "@vitest/coverage-v8": "4.1.9",
     "@vueless/storybook-dark-mode": "^10.0.8",
+    "chromatic": "^17.7.2",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.5",
