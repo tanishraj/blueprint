@@ -5,7 +5,8 @@ body,
 .sb-show-main,
 #storybook-root {
   min-height: 100vh;
-  color: var(--color-text-default);
+  background-color: var(--background-color-default);
+  color: var(--text-color-default);
 }
 
 html {
@@ -14,9 +15,9 @@ html {
   }
 
   &.light {
-    background-color: var(--white);
+    background-color: var(--background-color-default);
   }
   &.dark {
-    background-color: var(--gray-950);
+    background-color: var(--background-color-default);
   }
 }
