@@ -26,7 +26,14 @@ const ModalFooter = ({ onClose }: { onClose: () => void }) => (
   </>
 );
 
-const ModalDemo = (args: ModalProps) => {
+type ModalDemoProps = ModalProps & {
+  triggerLabel?: string;
+};
+
+const ModalDemo = ({
+  triggerLabel = 'Open modal',
+  ...args
+}: ModalDemoProps) => {
   const [open, setOpen] = useState(args.open);
   const handleOpen = useCallback(() => setOpen(true), []);
   const handleClose = useCallback(() => setOpen(false), []);
@@ -34,7 +41,7 @@ const ModalDemo = (args: ModalProps) => {
   return (
     <>
       <Button onClick={handleOpen} variant='primary'>
-        Open modal
+        {triggerLabel}
       </Button>
       <Modal
         {...args}
@@ -57,7 +64,7 @@ const ContainerDemo = () => {
   return (
     <div
       ref={containerRef}
-      className='relative h-120 w-[min(56rem,calc(100vw-4rem))] overflow-hidden rounded border border-gray-400 bg-default p-6'
+      className='relative h-120 w-[min(56rem,calc(100vw-4rem))] overflow-hidden rounded border border-default bg-default p-6'
     >
       <Button onClick={handleOpen} variant='primary'>
         Open in container
@@ -264,6 +271,7 @@ export const Sizes: Story = {
           showOverlay
           size={size}
           title={`${size} modal`}
+          triggerLabel={`${size.toUpperCase()} modal`}
         />
       ))}
     </div>

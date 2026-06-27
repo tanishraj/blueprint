@@ -141,7 +141,7 @@ export const CompactList = <T extends ItemType>({
   return (
     <div
       className={cn(
-        'flex items-center gap-2',
+        'flex items-center gap-2 text-default',
         lineClampSize > 1 && 'items-start',
       )}
     >
@@ -194,7 +194,7 @@ export const CompactList = <T extends ItemType>({
                   id: popoverId,
                   ref: refs.setFloating,
                   className: cn(
-                    'z-50 min-w-40 rounded-md border border-gray-200 bg-white p-4 shadow-lg',
+                    'z-50 min-w-40 rounded-md border border-default bg-base p-4 text-default shadow-lg',
                     popoverClassName,
                   ),
                   role: 'dialog',

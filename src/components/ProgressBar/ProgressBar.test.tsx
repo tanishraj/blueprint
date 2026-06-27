@@ -8,7 +8,7 @@ const formatValue = ({ value, max }: { max: number; value: number }) =>
 
 describe('ProgressBar Component', () => {
   it('renders a linear progressbar with label, caption, and value', () => {
-    render(
+    const { container } = render(
       <ProgressBar
         caption='There will be a caption text here'
         label='Label'
@@ -22,9 +22,10 @@ describe('ProgressBar Component', () => {
     expect(progressbar).toHaveAttribute('aria-valuemin', '0');
     expect(progressbar).toHaveAttribute('aria-valuemax', '100');
     expect(screen.getByText('30%')).toBeInTheDocument();
-    expect(
-      screen.getByText(/there will be a caption text here/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/there will be a caption text here/i)).toHaveClass(
+      'text-caption',
+    );
+    expect(container.querySelector('.bg-default-hovered')).toBeInTheDocument();
   });
 
   it('clamps values between min and max', () => {
@@ -85,6 +86,44 @@ describe('ProgressBar Component', () => {
     ).toHaveAttribute('aria-valuenow', '30');
     expect(container.querySelector('svg')).toBeInTheDocument();
     expect(container.querySelectorAll('circle')).toHaveLength(2);
+    expect(container.querySelector('circle')).toHaveClass(
+      '[stroke:var(--background-color-default-hovered)]',
+    );
+  });
+
+  it('uses theme-aware default variant colors', () => {
+    const { container } = render(
+      <ProgressBar
+        aria-label='Default progress'
+        value={30}
+        variant='default'
+      />,
+    );
+
+    expect(container.querySelector('.bg-default-inverted')).toBeInTheDocument();
+  });
+
+  it('uses theme-aware inverted track colors', () => {
+    const { container: linearContainer } = render(
+      <ProgressBar aria-label='Linear inverted' inverted value={30} />,
+    );
+
+    expect(
+      linearContainer.querySelector('.bg-default-hovered-inverted'),
+    ).toBeInTheDocument();
+
+    const { container: circularContainer } = render(
+      <ProgressBar
+        appearance='circular'
+        aria-label='Circular inverted'
+        inverted
+        value={30}
+      />,
+    );
+
+    expect(circularContainer.querySelector('circle')).toHaveClass(
+      '[stroke:var(--background-color-default-hovered-inverted)]',
+    );
   });
 
   it('can hide visible value text', () => {

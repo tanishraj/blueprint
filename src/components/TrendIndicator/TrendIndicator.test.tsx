@@ -30,8 +30,20 @@ describe('TrendIndicator', () => {
       />,
     );
 
-    expect(screen.getByText('12%')).toBeInTheDocument();
+    expect(screen.getByText('12%')).toHaveClass('text-default');
     expect(screen.getByText('Compared to last month')).toBeInTheDocument();
+  });
+
+  it('can colorize value text by trend variant', () => {
+    render(
+      <TrendIndicator
+        colorizeValueText
+        value='12%'
+        variant={ETrend.positive}
+      />,
+    );
+
+    expect(screen.getByText('12%')).toHaveClass('text-success');
   });
 
   it('renders zero values instead of treating them as empty', () => {

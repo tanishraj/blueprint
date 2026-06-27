@@ -23,9 +23,31 @@ describe('Popover Component', () => {
       </Popover>,
     );
 
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toHaveClass(
+      'bg-default',
+      'border-default',
+      'text-default',
+    );
     expect(screen.getByText('Popover title')).toBeInTheDocument();
     expect(screen.getByText('Slot Area')).toBeInTheDocument();
+  });
+
+  it('uses theme-aware classes for the arrow and default icon', () => {
+    render(
+      <Popover open title='Popover title'>
+        Slot Area
+      </Popover>,
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Popover title' });
+
+    expect(dialog.querySelector('[data-popover-arrow]')).toHaveClass(
+      'fill-[var(--background-color-default)]',
+      'text-[var(--border-color-default)]',
+    );
+    expect(dialog.querySelector('[data-popover-title-icon]')).toHaveClass(
+      'text-default',
+    );
   });
 
   it('links dialog labelling to the title and body content', () => {

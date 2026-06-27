@@ -69,9 +69,27 @@ describe('ConfirmationPopup Component', () => {
       />,
     );
 
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toHaveClass(
+      'bg-base',
+      'border-default',
+      'text-default',
+    );
     expect(screen.getByText('Controlled popup')).toBeInTheDocument();
     expect(screen.getByText('Description')).toBeInTheDocument();
+  });
+
+  it('uses theme-aware surface classes for the arrow and supporting text', () => {
+    render(
+      <ConfirmationPopup description='Description' open title='Popup title' />,
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Popup title' });
+
+    expect(dialog.querySelector('[data-confirmation-popup-arrow]')).toHaveClass(
+      'fill-[var(--background-color-base)]',
+      'text-[var(--border-color-default)]',
+    );
+    expect(screen.getByText('Description')).toHaveClass('text-caption');
   });
 
   it('calls onOpenChange and onClose from the close button', () => {

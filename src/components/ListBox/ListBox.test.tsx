@@ -15,7 +15,11 @@ describe('ListBox Component', () => {
   it('renders listbox items with option semantics', () => {
     render(<ListBox items={items} selectedValue='two' />);
 
-    expect(screen.getByRole('listbox')).toBeInTheDocument();
+    expect(screen.getByRole('listbox')).toHaveClass(
+      'bg-default',
+      'border-default',
+      'text-default',
+    );
     expect(screen.getByRole('listbox')).toHaveAttribute(
       'aria-orientation',
       'vertical',

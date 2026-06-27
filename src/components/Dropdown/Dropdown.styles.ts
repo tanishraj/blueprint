@@ -15,5 +15,5 @@ export const dropdownTriggerStyles = cva('', {
 });
 
 export const dropdownArrowStyles = cva(
-  'fill-white text-[var(--gray-300)] drop-shadow-[0_1px_1px_rgb(0_0_0_/_0.05)]',
+  'fill-[var(--background-color-default)] text-[var(--border-color-default)] drop-shadow-[0_1px_1px_rgb(0_0_0_/_0.05)]',
 );

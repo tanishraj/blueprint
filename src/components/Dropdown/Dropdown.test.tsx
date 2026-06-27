@@ -50,6 +50,7 @@ describe('Dropdown Component', () => {
     const menu = screen.getByRole('menu');
 
     expect(menu).toBeInTheDocument();
+    expect(menu).toHaveClass('bg-default', 'border-default', 'text-default');
     expect(menu.id).toBeTruthy();
     expect(
       screen.getByRole('menuitem', { name: /profile/i }),
@@ -61,6 +62,19 @@ describe('Dropdown Component', () => {
     expect(screen.getByRole('button', { name: /actions/i })).toHaveAttribute(
       'aria-expanded',
       'true',
+    );
+  });
+
+  it('uses theme-aware styles for the optional arrow', () => {
+    render(
+      <Dropdown defaultOpen items={items} withArrow>
+        Actions
+      </Dropdown>,
+    );
+
+    expect(screen.getByRole('menu').querySelector('svg')).toHaveClass(
+      'fill-[var(--background-color-default)]',
+      'text-[var(--border-color-default)]',
     );
   });
 

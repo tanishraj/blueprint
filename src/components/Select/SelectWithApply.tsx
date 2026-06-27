@@ -258,7 +258,7 @@ export const SelectWithApply = <
         menu: (menuProps: MenuProps<Option, IsMulti, GroupBase<Option>>) => (
           <components.Menu {...menuProps}>
             {menuProps.children}
-            <div className='border-t border-gray-200 bg-white px-3 py-2'>
+            <div className='border-t border-default bg-default px-3 py-2'>
               <div className='flex justify-end'>
                 <Button
                   appearance='filled'
@@ -316,7 +316,7 @@ export const SelectWithApply = <
                         ${
                           checked || (isAllOption && someRealOptionsSelected)
                             ? 'border-primary bg-primary text-white'
-                            : 'border-gray-400 bg-white text-transparent'
+                            : 'border-default bg-base text-transparent'
                         }
                       `}
                     >

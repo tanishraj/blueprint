@@ -71,9 +71,9 @@ export function TrendIndicator({
       {hasContent(value) ? (
         <span
           className={cn(
-            colorizeValueText
-              ? trendIndicatorValueStyles({ tone: variant ?? 'undefined' })
-              : undefined,
+            trendIndicatorValueStyles({
+              tone: colorizeValueText ? (variant ?? 'undefined') : 'undefined',
+            }),
           )}
         >
           {value}

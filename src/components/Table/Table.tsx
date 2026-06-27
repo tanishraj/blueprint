@@ -129,15 +129,7 @@ export const TableFooter = forwardRef<
   HTMLTableSectionElement,
   TableSectionProps
 >(({ children, className, ...props }, ref) => (
-  <tfoot
-    {...props}
-    ref={ref}
-    className={cn(
-      tableFooterStyles(),
-      'bg-gray-50/90 text-gray-700',
-      className,
-    )}
-  >
+  <tfoot {...props} ref={ref} className={cn(tableFooterStyles(), className)}>
     {children}
   </tfoot>
 ));

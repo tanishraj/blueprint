@@ -5,7 +5,7 @@ export const confirmationPopupRootStyles = cva('relative inline-flex');
 export const confirmationPopupTriggerStyles = cva('inline-flex w-fit');
 
 export const confirmationPopupPanelStyles = cva(
-  'z-50 rounded border border-gray-300 bg-base text-default shadow-md outline-none',
+  'z-50 rounded border border-default bg-base text-default shadow-md outline-none',
   {
     variants: {
       size: {
@@ -73,7 +73,7 @@ export const confirmationPopupIconStyles = cva('shrink-0', {
       lg: 'size-3.5',
     },
     variant: {
-      default: 'text-gray-950',
+      default: 'text-default',
       primary: 'text-primary',
       info: 'text-info',
       success: 'text-success',
@@ -88,7 +88,7 @@ export const confirmationPopupIconStyles = cva('shrink-0', {
 });
 
 export const confirmationPopupCloseButtonStyles = cva(
-  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded text-gray-950 outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
+  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded text-default outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
   {
     variants: {
       size: {
@@ -129,7 +129,7 @@ export const confirmationPopupBodyStyles = cva('', {
   },
 });
 
-export const confirmationPopupDescriptionStyles = cva('text-gray-600', {
+export const confirmationPopupDescriptionStyles = cva('text-caption', {
   variants: {
     size: {
       sm: 'text-[10px] leading-4',
@@ -159,5 +159,5 @@ export const confirmationPopupFooterStyles = cva(
 );
 
 export const confirmationPopupArrowStyles = cva(
-  'fill-white text-[var(--gray-300)] drop-shadow-[0_1px_1px_rgb(0_0_0_/_0.05)]',
+  'fill-[var(--background-color-base)] text-[var(--border-color-default)] drop-shadow-[0_1px_1px_rgb(0_0_0_/_0.05)]',
 );

@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import type { TableAlign, TableSizes } from './types';
 
 export const tableContainerStyles = cva(
-  'relative w-full overflow-x-auto rounded-lg border border-gray-200 bg-base shadow-sm',
+  'relative w-full overflow-x-auto rounded-lg border border-default bg-default shadow-sm',
 );
 
 export const tableRootStyles = cva(
@@ -22,7 +22,7 @@ export const tableRootStyles = cva(
   },
 );
 
-export const tableCaptionStyles = cva('px-4 text-gray-600', {
+export const tableCaptionStyles = cva('px-4 text-caption', {
   variants: {
     size: {
       sm: 'py-2 text-xs',
@@ -47,7 +47,7 @@ export const tableHeaderStyles = cva('', {
 export const tableBodyStyles = cva('', {
   variants: {
     striped: {
-      true: '[&_tr:nth-child(odd)]:bg-gray-50/60',
+      true: '[&_tr:nth-child(odd)]:bg-default-hovered',
       false: '',
     },
     interactive: {
@@ -62,7 +62,7 @@ export const tableBodyStyles = cva('', {
 });
 
 export const tableFooterStyles = cva(
-  'font-medium [&_tr:last-child_td]:border-b-0',
+  'bg-default-hovered font-medium text-default [&_tr:last-child_td]:border-b-0',
 );
 
 export const tableRowStyles = cva(
@@ -105,13 +105,12 @@ export const tableHeadStyles = ({
   stickyHeader: boolean;
 }) => {
   return [
-    'border-b border-gray-200 bg-gray-100/95 text-gray-700 font-semibold tracking-wide uppercase',
+    'border-b border-default bg-default-hovered/95 text-caption font-semibold tracking-wide uppercase',
     resolveCellPadding(size),
     resolveCellAlign(align),
     stickyHeader &&
-      'sticky top-0 z-10 bg-base backdrop-blur supports-[backdrop-filter]:bg-base/95',
-    stickyHeader && 'bg-gray-100/95',
-    showColumnBorder && 'border-r border-gray-200 last:border-r-0',
+      'sticky top-0 z-10 bg-default-hovered backdrop-blur supports-[backdrop-filter]:bg-default-hovered/95',
+    showColumnBorder && 'border-r border-default last:border-r-0',
   ]
     .filter(Boolean)
     .join(' ');
@@ -127,10 +126,10 @@ export const tableCellStyles = ({
   size: TableSizes;
 }) => {
   return [
-    'align-middle border-b border-gray-200 text-default',
+    'align-middle border-b border-default text-default',
     resolveCellPadding(size),
     resolveCellAlign(align),
-    showColumnBorder && 'border-r border-gray-200 last:border-r-0',
+    showColumnBorder && 'border-r border-default last:border-r-0',
   ]
     .filter(Boolean)
     .join(' ');

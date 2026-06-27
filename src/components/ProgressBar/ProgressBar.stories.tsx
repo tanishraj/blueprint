@@ -276,12 +276,11 @@ export const Circular: Story = {
 
 export const Inverted: Story = {
   render: () => (
-    <div className='grid gap-8 rounded-lg bg-gray-950 p-8 sm:grid-cols-2'>
+    <div className='grid gap-8 rounded-lg bg-default-inverted p-8 sm:grid-cols-2'>
       <ProgressBar
         caption='There will be a caption text here'
         inverted
         label='Label'
-        showDot
         value={30}
         variant='primary'
       />
@@ -291,7 +290,7 @@ export const Inverted: Story = {
         inverted
         label='Label'
         value={30}
-        variant='success'
+        variant='primary'
       />
     </div>
   ),

@@ -83,7 +83,7 @@ export const progressBarValueStyles = cva('shrink-0 tabular-nums', {
 });
 
 export const progressBarTrackStyles = cva(
-  'relative overflow-hidden rounded-full bg-gray-200',
+  'relative overflow-hidden rounded-full',
   {
     variants: {
       size: {
@@ -92,8 +92,8 @@ export const progressBarTrackStyles = cva(
         lg: 'h-2',
       },
       inverted: {
-        true: 'bg-white/16',
-        false: 'bg-gray-200',
+        true: 'bg-default-hovered-inverted',
+        false: 'bg-default-hovered',
       },
     },
     defaultVariants: {
@@ -108,7 +108,7 @@ export const progressBarIndicatorStyles = cva(
   {
     variants: {
       variant: {
-        default: 'bg-gray-600',
+        default: 'bg-default-inverted',
         primary: 'bg-primary',
         info: 'bg-info',
         success: 'bg-success',
@@ -145,7 +145,7 @@ export const progressBarDotStyles = cva(
         lg: 'size-3 -translate-x-1/2 -translate-y-1/2',
       },
       variant: {
-        default: 'bg-gray-600',
+        default: 'bg-default-inverted',
         primary: 'bg-primary',
         info: 'bg-info',
         success: 'bg-success',
@@ -173,7 +173,7 @@ export const progressBarDotStyles = cva(
   },
 );
 
-export const progressBarCaptionStyles = cva('text-gray-600', {
+export const progressBarCaptionStyles = cva('', {
   variants: {
     size: {
       sm: 'text-xs',
@@ -182,7 +182,7 @@ export const progressBarCaptionStyles = cva('text-gray-600', {
     },
     inverted: {
       true: 'text-caption-inverted',
-      false: 'text-gray-600',
+      false: 'text-caption',
     },
   },
   defaultVariants: {
@@ -209,11 +209,11 @@ export const progressBarCircleWrapStyles = cva(
 
 export const progressBarCircleSvgStyles = cva('block -rotate-90');
 
-export const progressBarCircleTrackStyles = cva('stroke-gray-200', {
+export const progressBarCircleTrackStyles = cva('', {
   variants: {
     inverted: {
-      true: 'stroke-white/20',
-      false: 'stroke-gray-200',
+      true: '[stroke:var(--background-color-default-hovered-inverted)]',
+      false: '[stroke:var(--background-color-default-hovered)]',
     },
   },
   defaultVariants: {
@@ -226,7 +226,7 @@ export const progressBarCircleIndicatorStyles = cva(
   {
     variants: {
       variant: {
-        default: 'stroke-gray-600',
+        default: '[stroke:var(--background-color-default-inverted)]',
         primary: '[stroke:var(--background-color-primary)]',
         info: '[stroke:var(--background-color-info)]',
         success: '[stroke:var(--background-color-success)]',

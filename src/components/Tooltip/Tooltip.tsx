@@ -24,7 +24,8 @@ const tooltipVariantStyles: Record<
   secondary: {
     color: 'var(--text-color-default)',
     padding: '0px',
-    backgroundColor: 'var(--base-white)',
+    backgroundColor: 'var(--background-color-default-hovered)',
+    border: '1px solid var(--border-color-default)',
     borderRadius: 'var(--radius-sm)',
     boxShadow: 'var(--shadow-xl)',
     maxWidth: '305px',

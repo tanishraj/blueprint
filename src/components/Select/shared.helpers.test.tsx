@@ -179,7 +179,7 @@ describe('select shared helpers', () => {
       inactiveClassNames.control?.({
         isDisabled: false,
       } as never),
-    ).toContain('hover:border-gray-300');
+    ).toContain('hover:border-disabled');
   });
 
   it('builds option, placeholder, and indicator class names for different states', () => {
@@ -192,7 +192,7 @@ describe('select shared helpers', () => {
       classNames.placeholder?.({
         isDisabled: false,
       } as never),
-    ).toContain('text-gray-500');
+    ).toContain('text-placeholder');
     expect(
       classNames.clearIndicator?.({
         isDisabled: false,
@@ -202,7 +202,7 @@ describe('select shared helpers', () => {
       classNames.dropdownIndicator?.({
         isDisabled: false,
       } as never),
-    ).toContain('hover:text-gray-600');
+    ).toContain('hover:text-default');
     expect(
       classNames.option?.({
         isDisabled: true,
@@ -215,6 +215,8 @@ describe('select shared helpers', () => {
         isSelected: true,
       } as never),
     ).toContain('font-medium');
+    expect(classNames.menu?.({} as never)).toContain('bg-default');
+    expect(classNames.menu?.({} as never)).toContain('border-default');
   });
 
   it('builds styles for default and custom select states', () => {
@@ -283,6 +285,8 @@ describe('select shared helpers', () => {
         isSelected: false,
       } as never,
     );
+    const menuStyle = styles.menu?.({} as never, {} as never);
+    const menuListStyle = styles.menuList?.({} as never, {} as never);
 
     expect(containerStyle).toMatchObject({
       borderColor: 'tomato',
@@ -296,11 +300,18 @@ describe('select shared helpers', () => {
       cursor: 'not-allowed',
     });
     expect(selectedOptionStyle).toMatchObject({
-      backgroundColor: 'var(--primary-100)',
+      backgroundColor: 'var(--background-color-primary-inverted)',
       fontWeight: 500,
     });
     expect(focusedOptionStyle).toMatchObject({
-      backgroundColor: 'var(--gray-100)',
+      backgroundColor: 'var(--background-color-default-hovered)',
+    });
+    expect(menuStyle).toMatchObject({
+      backgroundColor: 'var(--background-color-default)',
+      border: '1px solid var(--border-color-default)',
+    });
+    expect(menuListStyle).toMatchObject({
+      backgroundColor: 'var(--background-color-default)',
     });
     expect(customOption).toHaveBeenCalled();
   });
