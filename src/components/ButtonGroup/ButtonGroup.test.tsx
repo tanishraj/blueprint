@@ -96,4 +96,31 @@ describe('ButtonGroup Component', () => {
     ).not.toBeDisabled();
     expect(screen.getByRole('button', { name: /blocked/i })).toBeDisabled();
   });
+
+  it('supports external labeling via aria-labelledby', () => {
+    render(
+      <>
+        <span id='actions-label'>Primary actions</span>
+        <ButtonGroup
+          aria-labelledby='actions-label'
+          buttons={[{ children: 'Save' }, { children: 'Cancel' }]}
+        />
+      </>,
+    );
+
+    expect(
+      screen.getByRole('group', { name: /primary actions/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('merges wrapper className onto the group container', () => {
+    render(
+      <ButtonGroup
+        className='justify-center'
+        buttons={[{ children: 'Save' }, { children: 'Cancel' }]}
+      />,
+    );
+
+    expect(screen.getByRole('group')).toHaveClass('justify-center');
+  });
 });

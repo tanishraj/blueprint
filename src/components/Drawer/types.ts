@@ -1,7 +1,7 @@
-import type { HTMLAttributes, ReactNode, RefObject } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode, RefObject } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { RemoveNull } from '@/utils';
+import type { RemoveNull } from '@/utils/types';
 
 import { drawerPanelStyles } from './Drawer.styles';
 
@@ -15,7 +15,7 @@ export type DrawerSizes = RemoveNull<
 
 export interface DrawerProps
   extends
-    Omit<HTMLAttributes<HTMLDivElement>, 'title'>,
+    Omit<ComponentPropsWithoutRef<'div'>, 'title'>,
     RemoveNull<VariantProps<typeof drawerPanelStyles>> {
   open: boolean;
   children?: ReactNode;

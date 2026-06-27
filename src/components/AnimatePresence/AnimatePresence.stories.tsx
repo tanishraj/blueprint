@@ -7,7 +7,7 @@ import { AnimatePresenceChild } from './AnimatePresenceChild';
 import { Button } from '../Button';
 
 const meta: Meta<typeof AnimatePresence> = {
-  title: 'components/AnimatePresence',
+  title: 'Components/AnimatePresence',
   component: AnimatePresence,
   subcomponents: { AnimatePresenceChild },
 };
@@ -15,7 +15,9 @@ const meta: Meta<typeof AnimatePresence> = {
 // Basic Example
 export const BasicExample = () => {
   const [isPresent, setIsPresent] = useState(false);
-  const toggleOpen = useCallback(() => setIsPresent(prev => !prev), []);
+  const toggleOpen = useCallback(() => {
+    setIsPresent(previousValue => !previousValue);
+  }, []);
 
   return (
     <div>
@@ -42,7 +44,9 @@ export const BasicExample = () => {
 export const TailwindExample: StoryObj<typeof AnimatePresence> = {
   render: function useStory() {
     const [isPresent, setIsPresent] = useState(false);
-    const toggleOpen = useCallback(() => setIsPresent(prev => !prev), []);
+    const toggleOpen = useCallback(() => {
+      setIsPresent(previousValue => !previousValue);
+    }, []);
 
     return (
       <div>

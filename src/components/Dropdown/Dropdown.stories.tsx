@@ -44,6 +44,7 @@ const meta: Meta<DropdownProps> = {
   component: Dropdown,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
     },
@@ -53,7 +54,6 @@ const meta: Meta<DropdownProps> = {
 Dropdown opens a compact menu-style popover list from a Button-like trigger. Use it for action menus, filters, and quick command lists.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [
@@ -173,6 +173,7 @@ Dropdown opens a compact menu-style popover list from a Button-like trigger. Use
       control: { type: 'radio' },
       table: {
         category: 'Position',
+        defaultValue: { summary: 'start' },
       },
     },
     menuPlacement: {
@@ -350,7 +351,7 @@ Dropdown opens a compact menu-style popover list from a Button-like trigger. Use
     variant: 'primary',
     appearance: 'filled',
     placement: 'bottom',
-    align: 'center',
+    align: 'start',
     menuOffset: [6, 0],
     closeOnSelect: true,
     clickOutsideToClose: true,

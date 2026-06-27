@@ -39,9 +39,56 @@ describe('Avatar Component', () => {
       <Avatar img={{ src: 'https://placehold.co/80x80', alt: 'Demo user' }} />,
     );
 
-    const image = screen.getByAltText('Demo user');
+    const image = screen.getByAltText('');
 
     expect(image).toHaveAttribute('src', 'https://placehold.co/80x80');
+  });
+
+  it('hides image alt text when the wrapper already provides the accessible name', () => {
+    render(
+      <Avatar img={{ src: 'https://placehold.co/80x80', alt: 'Demo user' }} />,
+    );
+
+    expect(screen.getByRole('img', { name: /demo user/i })).toBeInTheDocument();
+    expect(screen.getByAltText('')).toBeInTheDocument();
+  });
+
+  it('allows an explicit aria-label to override the default accessible name', () => {
+    render(<Avatar aria-label='Assigned reviewer' icon={UserRound} />);
+
+    expect(
+      screen.getByRole('img', { name: /assigned reviewer/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('keeps the image decorative when a custom aria-label is provided', () => {
+    render(
+      <Avatar
+        aria-label='Assigned reviewer'
+        img={{ src: 'https://placehold.co/80x80', alt: 'Demo user' }}
+      />,
+    );
+
+    expect(
+      screen.getByRole('img', { name: /assigned reviewer/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByAltText('')).toHaveAttribute(
+      'src',
+      'https://placehold.co/80x80',
+    );
+  });
+
+  it('preserves external labeling via aria-labelledby', () => {
+    render(
+      <>
+        <span id='reviewer-name'>Assigned reviewer</span>
+        <Avatar aria-labelledby='reviewer-name' icon={UserRound} />
+      </>,
+    );
+
+    expect(
+      screen.getByRole('img', { name: /assigned reviewer/i }),
+    ).toBeInTheDocument();
   });
 
   it('renders a status indicator when status is set', () => {

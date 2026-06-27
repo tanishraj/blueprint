@@ -55,5 +55,5 @@ export interface TableContextValue {
 
 export interface TableSectionProps {
   children: ReactNode;
-  className?: string;
+  className?: string | undefined;
 }

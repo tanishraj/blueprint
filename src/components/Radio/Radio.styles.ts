@@ -1,14 +1,19 @@
 import { cva } from 'class-variance-authority';
 
-export const radioRootStyles = cva('inline-flex w-fit items-start gap-2', {
+export const radioRootStyles = cva('inline-flex w-fit gap-2', {
   variants: {
     disabled: {
       true: 'cursor-not-allowed opacity-40',
       false: 'cursor-pointer',
     },
+    hasHelperText: {
+      true: 'items-start',
+      false: 'items-center',
+    },
   },
   defaultVariants: {
     disabled: false,
+    hasHelperText: false,
   },
 });
 
@@ -21,9 +26,13 @@ export const radioControlStyles = cva(
   {
     variants: {
       size: {
-        sm: 'mt-0.5 size-4',
-        md: 'mt-px size-[18px]',
+        sm: 'size-4',
+        md: 'size-[18px]',
         lg: 'size-5',
+      },
+      hasHelperText: {
+        true: '',
+        false: 'self-center',
       },
       invalid: {
         true: 'border-danger peer-checked:border-danger',
@@ -32,8 +41,26 @@ export const radioControlStyles = cva(
     },
     defaultVariants: {
       size: 'md',
+      hasHelperText: false,
       invalid: false,
     },
+    compoundVariants: [
+      {
+        hasHelperText: true,
+        size: 'sm',
+        className: 'mt-0.5',
+      },
+      {
+        hasHelperText: true,
+        size: 'md',
+        className: 'mt-px',
+      },
+      {
+        hasHelperText: true,
+        size: 'lg',
+        className: 'mt-0.5',
+      },
+    ],
   },
 );
 

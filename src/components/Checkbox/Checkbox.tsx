@@ -1,7 +1,6 @@
 import {
   type ChangeEvent,
   type ComponentPropsWithRef,
-  type FC,
   type MouseEvent,
   type ReactNode,
   type Ref,
@@ -12,7 +11,7 @@ import {
 } from 'react';
 import { Check, Minus } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   checkboxCheckIconStyles,
@@ -39,7 +38,7 @@ export interface CheckboxProps extends Omit<
   indeterminate?: boolean;
 }
 
-const assignRef = <T,>(ref: Ref<T> | undefined, value: T) => {
+function assignRef<T>(ref: Ref<T> | undefined, value: T) {
   if (!ref) {
     return;
   }
@@ -50,9 +49,9 @@ const assignRef = <T,>(ref: Ref<T> | undefined, value: T) => {
   }
 
   ref.current = value;
-};
+}
 
-export const Checkbox: FC<CheckboxProps> = ({
+export function Checkbox({
   ref,
   id,
   label,
@@ -69,12 +68,21 @@ export const Checkbox: FC<CheckboxProps> = ({
   onChange,
   onClick,
   ...restProps
-}) => {
+}: CheckboxProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
+  const helperTextId = `${inputId}-description`;
   const inputRef = useRef<HTMLInputElement | null>(null);
   const invalid = Boolean(error) || restProps['aria-invalid'] === true;
   const helperText = error ?? description;
+  const hasHelperText = Boolean(helperText);
+  const describedByParts = [
+    restProps['aria-describedby'],
+    helperText ? helperTextId : undefined,
+  ].filter(Boolean);
+  const describedBy =
+    describedByParts.length > 0 ? describedByParts.join(' ') : undefined;
+  const errorMessageId = error ? helperTextId : undefined;
 
   useEffect(() => {
     if (inputRef.current) {
@@ -115,7 +123,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   return (
     <label
       htmlFor={inputId}
-      className={cn(checkboxRootStyles({ disabled }), className)}
+      className={cn(checkboxRootStyles({ disabled, hasHelperText }), className)}
     >
       <span className='relative inline-flex'>
         <input
@@ -127,6 +135,8 @@ export const Checkbox: FC<CheckboxProps> = ({
           defaultChecked={defaultChecked}
           disabled={disabled}
           required={required}
+          aria-describedby={describedBy}
+          aria-errormessage={errorMessageId}
           aria-invalid={invalid || undefined}
           className={cn(checkboxInputStyles())}
           onChange={handleChange}
@@ -135,7 +145,13 @@ export const Checkbox: FC<CheckboxProps> = ({
         <span
           aria-hidden='true'
           className={cn(
-            checkboxControlStyles({ size, shape, invalid, indeterminate }),
+            checkboxControlStyles({
+              size,
+              shape,
+              hasHelperText,
+              invalid,
+              indeterminate,
+            }),
           )}
         >
           {indeterminate ? (
@@ -152,9 +168,9 @@ export const Checkbox: FC<CheckboxProps> = ({
         </span>
       </span>
 
-      {(label || helperText) && (
+      {label || helperText ? (
         <span className={cn(checkboxContentStyles())}>
-          {label && (
+          {label ? (
             <span className={cn(checkboxLabelStyles({ size }))}>
               {label}
               {required && (
@@ -166,14 +182,17 @@ export const Checkbox: FC<CheckboxProps> = ({
                 </span>
               )}
             </span>
-          )}
-          {helperText && (
-            <span className={cn(checkboxDescriptionStyles({ size, invalid }))}>
+          ) : null}
+          {helperText ? (
+            <span
+              id={helperTextId}
+              className={cn(checkboxDescriptionStyles({ size, invalid }))}
+            >
               {helperText}
             </span>
-          )}
+          ) : null}
         </span>
-      )}
+      ) : null}
     </label>
   );
-};
+}

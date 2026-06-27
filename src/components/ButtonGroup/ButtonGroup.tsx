@@ -1,6 +1,4 @@
-import { type FC } from 'react';
-
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { Button, type ButtonProps } from '../Button';
 import {
@@ -8,11 +6,7 @@ import {
   buttonGroupItemStyles,
   buttonGroupStyles,
 } from './ButtonGroup.styles';
-import type {
-  ButtonGroupItem,
-  ButtonGroupProps,
-  ButtonGroupOrientation,
-} from './types';
+import type { ButtonGroupProps } from './types';
 
 type ButtonGroupItemPosition = 'single' | 'first' | 'middle' | 'last';
 
@@ -35,31 +29,35 @@ const getItemPosition = (
   return 'middle';
 };
 
-const resolveInheritedValue = <T,>(
-  itemValue: T | undefined,
-  groupValue: T,
-): T => itemValue ?? groupValue;
+function resolveInheritedValue<T>(itemValue: T | undefined, groupValue: T): T {
+  return itemValue ?? groupValue;
+}
 
-export const ButtonGroup: FC<ButtonGroupProps> = ({
+export function ButtonGroup({
   buttons = [],
   orientation = 'horizontal',
   size,
   inverted,
   role = 'group',
+  className,
   ...restProps
-}) => {
+}: ButtonGroupProps) {
+  const ariaLabel = restProps['aria-label'];
+  const ariaLabelledBy = restProps['aria-labelledby'];
   const total = buttons.length;
 
   return (
     <div
+      {...restProps}
       role={role}
-      aria-label={restProps['aria-label'] ?? 'Button group'}
+      aria-label={ariaLabelledBy ? undefined : (ariaLabel ?? 'Button group')}
+      aria-labelledby={ariaLabelledBy}
       className={cn(
         buttonGroupStyles({
-          orientation: orientation as ButtonGroupOrientation,
+          orientation,
         }),
+        className,
       )}
-      {...restProps}
     >
       {buttons.map((item, index) => {
         const {
@@ -72,7 +70,7 @@ export const ButtonGroup: FC<ButtonGroupProps> = ({
           inverted: itemInverted,
           fullWidth: itemFullWidth,
           ...buttonProps
-        } = item as ButtonGroupItem;
+        } = item;
 
         const itemPosition = getItemPosition(index, total);
         const resolvedSize = resolveInheritedValue(itemSize, size);
@@ -112,4 +110,4 @@ export const ButtonGroup: FC<ButtonGroupProps> = ({
       })}
     </div>
   );
-};
+}

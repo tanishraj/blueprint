@@ -1,6 +1,7 @@
 import { Briefcase, Settings, User } from 'lucide-react';
+import { useCallback } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useArgs, useCallback } from 'storybook/preview-api';
+import { useArgs } from 'storybook/preview-api';
 
 import { Tab } from './Tab';
 import { TabPanel } from './TabPanel';
@@ -12,6 +13,7 @@ const sizes = ['sm', 'md', 'lg'] as const;
 const variants = ['underline', 'pill'] as const;
 const orientations = ['horizontal', 'vertical'] as const;
 const noopOnClose = () => undefined;
+const panelClassName = 'rounded border border-default bg-base p-4';
 
 const TabsPlayground = (args: TabsProps) => {
   const [, updateArgs] = useArgs<TabsProps>();
@@ -34,26 +36,20 @@ const TabsPlayground = (args: TabsProps) => {
         </Tab>
       </TabsList>
       <TabPanel>
-        <div className='rounded border border-default bg-base p-4'>
-          First tab content
-        </div>
+        <div className={panelClassName}>First tab content</div>
       </TabPanel>
       <TabPanel>
-        <div className='rounded border border-default bg-base p-4'>
-          Second tab content
-        </div>
+        <div className={panelClassName}>Second tab content</div>
       </TabPanel>
       <TabPanel>
-        <div className='rounded border border-default bg-base p-4'>
-          Third tab content
-        </div>
+        <div className={panelClassName}>Third tab content</div>
       </TabPanel>
     </Tabs>
   );
 };
 
 const meta: Meta<TabsProps> = {
-  title: 'components/Tabs',
+  title: 'Components/Tabs',
   component: Tabs,
   tags: ['autodocs'],
   parameters: {
@@ -65,7 +61,6 @@ const meta: Meta<TabsProps> = {
         component:
           'Tabs organizes related content into horizontal or vertical tab lists with underline or pill styling, optional adornments, status dots, and close affordances.',
       },
-      layout: 'centered',
     },
   },
   argTypes: {
@@ -148,7 +143,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className='flex flex-col gap-6'>
+    <div className='flex w-full flex-col gap-6'>
       {variants.map(variant => (
         <Tabs key={variant} defaultValue={0} variant={variant}>
           <TabsList>
@@ -162,9 +157,15 @@ export const Variants: Story = {
               Tab
             </Tab>
           </TabsList>
-          <TabPanel>{variant} content</TabPanel>
-          <TabPanel>{variant} content</TabPanel>
-          <TabPanel>{variant} content</TabPanel>
+          <TabPanel>
+            <div className={panelClassName}>{variant} content</div>
+          </TabPanel>
+          <TabPanel>
+            <div className={panelClassName}>{variant} content</div>
+          </TabPanel>
+          <TabPanel>
+            <div className={panelClassName}>{variant} content</div>
+          </TabPanel>
         </Tabs>
       ))}
     </div>
@@ -173,7 +174,7 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className='flex flex-col gap-6'>
+    <div className='flex w-full flex-col gap-6'>
       {sizes.map(size => (
         <Tabs key={size} defaultValue={0} size={size}>
           <TabsList>
@@ -187,9 +188,15 @@ export const Sizes: Story = {
               Tab
             </Tab>
           </TabsList>
-          <TabPanel>{size} content</TabPanel>
-          <TabPanel>{size} content</TabPanel>
-          <TabPanel>{size} content</TabPanel>
+          <TabPanel>
+            <div className={panelClassName}>{size} content</div>
+          </TabPanel>
+          <TabPanel>
+            <div className={panelClassName}>{size} content</div>
+          </TabPanel>
+          <TabPanel>
+            <div className={panelClassName}>{size} content</div>
+          </TabPanel>
         </Tabs>
       ))}
     </div>
@@ -198,7 +205,7 @@ export const Sizes: Story = {
 
 export const Orientation: Story = {
   render: () => (
-    <div className='flex flex-col gap-8'>
+    <div className='flex w-full flex-col gap-8'>
       <Tabs defaultValue={0} orientation='horizontal'>
         <TabsList>
           <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
@@ -211,9 +218,15 @@ export const Orientation: Story = {
             Tab
           </Tab>
         </TabsList>
-        <TabPanel>Horizontal content</TabPanel>
-        <TabPanel>Horizontal content</TabPanel>
-        <TabPanel>Horizontal content</TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>Horizontal content</div>
+        </TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>Horizontal content</div>
+        </TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>Horizontal content</div>
+        </TabPanel>
       </Tabs>
 
       <Tabs defaultValue={0} orientation='vertical'>
@@ -228,9 +241,15 @@ export const Orientation: Story = {
             Tab
           </Tab>
         </TabsList>
-        <TabPanel>Vertical content</TabPanel>
-        <TabPanel>Vertical content</TabPanel>
-        <TabPanel>Vertical content</TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>Vertical content</div>
+        </TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>Vertical content</div>
+        </TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>Vertical content</div>
+        </TabPanel>
       </Tabs>
     </div>
   ),
@@ -238,7 +257,7 @@ export const Orientation: Story = {
 
 export const States: Story = {
   render: () => (
-    <div className='flex flex-col gap-6'>
+    <div className='flex w-full flex-col gap-6'>
       <Tabs defaultValue={0}>
         <TabsList>
           <Tab onClose={noopOnClose} startAdornment={<Briefcase />} statusDot>
@@ -256,9 +275,15 @@ export const States: Story = {
             Tab
           </Tab>
         </TabsList>
-        <TabPanel>Enabled tabs</TabPanel>
-        <TabPanel>Disabled tab</TabPanel>
-        <TabPanel>Enabled tabs</TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>Enabled tabs</div>
+        </TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>Disabled tab</div>
+        </TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>Enabled tabs</div>
+        </TabPanel>
       </Tabs>
 
       <Tabs defaultValue={0} disabled>
@@ -273,9 +298,15 @@ export const States: Story = {
             Tab
           </Tab>
         </TabsList>
-        <TabPanel>All tabs disabled</TabPanel>
-        <TabPanel>All tabs disabled</TabPanel>
-        <TabPanel>All tabs disabled</TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>All tabs disabled</div>
+        </TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>All tabs disabled</div>
+        </TabPanel>
+        <TabPanel>
+          <div className={panelClassName}>All tabs disabled</div>
+        </TabPanel>
       </Tabs>
     </div>
   ),

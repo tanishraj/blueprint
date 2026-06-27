@@ -20,6 +20,7 @@ const meta: Meta<InputProps> = {
   component: Input,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
     },
@@ -29,7 +30,6 @@ const meta: Meta<InputProps> = {
 Input is a labeled text control with helper text, semantic variants, optional icons, clear action, disabled state, and error treatment.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [

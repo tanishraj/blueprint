@@ -24,6 +24,7 @@ const meta: Meta<ListBoxProps> = {
   component: ListBox,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
     },
@@ -32,7 +33,6 @@ const meta: Meta<ListBoxProps> = {
         component:
           'ListBox is a compact selectable list surface. Use ListItem for individual rows or pass items directly to ListBox.',
       },
-      layout: 'centered',
     },
   },
   decorators: [
@@ -158,4 +158,8 @@ export const States: Story = {
 
 export const WithIcons: Story = {
   render: () => <ListBox items={iconItems} selectedValue='completed' />,
+};
+
+export const Menu: Story = {
+  render: () => <ListBox items={iconItems} role='menu' size='sm' />,
 };

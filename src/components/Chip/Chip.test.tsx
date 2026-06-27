@@ -37,59 +37,65 @@ describe('Chip Component', () => {
   });
 
   it('renders icon chips with Avatar', () => {
-    render(<Chip icon={User}>Profile</Chip>);
-
-    const avatar = screen.getByRole('img', { name: /chip icon/i });
+    const { container } = render(<Chip icon={User}>Profile</Chip>);
+    const avatar = container.querySelector('[role="presentation"]');
 
     expect(avatar).toBeInTheDocument();
+    if (!avatar) {
+      throw new Error('Expected decorative avatar to be rendered.');
+    }
+
     expect(avatar).toHaveClass('size-5', '[&_svg]:size-3.5');
     expect(avatar.querySelector('svg')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('img', { name: /chip icon/i }),
+    ).not.toBeInTheDocument();
   });
 
   it('uses an inverted Avatar on colored variants', () => {
-    render(
+    const { container } = render(
       <Chip icon={User} variant='primary'>
         Profile
       </Chip>,
     );
 
-    expect(screen.getByRole('img', { name: /chip icon/i })).toHaveClass(
+    expect(container.querySelector('[role="presentation"]')).toHaveClass(
       'bg-primary-inverted',
     );
   });
 
   it('flips Avatar contrast for inverted filled chips', () => {
-    render(
+    const { container } = render(
       <Chip icon={User} inverted variant='primary'>
         Profile
       </Chip>,
     );
 
-    expect(screen.getByRole('img', { name: /chip icon/i })).toHaveClass(
+    expect(container.querySelector('[role="presentation"]')).toHaveClass(
       'bg-primary',
     );
   });
 
   it('uses a smaller Avatar for small icon chips', () => {
-    render(
+    const { container } = render(
       <Chip icon={User} size='sm'>
         Profile
       </Chip>,
     );
 
-    expect(screen.getByRole('img', { name: /chip icon/i })).toHaveClass(
+    expect(container.querySelector('[role="presentation"]')).toHaveClass(
       'size-4',
     );
   });
 
   it('uses a contained larger Avatar for large icon chips', () => {
-    render(
+    const { container } = render(
       <Chip icon={User} size='lg'>
         Profile
       </Chip>,
     );
 
-    expect(screen.getByRole('img', { name: /chip icon/i })).toHaveClass(
+    expect(container.querySelector('[role="presentation"]')).toHaveClass(
       'size-6',
     );
   });
@@ -111,5 +117,21 @@ describe('Chip Component', () => {
     );
 
     expect(screen.getByRole('button', { name: /remove chip/i })).toBeDisabled();
+  });
+
+  it('does not bubble the remove click to the chip wrapper', () => {
+    const handleClick = vi.fn();
+    const handleClose = vi.fn();
+
+    render(
+      <Chip onClick={handleClick} onClose={handleClose}>
+        Closable
+      </Chip>,
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /remove chip/i }));
+
+    expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(handleClick).not.toHaveBeenCalled();
   });
 });

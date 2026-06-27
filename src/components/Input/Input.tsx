@@ -1,7 +1,8 @@
 import {
   type ChangeEvent,
-  type FC,
+  type PointerEvent,
   type Ref,
+  type MouseEvent,
   useCallback,
   useId,
   useRef,
@@ -9,7 +10,7 @@ import {
 } from 'react';
 import { X } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   inputCaptionStyles,
@@ -39,7 +40,7 @@ const assignRef = <T,>(ref: Ref<T> | undefined, value: T) => {
 const hasInputValue = (value: InputProps['value']) =>
   value !== undefined && value !== null && String(value).length > 0;
 
-export const Input: FC<InputProps> = ({
+export function Input({
   ref,
   id,
   label,
@@ -56,16 +57,19 @@ export const Input: FC<InputProps> = ({
   labelClassName,
   inputClassName,
   className,
+  fieldRef,
   disabled = false,
   required = false,
   value,
   defaultValue,
   onChange,
   onClear,
+  onTrailingIconClick,
+  trailingIconLabel = 'Trailing action',
   'aria-describedby': ariaDescribedBy,
   'aria-invalid': ariaInvalid,
   ...restProps
-}) => {
+}: InputProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const captionId = `${inputId}-caption`;
@@ -77,6 +81,9 @@ export const Input: FC<InputProps> = ({
   const invalid =
     Boolean(error) || ariaInvalid === true || ariaInvalid === 'true';
   const helperText = error ?? caption;
+  const describedBy = [helperText ? captionId : undefined, ariaDescribedBy]
+    .filter(Boolean)
+    .join(' ');
   const showClearButton =
     clearable &&
     !disabled &&
@@ -88,6 +95,12 @@ export const Input: FC<InputProps> = ({
       assignRef(ref, node);
     },
     [ref],
+  );
+  const setFieldRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      assignRef(fieldRef, node);
+    },
+    [fieldRef],
   );
 
   const handleChange = useCallback(
@@ -111,6 +124,44 @@ export const Input: FC<InputProps> = ({
     onClear?.();
   }, [isControlled, onClear]);
 
+  const handleClearPointerDown = useCallback(
+    (event: PointerEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (event.pointerType !== 'mouse' || event.button === 0) {
+        handleClear();
+      }
+    },
+    [handleClear],
+  );
+
+  const handleClearClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+
+      // Keyboard-triggered activation dispatches click without a pointer down.
+      if (event.detail === 0) {
+        handleClear();
+      }
+    },
+    [handleClear],
+  );
+  const handleTrailingIconMouseDown = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    [],
+  );
+  const handleTrailingIconClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      onTrailingIconClick?.(event);
+    },
+    [onTrailingIconClick],
+  );
+
   return (
     <div className={cn(inputRootStyles({ fullWidth }), containerClassName)}>
       {label && (
@@ -132,6 +183,7 @@ export const Input: FC<InputProps> = ({
           inputFieldStyles({ size, variant, disabled, invalid, fullWidth }),
           className,
         )}
+        ref={setFieldRef}
       >
         {LeadingIcon && (
           <LeadingIcon
@@ -142,14 +194,14 @@ export const Input: FC<InputProps> = ({
         )}
         <input
           {...restProps}
-          ref={setInputRef}
-          id={inputId}
-          aria-describedby={helperText ? captionId : ariaDescribedBy}
+          aria-describedby={describedBy || undefined}
           aria-invalid={invalid || undefined}
           className={cn(inputElementStyles(), inputClassName)}
           defaultValue={defaultValue}
           disabled={disabled}
+          id={inputId}
           onChange={handleChange}
+          ref={setInputRef}
           required={required}
           value={value}
         />
@@ -157,19 +209,35 @@ export const Input: FC<InputProps> = ({
           <button
             aria-label={clearLabel}
             className={cn(inputClearButtonStyles({ size }))}
-            onClick={handleClear}
+            onClick={handleClearClick}
+            onPointerDown={handleClearPointerDown}
             type='button'
           >
             <X aria-hidden='true' className={cn(inputIconStyles({ size }))} />
           </button>
         )}
-        {TrailingIcon && (
-          <TrailingIcon
-            aria-hidden='true'
-            className={cn(inputIconStyles({ size, muted: true }))}
-            focusable='false'
-          />
-        )}
+        {TrailingIcon &&
+          (onTrailingIconClick ? (
+            <button
+              aria-label={trailingIconLabel}
+              className={cn(inputClearButtonStyles({ size }))}
+              onClick={handleTrailingIconClick}
+              onMouseDown={handleTrailingIconMouseDown}
+              type='button'
+            >
+              <TrailingIcon
+                aria-hidden='true'
+                className={cn(inputIconStyles({ size, muted: true }))}
+                focusable='false'
+              />
+            </button>
+          ) : (
+            <TrailingIcon
+              aria-hidden='true'
+              className={cn(inputIconStyles({ size, muted: true }))}
+              focusable='false'
+            />
+          ))}
       </div>
 
       {helperText && (
@@ -182,4 +250,4 @@ export const Input: FC<InputProps> = ({
       )}
     </div>
   );
-};
+}

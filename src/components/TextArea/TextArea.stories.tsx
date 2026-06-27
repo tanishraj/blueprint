@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ChangeEvent } from 'react';
-import { useArgs, useCallback } from 'storybook/preview-api';
+import { useCallback } from 'react';
+import { useArgs } from 'storybook/preview-api';
 
 import { TextArea } from './TextArea';
 import type { TextAreaProps } from './types';
@@ -27,22 +28,70 @@ TextArea provides multi-line text entry using this repo's current label, border,
     size: {
       options: ['sm', 'md', 'lg'],
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     variant: {
       options: ['default', 'primary', 'info', 'success', 'warning', 'danger'],
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     fullWidth: {
       control: 'boolean',
+      table: {
+        category: 'Layout',
+      },
     },
     disabled: {
       control: 'boolean',
+      table: {
+        category: 'State',
+      },
     },
     required: {
       control: 'boolean',
+      table: {
+        category: 'State',
+      },
     },
     maxLength: {
       control: { type: 'number' },
+      table: {
+        category: 'Behavior',
+      },
+    },
+    label: {
+      control: 'text',
+      table: {
+        category: 'Content',
+      },
+    },
+    caption: {
+      control: 'text',
+      table: {
+        category: 'Content',
+      },
+    },
+    error: {
+      control: 'text',
+      table: {
+        category: 'Content',
+      },
+    },
+    value: {
+      control: false,
+      table: {
+        category: 'State',
+      },
+    },
+    onChange: {
+      control: false,
+      table: {
+        category: 'Advanced',
+      },
     },
   },
   args: {
@@ -66,13 +115,14 @@ type Story = StoryObj<TextAreaProps>;
 
 function TextAreaStory(args: TextAreaProps) {
   const [{ value }, updateArgs] = useArgs<TextAreaProps>();
+  const { onChange } = args;
 
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
       updateArgs({ value: event.target.value });
-      args.onChange?.(event);
+      onChange?.(event);
     },
-    [args, updateArgs],
+    [onChange, updateArgs],
   );
 
   return (

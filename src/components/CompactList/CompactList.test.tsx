@@ -10,7 +10,15 @@ describe('CompactList', () => {
     );
 
     expect(screen.getByText('Apple')).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button'));
+    const button = screen.getByRole('button', { name: /2 more items/i });
+
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(button);
+    expect(button).toHaveAttribute('aria-expanded', 'true');
+    expect(
+      screen.getByRole('dialog', { name: /additional items/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('list')).toBeInTheDocument();
     expect(screen.getByText('Banana')).toBeInTheDocument();
     expect(screen.getByText('Cherry')).toBeInTheDocument();
   });

@@ -1,7 +1,7 @@
-import { type FC, type HTMLAttributes } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 import { ChevronRight } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   breadcrumbIconStyles,
@@ -19,14 +19,16 @@ import type {
   BreadcrumbSeparators,
 } from './types';
 
-export interface BreadcrumbProps extends HTMLAttributes<HTMLElement> {
+export interface BreadcrumbProps extends ComponentPropsWithoutRef<'nav'> {
   items: BreadcrumbItem[];
   appearance?: BreadcrumbAppearances;
   separator?: BreadcrumbSeparators;
 }
 
-const BreadcrumbSeparator: FC<{ separator: BreadcrumbSeparators }> = ({
+const BreadcrumbSeparator = ({
   separator,
+}: {
+  separator: BreadcrumbSeparators;
 }) => (
   <span aria-hidden='true' className={cn(breadcrumbSeparatorStyles())}>
     {separator === '>' ? (
@@ -37,21 +39,24 @@ const BreadcrumbSeparator: FC<{ separator: BreadcrumbSeparators }> = ({
   </span>
 );
 
-export const Breadcrumb: FC<BreadcrumbProps> = ({
+export function Breadcrumb({
   items,
   appearance = 'ghost',
   separator = '>',
   role,
   className,
   ...restProps
-}) => {
+}: BreadcrumbProps) {
+  const ariaLabel = restProps['aria-label'];
+  const ariaLabelledBy = restProps['aria-labelledby'];
   const hasExplicitCurrent = items.some(item => item.current);
 
   return (
     <nav
       {...restProps}
       role={role}
-      aria-label={restProps['aria-label'] ?? 'Breadcrumb'}
+      aria-label={ariaLabelledBy ? undefined : (ariaLabel ?? 'Breadcrumb')}
+      aria-labelledby={ariaLabelledBy}
       className={cn(breadcrumbStyles({ appearance }), className)}
     >
       <ol className={cn(breadcrumbListStyles())}>
@@ -69,7 +74,7 @@ export const Breadcrumb: FC<BreadcrumbProps> = ({
           } = item;
           const resolvedCurrent =
             itemCurrent ?? (!hasExplicitCurrent && index === items.length - 1);
-          const isLink = Boolean(href) && !resolvedCurrent && !disabled;
+          const isLink = Boolean(href) && !disabled;
           const itemKey = id ?? href ?? index;
           const content = (
             <>
@@ -90,10 +95,12 @@ export const Breadcrumb: FC<BreadcrumbProps> = ({
                 <a
                   {...itemProps}
                   href={href}
+                  aria-current={resolvedCurrent ? 'page' : undefined}
+                  aria-disabled={disabled || undefined}
                   onClick={onClick}
                   className={cn(
                     breadcrumbLinkStyles({
-                      current: false,
+                      current: resolvedCurrent,
                       disabled: false,
                     }),
                     itemClassName,
@@ -104,6 +111,7 @@ export const Breadcrumb: FC<BreadcrumbProps> = ({
               ) : (
                 <span
                   aria-current={resolvedCurrent ? 'page' : undefined}
+                  aria-disabled={disabled || undefined}
                   className={cn(
                     breadcrumbLinkStyles({
                       current: resolvedCurrent,
@@ -124,4 +132,4 @@ export const Breadcrumb: FC<BreadcrumbProps> = ({
       </ol>
     </nav>
   );
-};
+}

@@ -1,4 +1,11 @@
-import type { ComponentPropsWithRef, FC, ReactNode, SVGProps } from 'react';
+import type {
+  ComponentPropsWithRef,
+  ComponentType,
+  MouseEventHandler,
+  Ref,
+  ReactNode,
+  SVGProps,
+} from 'react';
 
 import type { ButtonSizes, ButtonVariants } from '../Button';
 
@@ -6,7 +13,7 @@ export type InputVariants = ButtonVariants;
 
 export type InputSizes = ButtonSizes;
 
-export type InputIcon = FC<SVGProps<SVGSVGElement>>;
+export type InputIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 export interface InputProps extends Omit<
   ComponentPropsWithRef<'input'>,
@@ -17,13 +24,16 @@ export interface InputProps extends Omit<
   clearable?: boolean;
   containerClassName?: string;
   error?: ReactNode;
+  fieldRef?: Ref<HTMLDivElement>;
   fullWidth?: boolean;
   inputClassName?: string;
   label?: ReactNode;
   labelClassName?: string;
   leadingIcon?: InputIcon;
   onClear?: () => void;
+  onTrailingIconClick?: MouseEventHandler<HTMLButtonElement>;
   size?: InputSizes;
   trailingIcon?: InputIcon;
+  trailingIconLabel?: string;
   variant?: InputVariants;
 }

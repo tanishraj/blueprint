@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { listBoxStyles } from './ListBox.styles';
 import { ListItem } from './ListItem';
@@ -11,7 +11,7 @@ export const ListBox = forwardRef<HTMLDivElement, ListBoxProps>(
     {
       children,
       className,
-      itemRole = 'option',
+      itemRole,
       items = [],
       leadingSlot,
       onItemSelect,
@@ -22,9 +22,13 @@ export const ListBox = forwardRef<HTMLDivElement, ListBoxProps>(
     },
     ref,
   ) => {
+    const resolvedItemRole =
+      itemRole ?? (role === 'menu' ? 'menuitem' : 'option');
+
     return (
       <div
         {...props}
+        aria-orientation={props['aria-orientation'] ?? 'vertical'}
         ref={ref}
         className={cn(listBoxStyles({ size }), className)}
         role={role}
@@ -35,7 +39,7 @@ export const ListBox = forwardRef<HTMLDivElement, ListBoxProps>(
             <ListItem
               key={item.id ?? item.value}
               item={item}
-              role={itemRole}
+              role={resolvedItemRole}
               selected={item.value === selectedValue}
               size={size}
               {...(onItemSelect ? { onSelect: onItemSelect } : {})}

@@ -1,6 +1,11 @@
 export { MetricCard } from './MetricCard';
 export { MetricValueItem } from './MetricValueItem';
 export type {
+  MetricCardColorVariant,
+  MetricCardProps,
+  MetricHint,
+  MetricValue,
+  MetricValueItemData,
   IMetricCardProps,
   IMetricHint,
   IMetricValue,

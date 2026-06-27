@@ -62,6 +62,10 @@ describe('Checkbox Component', () => {
       'aria-invalid',
       'true',
     );
+    expect(screen.getByRole('checkbox')).toHaveAttribute(
+      'aria-errormessage',
+      expect.stringMatching(/description$/),
+    );
     expect(screen.getByText('This field is required')).toBeInTheDocument();
   });
 
@@ -71,5 +75,31 @@ describe('Checkbox Component', () => {
     expect(
       screen.getByRole('checkbox', { name: /^checkbox$/i }),
     ).toBeInTheDocument();
+  });
+
+  it('associates description text with the input', () => {
+    render(
+      <Checkbox
+        label='Newsletter'
+        description='You can unsubscribe at any time.'
+      />,
+    );
+
+    const checkbox = screen.getByRole('checkbox', { name: /newsletter/i });
+    const description = screen.getByText(/unsubscribe at any time/i);
+
+    expect(checkbox).toHaveAttribute('aria-describedby', description.id);
+  });
+
+  it('centers the checkbox control when there is no helper text', () => {
+    render(<Checkbox label='Centered checkbox' />);
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: /centered checkbox/i,
+    });
+
+    expect(checkbox.parentElement?.parentElement).toHaveClass('items-center');
+    expect(checkbox.nextElementSibling).toHaveClass('self-center');
+    expect(checkbox.nextElementSibling).not.toHaveClass('mt-0.5');
   });
 });

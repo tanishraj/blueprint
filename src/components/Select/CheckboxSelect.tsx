@@ -16,7 +16,10 @@ import {
   defaultFormatOptionLabel,
   defaultGetOptionLabel,
   defaultGetOptionValue,
+  getHelperTextId,
   getResolvedPlaceholder,
+  isSelectInvalid,
+  mergeDescribedBy,
 } from './shared.helpers';
 import type { SelectOption, SelectProps } from './types';
 
@@ -69,11 +72,13 @@ export const CheckboxSelect = <
   options,
   styles: customStyles,
   value,
+  'aria-describedby': ariaDescribedBy,
+  'aria-invalid': ariaInvalid,
   ...restProps
 }: CheckboxSelectProps<Option, IsMulti>) => {
   const generatedId = useId();
   const selectId = id ?? generatedId;
-  const invalid = Boolean(error ?? errorMsg);
+  const invalid = isSelectInvalid({ ariaInvalid, error, errorMsg });
   const helperText = buildHelperText({
     caption,
     error,
@@ -83,10 +88,16 @@ export const CheckboxSelect = <
   });
   const isReadOnly = Boolean(readOnly ?? readonly);
   const isSelectDisabled = Boolean(disabled ?? isDisabled);
+  const helperTextId = getHelperTextId(selectId);
   const resolvedPlaceholder = getResolvedPlaceholder({
     label,
     placeholder,
     required,
+  });
+  const describedBy = mergeDescribedBy({
+    ariaDescribedBy,
+    helperText,
+    helperTextId,
   });
   const resolvedIsOptionDisabled = useCallback(
     (option: Option, selectValue: readonly Option[]) =>
@@ -221,7 +232,7 @@ export const CheckboxSelect = <
       <ReactSelect<Option, IsMulti, GroupBase<Option>>
         {...restProps}
         ref={ref}
-        aria-describedby={helperText ? `${selectId}-caption` : undefined}
+        aria-describedby={describedBy}
         aria-invalid={invalid || undefined}
         backspaceRemovesValue={
           isReadOnly ? false : restProps.backspaceRemovesValue

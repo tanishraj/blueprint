@@ -1,4 +1,4 @@
-import { type CSSProperties, type ReactNode, useMemo, useState } from 'react';
+import { type CSSProperties, type ReactNode, useId, useState } from 'react';
 import {
   autoUpdate,
   flip,
@@ -9,10 +9,9 @@ import {
   useDismiss,
   useFloating,
   useInteractions,
-  useRole,
 } from '@floating-ui/react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { Badge, type BadgeProps } from '../Badge';
 
@@ -95,6 +94,7 @@ export const CompactList = <T extends ItemType>({
   popoverClassName,
   renderItem,
 }: CompactListProps<T>) => {
+  const popoverId = useId();
   const [open, setOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
     open,
@@ -105,34 +105,28 @@ export const CompactList = <T extends ItemType>({
   });
   const click = useClick(context);
   const dismiss = useDismiss(context);
-  const role = useRole(context, { role: 'dialog' });
   const { getReferenceProps, getFloatingProps } = useInteractions([
     click,
     dismiss,
-    role,
   ]);
 
-  const getDisplayValue = useMemo(
-    () =>
-      (item: T, index: number): ReactNode => {
-        if (renderItem) {
-          return renderItem(item, index);
-        }
+  const getDisplayValue = (item: T, index: number): ReactNode => {
+    if (renderItem) {
+      return renderItem(item, index);
+    }
 
-        if (isPrimitiveValue(item)) {
-          return String(item);
-        }
+    if (isPrimitiveValue(item)) {
+      return String(item);
+    }
 
-        if (displayKey && typeof item === 'object' && item !== null) {
-          return String(
-            (item as Record<PropertyKey, unknown>)[displayKey as PropertyKey],
-          );
-        }
+    if (displayKey && typeof item === 'object' && item !== null) {
+      return String(
+        (item as Record<PropertyKey, unknown>)[displayKey as PropertyKey],
+      );
+    }
 
-        return JSON.stringify(item);
-      },
-    [displayKey, renderItem],
-  );
+    return JSON.stringify(item);
+  };
 
   if (items.length === 0) {
     return null;
@@ -175,6 +169,10 @@ export const CompactList = <T extends ItemType>({
           <button
             {...getReferenceProps({
               ref: refs.setReference,
+              'aria-controls': popoverId,
+              'aria-expanded': open,
+              'aria-label': `${hiddenCount} more item${hiddenCount === 1 ? '' : 's'}`,
+              'aria-haspopup': 'dialog',
               className:
                 'inline-flex cursor-pointer rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary',
               type: 'button',
@@ -193,17 +191,26 @@ export const CompactList = <T extends ItemType>({
             <FloatingPortal>
               <div
                 {...getFloatingProps({
+                  id: popoverId,
                   ref: refs.setFloating,
                   className: cn(
                     'z-50 min-w-40 rounded-md border border-gray-200 bg-white p-4 shadow-lg',
                     popoverClassName,
                   ),
+                  role: 'dialog',
+                  'aria-label': 'Additional items',
                   style: floatingStyles,
                 })}
               >
-                <div className='flex flex-col gap-3 text-sm text-default'>
+                <div
+                  className='flex flex-col gap-3 text-sm text-default'
+                  role='list'
+                >
                   {hiddenItems.map((item, index) => (
-                    <div key={getItemKey(item, index + maxVisible, displayKey)}>
+                    <div
+                      key={getItemKey(item, index + maxVisible, displayKey)}
+                      role='listitem'
+                    >
                       {getDisplayValue(item, index + maxVisible)}
                     </div>
                   ))}

@@ -88,4 +88,22 @@ describe('Select', () => {
 
     expect(screen.getByText('Archived')).toBeInTheDocument();
   });
+
+  it('renders helper text with a generated caption id', () => {
+    render(
+      <Select caption='Choose a status' label='Status' options={options} />,
+    );
+
+    expect(screen.getByText('Choose a status')).toHaveAttribute(
+      'id',
+      expect.stringContaining('-caption'),
+    );
+  });
+
+  it('renders falsy label and helper text content', () => {
+    render(<Select caption={0} label={0} options={options} />);
+
+    expect(screen.getByLabelText('0')).toBeInTheDocument();
+    expect(screen.getAllByText('0')).toHaveLength(2);
+  });
 });

@@ -14,17 +14,50 @@ describe('ConfirmationPopup Component', () => {
       />,
     );
 
+    const trigger = screen.getByRole('button', { name: /open/i });
+
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
-    fireEvent.click(screen.getByRole('button', { name: /open/i }));
+    fireEvent.click(trigger);
 
-    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    const dialog = screen.getByRole('dialog', { name: 'Title' });
+
+    expect(dialog).toBeInTheDocument();
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(trigger).toHaveAttribute('aria-controls', dialog.id);
     expect(screen.getByText('Title')).toBeInTheDocument();
     expect(
       screen.getByText('Are you sure you want to continue?'),
     ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /action/i })).toBeInTheDocument();
+  });
+
+  it('links the dialog to its title and description', () => {
+    render(
+      <ConfirmationPopup
+        description='Popup description'
+        open
+        title='Popup title'
+      />,
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Popup title' });
+    const title = screen.getByText('Popup title');
+    const description = screen.getByText('Popup description');
+
+    expect(dialog).toHaveAttribute('aria-labelledby', title.id);
+    expect(dialog).toHaveAttribute('aria-describedby', description.id);
+  });
+
+  it('falls back to a default accessible dialog name when title is omitted', () => {
+    render(<ConfirmationPopup description='Description only' open />);
+
+    expect(
+      screen.getByRole('dialog', { name: 'Confirmation popup' }),
+    ).toBeInTheDocument();
   });
 
   it('renders controlled content when open', () => {

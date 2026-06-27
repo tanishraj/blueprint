@@ -1,4 +1,10 @@
-import type { FC, HTMLAttributes, ReactNode, RefObject, SVGProps } from 'react';
+import type {
+  ComponentType,
+  HTMLAttributes,
+  ReactNode,
+  RefObject,
+  SVGProps,
+} from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
 import { RemoveNull } from '@/utils';
@@ -9,7 +15,7 @@ export type ModalSizes = RemoveNull<
   VariantProps<typeof modalPanelStyles>
 >['size'];
 
-export type ModalIcon = FC<SVGProps<SVGSVGElement>>;
+export type ModalIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 export interface ModalProps
   extends

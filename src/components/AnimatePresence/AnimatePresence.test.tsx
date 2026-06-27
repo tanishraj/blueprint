@@ -135,4 +135,30 @@ describe('Presence', () => {
       expect(screen.queryByTestId('static-child')).not.toBeInTheDocument();
     });
   });
+
+  it('keeps the child mounted when presence becomes true before exit completes', async () => {
+    const { rerender } = render(
+      <AnimatePresence presence={true}>
+        <MockChild />
+      </AnimatePresence>,
+    );
+
+    rerender(
+      <AnimatePresence presence={false}>
+        <MockChild />
+      </AnimatePresence>,
+    );
+
+    rerender(
+      <AnimatePresence presence={true}>
+        <MockChild />
+      </AnimatePresence>,
+    );
+
+    fireEvent.animationEnd(screen.getByTestId('child'));
+
+    await waitFor(() => {
+      expect(screen.getByTestId('child')).toBeInTheDocument();
+    });
+  });
 });

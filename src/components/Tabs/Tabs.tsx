@@ -1,14 +1,14 @@
 import {
   Children,
   isValidElement,
-  type FC,
+  type ReactNode,
   useCallback,
   useId,
   useMemo,
   useState,
 } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { TabsContext } from './context';
 import { tabsRootStyles } from './Tabs.styles';
@@ -17,7 +17,10 @@ import type { TabsProps } from './types';
 const clampIndex = (index: number, max: number) =>
   Math.min(Math.max(index, 0), max);
 
-export const Tabs: FC<TabsProps> = ({
+const hasContent = (value: ReactNode | undefined) =>
+  value !== undefined && value !== null && value !== false && value !== '';
+
+export function Tabs({
   children,
   className,
   defaultValue = 0,
@@ -29,10 +32,12 @@ export const Tabs: FC<TabsProps> = ({
   value,
   variant = 'underline',
   ...restProps
-}) => {
+}: TabsProps) {
   const generatedId = useId();
   const baseId = id ?? `tabs-${generatedId}`;
-  const childrenArray = Children.toArray(children);
+  const childrenArray = Children.toArray(children).filter(child =>
+    isValidElement(child),
+  );
   const [tabsList, ...tabPanels] = childrenArray;
   const [internalValue, setInternalValue] = useState(defaultValue);
 
@@ -87,9 +92,9 @@ export const Tabs: FC<TabsProps> = ({
         {...restProps}
         className={cn(tabsRootStyles({ orientation }), className)}
       >
-        {tabsList}
+        {hasContent(tabsList) ? tabsList : null}
         {isValidElement(activePanel) ? activePanel : null}
       </div>
     </TabsContext>
   );
-};
+}

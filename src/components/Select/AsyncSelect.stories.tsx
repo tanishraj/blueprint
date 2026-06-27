@@ -14,6 +14,28 @@ const meta: Meta<typeof AsyncSelect> = {
   title: 'Components/Select/AsyncSelect',
   component: AsyncSelect,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'AsyncSelect loads options on demand, while keeping the same field shell, validation styling, and creatable support as the base Select.',
+      },
+    },
+  },
+  decorators: [
+    (Story, context) => {
+      if (context.viewMode === 'docs') {
+        return <Story />;
+      }
+
+      return (
+        <div className='flex min-h-screen w-full items-center justify-center p-8'>
+          <Story />
+        </div>
+      );
+    },
+  ],
   args: {
     label: 'Async status',
     placeholder: 'Search options',

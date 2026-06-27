@@ -47,6 +47,19 @@ describe('Link Component', () => {
     );
   });
 
+  it('preserves custom rel values while adding safe new-tab rel tokens', () => {
+    render(
+      <Link href='https://example.com' rel='author' target='_blank'>
+        External
+      </Link>,
+    );
+
+    expect(screen.getByRole('link')).toHaveAttribute(
+      'rel',
+      'author noreferrer noopener',
+    );
+  });
+
   it('supports truncation styling', () => {
     render(
       <Link href='/docs' truncate>
@@ -80,6 +93,7 @@ describe('Link Component', () => {
 
     expect(link).not.toHaveAttribute('href');
     expect(link).toHaveAttribute('aria-disabled', 'true');
+    expect(link).toHaveAttribute('tabindex', '-1');
 
     fireEvent.click(link!);
 

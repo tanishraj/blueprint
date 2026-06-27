@@ -12,7 +12,7 @@ import {
   type StylesConfig,
 } from 'react-select';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   inputClearButtonStyles,
@@ -21,11 +21,49 @@ import {
 } from '../Input/Input.styles';
 import { Chip } from '../Chip';
 import type {
+  SelectAriaInvalid,
   SelectOption,
   SelectProps,
   SelectSizes,
   SelectVariants,
 } from './types';
+
+export const hasContent = (value: ReactNode | undefined) =>
+  value !== undefined && value !== null && value !== false && value !== '';
+
+export const getHelperTextId = (id: string) => `${id}-caption`;
+
+export const mergeDescribedBy = ({
+  ariaDescribedBy,
+  helperText,
+  helperTextId,
+}: {
+  ariaDescribedBy: string | undefined;
+  helperText: ReactNode | undefined;
+  helperTextId: string;
+}) => {
+  const describedByParts = [
+    ariaDescribedBy,
+    hasContent(helperText) ? helperTextId : undefined,
+  ].filter(Boolean);
+
+  return describedByParts.length > 0 ? describedByParts.join(' ') : undefined;
+};
+
+export const isSelectInvalid = ({
+  ariaInvalid,
+  error,
+  errorMsg,
+}: {
+  ariaInvalid: SelectAriaInvalid | undefined;
+  error: ReactNode | undefined;
+  errorMsg: ReactNode | undefined;
+}) =>
+  Boolean(error ?? errorMsg) ||
+  ariaInvalid === true ||
+  ariaInvalid === 'true' ||
+  ariaInvalid === 'grammar' ||
+  ariaInvalid === 'spelling';
 
 export const defaultGetOptionLabel = <Option extends SelectOption>(
   option: Option,
@@ -84,11 +122,15 @@ export const buildHelperText = ({
 }) => {
   const normalizedError = error ?? errorMsg;
 
-  if (normalizedError && !hideErrorMsg) {
+  if (hasContent(normalizedError) && !hideErrorMsg) {
     return normalizedError;
   }
 
-  return caption ?? hintText;
+  if (hasContent(caption)) {
+    return caption;
+  }
+
+  return hasContent(hintText) ? hintText : undefined;
 };
 
 interface BaseSelectComponentsOptions<

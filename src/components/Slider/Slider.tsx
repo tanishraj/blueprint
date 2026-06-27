@@ -1,7 +1,7 @@
 import {
-  type FC,
   type KeyboardEvent,
   type PointerEvent as ReactPointerEvent,
+  type ReactNode,
   useCallback,
   useEffect,
   useId,
@@ -10,7 +10,7 @@ import {
   useState,
 } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   sliderActiveTrackStyles,
@@ -102,6 +102,9 @@ const getPercentage = (value: number, min: number, max: number) =>
 
 const defaultFormatValue = (value: number) => value;
 
+const hasContent = (value: ReactNode | undefined) =>
+  value !== undefined && value !== null && value !== false && value !== '';
+
 const getClosestThumb = (
   value: number,
   startValue: number,
@@ -116,7 +119,7 @@ const getClosestThumb = (
     : 'end';
 };
 
-export const Slider: FC<SliderProps> = ({
+export function Slider({
   caption,
   captionClassName,
   className,
@@ -140,8 +143,10 @@ export const Slider: FC<SliderProps> = ({
   value,
   valueClassName,
   'aria-label': ariaLabel,
+  'aria-describedby': ariaDescribedBy,
+  'aria-invalid': ariaInvalid,
   ...restProps
-}) => {
+}: SliderProps) {
   const generatedId = useId();
   const trackRef = useRef<HTMLDivElement | null>(null);
   const startThumbRef = useRef<HTMLButtonElement | null>(null);
@@ -170,7 +175,16 @@ export const Slider: FC<SliderProps> = ({
 
   const helperText = error ?? caption;
   const captionId = `${generatedId}-caption`;
-  const invalid = Boolean(error);
+  const invalid =
+    Boolean(error) ||
+    ariaInvalid === true ||
+    ariaInvalid === 'true' ||
+    ariaInvalid === 'grammar' ||
+    ariaInvalid === 'spelling';
+  const describedBy =
+    [ariaDescribedBy, hasContent(helperText) ? captionId : undefined]
+      .filter(Boolean)
+      .join(' ') || undefined;
   const showStartValueLabel =
     range && showValueLabel && (!showMinLabel || startValue !== safeMin);
   const showEndValueLabel =
@@ -364,19 +378,30 @@ export const Slider: FC<SliderProps> = ({
     handleThumbPointerDown('end');
   }, [handleThumbPointerDown]);
 
+  const getValueText = useCallback(
+    (nextValue: number) => {
+      const formattedValue = formatValue(nextValue);
+
+      return typeof formattedValue === 'string' ||
+        typeof formattedValue === 'number'
+        ? String(formattedValue)
+        : undefined;
+    },
+    [formatValue],
+  );
+
   const sharedThumbProps = {
-    'aria-describedby': helperText ? captionId : undefined,
+    'aria-describedby': describedBy,
     'aria-invalid': invalid || undefined,
     'aria-valuemax': safeMax,
     'aria-valuemin': safeMin,
-    'aria-valuetext': undefined,
     disabled,
     type: 'button' as const,
   };
 
   return (
     <div {...restProps} className={cn(sliderRootStyles(), className)}>
-      {label && (
+      {hasContent(label) && (
         <div className={cn(sliderHeaderStyles())}>
           <label
             className={cn(
@@ -410,6 +435,7 @@ export const Slider: FC<SliderProps> = ({
           <button
             {...sharedThumbProps}
             aria-label={ariaLabel ?? `${label ?? 'Slider'} minimum value`}
+            aria-valuetext={getValueText(startValue)}
             aria-valuenow={startValue}
             className={cn(
               sliderThumbButtonStyles({
@@ -437,6 +463,7 @@ export const Slider: FC<SliderProps> = ({
               ? `${label ?? 'Slider'} maximum value`
               : (label?.toString() ?? 'Slider value'))
           }
+          aria-valuetext={getValueText(endValue ?? startValue)}
           aria-valuenow={endValue ?? startValue}
           className={cn(
             sliderThumbButtonStyles({
@@ -509,7 +536,7 @@ export const Slider: FC<SliderProps> = ({
         </div>
       )}
 
-      {helperText && (
+      {hasContent(helperText) && (
         <p
           className={cn(
             sliderCaptionStyles({ disabled, invalid, size }),
@@ -522,4 +549,4 @@ export const Slider: FC<SliderProps> = ({
       )}
     </div>
   );
-};
+}

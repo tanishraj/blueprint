@@ -13,7 +13,7 @@ describe('Badge Component', () => {
   it('falls back to an accessible name for icon-only variants', () => {
     render(<Badge icon={Check} />);
     expect(
-      screen.getByRole('img', { name: /badge, default/i }),
+      screen.getByRole('img', { name: /default badge icon/i }),
     ).toBeInTheDocument();
   });
 
@@ -37,6 +37,7 @@ describe('Badge Component', () => {
       </Badge>,
     );
 
+    expect(container.firstChild).toHaveClass('gap-2');
     expect(container.querySelector('svg')).toBeTruthy();
     expect(screen.getByText('Needs attention')).toBeInTheDocument();
   });
@@ -53,5 +54,35 @@ describe('Badge Component', () => {
   it('supports zero as text content', () => {
     render(<Badge>{0}</Badge>);
     expect(screen.getByText('0')).toBeInTheDocument();
+  });
+
+  it('keeps a default accessible name for non-text status badges', () => {
+    render(<Badge role='status' icon={Check} />);
+
+    expect(
+      screen.getByRole('status', { name: /default badge icon/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('respects aria-labelledby for icon-only badges', () => {
+    render(
+      <>
+        <span id='badge-label'>Queued status</span>
+        <Badge aria-labelledby='badge-label' icon={Check} />
+      </>,
+    );
+
+    expect(
+      screen.getByRole('img', { name: /queued status/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('does not keep an accessible name when used as presentation', () => {
+    render(
+      <Badge role='presentation' icon={Check} aria-label='Status badge' />,
+    );
+
+    expect(screen.getByRole('presentation')).toBeInTheDocument();
+    expect(screen.queryByLabelText(/status badge/i)).not.toBeInTheDocument();
   });
 });

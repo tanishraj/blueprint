@@ -1,16 +1,15 @@
-import { type FC } from 'react';
+import type { ReactNode } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { useTabs } from './context';
 import { tabPanelStyles } from './Tabs.styles';
 import type { TabPanelProps } from './types';
 
-export const TabPanel: FC<TabPanelProps> = ({
-  children,
-  className,
-  ...restProps
-}) => {
+const hasPanelContent = (value: ReactNode) =>
+  value !== undefined && value !== null && value !== false && value !== '';
+
+export function TabPanel({ children, className, ...restProps }: TabPanelProps) {
   const { baseId, orientation, selectedIndex } = useTabs();
 
   return (
@@ -22,7 +21,7 @@ export const TabPanel: FC<TabPanelProps> = ({
       role='tabpanel'
       tabIndex={0}
     >
-      {children}
+      {hasPanelContent(children) ? children : null}
     </div>
   );
-};
+}

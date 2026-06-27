@@ -1,4 +1,4 @@
-import type { FC, HTMLProps, ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 export enum ETrend {
   positive = 'positive',
@@ -6,20 +6,18 @@ export enum ETrend {
   neutral = 'neutral',
 }
 
-export type IndicatorMapper = Record<ETrend, FC>;
-
 export type TrendIndicatorSize = 'sm' | 'md' | 'lg';
 export type TrendIndicatorStrokeWidth = 'thin' | 'thick' | 'thicker';
 
-export interface TrendIndicatorProps {
-  className?: HTMLProps<HTMLElement>['className'];
+export interface TrendIndicatorProps extends Omit<
+  ComponentPropsWithoutRef<'div'>,
+  'children'
+> {
   colorizeValueText?: boolean;
-  inverted?: boolean | undefined;
+  inverted?: boolean;
   label?: ReactNode;
   size?: TrendIndicatorSize;
   strokeWidth?: TrendIndicatorStrokeWidth;
   value?: ReactNode;
   variant?: ETrend;
 }
-
-export type ITrendIndicatorProps = TrendIndicatorProps;

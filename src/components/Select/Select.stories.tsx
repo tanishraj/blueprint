@@ -56,6 +56,7 @@ const meta: Meta<SelectProps<SelectOption>> = {
   component: Select,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
     },
@@ -65,7 +66,6 @@ const meta: Meta<SelectProps<SelectOption>> = {
 Select wraps \`react-select\` with the same form-field framing used across this kit. It supports single and multi selection, creatable entries, helper text, and error treatment aligned with the Input component.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [

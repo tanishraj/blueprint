@@ -7,9 +7,10 @@ import { AlertAppearances, AlertSizes, AlertVariants } from './types';
 const variants = ['default', 'primary', 'info', 'success', 'warning', 'danger'];
 const appearances = ['filled', 'outline', 'dashed'];
 const sizes = ['sm', 'md', 'lg'];
+const noop = () => {};
 
 const meta: Meta<AlertProps> = {
-  title: 'components/Alert',
+  title: 'Components/Alert',
   component: Alert,
   tags: ['autodocs'],
   parameters: {
@@ -93,6 +94,13 @@ Accessibility:
         category: 'Behavior',
       },
     },
+    closeLabel: {
+      description: 'Accessible label for the dismiss button.',
+      control: 'text',
+      table: {
+        category: 'Behavior',
+      },
+    },
   },
   args: {
     title: 'This is a concise alert message component',
@@ -103,9 +111,8 @@ Accessibility:
     appearance: 'filled',
     size: 'sm',
     inverted: false,
-    onClose: () => {
-      console.log('Alert Closed.');
-    },
+    onClose: noop,
+    closeLabel: 'Dismiss alert',
   },
 };
 
@@ -149,7 +156,7 @@ export const AlertVariant: Story = {
   },
 };
 
-export const AlertApperance: Story = {
+export const AlertAppearance: Story = {
   render: args => {
     return (
       <div className='flex flex-col gap-10'>

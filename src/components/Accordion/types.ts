@@ -1,7 +1,7 @@
 import { type ComponentPropsWithRef, type ReactNode } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { type RemoveNull } from '@/utils';
+import type { RemoveNull } from '@/utils/types';
 
 import { accordionRootStyles } from './Accordion.styles';
 

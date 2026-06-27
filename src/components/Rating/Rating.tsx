@@ -1,13 +1,12 @@
 import {
   type ChangeEvent,
-  type FC,
   type KeyboardEvent,
   useCallback,
   useId,
   useState,
 } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   ratingEmptyIconStyles,
@@ -41,7 +40,7 @@ interface RatingIconProps {
   filled?: boolean;
 }
 
-const RatingIcon: FC<RatingIconProps> = ({ filled = false }) => (
+const RatingIcon = ({ filled = false }: RatingIconProps) => (
   <svg
     aria-hidden='true'
     className={cn(ratingStarIconStyles())}
@@ -72,7 +71,7 @@ interface RatingOptionProps {
   value: number;
 }
 
-const RatingOption: FC<RatingOptionProps> = ({
+const RatingOption = ({
   checked,
   disabled,
   groupName,
@@ -83,7 +82,7 @@ const RatingOption: FC<RatingOptionProps> = ({
   onHover,
   part,
   value,
-}) => {
+}: RatingOptionProps) => {
   const handleMouseEnter = useCallback(() => {
     if (interactive) {
       onHover(value);
@@ -130,7 +129,7 @@ interface RatingStarProps {
   size: RatingProps['size'];
 }
 
-const RatingStar: FC<RatingStarProps> = ({
+const RatingStar = ({
   disabled,
   displayValue,
   getLabelText,
@@ -143,7 +142,7 @@ const RatingStar: FC<RatingStarProps> = ({
   precision,
   selectedValue,
   size,
-}) => {
+}: RatingStarProps) => {
   const starValue = index + 1;
   const halfValue = starValue - 0.5;
   const fillPercentage = getStarFill(displayValue, index);
@@ -203,7 +202,7 @@ const RatingStar: FC<RatingStarProps> = ({
   );
 };
 
-export const Rating: FC<RatingProps> = ({
+export function Rating({
   ref,
   className,
   defaultValue = 0,
@@ -218,7 +217,7 @@ export const Rating: FC<RatingProps> = ({
   value,
   'aria-label': ariaLabel,
   ...restProps
-}) => {
+}: RatingProps) {
   const generatedId = useId();
   const groupName = name ?? `rating-${generatedId}`;
   const safeMax = Math.max(1, Math.floor(max));
@@ -335,4 +334,4 @@ export const Rating: FC<RatingProps> = ({
       ))}
     </div>
   );
-};
+}

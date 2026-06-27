@@ -1,10 +1,10 @@
-import { type FC } from 'react';
 import { ArrowDownRight, ArrowRight, ArrowUpRight } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   trendIndicatorIconStyles,
+  trendIndicatorLabelStyles,
   trendIndicatorRootStyles,
   trendIndicatorValueStyles,
 } from './TrendIndicator.styles';
@@ -34,7 +34,11 @@ const trendDescriptionsInverted = {
   [ETrend.neutral]: 'Neutral Trend',
 } as const;
 
-export const TrendIndicator: FC<TrendIndicatorProps> = ({
+const hasContent = (
+  value: TrendIndicatorProps['value'] | TrendIndicatorProps['label'],
+) => value !== undefined && value !== null && value !== false && value !== '';
+
+export function TrendIndicator({
   className,
   colorizeValueText = false,
   inverted = false,
@@ -43,7 +47,8 @@ export const TrendIndicator: FC<TrendIndicatorProps> = ({
   strokeWidth = 'thicker',
   value,
   variant,
-}) => {
+  ...restProps
+}: TrendIndicatorProps) {
   const Icon =
     variant && inverted
       ? indicatorInvertedMapper[variant]
@@ -58,12 +63,13 @@ export const TrendIndicator: FC<TrendIndicatorProps> = ({
 
   return (
     <div
+      {...restProps}
       aria-label={ariaLabel}
       className={cn(trendIndicatorRootStyles(), className)}
       role={variant ? 'figure' : undefined}
     >
-      {value ? (
-        <div
+      {hasContent(value) ? (
+        <span
           className={cn(
             colorizeValueText
               ? trendIndicatorValueStyles({ tone: variant ?? 'undefined' })
@@ -71,7 +77,7 @@ export const TrendIndicator: FC<TrendIndicatorProps> = ({
           )}
         >
           {value}
-        </div>
+        </span>
       ) : null}
       {Icon ? (
         <span
@@ -86,7 +92,9 @@ export const TrendIndicator: FC<TrendIndicatorProps> = ({
           <Icon aria-hidden='true' className='size-full' />
         </span>
       ) : null}
-      {label ? <div>{label}</div> : null}
+      {hasContent(label) ? (
+        <span className={cn(trendIndicatorLabelStyles())}>{label}</span>
+      ) : null}
     </div>
   );
-};
+}

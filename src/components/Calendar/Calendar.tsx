@@ -1,4 +1,4 @@
-import { type FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   ChevronDown,
   ChevronLeft,
@@ -8,6 +8,7 @@ import {
 import {
   DayFlag,
   DayPicker,
+  type DayPickerProps,
   SelectionState,
   UI,
   type ClassNames,
@@ -15,7 +16,7 @@ import {
   type CustomComponents,
 } from 'react-day-picker';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   calendarCaptionLabelStyles,
@@ -45,6 +46,20 @@ import {
   calendarWeekStyles,
 } from './Calendar.styles';
 import type { CalendarProps } from './types';
+
+function stripUndefinedValues<T extends object>(value: T) {
+  const result: Partial<T> = {};
+
+  for (const key in value) {
+    const entryValue = value[key as keyof T];
+
+    if (entryValue !== undefined) {
+      result[key as keyof T] = entryValue;
+    }
+  }
+
+  return result;
+}
 
 function CalendarChevron({
   className,
@@ -180,19 +195,20 @@ const getCalendarClassNames = (
 
 const getCalendarComponents = (
   components: CalendarProps['components'],
-): Partial<CustomComponents> => ({
-  Chevron: CalendarChevron,
-  ...components,
-});
+): Partial<CustomComponents> =>
+  ({
+    Chevron: CalendarChevron,
+    ...(components ?? {}),
+  }) as Partial<CustomComponents>;
 
-export const Calendar: FC<CalendarProps> = ({
+export function Calendar({
   className,
   classNames,
   components,
   shape = 'squared',
   showOutsideDays = true,
   ...props
-}) => {
+}: CalendarProps) {
   const mergedClassNames = useMemo(
     () => getCalendarClassNames(classNames, shape),
     [classNames, shape],
@@ -201,15 +217,14 @@ export const Calendar: FC<CalendarProps> = ({
     () => getCalendarComponents(components),
     [components],
   );
+  const dayPickerProps = {
+    ...(stripUndefinedValues(props) as Omit<CalendarProps, 'shape'>),
+    className: cn(calendarRootStyles(), className),
+    classNames: mergedClassNames,
+    components: mergedComponents,
+    navLayout: 'after',
+    showOutsideDays,
+  } as DayPickerProps;
 
-  return (
-    <DayPicker
-      {...props}
-      className={cn(calendarRootStyles(), className)}
-      classNames={mergedClassNames}
-      components={mergedComponents}
-      navLayout='after'
-      showOutsideDays={showOutsideDays}
-    />
-  );
-};
+  return <DayPicker {...dayPickerProps} />;
+}

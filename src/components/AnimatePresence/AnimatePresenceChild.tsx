@@ -1,58 +1,39 @@
 import {
   cloneElement,
-  type FC,
   type JSX,
   type ReactElement,
-  type Ref,
-  use,
+  useContext,
   useEffect,
-  useMemo,
-  useRef,
+  useState,
 } from 'react';
 
-import { mergeRefs } from '../../utils';
 import { AnimatePresenceContext } from './Context';
 
 interface PresenceChildProps {
   children: ReactElement;
 }
 
-export const AnimatePresenceChild: FC<PresenceChildProps> = ({ children }) => {
-  const context = use(AnimatePresenceContext);
-  const presenceRef = useRef<HTMLElement | null>(null);
+export function AnimatePresenceChild({ children }: PresenceChildProps) {
+  const context = useContext(AnimatePresenceContext);
+  const [node, setNode] = useState<HTMLElement | null>(null);
 
   if (!context) {
-    throw new Error('PresenceChild must be used within a Presence component');
+    throw new Error('AnimatePresenceChild must be used within AnimatePresence');
   }
 
   useEffect(() => {
-    if (presenceRef.current) {
-      context.registerRef(presenceRef);
+    if (node) {
+      context.registerNode(node);
     }
 
     return () => {
-      context.unregisterRef(presenceRef);
+      if (node) {
+        context.unregisterNode(node);
+      }
     };
-  }, [context]);
+  }, [context, node]);
 
-  // Safely access the existing ref from child props
-  const existingRef = (children.props as { ref?: Ref<HTMLElement | null> }).ref;
-
-  const notifyExistingRef = useMemo(
-    () => mergeRefs<HTMLElement | null>(existingRef ?? null),
-    [existingRef],
-  );
-
-  useEffect(() => {
-    notifyExistingRef(presenceRef.current);
-
-    return () => {
-      notifyExistingRef(null);
-    };
-  }, [notifyExistingRef]);
-
-  // eslint-disable-next-line react-hooks/refs -- cloning with a ref is safe here because the callback never reads during render
   return cloneElement(children, {
-    ref: presenceRef,
+    ref: setNode,
   } as JSX.IntrinsicAttributes);
-};
+}

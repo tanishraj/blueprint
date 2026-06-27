@@ -1,14 +1,19 @@
 import { cva } from 'class-variance-authority';
 
-export const checkboxRootStyles = cva('inline-flex w-fit items-start gap-2', {
+export const checkboxRootStyles = cva('inline-flex w-fit gap-2', {
   variants: {
     disabled: {
       true: 'cursor-not-allowed opacity-40',
       false: 'cursor-pointer',
     },
+    hasHelperText: {
+      true: 'items-start',
+      false: 'items-center',
+    },
   },
   defaultVariants: {
     disabled: false,
+    hasHelperText: false,
   },
 });
 
@@ -21,13 +26,17 @@ export const checkboxControlStyles = cva(
   {
     variants: {
       size: {
-        sm: 'mt-0.5 size-4',
-        md: 'mt-0.5 size-5',
-        lg: 'mt-1 size-6',
+        sm: 'size-4',
+        md: 'size-5',
+        lg: 'size-6',
       },
       shape: {
         square: '',
         circle: 'rounded-full',
+      },
+      hasHelperText: {
+        true: '',
+        false: 'self-center',
       },
       invalid: {
         true: 'border-danger peer-checked:border-danger peer-checked:bg-danger',
@@ -41,10 +50,26 @@ export const checkboxControlStyles = cva(
     defaultVariants: {
       size: 'md',
       shape: 'square',
+      hasHelperText: false,
       invalid: false,
       indeterminate: false,
     },
     compoundVariants: [
+      {
+        hasHelperText: true,
+        size: 'sm',
+        className: 'mt-0.5',
+      },
+      {
+        hasHelperText: true,
+        size: 'md',
+        className: 'mt-0.5',
+      },
+      {
+        hasHelperText: true,
+        size: 'lg',
+        className: 'mt-1',
+      },
       {
         shape: 'square',
         size: 'sm',

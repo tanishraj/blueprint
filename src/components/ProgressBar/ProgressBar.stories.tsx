@@ -15,10 +15,11 @@ const variants = [
 const sizes = ['sm', 'md', 'lg'] as const;
 
 const meta: Meta<ProgressBarProps> = {
-  title: 'components/ProgressBar',
+  title: 'Components/ProgressBar',
   component: ProgressBar,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
     },
@@ -28,7 +29,6 @@ const meta: Meta<ProgressBarProps> = {
 ProgressBar communicates completion or loading progress in linear and circular forms. It supports semantic variants, labels, captions, visible values, endpoint dots, and inverted dark-surface styling.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [

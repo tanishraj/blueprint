@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Checkbox, CheckboxProps } from './Checkbox';
+import { Checkbox } from './Checkbox';
+import type { CheckboxProps } from './Checkbox';
 
 const sizes = ['sm', 'md', 'lg'] as const;
 const shapes = ['square', 'circle'] as const;
 
 const meta: Meta<CheckboxProps> = {
-  title: 'components/Checkbox',
+  title: 'Components/Checkbox',
   component: Checkbox,
   tags: ['autodocs'],
   parameters: {

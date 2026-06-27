@@ -41,6 +41,35 @@ describe('AvatarGroup', () => {
   it('applies variant style to overflow counter', () => {
     render(<AvatarGroup items={items} max={4} variant='primary' />);
 
-    expect(screen.getByText('+2')).toHaveClass('bg-primary-pressed');
+    expect(screen.getByText('+2').parentElement).toHaveClass(
+      'bg-primary-pressed',
+    );
+  });
+
+  it('provides a default accessible label with the member count', () => {
+    render(<AvatarGroup items={items.slice(0, 3)} />);
+
+    expect(
+      screen.getByRole('group', { name: /avatar group, 3 members/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('respects external labeling via aria-labelledby', () => {
+    render(
+      <>
+        <span id='team-label'>Design reviewers</span>
+        <AvatarGroup items={items.slice(0, 2)} aria-labelledby='team-label' />
+      </>,
+    );
+
+    expect(
+      screen.getByRole('group', { name: /design reviewers/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('exposes an accessible label for the overflow counter', () => {
+    render(<AvatarGroup items={items} max={4} />);
+
+    expect(screen.getByText(/2 more members/i)).toHaveClass('sr-only');
   });
 });

@@ -41,7 +41,7 @@ const profileImage: AvatarImage = {
 };
 
 const meta: Meta<AvatarProps> = {
-  title: 'components/Avatar',
+  title: 'Components/Avatar',
   component: Avatar,
   tags: ['autodocs'],
   parameters: {

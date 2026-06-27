@@ -27,8 +27,19 @@ describe('Dropdown Component', () => {
     const dropdown = screen.getByRole('button', { name: /actions/i });
 
     expect(dropdown).toBeInTheDocument();
+    expect(dropdown).toHaveAttribute('aria-controls');
     expect(dropdown).toHaveAttribute('aria-haspopup', 'menu');
     expect(dropdown).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('aligns text left and chevron right on the default trigger button', () => {
+    render(<Dropdown items={items}>Actions</Dropdown>);
+
+    expect(screen.getByRole('button', { name: /actions/i })).toHaveClass(
+      'min-w-36',
+      'text-left',
+      '[&_[data-slot=button-content]]:justify-between',
+    );
   });
 
   it('opens a popover menu list on click', () => {
@@ -36,10 +47,17 @@ describe('Dropdown Component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /actions/i }));
 
-    expect(screen.getByRole('menu')).toBeInTheDocument();
+    const menu = screen.getByRole('menu');
+
+    expect(menu).toBeInTheDocument();
+    expect(menu.id).toBeTruthy();
     expect(
       screen.getByRole('menuitem', { name: /profile/i }),
     ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /actions/i })).toHaveAttribute(
+      'aria-controls',
+      menu.id,
+    );
     expect(screen.getByRole('button', { name: /actions/i })).toHaveAttribute(
       'aria-expanded',
       'true',
@@ -56,6 +74,16 @@ describe('Dropdown Component', () => {
       'aria-expanded',
       'true',
     );
+  });
+
+  it('renders unstyled triggers as accessible buttons', () => {
+    render(
+      <Dropdown items={items} renderAs='unstyled' trigger='More actions' />,
+    );
+
+    expect(
+      screen.getByRole('button', { name: /more actions/i }),
+    ).toHaveAttribute('type', 'button');
   });
 
   it('supports custom menu content with a close callback', () => {

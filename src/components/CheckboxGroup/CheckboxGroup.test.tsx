@@ -92,4 +92,20 @@ describe('CheckboxGroup Component', () => {
       .getAllByRole('checkbox')
       .forEach(checkbox => expect(checkbox).toBeDisabled());
   });
+
+  it('associates group description text with each checkbox', () => {
+    render(
+      <CheckboxGroup
+        label='Teams'
+        description='Select all teams that should have access.'
+        options={options}
+      />,
+    );
+
+    const description = screen.getByText(/should have access/i);
+
+    screen.getAllByRole('checkbox').forEach(checkbox => {
+      expect(checkbox).toHaveAttribute('aria-describedby', description.id);
+    });
+  });
 });

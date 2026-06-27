@@ -1,7 +1,7 @@
-import { type FC } from 'react';
+import { type MouseEvent, useCallback } from 'react';
 import { X } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { Avatar } from '../Avatar';
 import {
@@ -19,7 +19,7 @@ const chipAvatarSizeMap: Record<NonNullable<ChipSizes>, 'xs' | 'sm' | 'md'> = {
   lg: 'md',
 };
 
-export const Chip: FC<ChipProps> = ({
+export function Chip({
   children,
   icon: Icon,
   variant = 'default',
@@ -32,11 +32,18 @@ export const Chip: FC<ChipProps> = ({
   closeLabel = 'Remove chip',
   className,
   ...restProps
-}) => {
+}: ChipProps) {
   const hasLeadingVisual = Boolean(Icon);
   const removable = Boolean(onClose);
   const avatarInverted =
     variant !== 'default' && (appearance === 'filled' ? !inverted : inverted);
+  const handleCloseClick = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      onClose?.();
+    },
+    [onClose],
+  );
 
   return (
     <span
@@ -57,10 +64,11 @@ export const Chip: FC<ChipProps> = ({
     >
       {Icon && (
         <Avatar
-          aria-label='Chip icon'
+          aria-hidden='true'
           className={cn(chipAvatarStyles({ size }))}
           icon={Icon}
           inverted={avatarInverted}
+          role='presentation'
           shape={shape}
           size={chipAvatarSizeMap[size]}
           variant={variant}
@@ -73,11 +81,11 @@ export const Chip: FC<ChipProps> = ({
           aria-label={closeLabel}
           className={cn(chipCloseButtonStyles({ size }))}
           disabled={disabled}
-          onClick={onClose}
+          onClick={handleCloseClick}
         >
           <X aria-hidden='true' className={cn(chipCloseIconStyles({ size }))} />
         </button>
       )}
     </span>
   );
-};
+}

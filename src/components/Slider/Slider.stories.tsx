@@ -42,10 +42,11 @@ const RangeSliderPlayground = (args: SliderProps) => {
 };
 
 const meta: Meta<SliderProps> = {
-  title: 'components/Slider',
+  title: 'Components/Slider',
   component: Slider,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
     },
@@ -54,7 +55,6 @@ const meta: Meta<SliderProps> = {
         component:
           'Slider supports single-value and range selection with visible markers, labels, captions, error text, and size variants.',
       },
-      layout: 'centered',
     },
   },
   decorators: [
@@ -64,8 +64,10 @@ const meta: Meta<SliderProps> = {
       }
 
       return (
-        <div className='flex min-h-screen w-full items-center justify-center p-12'>
-          <Story />
+        <div className='flex min-h-screen w-2xl items-center justify-center p-12'>
+          <div className='w-full max-w-3xl'>
+            <Story />
+          </div>
         </div>
       );
     },

@@ -33,4 +33,20 @@ describe('TrendIndicator', () => {
     expect(screen.getByText('12%')).toBeInTheDocument();
     expect(screen.getByText('Compared to last month')).toBeInTheDocument();
   });
+
+  it('renders zero values instead of treating them as empty', () => {
+    render(<TrendIndicator value={0} variant={ETrend.neutral} />);
+
+    expect(screen.getByText('0')).toBeInTheDocument();
+    expect(
+      screen.getByRole('figure', { name: 'Neutral Trend' }),
+    ).toBeInTheDocument();
+  });
+
+  it('does not set figure semantics when no variant is provided', () => {
+    render(<TrendIndicator label='Flat performance' value='0%' />);
+
+    expect(screen.queryByRole('figure')).not.toBeInTheDocument();
+    expect(screen.getByText('Flat performance')).toBeInTheDocument();
+  });
 });

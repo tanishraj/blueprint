@@ -1,7 +1,8 @@
 import { OrgChart } from 'd3-org-chart';
 import {
-  useCallback,
   forwardRef,
+  useCallback,
+  useEffect,
   useImperativeHandle,
   useLayoutEffect,
   useMemo,
@@ -9,7 +10,8 @@ import {
   useState,
 } from 'react';
 
-import { cn } from '../../utils';
+import { cn } from '@/utils/classNames';
+
 import {
   organizationChartEmptyStateClassName,
   ORGANIZATION_CHART_NODE_HEIGHT,
@@ -67,12 +69,26 @@ export const OrganizationChart = forwardRef<
   const rootRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<OrgChart<OrgChartNodeData> | null>(null);
-  const zoomTextRef = useRef<HTMLDivElement | null>(null);
+  const exportSvgTimeoutRef = useRef<ReturnType<
+    typeof window.setTimeout
+  > | null>(null);
+  const onNodeClickRef = useRef(onNodeClick);
+  const onZoomChangeRef = useRef(onZoomChange);
   const [uncontrolledOrientation, setUncontrolledOrientation] =
     useState<OrgChartOrientation>(controlledOrientation ?? DEFAULT_ORIENTATION);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [zoomPercent, setZoomPercent] = useState(100);
   const normalizedData = useMemo(() => data.map(normalizeOrgChartNode), [data]);
   const orientation = controlledOrientation ?? uncontrolledOrientation;
+
+  useEffect(() => {
+    onNodeClickRef.current = onNodeClick;
+  }, [onNodeClick]);
+
+  useEffect(() => {
+    onZoomChangeRef.current = onZoomChange;
+  }, [onZoomChange]);
+
   const handleOrientationChange = useCallback(
     (nextOrientation: OrgChartOrientation) => {
       if (controlledOrientation === undefined) {
@@ -108,10 +124,15 @@ export const OrganizationChart = forwardRef<
           return;
         }
 
+        if (exportSvgTimeoutRef.current) {
+          window.clearTimeout(exportSvgTimeoutRef.current);
+        }
+
         chartRef.current.render().fit();
 
-        window.setTimeout(() => {
+        exportSvgTimeoutRef.current = window.setTimeout(() => {
           chartRef.current?.exportSvg();
+          exportSvgTimeoutRef.current = null;
         }, 1000);
       },
       expandAll: () => {
@@ -197,15 +218,12 @@ export const OrganizationChart = forwardRef<
       .onZoom((event: { transform?: { k?: number } }) => {
         const zoomPercent = Math.round((event.transform?.k ?? 1) * 100);
 
-        if (zoomTextRef.current) {
-          zoomTextRef.current.textContent = `Zoom: ${zoomPercent}%`;
-        }
-
-        onZoomChange?.(zoomPercent);
+        setZoomPercent(zoomPercent);
+        onZoomChangeRef.current?.(zoomPercent);
       })
       .onNodeClick((node: { id?: string | number | undefined }) => {
         if (node?.id) {
-          onNodeClick?.(String(node.id));
+          onNodeClickRef.current?.(String(node.id));
         }
       })
       .nodeContent((node: { data: OrgChartNodeData }) =>
@@ -217,22 +235,20 @@ export const OrganizationChart = forwardRef<
       )
       .render()
       .fit();
+    setZoomPercent(100);
 
     return () => {
+      if (exportSvgTimeoutRef.current) {
+        window.clearTimeout(exportSvgTimeoutRef.current);
+        exportSvgTimeoutRef.current = null;
+      }
       chart.clear();
       if (chartRef.current === chart) {
         chartRef.current = null;
       }
       container.replaceChildren();
     };
-  }, [
-    imageName,
-    initialDepth,
-    normalizedData,
-    onNodeClick,
-    onZoomChange,
-    orientation,
-  ]);
+  }, [imageName, initialDepth, normalizedData, orientation]);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -275,7 +291,7 @@ export const OrganizationChart = forwardRef<
     return (
       <div
         {...restProps}
-        data-test-id={dataTestId}
+        data-testid={dataTestId}
         ref={rootRef}
         className={cn(organizationChartEmptyStateClassName, className)}
       >
@@ -287,7 +303,7 @@ export const OrganizationChart = forwardRef<
   return (
     <div
       {...restProps}
-      data-test-id={dataTestId}
+      data-testid={dataTestId}
       ref={rootRef}
       className={cn(organizationChartWrapperClassName, className)}
     >
@@ -308,11 +324,8 @@ export const OrganizationChart = forwardRef<
         </div>
       </div>
       {showZoomBadge ? (
-        <div
-          ref={zoomTextRef}
-          className={organizationChartZoomIndicatorClassName}
-        >
-          Zoom: 100%
+        <div className={organizationChartZoomIndicatorClassName}>
+          {`Zoom: ${zoomPercent}%`}
         </div>
       ) : null}
       <div

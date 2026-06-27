@@ -33,6 +33,27 @@ describe('Drawer Component', () => {
     expect(screen.getByText('Drawer content')).toBeInTheDocument();
   });
 
+  it('links dialog labelling to the title and description', () => {
+    render(
+      <Drawer description='Drawer description' open title='Drawer title'>
+        Drawer content
+      </Drawer>,
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Drawer title' });
+    const title = screen.getByText('Drawer title');
+    const description = screen.getByText('Drawer description');
+
+    expect(dialog).toHaveAttribute('aria-labelledby', title.id);
+    expect(dialog).toHaveAttribute('aria-describedby', description.id);
+  });
+
+  it('falls back to a default accessible name when title is omitted', () => {
+    render(<Drawer open>Drawer content</Drawer>);
+
+    expect(screen.getByRole('dialog', { name: 'Drawer' })).toBeInTheDocument();
+  });
+
   it('centers header content when only a title is provided', () => {
     render(
       <Drawer open title='Drawer title'>
@@ -148,6 +169,21 @@ describe('Drawer Component', () => {
     vi.useRealTimers();
   });
 
+  it('does not lock body scroll when rendered into a custom container', () => {
+    const target = document.createElement('div');
+    target.id = 'drawer-container-scroll-lock';
+    document.body.appendChild(target);
+    const originalOverflow = document.body.style.overflow;
+
+    render(
+      <Drawer containerId='drawer-container-scroll-lock' open>
+        Content
+      </Drawer>,
+    );
+
+    expect(document.body.style.overflow).toBe(originalOverflow);
+  });
+
   it('does not close from overlay when disabled', () => {
     const handleClose = vi.fn();
 
@@ -241,18 +277,25 @@ describe('Drawer Component', () => {
     expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument();
   });
 
-  it('can render into a custom container id', () => {
+  it('can render into a custom container id', async () => {
+    const containerId = 'drawer-container-render';
     const target = document.createElement('div');
-    target.id = 'drawer-container';
+    target.id = containerId;
     document.body.appendChild(target);
 
     render(
-      <Drawer containerId='drawer-container' open>
+      <Drawer containerId={containerId} open>
         Content
       </Drawer>,
     );
 
-    expect(target).toHaveTextContent('Content');
+    await waitFor(() => {
+      expect(target.querySelector('[role="dialog"]')).toBeInTheDocument();
+    });
+
+    expect(target.querySelector('[role="dialog"]')).toHaveTextContent(
+      'Content',
+    );
     expect(target.querySelector('.isolate')).toHaveClass('absolute', 'inset-0');
     expect(target.querySelector('.isolate')).not.toHaveClass('fixed');
   });

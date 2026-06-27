@@ -29,17 +29,17 @@ const PopoverDemo = (args: PopoverProps) => {
 };
 
 const meta: Meta<PopoverProps> = {
-  title: 'components/Popover',
+  title: 'Components/Popover',
   component: Popover,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: `
 Popover displays contextual content next to a trigger. It supports semantic title icons, placement, alignment, close interactions, and slot-style body content.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [

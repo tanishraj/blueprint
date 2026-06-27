@@ -1,14 +1,12 @@
 import {
   type ChangeEvent,
-  type FC,
   type Ref,
   useCallback,
   useId,
-  useRef,
   useState,
 } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   textAreaCaptionStyles,
@@ -51,7 +49,7 @@ const getTextAreaValue = (
   return '';
 };
 
-export const TextArea: FC<TextAreaProps> = ({
+export function TextArea({
   ref,
   id,
   label,
@@ -74,11 +72,10 @@ export const TextArea: FC<TextAreaProps> = ({
   'aria-describedby': ariaDescribedBy,
   'aria-invalid': ariaInvalid,
   ...restProps
-}) => {
+}: TextAreaProps) {
   const generatedId = useId();
   const textAreaId = id ?? generatedId;
   const captionId = `${textAreaId}-caption`;
-  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [uncontrolledValue, setUncontrolledValue] = useState(() =>
     getTextAreaValue(defaultValue),
   );
@@ -91,10 +88,13 @@ export const TextArea: FC<TextAreaProps> = ({
       ? `${currentValue.length} of ${maxLength} characters`
       : null;
   const helperText = error ?? caption ?? countLabel;
+  const describedBy = [helperText ? captionId : undefined, ariaDescribedBy]
+    .filter(Boolean)
+    .join(' ');
+  const errorMessageId = error ? captionId : undefined;
 
   const setTextAreaRef = useCallback(
     (node: HTMLTextAreaElement | null) => {
-      textAreaRef.current = node;
       assignRef(ref, node);
     },
     [ref],
@@ -140,7 +140,8 @@ export const TextArea: FC<TextAreaProps> = ({
           {...restProps}
           ref={setTextAreaRef}
           id={textAreaId}
-          aria-describedby={helperText ? captionId : ariaDescribedBy}
+          aria-describedby={describedBy || undefined}
+          aria-errormessage={errorMessageId}
           aria-invalid={invalid || undefined}
           className={cn(textAreaElementStyles(), textAreaClassName)}
           defaultValue={defaultValue}
@@ -163,4 +164,4 @@ export const TextArea: FC<TextAreaProps> = ({
       )}
     </div>
   );
-};
+}

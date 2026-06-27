@@ -63,7 +63,7 @@ const buildSegmentedButtons = (
 const defaultButtons = buildSegmentedButtons(3, { showTrailingIcon: true });
 
 const meta: Meta<ButtonGroupProps> = {
-  title: 'components/ButtonGroup',
+  title: 'Components/ButtonGroup',
   component: ButtonGroup,
   tags: ['autodocs'],
   parameters: {
@@ -132,6 +132,20 @@ ButtonGroup arranges multiple buttons into a single segmented control. Use item-
       description: 'Accessible label for the wrapper.',
       table: {
         category: 'Accessibility',
+      },
+    },
+    'aria-labelledby': {
+      control: 'text',
+      description: 'ID reference used to label the wrapper externally.',
+      table: {
+        category: 'Accessibility',
+      },
+    },
+    className: {
+      control: 'text',
+      description: 'Additional classes for the group wrapper.',
+      table: {
+        category: 'Layout',
       },
     },
   },

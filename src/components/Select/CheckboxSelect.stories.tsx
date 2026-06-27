@@ -14,6 +14,28 @@ const meta: Meta<typeof CheckboxSelect> = {
   title: 'Components/Select/CheckboxSelect',
   component: CheckboxSelect,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'CheckboxSelect keeps the menu open for multi-selection and renders checkbox affordances for each option.',
+      },
+    },
+  },
+  decorators: [
+    (Story, context) => {
+      if (context.viewMode === 'docs') {
+        return <Story />;
+      }
+
+      return (
+        <div className='flex min-h-screen w-full items-center justify-center p-8'>
+          <Story />
+        </div>
+      );
+    },
+  ],
   args: {
     label: 'Industry sectors',
     placeholder: 'Select sectors',

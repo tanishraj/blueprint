@@ -1,46 +1,49 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, type CSSProperties } from 'react';
 import {
   type ITooltip,
   Tooltip as RcTooltip,
   type TooltipRefProps,
 } from 'react-tooltip';
 
+import { cn } from '@/utils/classNames';
+
 import './Tooltip.css';
 import type { TooltipProps } from './types';
 
-export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
-  ({ children, variant = 'primary', opacity = 1, ...rest }, ref) => {
-    const styles = useMemo(
-      () => ({
-        primary: {
-          ...rest.style,
-          color: 'var(--text-color-white)',
-          padding: 'var(--spacing-1) var(--spacing-2) var(--spacing-1-5)',
-          backgroundColor: 'var(--background-color-primary)',
-          borderRadius: 'var(--radius-sm)',
-          fontSize: 'var(--text-300)',
-        },
-        secondary: {
-          ...rest.style,
-          color: 'var(--text-color-default)',
-          padding: '0px',
-          backgroundColor: 'var(--base-white)',
-          borderRadius: 'var(--radius-sm)',
-          boxShadow: 'var(--shadow-xl)',
-          maxWidth: '305px',
-        },
-      }),
-      [rest.style],
-    );
+const tooltipVariantStyles: Record<
+  NonNullable<TooltipProps['variant']>,
+  CSSProperties
+> = {
+  primary: {
+    color: 'var(--text-color-white)',
+    padding: 'var(--spacing-1) var(--spacing-2) var(--spacing-1-5)',
+    backgroundColor: 'var(--background-color-primary)',
+    borderRadius: 'var(--radius-sm)',
+    fontSize: 'var(--text-300)',
+  },
+  secondary: {
+    color: 'var(--text-color-default)',
+    padding: '0px',
+    backgroundColor: 'var(--base-white)',
+    borderRadius: 'var(--radius-sm)',
+    boxShadow: 'var(--shadow-xl)',
+    maxWidth: '305px',
+  },
+};
 
-    const activeStyles = useMemo(() => styles[variant], [styles, variant]);
+export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
+  (
+    { children, className, opacity = 1, style, variant = 'primary', ...rest },
+    ref,
+  ) => {
+    const activeStyles = tooltipVariantStyles[variant];
 
     return (
       <RcTooltip
         {...(rest as Omit<ITooltip, 'variant'>)}
         opacity={opacity}
-        style={{ ...activeStyles, ...rest.style }}
-        className={`lqc-tooltip${rest.className ? ` ${rest.className}` : ''}`}
+        className={cn('lqc-tooltip', className)}
+        style={{ ...activeStyles, ...style }}
         ref={ref}
       >
         {children}

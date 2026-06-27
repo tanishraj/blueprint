@@ -67,4 +67,34 @@ describe('Tooltip Component', () => {
     });
     expect(screen.getByRole('tooltip')).toHaveTextContent('Focused tooltip');
   });
+
+  it('merges custom className and custom styles with the variant defaults', () => {
+    render(
+      <>
+        <button
+          data-tooltip-content='Custom tooltip'
+          data-tooltip-id='tooltip-custom'
+          type='button'
+        >
+          Trigger
+        </button>
+        <Tooltip
+          className='custom-tooltip'
+          id='tooltip-custom'
+          isOpen
+          style={{ maxWidth: '420px' }}
+          variant='secondary'
+        />
+      </>,
+    );
+
+    const tooltip = screen.getByRole('tooltip');
+
+    expect(tooltip).toHaveClass('lqc-tooltip');
+    expect(tooltip).toHaveClass('custom-tooltip');
+    expect(tooltip).toHaveStyle({
+      backgroundColor: 'var(--base-white)',
+      maxWidth: '420px',
+    });
+  });
 });

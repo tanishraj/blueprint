@@ -1,8 +1,8 @@
 import { cva } from 'class-variance-authority';
 
-import type { TMetricCardColorVariant } from './types';
+import type { MetricCardColorVariant } from './types';
 
-const metricCardToneClasses: Record<TMetricCardColorVariant, string> = {
+const metricCardToneClasses: Record<MetricCardColorVariant, string> = {
   secondary: 'text-default',
   success: 'text-success',
   warning: 'text-warning',

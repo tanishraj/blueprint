@@ -28,7 +28,7 @@ const captionLayouts = [
 ] as const;
 
 const meta: Meta<CalendarProps> = {
-  title: 'components/Calendar',
+  title: 'Components/Calendar',
   component: Calendar,
   tags: ['autodocs'],
   parameters: {

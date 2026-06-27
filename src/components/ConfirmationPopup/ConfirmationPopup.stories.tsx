@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { Button } from '../Button';
 import { ConfirmationPopup } from './ConfirmationPopup';
@@ -16,27 +16,27 @@ const variants = [
   'danger',
 ] as const;
 
+const noop = () => {};
+
 const ConfirmationPopupDemo = (args: ConfirmationPopupProps) => {
   const [open, setOpen] = useState(false);
-  const handleOpenChange = useCallback((nextOpen: boolean) => {
-    setOpen(nextOpen);
-  }, []);
 
   return (
     <ConfirmationPopup
       {...args}
       open={open}
-      onOpenChange={handleOpenChange}
+      onOpenChange={setOpen}
       trigger={<Button variant='primary'>Open confirmation popup</Button>}
     />
   );
 };
 
 const meta: Meta<ConfirmationPopupProps> = {
-  title: 'components/ConfirmationPopup',
+  title: 'Components/ConfirmationPopup',
   component: ConfirmationPopup,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     controls: {
       sort: 'none',
     },
@@ -45,12 +45,17 @@ const meta: Meta<ConfirmationPopupProps> = {
         component:
           'ConfirmationPopup is a compact floating confirmation surface with semantic variants, a close affordance, and cancel/action buttons.',
       },
-      layout: 'centered',
     },
   },
   decorators: [
-    Story => (
-      <div className='flex min-h-screen w-full items-center justify-center p-8'>
+    (Story, context) => (
+      <div
+        className={
+          context.viewMode === 'docs'
+            ? 'flex min-h-80 w-full items-center justify-center p-8'
+            : 'flex min-h-screen w-full items-center justify-center p-8'
+        }
+      >
         <Story />
       </div>
     ),
@@ -275,6 +280,14 @@ const meta: Meta<ConfirmationPopupProps> = {
         category: 'Layout',
       },
     },
+    portalled: {
+      control: false,
+      table: {
+        category: 'Behavior',
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
   },
   args: {
     actionLabel: 'Action',
@@ -303,16 +316,19 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: args => (
-    <div className='grid w-full max-w-6xl grid-cols-1 gap-x-14 gap-y-20 md:grid-cols-2 xl:grid-cols-3'>
+    <div className='flex flex-col min-w-3xl gap-8'>
       {variants.map(variant => (
         <div
           key={variant}
-          className='flex min-h-64 flex-col items-center justify-start pt-8 gap-4 border border-default border-dashed rounded-md'
+          className='flex flex-col items-center justify-top overflow-visible rounded-md border border-default border-dashed px-6 pb-8 pt-40'
         >
-          <span className='text-lg font-medium capitalize'>{variant}</span>
           <ConfirmationPopup
             {...args}
-            defaultOpen
+            open
+            onOpenChange={noop}
+            placement='top'
+            portalled={false}
+            contentClassName='w-72 max-w-[calc(100vw-3rem)]'
             trigger={<Button>{variant}</Button>}
             variant={variant}
           />
@@ -327,16 +343,19 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: args => (
-    <div className='grid w-full max-w-6xl grid-cols-1 gap-x-14 gap-y-20 md:grid-cols-3'>
+    <div className='flex flex-col min-w-3xl gap-8'>
       {sizes.map(size => (
         <div
           key={size}
-          className='flex min-h-64 flex-col items-center justify-start pt-8 gap-4 border border-default border-dashed rounded-md'
+          className='flex flex-col items-center justify-top overflow-visible rounded-md border border-default border-dashed px-6 pb-8 pt-40'
         >
-          <span className='text-lg font-medium'>{size}</span>
           <ConfirmationPopup
             {...args}
-            defaultOpen
+            open
+            onOpenChange={noop}
+            placement='top'
+            portalled={false}
+            contentClassName='w-72 max-w-[calc(100vw-3rem)]'
             size={size}
             title={`Size: ${size}`}
             trigger={<Button>{size}</Button>}
@@ -349,16 +368,19 @@ export const Sizes: Story = {
 
 export const Placements: Story = {
   render: args => (
-    <div className='grid w-full max-w-6xl grid-cols-1 gap-10 md:grid-cols-2'>
+    <div className='flex flex-col min-w-3xl gap-8'>
       {placements.map(placement => (
         <div
           key={placement}
-          className='flex min-h-80 flex-col items-center justify-center gap-4 rounded border border-dashed border-gray-300 p-10'
+          className='flex flex-col items-center justify-top overflow-visible rounded-md border border-default border-dashed px-6 pb-40 pt-40'
         >
           <ConfirmationPopup
             {...args}
-            defaultOpen
+            open
+            onOpenChange={noop}
             placement={placement}
+            portalled={false}
+            contentClassName='w-72 max-w-[calc(100vw-3rem)]'
             title={`Placement: ${placement}`}
             trigger={<span aria-hidden='true'>{placement}</span>}
           />

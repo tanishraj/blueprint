@@ -46,14 +46,23 @@ Toast provides transient notifications using Sonner for placement/queueing and t
     variant: {
       options: ['default', 'primary', 'info', 'success', 'warning', 'danger'],
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     appearance: {
       options: ['filled', 'outline', 'dashed'],
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     size: {
       options: ['sm', 'md', 'lg'],
       control: { type: 'select' },
+      table: {
+        category: 'Appearance',
+      },
     },
     position: {
       options: [
@@ -65,12 +74,39 @@ Toast provides transient notifications using Sonner for placement/queueing and t
         'bottom-right',
       ],
       control: { type: 'select' },
+      table: {
+        category: 'Behavior',
+      },
     },
     duration: {
       control: { type: 'range', min: 1000, max: 10000, step: 500 },
+      table: {
+        category: 'Behavior',
+      },
     },
     dismissable: {
       control: 'boolean',
+      table: {
+        category: 'Behavior',
+      },
+    },
+    title: {
+      control: 'text',
+      table: {
+        category: 'Content',
+      },
+    },
+    children: {
+      control: 'text',
+      table: {
+        category: 'Content',
+      },
+    },
+    icon: {
+      control: false,
+      table: {
+        category: 'Content',
+      },
     },
   },
   args: {

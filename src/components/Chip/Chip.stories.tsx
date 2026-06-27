@@ -26,7 +26,7 @@ const icons = [
 const handleClose = () => undefined;
 
 const meta: Meta<ChipProps> = {
-  title: 'components/Chip',
+  title: 'Components/Chip',
   component: Chip,
   tags: ['autodocs'],
   parameters: {

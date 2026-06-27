@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Plus } from 'lucide-react';
 
-import { Badge, BadgeProps } from './Badge';
+import { Badge } from './Badge';
+import type { BadgeProps } from './Badge';
 
 const variants = [
   'default',
@@ -16,7 +17,7 @@ const shapes = ['circle', 'square'] as const;
 const icons = ['None', 'Plus'] as const;
 
 const meta: Meta<BadgeProps> = {
-  title: 'components/Badge',
+  title: 'Components/Badge',
   component: Badge,
   tags: ['autodocs'],
   parameters: {
@@ -118,6 +119,12 @@ Accessibility:
       },
     },
     'aria-label': {
+      control: 'text',
+      table: {
+        category: 'Accessibility',
+      },
+    },
+    'aria-labelledby': {
       control: 'text',
       table: {
         category: 'Accessibility',

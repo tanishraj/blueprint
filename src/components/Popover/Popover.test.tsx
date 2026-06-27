@@ -28,6 +28,27 @@ describe('Popover Component', () => {
     expect(screen.getByText('Slot Area')).toBeInTheDocument();
   });
 
+  it('links dialog labelling to the title and body content', () => {
+    render(
+      <Popover open title='Popover title'>
+        Slot Area
+      </Popover>,
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Popover title' });
+    const title = screen.getByText('Popover title');
+    const body = screen.getByText('Slot Area');
+
+    expect(dialog).toHaveAttribute('aria-labelledby', title.id);
+    expect(dialog).toHaveAttribute('aria-describedby', body.id);
+  });
+
+  it('falls back to a default accessible name when title is omitted', () => {
+    render(<Popover open>Content</Popover>);
+
+    expect(screen.getByRole('dialog', { name: 'Popover' })).toBeInTheDocument();
+  });
+
   it('calls onOpenChange from close button', () => {
     const handleOpenChange = vi.fn();
 
@@ -99,5 +120,21 @@ describe('Popover Component', () => {
       screen.getByRole('dialog').querySelector('[data-popover-arrow]'),
     ).not.toBeInTheDocument();
     expect(screen.getByText('Content')).not.toHaveClass('border');
+  });
+
+  it('adds dialog trigger aria wiring to the trigger element', () => {
+    render(<Popover trigger={<Button>Open</Button>}>Popover content</Popover>);
+
+    const trigger = screen.getByRole('button', { name: 'Open' });
+
+    expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    fireEvent.click(trigger);
+
+    const dialog = screen.getByRole('dialog');
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(trigger).toHaveAttribute('aria-controls', dialog.id);
   });
 });

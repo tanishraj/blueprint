@@ -1,7 +1,7 @@
-import type { FC, SVGProps } from 'react';
+import type { ComponentType, SVGProps } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { RemoveNull } from '@/utils';
+import type { RemoveNull } from '@/utils/types';
 
 import { avatarContainerStyles, avatarStatusStyles } from './Avatar.styles';
 
@@ -23,7 +23,7 @@ export type AvatarStatusPosition =
   | 'bottom-left'
   | 'bottom-right';
 
-export type AvatarIcon = FC<SVGProps<SVGSVGElement>>;
+export type AvatarIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 export type AvatarImage = {
   src: string;

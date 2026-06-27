@@ -1,17 +1,26 @@
 import { createPortal } from 'react-dom';
-import type { FC } from 'react';
 import { Toaster as Sonner, type ToasterProps } from 'sonner';
+
+import { cn } from '@/utils/classNames';
 
 import './Toaster.css';
 
-export const Toaster: FC<ToasterProps> = props => {
+const defaultToastClassName = 'w-full rounded-md border-none p-0 shadow-lg';
+
+export function Toaster({
+  className,
+  position = 'bottom-right',
+  toastOptions,
+  ...restProps
+}: ToasterProps) {
   const toasterContent = (
     <Sonner
-      {...props}
-      position='bottom-right'
-      className='toast'
+      {...restProps}
+      position={position}
+      className={cn('toast', className)}
       toastOptions={{
-        className: 'w-full rounded-md border-none p-0 shadow-lg',
+        ...toastOptions,
+        className: cn(defaultToastClassName, toastOptions?.className),
       }}
     />
   );
@@ -21,4 +30,4 @@ export const Toaster: FC<ToasterProps> = props => {
   }
 
   return createPortal(toasterContent, document.body);
-};
+}

@@ -30,6 +30,13 @@ describe('Divider Component', () => {
     expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(2);
   });
 
+  it('treats numeric zero as valid divider content', () => {
+    const { container } = render(<Divider>{0}</Divider>);
+
+    expect(screen.getByText('0')).toBeInTheDocument();
+    expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(2);
+  });
+
   it('renders icon content', () => {
     const { container } = render(
       <Divider>
@@ -45,5 +52,13 @@ describe('Divider Component', () => {
     render(<Divider className='my-divider' />);
 
     expect(screen.getByRole('separator')).toHaveClass('my-divider');
+  });
+
+  it('does not attach aria-orientation for non-separator roles', () => {
+    render(<Divider role='presentation' />);
+
+    expect(screen.getByRole('presentation')).not.toHaveAttribute(
+      'aria-orientation',
+    );
   });
 });

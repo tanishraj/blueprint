@@ -1,11 +1,10 @@
 import {
   cloneElement,
-  type FC,
   isValidElement,
   type MouseEvent,
   type ReactElement,
   useCallback,
-  useRef,
+  useId,
   useState,
 } from 'react';
 import {
@@ -25,7 +24,7 @@ import {
 } from '@floating-ui/react';
 import { CircleAlert, CircleCheck, Info, TriangleAlert, X } from 'lucide-react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { Button } from '../Button';
 import {
@@ -59,9 +58,9 @@ const variantIconMap = {
   danger: CircleAlert,
 } satisfies Record<NonNullable<PopoverVariants>, typeof Info>;
 
-export const Popover: FC<PopoverProps> = ({
+export function Popover({
   trigger,
-  title = 'Title',
+  title,
   children = 'Slot Area',
   open,
   defaultOpen = false,
@@ -79,12 +78,19 @@ export const Popover: FC<PopoverProps> = ({
   contentClassName,
   triggerClassName,
   ...restProps
-}) => {
+}: PopoverProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const arrowRef = useRef<SVGSVGElement | null>(null);
+  const [arrowElement, setArrowElement] = useState<SVGSVGElement | null>(null);
+  const panelId = useId();
+  const titleId = useId();
+  const bodyId = useId();
   const isControlled = open !== undefined;
   const isOpen = isControlled ? open : uncontrolledOpen;
   const Icon = variantIconMap[variant];
+  const titleElementId = title ? titleId : undefined;
+  const bodyElementId = children ? bodyId : undefined;
+  const accessibleLabel =
+    restProps['aria-label'] ?? (title ? undefined : 'Popover');
   const floatingPlacement = (
     align === 'center' ? placement : `${placement}-${align}`
   ) as Placement;
@@ -110,8 +116,7 @@ export const Popover: FC<PopoverProps> = ({
       offset(10),
       flip(),
       shift({ padding: 8 }),
-      // eslint-disable-next-line react-hooks/refs -- Floating UI arrow middleware accepts the ref object directly.
-      arrow({ element: arrowRef }),
+      arrow({ element: arrowElement }),
     ],
   });
 
@@ -144,7 +149,9 @@ export const Popover: FC<PopoverProps> = ({
         triggerElement,
         getReferenceProps({
           ref: refs.setReference,
+          'aria-controls': panelId,
           'aria-expanded': isOpen,
+          'aria-haspopup': 'dialog',
           className: cn(triggerElement.props.className, triggerClassName),
           onClick: event => {
             triggerElement.props.onClick?.(event);
@@ -157,7 +164,9 @@ export const Popover: FC<PopoverProps> = ({
       <Button
         {...getReferenceProps({
           ref: refs.setReference,
+          'aria-controls': panelId,
           'aria-expanded': isOpen,
+          'aria-haspopup': 'dialog',
           className: cn(popoverTriggerStyles(), triggerClassName),
         })}
         type='button'
@@ -175,6 +184,10 @@ export const Popover: FC<PopoverProps> = ({
           <div
             {...getFloatingProps({
               ...restProps,
+              'aria-describedby': bodyElementId,
+              'aria-label': accessibleLabel,
+              'aria-labelledby': titleElementId,
+              id: panelId,
               ref: refs.setFloating,
               className: cn(popoverPanelStyles(), contentClassName),
               style: {
@@ -185,7 +198,7 @@ export const Popover: FC<PopoverProps> = ({
           >
             {showArrow && (
               <FloatingArrow
-                ref={arrowRef}
+                ref={setArrowElement}
                 className={cn(popoverArrowStyles())}
                 context={context}
                 data-popover-arrow=''
@@ -203,7 +216,9 @@ export const Popover: FC<PopoverProps> = ({
                   data-popover-title-icon=''
                 />
                 {title && (
-                  <div className={cn(popoverTitleStyles())}>{title}</div>
+                  <div className={cn(popoverTitleStyles())} id={titleElementId}>
+                    {title}
+                  </div>
                 )}
               </div>
               {showCloseButton && (
@@ -220,7 +235,10 @@ export const Popover: FC<PopoverProps> = ({
                 </button>
               )}
             </div>
-            <div className={cn(popoverBodyStyles({ showSlotBorder }))}>
+            <div
+              className={cn(popoverBodyStyles({ showSlotBorder }))}
+              id={bodyElementId}
+            >
               {children}
             </div>
           </div>
@@ -228,4 +246,4 @@ export const Popover: FC<PopoverProps> = ({
       )}
     </div>
   );
-};
+}

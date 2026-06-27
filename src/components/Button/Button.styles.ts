@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const buttonStyles = cva(
-  'relative inline-flex w-fit items-center justify-center gap-2.5 cursor-pointer whitespace-nowrap text-sm p-2 border outline-none border-transparent hover:bg-default-hovered active:bg-default-pressed',
+  'relative inline-flex w-fit items-center justify-center cursor-pointer whitespace-nowrap border border-transparent font-medium outline-none transition-colors hover:bg-default-hovered active:bg-default-pressed focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base',
   {
     variants: {
       size: {
@@ -35,6 +35,9 @@ export const buttonStyles = cva(
       },
       fullWidth: {
         true: 'w-full',
+      },
+      iconOnly: {
+        true: '',
       },
       inverted: {
         true: '',
@@ -374,8 +377,26 @@ export const buttonStyles = cva(
         className:
           'bg-default-loading-inverted text-loading-inverted hover:bg-default-loading-inverted active:bg-default-loading-inverted',
       },
+      {
+        size: 'sm',
+        iconOnly: true,
+        className: 'size-8 p-0',
+      },
+      {
+        size: 'md',
+        iconOnly: true,
+        className: 'size-10 p-0',
+      },
+      {
+        size: 'lg',
+        iconOnly: true,
+        className: 'size-12 p-0',
+      },
     ],
     defaultVariants: {
+      size: 'md',
+      variant: 'default',
+      appearance: 'filled',
       shape: 'squared',
     },
   },
@@ -391,13 +412,18 @@ export const buttonContentStyles = cva(
         lg: 'gap-3',
       },
       loading: {
-        true: 'invisible',
+        true: 'opacity-0',
+        false: '',
+      },
+      iconOnly: {
+        true: 'gap-0',
         false: '',
       },
     },
     defaultVariants: {
       size: 'md',
       loading: false,
+      iconOnly: false,
     },
   },
 );

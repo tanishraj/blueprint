@@ -1,7 +1,7 @@
-import type { HTMLAttributes } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 import { type VariantProps } from 'class-variance-authority';
 
-import { RemoveNull } from '@/utils';
+import type { RemoveNull } from '@/utils/types';
 
 import type { AvatarProps, AvatarVariants } from '../Avatar';
 import { avatarContainerStyles } from '../Avatar/Avatar.styles';
@@ -19,7 +19,7 @@ export type AvatarGroupItem = Omit<
 >;
 
 export interface AvatarGroupProps extends Omit<
-  HTMLAttributes<HTMLDivElement>,
+  ComponentPropsWithoutRef<'div'>,
   'children'
 > {
   items?: AvatarGroupItem[];

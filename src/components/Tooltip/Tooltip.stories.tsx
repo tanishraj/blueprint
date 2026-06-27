@@ -27,7 +27,7 @@ const TooltipDemo = (args: TooltipProps) => {
 };
 
 const meta: Meta<TooltipProps> = {
-  title: 'components/Tooltip',
+  title: 'Components/Tooltip',
   component: Tooltip,
   tags: ['autodocs'],
   parameters: {

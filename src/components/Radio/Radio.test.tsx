@@ -11,7 +11,7 @@ describe('Radio Component', () => {
       screen.getByRole('radio', { name: /select option/i }),
     ).toBeInTheDocument();
     expect(screen.getByText('Select option').closest('label')).toHaveClass(
-      'items-start',
+      'items-center',
     );
   });
 
@@ -83,5 +83,34 @@ describe('Radio Component', () => {
     render(<Radio label='Radio' required />);
 
     expect(screen.getByRole('radio', { name: /^radio$/i })).toBeInTheDocument();
+  });
+
+  it('merges external aria-describedby with generated helper text id', () => {
+    render(
+      <>
+        <span id='hint-id'>Hint</span>
+        <Radio
+          aria-describedby='hint-id'
+          description='Helpful copy'
+          label='Radio'
+        />
+      </>,
+    );
+
+    expect(screen.getByRole('radio')).toHaveAttribute(
+      'aria-describedby',
+      expect.stringContaining('hint-id'),
+    );
+    expect(screen.getByRole('radio')).toHaveAttribute(
+      'aria-describedby',
+      expect.stringContaining('-description'),
+    );
+  });
+
+  it('renders falsy content values', () => {
+    render(<Radio description={0} label={0} />);
+
+    expect(screen.getByRole('radio')).toBeInTheDocument();
+    expect(screen.getAllByText('0')).toHaveLength(2);
   });
 });

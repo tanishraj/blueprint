@@ -1,49 +1,57 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import type { ILabelProps } from '../Label';
+import type { LabelProps } from '../Label';
 import { ETrend } from '../TrendIndicator';
 
-export type TMetricCardColorVariant =
+export type MetricCardColorVariant =
   | 'secondary'
   | 'warning'
   | 'success'
   | 'error';
 
-export type TValueSupportSize = 'sm' | 'lg';
+export type ValueSupportSize = 'sm' | 'lg';
 
-export type TTrendPosition = 'left' | 'right';
+export type TrendPosition = 'left' | 'right';
 
-export interface IMetricValue {
-  color?: TMetricCardColorVariant;
+export interface MetricValue {
+  color?: MetricCardColorVariant;
   supportText?: ReactNode;
-  supportTextSize?: TValueSupportSize;
+  supportTextSize?: ValueSupportSize;
   text?: ReactNode;
   trend?: ETrend;
   trendInverted?: boolean;
 }
 
-export interface IMetricHint {
-  color?: TMetricCardColorVariant;
+export interface MetricHint {
+  color?: MetricCardColorVariant;
   text?: ReactNode;
   trend?: ETrend;
   trendInverted?: boolean;
-  trendPosition?: TTrendPosition;
+  trendPosition?: TrendPosition;
 }
 
-export interface IMetricValueItem {
-  hint?: IMetricHint;
-  value?: IMetricValue;
+export interface MetricValueItemData {
+  hint?: MetricHint;
+  value?: MetricValue;
 }
 
-export interface IMetricCardProps extends Omit<
+export interface MetricCardProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
   'children'
 > {
-  hint?: IMetricHint;
-  items?: IMetricValueItem[];
-  label?: ILabelProps;
+  hint?: MetricHint;
+  items?: MetricValueItemData[];
+  label?: LabelProps;
   showDivider?: boolean;
-  value?: IMetricValue;
+  value?: MetricValue;
 }
+
+export type TMetricCardColorVariant = MetricCardColorVariant;
+export type TValueSupportSize = ValueSupportSize;
+export type TTrendPosition = TrendPosition;
+export type IMetricValue = MetricValue;
+export type IMetricHint = MetricHint;
+export type IMetricValueItem = MetricValueItemData;
+export type IMetricCardProps = MetricCardProps;
 
 export { ETrend };

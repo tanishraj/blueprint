@@ -14,6 +14,28 @@ const meta: Meta<typeof MultiSelectCompact> = {
   title: 'Components/Select/MultiSelectCompact',
   component: MultiSelectCompact,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component:
+          'MultiSelectCompact collapses multi-value display into a compact first-item-plus-count summary.',
+      },
+    },
+  },
+  decorators: [
+    (Story, context) => {
+      if (context.viewMode === 'docs') {
+        return <Story />;
+      }
+
+      return (
+        <div className='flex min-h-screen w-full items-center justify-center p-8'>
+          <Story />
+        </div>
+      );
+    },
+  ],
   args: {
     label: 'Teams',
     placeholder: 'Select teams',

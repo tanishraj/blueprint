@@ -1,6 +1,12 @@
-import { forwardRef, type ComponentPropsWithRef, type Key } from 'react';
+import {
+  forwardRef,
+  type ComponentPropsWithRef,
+  type Key,
+  type ReactNode,
+  useMemo,
+} from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { TableContext, useTable } from './context';
 import {
@@ -64,11 +70,14 @@ const getCellValue = <RowData extends object>(
   }
 
   if (column.accessorKey) {
-    return row[column.accessorKey] as React.ReactNode;
+    return row[column.accessorKey] as ReactNode;
   }
 
   return null;
 };
+
+const hasContent = (value: ReactNode | undefined) =>
+  value !== undefined && value !== null && value !== false && value !== '';
 
 export const TableCaption = forwardRef<
   HTMLTableCaptionElement,
@@ -204,19 +213,22 @@ const TableComponent = <RowData extends object = Record<string, unknown>>({
   striped = false,
   ...props
 }: TableProps<RowData>) => {
-  const contextValue = {
-    interactive,
-    showColumnBorder,
-    size,
-    stickyHeader,
-    striped,
-  };
+  const contextValue = useMemo(
+    () => ({
+      interactive,
+      showColumnBorder,
+      size,
+      stickyHeader,
+      striped,
+    }),
+    [interactive, showColumnBorder, size, stickyHeader, striped],
+  );
 
   return (
     <TableContext value={contextValue}>
       <div className={cn(tableContainerStyles(), containerClassName)}>
         <table {...props} className={cn(tableRootStyles({ size }), className)}>
-          {caption ? (
+          {hasContent(caption) ? (
             <TableCaption side={captionSide}>{caption}</TableCaption>
           ) : null}
           <TableHeader>
@@ -253,7 +265,7 @@ const TableComponent = <RowData extends object = Record<string, unknown>>({
               </TableRow>
             )}
           </TableBody>
-          {footer ? <TableFooter>{footer}</TableFooter> : null}
+          {hasContent(footer) ? <TableFooter>{footer}</TableFooter> : null}
         </table>
       </div>
     </TableContext>

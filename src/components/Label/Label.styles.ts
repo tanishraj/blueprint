@@ -27,6 +27,10 @@ export const labelPosition: Record<LabelPosition, string> = {
   left: 'inline-flex items-center gap-2',
 };
 
+export const labelAdornmentStyles = cva('inline-flex shrink-0 items-center');
+
+export const labelRequiredStyles = cva('ml-0.5 text-danger');
+
 export const labelStyles = cva('block', {
   variants: {
     variant: labelWrapperVariants,

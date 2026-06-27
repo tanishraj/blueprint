@@ -1,6 +1,4 @@
-import type { FC } from 'react';
-
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import { Avatar } from '../Avatar';
 import {
@@ -9,7 +7,7 @@ import {
 } from './AvatarGroup.styles';
 import type { AvatarGroupProps } from './types';
 
-export const AvatarGroup: FC<AvatarGroupProps> = ({
+export function AvatarGroup({
   items,
   size = 'md',
   variant = 'default',
@@ -20,19 +18,27 @@ export const AvatarGroup: FC<AvatarGroupProps> = ({
   className,
   role = 'group',
   ...restProps
-}) => {
-  const { ['aria-label']: ariaLabel, ...rest } = restProps;
+}: AvatarGroupProps) {
+  const {
+    ['aria-label']: ariaLabel,
+    ['aria-labelledby']: ariaLabelledBy,
+    ...rest
+  } = restProps;
   const normalizedItems = items ?? [];
-  const normalizedMax = Math.max(1, max);
+  const normalizedMax = Number.isFinite(max) ? Math.max(1, Math.trunc(max)) : 1;
   const visibleItems = normalizedItems.slice(0, normalizedMax);
   const remaining = Math.max(0, normalizedItems.length - visibleItems.length);
-  const resolvedAriaLabel = ariaLabel ?? 'Avatar group';
+  const memberLabel = normalizedItems.length === 1 ? 'member' : 'members';
+  const resolvedAriaLabel = ariaLabelledBy
+    ? undefined
+    : (ariaLabel ?? `Avatar group, ${normalizedItems.length} ${memberLabel}`);
 
   return (
     <div
       {...rest}
       role={role}
       aria-label={resolvedAriaLabel}
+      aria-labelledby={ariaLabelledBy}
       className={cn(avatarGroupStyles({ size }), className)}
     >
       {visibleItems.map((item, index) => (
@@ -47,13 +53,11 @@ export const AvatarGroup: FC<AvatarGroupProps> = ({
         />
       ))}
       {remaining > 0 && (
-        <span
-          aria-hidden='true'
-          className={avatarGroupCounterStyles({ size, shape, variant })}
-        >
-          +{remaining}
+        <span className={avatarGroupCounterStyles({ size, shape, variant })}>
+          <span aria-hidden='true'>+{remaining}</span>
+          <span className='sr-only'>{remaining} more members</span>
         </span>
       )}
     </div>
   );
-};
+}

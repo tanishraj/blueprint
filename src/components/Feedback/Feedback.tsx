@@ -1,6 +1,5 @@
 import {
   type ChangeEvent,
-  type FC,
   type KeyboardEvent,
   type ReactNode,
   useCallback,
@@ -9,7 +8,7 @@ import {
   useState,
 } from 'react';
 
-import { cn } from '@/utils';
+import { cn } from '@/utils/classNames';
 
 import {
   feedbackEmojiStyles,
@@ -58,7 +57,7 @@ interface FaceIconProps {
   size: NonNullable<FeedbackProps['size']>;
 }
 
-const FaceIcon: FC<FaceIconProps> = ({ mood, selected, size }) => {
+function FaceIcon({ mood, selected, size }: FaceIconProps) {
   const stroke = selected ? 'var(--neutral-900)' : 'var(--neutral-500)';
   const fill = selected ? 'var(--primary-600)' : 'none';
   const featureColor = selected ? 'var(--base-white)' : stroke;
@@ -162,7 +161,7 @@ const FaceIcon: FC<FaceIconProps> = ({ mood, selected, size }) => {
       )}
     </svg>
   );
-};
+}
 
 interface FeedbackItemProps {
   checked: boolean;
@@ -177,7 +176,7 @@ interface FeedbackItemProps {
   variant: NonNullable<FeedbackProps['variant']>;
 }
 
-const FeedbackItem: FC<FeedbackItemProps> = ({
+function FeedbackItem({
   checked,
   disabled,
   groupName,
@@ -188,7 +187,7 @@ const FeedbackItem: FC<FeedbackItemProps> = ({
   option,
   size,
   variant,
-}) => {
+}: FeedbackItemProps) {
   const labelId = `${groupName}-${option.value}`;
   const icon: ReactNode =
     variant === 'emoji' ? (
@@ -233,9 +232,9 @@ const FeedbackItem: FC<FeedbackItemProps> = ({
       </label>
     </span>
   );
-};
+}
 
-export const Feedback: FC<FeedbackProps> = ({
+export function Feedback({
   ref,
   className,
   defaultValue,
@@ -250,7 +249,7 @@ export const Feedback: FC<FeedbackProps> = ({
   variant = 'face',
   'aria-label': ariaLabel,
   ...restProps
-}) => {
+}: FeedbackProps) {
   const generatedId = useId();
   const groupName = name ?? `feedback-${generatedId}`;
   const normalizedOptions = useMemo(
@@ -272,7 +271,6 @@ export const Feedback: FC<FeedbackProps> = ({
   );
   const interactive = !disabled && !readOnly;
   const totalOptions = safeOptions.length;
-  const selectedOption = safeOptions[selectedIndex] ?? safeOptions[0];
 
   const updateValue = useCallback(
     (nextValue: number) => {
@@ -327,12 +325,8 @@ export const Feedback: FC<FeedbackProps> = ({
     <div
       {...restProps}
       aria-disabled={disabled || undefined}
-      aria-label={
-        ariaLabel ??
-        (selectedOption
-          ? getLabelText(selectedOption, selectedIndex, totalOptions)
-          : 'Feedback')
-      }
+      aria-label={ariaLabel ?? 'Feedback'}
+      aria-readonly={readOnly || undefined}
       className={cn(feedbackRootStyles({ disabled, readOnly }), className)}
       onKeyDown={handleKeyDown}
       ref={ref}
@@ -356,4 +350,4 @@ export const Feedback: FC<FeedbackProps> = ({
       ))}
     </div>
   );
-};
+}

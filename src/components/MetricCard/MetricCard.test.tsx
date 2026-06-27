@@ -115,4 +115,16 @@ describe('MetricCard', () => {
     expect(screen.getByText('items')).toHaveClass('text-sm');
     expect(screen.getByText('items')).toHaveClass('font-normal');
   });
+
+  it('renders numeric zero values and label text', () => {
+    render(
+      <MetricCard
+        hint={{ text: 0 }}
+        label={{ text: 0 }}
+        value={{ supportText: 0, text: 0 }}
+      />,
+    );
+
+    expect(screen.getAllByText('0')).toHaveLength(4);
+  });
 });

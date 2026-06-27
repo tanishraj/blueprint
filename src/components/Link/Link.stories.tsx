@@ -26,17 +26,17 @@ const iconMapping = {
 };
 
 const meta: Meta<LinkStoryProps> = {
-  title: 'components/Link',
+  title: 'Components/Link',
   component: Link,
   tags: ['autodocs'],
   parameters: {
+    layout: 'centered',
     docs: {
       description: {
         component: `
 Link is an inline navigation primitive for text links with optional leading and trailing icons, external-link indicators, truncation, disabled state, and inverted color mode.
         `,
       },
-      layout: 'centered',
     },
   },
   decorators: [
