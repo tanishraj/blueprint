@@ -47,6 +47,11 @@
       "require": "./dist/themes/violet.css",
       "default": "./dist/themes/violet.css"
     },
+    "./theme-forest.css": {
+      "import": "./dist/themes/forest.css",
+      "require": "./dist/themes/forest.css",
+      "default": "./dist/themes/forest.css"
+    },
     "./themes/*": {
       "import": "./dist/themes/*.css",
       "require": "./dist/themes/*.css",

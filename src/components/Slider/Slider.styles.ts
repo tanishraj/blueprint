@@ -40,7 +40,7 @@ export const sliderLabelStyles = cva(
 export const sliderTrackWrapStyles = cva('relative w-full py-2');
 
 export const sliderTrackStyles = cva(
-  'relative h-2 w-full rounded-full bg-default-hovered',
+  'relative h-2 w-full rounded-full bg-default-pressed',
   {
     variants: {
       size: {

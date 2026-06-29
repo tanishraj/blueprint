@@ -15,6 +15,7 @@ const preview: Preview = {
         items: [
           { title: 'Indigo', value: 'indigo' },
           { title: 'Violet', value: 'violet' },
+          { title: 'Forest', value: 'forest' },
         ],
         title: 'Color theme',
       },

@@ -2,6 +2,7 @@ import { FC, ReactNode, useEffect } from 'react';
 import { useDarkMode } from '@vueless/storybook-dark-mode';
 
 import { EThemeOptions, ThemeProvider } from '../src/providers/theme';
+import forestThemeCss from '../src/themes/forest.css?raw';
 import indigoThemeCss from '../src/themes/indigo.css?raw';
 import violetThemeCss from '../src/themes/violet.css?raw';
 
@@ -12,6 +13,7 @@ interface IStorybookThemeProviderProps {
 
 const STORYBOOK_THEME_STYLE_ID = 'ui-kit-storybook-color-theme';
 const storybookColorThemeCss = {
+  forest: forestThemeCss,
   indigo: indigoThemeCss,
   violet: violetThemeCss,
 };
@@ -19,6 +21,10 @@ const storybookColorThemeCss = {
 type StorybookColorTheme = keyof typeof storybookColorThemeCss;
 
 const getStorybookColorTheme = (theme?: string): StorybookColorTheme => {
+  if (theme === 'forest') {
+    return 'forest';
+  }
+
   return theme === 'violet' ? 'violet' : 'indigo';
 };
 
