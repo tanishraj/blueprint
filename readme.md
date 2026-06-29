@@ -81,10 +81,12 @@ Optional theme entrypoints:
 import '@tanishraj/ui-kit/base.css';
 import '@tanishraj/ui-kit/theme-indigo.css';
 import '@tanishraj/ui-kit/theme-violet.css';
+import '@tanishraj/ui-kit/theme-forest.css';
 
 // or
 import '@tanishraj/ui-kit/themes/indigo.css';
 import '@tanishraj/ui-kit/themes/violet.css';
+import '@tanishraj/ui-kit/themes/forest.css';
 ```
 
 ## Documentation
